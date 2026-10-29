@@ -861,7 +861,7 @@
           { text: "No Colab, atuo na integração de dados e nas camadas de visualização do painel de solicitações (SIGeo).", isNew: true },
           "Ajudo a organizar o versionamento com Git entre os ambientes de desenvolvimento e produção.",
         ],
-        tech: ["Python", "SQL", "Microsoft Fabric", "Git", "Azure (noções)"],
+        tech: ["Python", "SQL", "Microsoft Fabric", "Microsoft Foundry", "Git"],
       },
       {
         period: "jul 2025 – jan 2026",
@@ -888,10 +888,10 @@
         summary: "Bot de Telegram que coleta concursos abertos no Brasil e avisa cada usuário conforme os filtros dele.",
         bullets: [
           "Bot de Telegram que coleta concursos abertos no Brasil e avisa cada usuário conforme os filtros dele (estado, salário, nível, palavra-chave).",
-          "Scraping roda numa thread separada para não travar o bot; os dados ficam em SQLite, com migração de esquema e backup diário.",
+          "Scraping roda numa thread separada para não travar o bot; os dados ficam em PostgreSQL, com migração de esquema e backup diário.",
           "149 testes com pytest no GitHub Actions e arquivo de serviço systemd para rodar no Linux.",
         ],
-        tech: ["Python", "python-telegram-bot", "SQLite", "pytest", "GitHub Actions", "Linux"],
+        tech: ["Python", "python-telegram-bot", "PostgreSQL", "pytest", "GitHub Actions", "Linux"],
         repo: "https://github.com/Kluiv-Mury/concurso-notifier",
         demo: null,
       },
@@ -942,9 +942,9 @@
     const SKILLS = [
       { group: "Linguagens", icon: "bi-code-slash", items: [{ n: "Python", d: "devicon-python-plain" }, { n: "SQL", bi: "bi-filetype-sql" }, { n: "Bash", d: "devicon-bash-plain" }] },
       { group: "Backend", icon: "bi-hdd-network", items: [{ n: "FastAPI", d: "devicon-fastapi-plain" }, { n: "APIs REST", bi: "bi-plug" }, { n: "requests", bi: "bi-globe2" }, { n: "BeautifulSoup", bi: "bi-code-square" }] },
-      { group: "Bancos de dados", icon: "bi-database", items: [{ n: "MySQL", d: "devicon-mysql-original" }, { n: "SQLite", d: "devicon-sqlite-plain" }, { n: "ClickHouse", bi: "bi-bar-chart-steps" }] },
-      { group: "Ferramentas", icon: "bi-tools", items: [{ n: "Git", d: "devicon-git-plain" }, { n: "GitHub Actions", d: "devicon-githubactions-plain" }, { n: "Docker", d: "devicon-docker-plain" }, { n: "Linux", d: "devicon-linux-plain" }, { n: "pytest", d: "devicon-pytest-plain" }, { n: "Azure (noções)", d: "devicon-azure-plain" }] },
-      { group: "Dados e IA", icon: "bi-cpu", items: [{ n: "Pandas", d: "devicon-pandas-plain" }, { n: "Microsoft Fabric", bi: "bi-microsoft" }, { n: "Servidores MCP", bi: "bi-hdd-stack" }, { n: "Agentes de IA", bi: "bi-robot" }] },
+      { group: "Bancos de dados", icon: "bi-database", items: [{ n: "PostgreSQL", d: "devicon-postgresql-plain" }, { n: "MySQL", d: "devicon-mysql-original" }, { n: "ClickHouse", bi: "bi-bar-chart-steps" }] },
+      { group: "Ferramentas", icon: "bi-tools", items: [{ n: "Git", d: "devicon-git-plain" }, { n: "GitHub Actions", d: "devicon-githubactions-plain" }, { n: "Docker", d: "devicon-docker-plain" }, { n: "Linux", d: "devicon-linux-plain" }, { n: "pytest", d: "devicon-pytest-plain" }] },
+      { group: "Dados e IA", icon: "bi-cpu", items: [{ n: "Pandas", d: "devicon-pandas-plain" }, { n: "Microsoft Fabric", bi: "bi-microsoft" }, { n: "Microsoft Foundry", bi: "bi-stars" }, { n: "Servidores MCP", bi: "bi-hdd-stack" }, { n: "Agentes de IA", bi: "bi-robot" }] },
     ];
 
     /* ==========================================================
