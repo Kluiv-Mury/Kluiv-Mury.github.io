@@ -1,0 +1,2146 @@
+<!doctype html>
+<html lang="pt-BR" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kluivert Mury · Desenvolvedor Python Backend</title>
+  <meta name="description" content="Portfólio de Kluivert Mury: desenvolvedor Python com foco em backend e dados. Estagiário no Escritório de Dados da Prefeitura de Niterói, com integração de dados e camadas de visualização do Gêmeo Digital de Niterói e do Colab.">
+  <meta name="author" content="Kluivert Mury">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Kluivert Mury · Desenvolvedor Python Backend">
+  <meta property="og:description" content="Backend, dados e agentes de IA. Integração de dados e camadas de visualização para a cidade de Niterói.">
+  <meta property="og:url" content="https://kluiv-mury.github.io/">
+  <meta name="theme-color" content="#070b14">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232dd4bf'/%3E%3Cstop offset='1' stop-color='%2360a5fa'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial,sans-serif' font-weight='700' font-size='26' fill='%2304131a'%3EKM%3C/text%3E%3C/svg%3E">
+
+  <script>
+    // Aplica o tema salvo (ou o do sistema) antes de pintar a página, para não piscar.
+    (function () {
+      var theme = null;
+      try { theme = localStorage.getItem("km-theme"); } catch (e) {}
+      if (theme !== "light" && theme !== "dark") {
+        theme = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      }
+      document.documentElement.setAttribute("data-bs-theme", theme);
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/devicon.min.css">
+
+  <style>
+    /* ================= Tokens de tema ================= */
+    :root,
+    [data-bs-theme="dark"] {
+      --km-bg: #070b14;
+      --km-bg-rgb: 7, 11, 20;
+      --km-surface: rgba(255, 255, 255, 0.035);
+      --km-surface-strong: #0f1729;
+      --km-border: rgba(148, 163, 184, 0.16);
+      --km-text: #e6edf7;
+      --km-muted: #94a3b8;
+      --km-accent: #2dd4bf;
+      --km-accent-rgb: 45, 212, 191;
+      --km-accent-2: #60a5fa;
+      --km-accent-2-rgb: 96, 165, 250;
+      --km-warm: #fbbf24;
+      --km-warm-rgb: 251, 191, 36;
+      --km-text-rgb: 230, 237, 247;
+      --km-good: #34d399;
+      --km-good-rgb: 52, 211, 153;
+      --km-danger-rgb: 248, 113, 113;
+      --km-layer-bg: rgba(15, 23, 42, 0.78);
+      --km-shadow: rgba(0, 0, 0, 0.55);
+      --km-grid-rgb: 148, 163, 184;
+      --bs-body-bg: #070b14;
+      --bs-body-color: #e6edf7;
+      --bs-border-color: rgba(148, 163, 184, 0.16);
+    }
+
+    [data-bs-theme="light"] {
+      --km-bg: #f5f7fb;
+      --km-bg-rgb: 245, 247, 251;
+      --km-surface: rgba(255, 255, 255, 0.72);
+      --km-surface-strong: #ffffff;
+      --km-border: rgba(15, 23, 42, 0.10);
+      --km-text: #0f172a;
+      --km-muted: #52607a;
+      --km-accent: #0d9488;
+      --km-accent-rgb: 13, 148, 136;
+      --km-accent-2: #2563eb;
+      --km-accent-2-rgb: 37, 99, 235;
+      --km-warm: #d97706;
+      --km-warm-rgb: 217, 119, 6;
+      --km-text-rgb: 15, 23, 42;
+      --km-good: #059669;
+      --km-good-rgb: 5, 150, 105;
+      --km-danger-rgb: 220, 38, 38;
+      --km-layer-bg: rgba(255, 255, 255, 0.86);
+      --km-shadow: rgba(15, 23, 42, 0.18);
+      --km-grid-rgb: 15, 23, 42;
+      --bs-body-bg: #f5f7fb;
+      --bs-body-color: #0f172a;
+      --bs-border-color: rgba(15, 23, 42, 0.10);
+    }
+
+    /* ================= Base ================= */
+    html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+    body {
+      background: var(--km-bg);
+      color: var(--km-text);
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color .4s ease, color .4s ease;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(var(--km-grid-rgb), .05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(var(--km-grid-rgb), .05) 1px, transparent 1px);
+      background-size: 56px 56px;
+      -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 80%);
+              mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 80%);
+    }
+    h1, h2, h3, h4, h5, .font-display { font-family: "Space Grotesk", "Inter", sans-serif; letter-spacing: -0.02em; }
+    .font-mono, code { font-family: "JetBrains Mono", ui-monospace, monospace; }
+    ::selection { background: rgba(var(--km-accent-rgb), .3); }
+    a { color: var(--km-accent); text-decoration: none; }
+    a:hover { color: var(--km-accent-2); }
+    :focus-visible { outline: 2px solid var(--km-accent); outline-offset: 3px; }
+    .text-muted-km { color: var(--km-muted) !important; }
+    .text-gradient {
+      background: linear-gradient(100deg, var(--km-accent), var(--km-accent-2) 60%, var(--km-warm));
+      -webkit-background-clip: text;
+              background-clip: text;
+      color: transparent;
+    }
+
+    /* ================= Preloader ================= */
+    #preloader {
+      position: fixed; inset: 0; z-index: 9999;
+      display: grid; place-items: center;
+      background: var(--km-bg);
+      transition: opacity .6s ease, visibility .6s ease;
+    }
+    #preloader.done { opacity: 0; visibility: hidden; }
+    .loader { display: grid; place-items: center; gap: 1.2rem; text-align: center; color: var(--km-muted); font: 500 .85rem "JetBrains Mono", monospace; }
+    .loader-ring {
+      width: 74px; height: 74px; border-radius: 50%;
+      display: grid; place-items: center;
+      background: conic-gradient(from 0deg, var(--km-accent), var(--km-accent-2), transparent 70%);
+      -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px));
+              mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px));
+      animation: spin 1s linear infinite;
+    }
+    .loader-mark { position: absolute; font: 700 1.3rem "Space Grotesk", sans-serif; color: var(--km-text); }
+    .loader-box { position: relative; display: grid; place-items: center; }
+
+    /* ================= Navbar ================= */
+    .scroll-progress {
+      position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 1100;
+      transform-origin: 0 50%; transform: scaleX(0);
+      background: linear-gradient(90deg, var(--km-accent), var(--km-accent-2), var(--km-warm));
+    }
+    .km-nav { padding: 1.1rem 0; border-bottom: 1px solid transparent; transition: background-color .35s, padding .35s, border-color .35s, backdrop-filter .35s; }
+    .km-nav.is-scrolled {
+      padding: .55rem 0;
+      background: rgba(var(--km-bg-rgb), .75);
+      -webkit-backdrop-filter: blur(16px) saturate(150%);
+              backdrop-filter: blur(16px) saturate(150%);
+      border-bottom-color: var(--km-border);
+    }
+    .km-nav .navbar-brand { display: flex; align-items: center; color: var(--km-text); font: 600 1.05rem "Space Grotesk", sans-serif; }
+    .brand-mark {
+      display: inline-grid; place-items: center;
+      width: 38px; height: 38px; margin-right: .65rem; border-radius: 12px;
+      background: linear-gradient(135deg, var(--km-accent), var(--km-accent-2));
+      color: #04131a; font: 700 .95rem "Space Grotesk", sans-serif;
+      box-shadow: 0 8px 24px -8px rgba(var(--km-accent-rgb), .7);
+    }
+    .km-nav .nav-link { position: relative; color: var(--km-muted); font-weight: 500; padding: .5rem .85rem !important; transition: color .2s; }
+    .km-nav .nav-link:hover, .km-nav .nav-link.active { color: var(--km-text) !important; }
+    .km-nav .nav-link.active::after {
+      content: ""; position: absolute; left: .85rem; right: .85rem; bottom: .15rem; height: 2px; border-radius: 2px;
+      background: linear-gradient(90deg, var(--km-accent), var(--km-accent-2));
+    }
+    .km-nav .navbar-toggler { border: 1px solid var(--km-border); padding: .45rem .6rem; }
+    .km-nav .navbar-toggler:focus { box-shadow: 0 0 0 3px rgba(var(--km-accent-rgb), .25); }
+    .icon-btn {
+      display: inline-grid; place-items: center;
+      width: 40px; height: 40px; border-radius: 12px;
+      border: 1px solid var(--km-border); background: var(--km-surface); color: var(--km-text);
+      transition: border-color .2s, transform .2s, background-color .2s;
+    }
+    .icon-btn:hover { border-color: rgba(var(--km-accent-rgb), .6); transform: translateY(-1px); color: var(--km-text); }
+    @media (max-width: 991.98px) {
+      .km-nav .navbar-collapse { padding: .75rem 0 .5rem; }
+      .km-nav .nav-link.active::after { left: .85rem; right: auto; width: 24px; }
+    }
+
+    /* ================= Botões e chips ================= */
+    .btn-km, .btn-ghost { display: inline-flex; align-items: center; gap: .55rem; border-radius: 999px; padding: .8rem 1.4rem; font-weight: 600; transition: transform .2s, box-shadow .2s, border-color .2s, background-color .2s; }
+    .btn-km {
+      border: 0; color: #04131a !important;
+      background: linear-gradient(120deg, var(--km-accent), var(--km-accent-2));
+      box-shadow: 0 12px 30px -12px rgba(var(--km-accent-rgb), .8);
+    }
+    .btn-km:hover, .btn-km:focus-visible { transform: translateY(-2px); box-shadow: 0 18px 40px -14px rgba(var(--km-accent-rgb), .9); }
+    .btn-ghost { border: 1px solid var(--km-border); background: var(--km-surface); color: var(--km-text) !important; }
+    .btn-ghost:hover, .btn-ghost:focus-visible { transform: translateY(-2px); border-color: rgba(var(--km-accent-rgb), .6); background: rgba(var(--km-accent-rgb), .08); }
+    .chip {
+      display: inline-flex; align-items: center; gap: .4rem;
+      padding: .32rem .72rem; border-radius: 999px;
+      font: 500 .76rem "JetBrains Mono", monospace;
+      color: var(--km-text); background: rgba(var(--km-accent-rgb), .07);
+      border: 1px solid rgba(var(--km-accent-rgb), .22);
+      white-space: nowrap;
+    }
+    .chip-row { display: flex; flex-wrap: wrap; gap: .45rem; }
+
+    /* ================= Estrutura de seção ================= */
+    .section { position: relative; padding: 112px 0; }
+    @media (max-width: 767.98px) { .section { padding: 80px 0; } }
+    .section-header { max-width: 720px; margin-bottom: 3.2rem; }
+    .section-header.text-center { margin-left: auto; margin-right: auto; }
+    .kicker {
+      display: inline-flex; align-items: center; gap: .55rem;
+      font: 600 .78rem "JetBrains Mono", monospace; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--km-accent);
+    }
+    .kicker::before { content: ""; width: 28px; height: 2px; border-radius: 2px; background: currentColor; }
+    .section-header.text-center .kicker::after { content: ""; width: 28px; height: 2px; border-radius: 2px; background: currentColor; }
+    .section-title { font-size: clamp(2rem, 4.2vw, 3rem); font-weight: 700; margin: .9rem 0 1rem; }
+    .section-lead { color: var(--km-muted); font-size: 1.08rem; line-height: 1.7; margin: 0; }
+    .glass {
+      background: var(--km-surface);
+      border: 1px solid var(--km-border);
+      border-radius: 22px;
+      -webkit-backdrop-filter: blur(12px);
+              backdrop-filter: blur(12px);
+    }
+
+    /* ================= Animações de entrada ================= */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .85s cubic-bezier(.2,.7,.2,1), transform .85s cubic-bezier(.2,.7,.2,1); }
+    .reveal.is-visible { opacity: 1; transform: none; }
+
+    /* ================= Hero ================= */
+    .hero { position: relative; min-height: 100vh; min-height: 100svh; display: flex; align-items: center; padding: 130px 0 90px; overflow: hidden; }
+    .hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .6; }
+    .hero-glow {
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(620px circle at var(--gx, 72%) var(--gy, 32%), rgba(var(--km-accent-rgb), .15), transparent 60%),
+        radial-gradient(800px circle at 8% 92%, rgba(var(--km-accent-2-rgb), .12), transparent 60%);
+    }
+    .hero::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 160px; background: linear-gradient(transparent, var(--km-bg)); pointer-events: none; }
+    .hero > .container { position: relative; z-index: 2; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: .65rem;
+      padding: .45rem .95rem; border-radius: 999px;
+      border: 1px solid var(--km-border); background: var(--km-surface);
+      color: var(--km-muted); font-size: .86rem;
+      -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    }
+    .pulse { position: relative; width: 8px; height: 8px; border-radius: 50%; background: var(--km-accent); flex: none; }
+    .pulse::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--km-accent); animation: ping 1.8s cubic-bezier(0,0,.2,1) infinite; }
+    .display-name { font-size: clamp(2.8rem, 7.2vw, 5.4rem); font-weight: 700; line-height: .98; margin: 1.5rem 0 1.1rem; }
+    .display-name small { display: block; font-size: .32em; font-weight: 500; letter-spacing: 0; color: var(--km-muted); margin-bottom: .7rem; font-family: "Inter", sans-serif; }
+    .typing { font: 500 clamp(1rem, 2.3vw, 1.32rem) "JetBrains Mono", monospace; color: var(--km-accent); min-height: 1.9em; margin-bottom: 1.1rem; }
+    .typing .prompt { color: var(--km-muted); margin-right: .55rem; }
+    .caret { display: inline-block; width: .55ch; height: 1.1em; margin-left: 3px; vertical-align: -.18em; background: var(--km-accent); animation: blink 1s steps(1) infinite; }
+    .hero-lead { color: var(--km-muted); font-size: 1.1rem; line-height: 1.75; max-width: 600px; margin-bottom: 2rem; }
+    .socials { display: flex; gap: .6rem; margin-top: 2.2rem; }
+    .scroll-cue {
+      position: absolute; left: 50%; bottom: -54px; transform: translateX(-50%);
+      width: 26px; height: 42px; border-radius: 14px; border: 2px solid var(--km-border);
+      display: flex; justify-content: center; padding-top: 7px;
+    }
+    .scroll-cue span { width: 4px; height: 8px; border-radius: 2px; background: var(--km-accent); animation: scrollCue 1.8s ease-in-out infinite; }
+    @media (max-width: 991.98px) { .scroll-cue { display: none; } }
+
+    /* Cartão de código */
+    .code-wrap { position: relative; padding: 18px 8px; }
+    .code-card {
+      position: relative; overflow: hidden; border-radius: 20px;
+      background: rgba(11, 17, 32, .92); color: #d6deeb;
+      border: 1px solid rgba(148, 163, 184, .18);
+      box-shadow: 0 40px 90px -30px var(--km-shadow), 0 0 0 1px rgba(var(--km-accent-rgb), .06), 0 0 80px -30px rgba(var(--km-accent-rgb), .45);
+      transform: perspective(1300px) rotateY(-9deg) rotateX(5deg);
+      transition: transform .7s cubic-bezier(.2,.7,.2,1);
+    }
+    .code-card:hover { transform: perspective(1300px) rotateY(0) rotateX(0); }
+    .code-head { display: flex; align-items: center; gap: .5rem; padding: .85rem 1.1rem; border-bottom: 1px solid rgba(148, 163, 184, .14); font: 500 .78rem "JetBrains Mono", monospace; color: #8b9bb4; }
+    .code-head .file { margin-left: .6rem; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; }
+    .dot.r { background: #ff5f57; } .dot.y { background: #febc2e; } .dot.g { background: #28c840; }
+    .code-body { padding: 1.2rem 1.2rem 1.4rem; font: .85rem/1.85 "JetBrains Mono", monospace; overflow-x: auto; white-space: pre; }
+    .code-line { opacity: 0; animation: lineIn .5s cubic-bezier(.2,.7,.2,1) forwards; animation-delay: calc(var(--l) * 120ms + 500ms); }
+    .code-line .ln { display: inline-block; width: 2ch; margin-right: 1.1rem; text-align: right; color: #4b5b75; user-select: none; }
+    .tok-kw { color: #c792ea; } .tok-cls { color: #ffcb6b; } .tok-str { color: #c3e88d; }
+    .tok-fn { color: #82aaff; } .tok-op { color: #89ddff; } .tok-cm { color: #6b7f99; font-style: italic; } .tok-self { color: #f78c6c; }
+    .float-badge {
+      position: absolute; z-index: 3;
+      display: flex; align-items: center; gap: .5rem;
+      padding: .55rem .85rem; border-radius: 14px;
+      background: var(--km-surface-strong); color: var(--km-text);
+      border: 1px solid var(--km-border);
+      box-shadow: 0 20px 40px -20px var(--km-shadow);
+      font-size: .8rem; font-weight: 600;
+      animation: floaty 6s ease-in-out infinite;
+    }
+    .float-badge i { color: var(--km-accent); font-size: 1rem; }
+    .float-badge.b1 { top: 0; right: 18px; }
+    .float-badge.b2 { bottom: 0; left: 0; animation-delay: -3s; }
+    .float-badge.b2 i { color: var(--km-warm); }
+    @media (max-width: 575.98px) {
+      .code-body { font-size: .74rem; }
+      .float-badge { font-size: .72rem; padding: .45rem .7rem; }
+      .float-badge.b1 { right: 8px; }
+    }
+
+    /* ================= Sobre + números ================= */
+    .about-text p { color: var(--km-muted); font-size: 1.06rem; line-height: 1.8; }
+    .about-text strong { color: var(--km-text); font-weight: 600; }
+    .fact { display: flex; gap: 1rem; align-items: flex-start; padding: 1.05rem 1.2rem; }
+    .fact + .fact { border-top: 1px solid var(--km-border); }
+    .fact-icon {
+      flex: none; width: 42px; height: 42px; border-radius: 12px;
+      display: grid; place-items: center; font-size: 1.1rem;
+      color: var(--km-accent); background: rgba(var(--km-accent-rgb), .1); border: 1px solid rgba(var(--km-accent-rgb), .22);
+    }
+    .fact small { display: block; color: var(--km-muted); font-size: .8rem; }
+    .fact span { font-weight: 600; }
+    .stat { height: 100%; padding: 1.8rem 1.5rem; text-align: center; position: relative; overflow: hidden; }
+    .stat::before { content: ""; position: absolute; inset: auto -20% -60% -20%; height: 120%; background: radial-gradient(closest-side, rgba(var(--km-accent-rgb), .12), transparent); pointer-events: none; }
+    .stat-value { font: 700 clamp(2.4rem, 5vw, 3.4rem)/1 "Space Grotesk", sans-serif; }
+    .stat-label { color: var(--km-muted); margin-top: .6rem; font-size: .95rem; }
+
+    /* ================= Niterói em camadas ================= */
+    .city-section { background: linear-gradient(180deg, transparent, rgba(var(--km-accent-rgb), .045) 30%, rgba(var(--km-accent-2-rgb), .045) 70%, transparent); }
+    .city-tabs.nav {
+      display: inline-flex; flex-wrap: wrap; justify-content: center; gap: .3rem;
+      padding: .35rem; border-radius: 999px;
+      border: 1px solid var(--km-border); background: var(--km-surface);
+    }
+    .city-tabs .nav-link {
+      display: flex; align-items: center; gap: .55rem;
+      padding: .7rem 1.3rem; border-radius: 999px !important;
+      color: var(--km-muted); font-weight: 600; transition: color .25s, background-color .25s, box-shadow .25s;
+    }
+    .city-tabs .nav-link:hover { color: var(--km-text); }
+    .city-tabs .nav-link.active {
+      color: #04131a !important;
+      background: linear-gradient(120deg, var(--km-accent), var(--km-accent-2)) !important;
+      box-shadow: 0 10px 26px -12px rgba(var(--km-accent-rgb), .9);
+    }
+    .stack-card, .dash-card { padding: 1.4rem; }
+    .dash-head { display: flex; justify-content: space-between; align-items: center; gap: .8rem; margin-bottom: 1.1rem; }
+    .dash-title { display: inline-flex; align-items: center; gap: .55rem; font-weight: 600; font-size: .95rem; }
+    .dash-tag { flex: none; padding: .2rem .6rem; border-radius: 999px; border: 1px solid var(--km-border); font: 500 .72rem "JetBrains Mono", monospace; color: var(--km-muted); }
+    .live-dot { position: relative; flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--km-good); }
+    .live-dot::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--km-good); animation: ping 1.8s cubic-bezier(0,0,.2,1) infinite; }
+    /* Projetor de holograma: o palco fica escuro nos dois temas, como o cartão de código. */
+    .holo-stage {
+      --holo-rgb: 45, 212, 191;
+      position: relative; isolation: isolate; overflow: hidden;
+      height: 330px; margin-bottom: .6rem; border-radius: 18px;
+      border: 1px solid rgba(var(--holo-rgb), .28);
+      background:
+        radial-gradient(ellipse 60% 45% at 50% 85%, rgba(var(--holo-rgb), .16), transparent 70%),
+        radial-gradient(ellipse at 50% 0%, #0d1830, #050912 70%);
+      transition: border-color .4s;
+    }
+    .holo-stage.is-mine { --holo-rgb: 251, 191, 36; }
+    /* No desktop o projetor acompanha a rolagem enquanto o mouse percorre a lista de camadas. */
+    @media (min-width: 992px) { .holo-stage { position: sticky; top: 88px; z-index: 5; } }
+    .holo-stage::before {
+      content: ""; position: absolute; left: -50%; right: -50%; bottom: -12%; height: 55%; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(var(--holo-rgb), .16) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(var(--holo-rgb), .16) 1px, transparent 1px);
+      background-size: 34px 34px;
+      transform: perspective(300px) rotateX(62deg); transform-origin: 50% 100%;
+      -webkit-mask-image: linear-gradient(to top, #000 10%, transparent 80%);
+              mask-image: linear-gradient(to top, #000 10%, transparent 80%);
+    }
+    .holo-beam {
+      position: absolute; left: 50%; bottom: 40px; width: 300px; height: 220px; pointer-events: none;
+      transform: translateX(-50%);
+      background: linear-gradient(to top, rgba(var(--holo-rgb), .34), rgba(var(--holo-rgb), .06) 70%, transparent);
+      clip-path: polygon(40% 100%, 60% 100%, 100% 0, 0 0);
+      animation: beamPulse 3.2s ease-in-out infinite;
+    }
+    .holo-base { position: absolute; left: 50%; bottom: -35px; width: 150px; height: 150px; margin-left: -75px; transform: rotateX(76deg); pointer-events: none; }
+    .holo-base span { position: absolute; inset: 0; border-radius: 50%; border: 2px solid rgba(var(--holo-rgb), .85); box-shadow: 0 0 18px rgba(var(--holo-rgb), .7), inset 0 0 18px rgba(var(--holo-rgb), .5); }
+    .holo-base span:nth-child(2) { inset: 20px; border-style: dashed; opacity: .8; animation: spin 9s linear infinite; }
+    .holo-base span:nth-child(3) { inset: 46px; border: 0; background: radial-gradient(circle, rgba(var(--holo-rgb), .95), rgba(var(--holo-rgb), .1) 70%); }
+    .holo-canvas { position: absolute; inset: 0; z-index: 2; }
+    .holo-canvas canvas { display: block; width: 100%; height: 100%; }
+    .holo-glyph {
+      position: absolute; z-index: 2; left: 50%; top: 38%;
+      font-size: 6.5rem; line-height: 1; color: rgba(var(--holo-rgb), .9);
+      text-shadow: 0 0 16px rgba(var(--holo-rgb), .9), 0 0 42px rgba(var(--holo-rgb), .55);
+      transform: translate(-50%, -50%);
+      animation: holoFloat 4s ease-in-out infinite;
+    }
+    .holo-scan { position: absolute; inset: 0; z-index: 3; pointer-events: none; background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, .035) 0 1px, transparent 1px 3px); }
+    .holo-scan::after {
+      content: ""; position: absolute; left: 0; right: 0; top: -70px; height: 70px;
+      background: linear-gradient(to bottom, transparent, rgba(var(--holo-rgb), .12), transparent);
+      animation: holoSweep 4.5s linear infinite;
+    }
+    .holo-corner { position: absolute; z-index: 3; width: 16px; height: 16px; border: 0 solid rgba(var(--holo-rgb), .75); }
+    .holo-corner.tl { top: 10px; left: 10px; border-top-width: 2px; border-left-width: 2px; }
+    .holo-corner.tr { top: 10px; right: 10px; border-top-width: 2px; border-right-width: 2px; }
+    .holo-corner.bl { bottom: 10px; left: 10px; border-bottom-width: 2px; border-left-width: 2px; }
+    .holo-corner.br { bottom: 10px; right: 10px; border-bottom-width: 2px; border-right-width: 2px; }
+    .holo-hud { position: absolute; z-index: 4; top: 18px; left: 22px; right: 22px; display: flex; justify-content: space-between; align-items: flex-start; gap: .6rem; pointer-events: none; }
+    .holo-hud small { display: block; font: 500 .68rem "JetBrains Mono", monospace; letter-spacing: .12em; color: rgba(var(--holo-rgb), .9); }
+    .holo-hud strong { display: block; margin-top: .15rem; font: 600 1.05rem "Space Grotesk", sans-serif; color: #e6edf7; text-shadow: 0 0 12px rgba(var(--holo-rgb), .6); }
+    .holo-hud .mine-badge { color: #e6edf7; }
+    @keyframes holoSweep { to { transform: translateY(480px); } }
+    @keyframes holoFloat { 50% { transform: translate(-50%, calc(-50% - 8px)); } }
+    @keyframes beamPulse { 50% { opacity: .65; } }
+    .layer-legend { margin-top: .4rem; gap: .35rem; }
+    .layer-legend .list-group-item {
+      display: flex; align-items: flex-start; gap: .9rem;
+      padding: .8rem .9rem; border-radius: 14px !important;
+      border: 1px solid transparent; background: transparent; color: var(--km-text);
+      transition: background-color .25s, border-color .25s;
+    }
+    .layer-legend .list-group-item + .list-group-item { border-top-width: 1px; margin-top: 0; }
+    .layer-legend .list-group-item:hover { background: rgba(var(--km-accent-rgb), .05); }
+    .layer-legend .list-group-item.active { background: rgba(var(--km-accent-rgb), .09); border-color: rgba(var(--km-accent-rgb), .45); color: var(--km-text); }
+    .layer-legend strong { font-size: .95rem; }
+    .layer-legend .list-group-item.is-mine.active { background: rgba(var(--km-warm-rgb), .08); border-color: rgba(var(--km-warm-rgb), .5); }
+    .layer-text { min-width: 0; }
+    .layer-name { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .5rem; }
+    .mine-badge {
+      display: inline-flex; align-items: center; gap: .3rem;
+      padding: .1rem .5rem; border-radius: 999px;
+      border: 1px solid rgba(var(--km-warm-rgb), .45); background: rgba(var(--km-warm-rgb), .12);
+      font: 600 .68rem "JetBrains Mono", monospace; color: var(--km-text);
+    }
+    .mine-badge i, .mine-key i { color: var(--km-warm); font-size: .7rem; }
+    .layer-role { display: block; margin-top: .4rem; font-size: .84rem; line-height: 1.5; color: var(--km-text); }
+    .mine-key { display: flex; gap: .45rem; align-items: baseline; margin-top: .9rem; padding-top: .9rem; border-top: 1px solid var(--km-border); font-size: .78rem; color: var(--km-muted); }
+    .layer-legend small { display: block; color: var(--km-muted); font: .74rem/1.45 "JetBrains Mono", monospace; margin-top: .2rem; }
+    .layer-icon {
+      flex: none; width: 38px; height: 38px; border-radius: 11px;
+      display: grid; place-items: center; font-size: 1.1rem;
+      color: var(--km-accent); background: rgba(var(--km-accent-rgb), .1); border: 1px solid rgba(var(--km-accent-rgb), .25);
+    }
+    .layer-icon.is-mine { color: #1a1204; background: linear-gradient(135deg, var(--km-warm), var(--km-accent)); border: 0; }
+    .city-kicker { color: var(--km-muted); font: 500 .85rem "JetBrains Mono", monospace; }
+    .city-name { font-size: clamp(1.8rem, 3.6vw, 2.5rem); font-weight: 700; margin: .5rem 0 .9rem; }
+    .city-pitch { color: var(--km-muted); font-size: 1.05rem; line-height: 1.75; }
+    .contrib { display: flex; gap: 1rem; padding: 1.15rem 1.2rem; border-radius: 18px; border: 1px solid var(--km-border); background: var(--km-surface); transition: border-color .25s, transform .25s; }
+    .contrib:hover { border-color: rgba(var(--km-accent-rgb), .45); transform: translateX(4px); }
+    .contrib-icon {
+      flex: none; width: 46px; height: 46px; border-radius: 14px;
+      display: grid; place-items: center; font-size: 1.2rem; color: #04131a;
+      background: linear-gradient(135deg, var(--km-accent), var(--km-accent-2));
+    }
+    .contrib h4 { font-size: 1.05rem; margin: 0 0 .25rem; font-weight: 600; }
+    .contrib p { margin: 0; color: var(--km-muted); font-size: .94rem; line-height: 1.6; }
+    .city-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; margin: 1.4rem 0 .4rem; }
+    .city-fact { min-width: 0; padding: .85rem .9rem; border-radius: 14px; border: 1px solid var(--km-border); background: var(--km-surface); }
+    .city-fact strong { display: block; font: 700 1.35rem/1.15 "Space Grotesk", sans-serif; }
+    .city-fact small { display: block; margin-top: .2rem; color: var(--km-muted); font-size: .78rem; line-height: 1.35; }
+    .dash-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; margin-bottom: 1.4rem; }
+    .dash-kpi { min-width: 0; display: flex; flex-direction: column; gap: .15rem; padding: .85rem .8rem; border-radius: 14px; border: 1px solid var(--km-border); background: var(--km-surface-strong); }
+    .dash-kpi i { font-size: 1.05rem; color: var(--km-accent); }
+    .dash-kpi.tone-good i { color: var(--km-good); }
+    .dash-kpi.tone-warn i { color: var(--km-warm); }
+    .dash-kpi strong { margin-top: .3rem; font: 700 1.35rem/1.1 "Space Grotesk", sans-serif; }
+    .dash-kpi small { color: var(--km-muted); font-size: .76rem; line-height: 1.3; }
+    .dash-chart-title { font-weight: 600; font-size: .88rem; margin-bottom: 1.8rem; }
+    .bars { position: relative; display: flex; gap: 4px; height: 170px; border-bottom: 1px solid var(--km-border); }
+    .bar-col { position: relative; flex: 1 1 0; display: flex; align-items: flex-end; transition: opacity .25s; }
+    .bar-col.is-dim { opacity: .4; }
+    .bar { width: 100%; height: 0; border-radius: 4px 4px 0 0; background: var(--km-accent); transition: height .9s cubic-bezier(.2,.8,.2,1) var(--d); }
+    .bars.is-in .bar { height: var(--h); }
+    .bar.is-partial { background: repeating-linear-gradient(135deg, var(--km-accent) 0 4px, rgba(var(--km-accent-rgb), .4) 4px 8px); }
+    .bar-label { position: absolute; left: 50%; bottom: calc(var(--h) + 6px); transform: translateX(-50%); font: 600 .72rem "JetBrains Mono", monospace; color: var(--km-text); white-space: nowrap; opacity: 0; transition: opacity .4s 1s; }
+    .bars.is-in .bar-label { opacity: 1; }
+    .bar-tip {
+      position: absolute; bottom: calc(var(--h) + 8px); z-index: 2;
+      display: flex; flex-direction: column; padding: .45rem .65rem; border-radius: 10px;
+      background: var(--km-surface-strong); border: 1px solid var(--km-border); box-shadow: 0 12px 24px -12px var(--km-shadow);
+      font-size: .75rem; color: var(--km-muted); white-space: nowrap; pointer-events: none;
+    }
+    .bar-tip strong { color: var(--km-text); font: 600 .9rem "Space Grotesk", sans-serif; }
+    .bar-tip.align-center { left: 50%; transform: translateX(-50%); }
+    .bar-tip.align-start { left: 0; }
+    .bar-tip.align-end { right: 0; }
+    .bar-years { display: flex; gap: 4px; margin-top: .45rem; }
+    .bar-years span { flex: 1 1 0; text-align: center; font: 500 .66rem "JetBrains Mono", monospace; color: var(--km-muted); }
+    .dash-foot { margin-top: 1.1rem; font-size: .76rem; color: var(--km-muted); }
+    .flow-card { padding: 1.6rem 1.6rem 1.8rem; margin-top: 2.6rem; }
+    .flow-title { font: 600 .8rem "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: .12em; color: var(--km-muted); margin-bottom: 1.2rem; }
+    .flow { display: flex; align-items: stretch; }
+    .flow-step {
+      flex: 1 1 0; min-width: 0;
+      padding: 1rem; border-radius: 16px;
+      border: 1px solid var(--km-border); background: var(--km-surface-strong);
+      display: flex; flex-direction: column; gap: .35rem;
+      transition: border-color .3s, transform .3s;
+    }
+    .flow-step:hover { border-color: rgba(var(--km-accent-rgb), .55); transform: translateY(-3px); }
+    .flow-step .idx { font: 600 .74rem "JetBrains Mono", monospace; color: var(--km-accent); }
+    .flow-step .lbl { font-weight: 600; font-size: .93rem; line-height: 1.35; }
+    .flow-link { flex: 0 0 34px; align-self: center; height: 2px; background: linear-gradient(90deg, var(--km-accent) 50%, transparent 0) 0 0 / 10px 2px repeat-x; animation: flowX .7s linear infinite; }
+    @media (max-width: 991.98px) {
+      .flow { flex-direction: column; }
+      .flow-link { flex: 0 0 22px; width: 2px; height: auto; background: linear-gradient(180deg, var(--km-accent) 50%, transparent 0) 0 0 / 2px 10px repeat-y; animation-name: flowY; margin-left: 2rem; align-self: flex-start; }
+    }
+    @media (max-width: 575.98px) {
+      .holo-stage { height: 290px; }
+      .holo-glyph { font-size: 5rem; }
+      .dash-kpi strong, .city-fact strong { font-size: 1.1rem; }
+      .dash-card, .stack-card { padding: 1.1rem; }
+      .city-tabs .nav-link { padding: .6rem 1rem; font-size: .92rem; }
+    }
+
+    /* ================= Experiência ================= */
+    .timeline { position: relative; padding-left: 2.2rem; }
+    .timeline::before { content: ""; position: absolute; left: 7px; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(var(--km-accent), var(--km-accent-2), transparent); }
+    .tl-item { position: relative; }
+    .tl-item + .tl-item { margin-top: 1.6rem; }
+    .tl-dot { position: absolute; left: calc(-2.2rem + 1px); top: 1.85rem; width: 14px; height: 14px; border-radius: 50%; background: var(--km-bg); border: 3px solid var(--km-accent); box-shadow: 0 0 0 6px rgba(var(--km-accent-rgb), .14); }
+    .tl-card { padding: 1.7rem 1.8rem; transition: border-color .3s; }
+    .tl-card:hover { border-color: rgba(var(--km-accent-rgb), .4); }
+    .tl-period { font: 500 .8rem "JetBrains Mono", monospace; color: var(--km-accent); }
+    .tl-role { font-size: 1.3rem; font-weight: 600; margin: .35rem 0 .2rem; }
+    .tl-org { color: var(--km-muted); font-size: .95rem; }
+    .tl-list { list-style: none; padding: 0; margin: 1.1rem 0 1.2rem; }
+    .tl-list li { position: relative; padding-left: 1.5rem; color: var(--km-muted); line-height: 1.65; }
+    .tl-list li + li { margin-top: .45rem; }
+    .tl-list li::before { content: "▹"; position: absolute; left: 0; color: var(--km-accent); }
+    .tl-list li.is-new { color: var(--km-text); }
+    .edu-card { padding: 1.6rem 1.7rem; display: flex; gap: 1.1rem; align-items: center; }
+
+    /* ================= Projetos ================= */
+    .filters { display: flex; flex-wrap: wrap; gap: .5rem; justify-content: center; margin-bottom: 2.4rem; }
+    .filter-btn {
+      border: 1px solid var(--km-border); background: var(--km-surface); color: var(--km-muted);
+      padding: .5rem 1.05rem; border-radius: 999px; font-weight: 500; font-size: .92rem;
+      transition: color .2s, border-color .2s, background-color .2s;
+    }
+    .filter-btn:hover { color: var(--km-text); border-color: rgba(var(--km-accent-rgb), .45); }
+    .filter-btn.active { color: var(--km-text); border-color: var(--km-accent); background: rgba(var(--km-accent-rgb), .12); }
+    .filter-btn .count { margin-left: .4rem; font: 500 .75rem "JetBrains Mono", monospace; color: var(--km-accent); }
+    .tilt { transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .25s ease-out, border-color .3s; will-change: transform; }
+    .project-card { position: relative; height: 100%; padding: 1.8rem; overflow: hidden; cursor: pointer; display: flex; flex-direction: column; }
+    .project-card::before {
+      content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .3s;
+      background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), rgba(var(--km-accent-rgb), .13), transparent 45%);
+    }
+    .project-card:hover::before { opacity: 1; }
+    .project-card:hover { border-color: rgba(var(--km-accent-rgb), .42); }
+    .project-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.3rem; }
+    .project-icon {
+      width: 54px; height: 54px; border-radius: 16px;
+      display: grid; place-items: center; font-size: 1.45rem; color: var(--km-accent);
+      background: linear-gradient(135deg, rgba(var(--km-accent-rgb), .16), rgba(var(--km-accent-2-rgb), .16));
+      border: 1px solid rgba(var(--km-accent-rgb), .28);
+    }
+    .project-meta { text-align: right; font: 500 .78rem "JetBrains Mono", monospace; color: var(--km-muted); }
+    .project-meta .yr { display: block; color: var(--km-accent); font-size: .85rem; }
+    .project-title { font-size: 1.32rem; font-weight: 600; margin-bottom: .55rem; }
+    .project-summary { color: var(--km-muted); line-height: 1.65; flex: 1; }
+    .project-highlight { display: inline-flex; align-items: center; gap: .4rem; font: 600 .78rem "JetBrains Mono", monospace; color: var(--km-warm); margin-bottom: .9rem; }
+    .project-actions { display: flex; align-items: center; justify-content: space-between; gap: .8rem; margin-top: 1.4rem; padding-top: 1.2rem; border-top: 1px solid var(--km-border); }
+    .link-arrow { display: inline-flex; align-items: center; gap: .4rem; font-weight: 600; font-size: .92rem; color: var(--km-text); background: none; border: 0; padding: 0; }
+    .link-arrow i { transition: transform .2s; color: var(--km-accent); }
+    .project-card:hover .link-arrow i.bi-arrow-right { transform: translateX(4px); }
+    .fade-swap { animation: fadeUp .55s cubic-bezier(.2,.7,.2,1) both; }
+
+    /* Modal */
+    .km-modal { background: var(--km-surface-strong); color: var(--km-text); border: 1px solid var(--km-border); border-radius: 22px; overflow: hidden; }
+    .km-modal .modal-header, .km-modal .modal-footer { border-color: var(--km-border); }
+    .km-modal .modal-header { padding: 1.4rem 1.6rem; }
+    .km-modal .modal-body { padding: 1.6rem; }
+    .modal-backdrop.show { opacity: .7; }
+
+    /* ================= Habilidades ================= */
+    .skill-card { height: 100%; padding: 1.6rem; transition: border-color .3s, transform .3s; }
+    .skill-card:hover { border-color: rgba(var(--km-accent-rgb), .42); transform: translateY(-4px); }
+    .skill-head { display: flex; align-items: center; gap: .8rem; margin-bottom: 1.2rem; }
+    .skill-head h3 { font-size: 1.12rem; font-weight: 600; margin: 0; }
+    .skill-list { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .skill {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .5rem .8rem; border-radius: 12px;
+      border: 1px solid var(--km-border); background: var(--km-surface-strong);
+      font-size: .9rem; font-weight: 500;
+    }
+    .skill i { font-size: 1.1rem; color: var(--km-accent); }
+    .skill i[class*="devicon-"] { color: var(--km-text); }
+    .marquee { overflow: hidden; margin-top: 3.5rem; padding: 1.2rem 0; border-top: 1px solid var(--km-border); border-bottom: 1px solid var(--km-border); -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
+    .marquee-track { display: flex; width: max-content; animation: marquee 42s linear infinite; }
+    .marquee-item { display: inline-flex; align-items: center; gap: .6rem; margin-right: 3rem; color: var(--km-muted); font: 600 1.05rem "Space Grotesk", sans-serif; white-space: nowrap; }
+    .marquee-item i { font-size: 1.5rem; color: var(--km-text); opacity: .85; }
+
+    /* ================= Contato + rodapé ================= */
+    .contact-card {
+      position: relative; overflow: hidden; border-radius: 30px;
+      padding: clamp(2.2rem, 6vw, 4.5rem);
+      border: 1px solid var(--km-border);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(var(--km-accent-rgb), .22), transparent 45%),
+        radial-gradient(circle at 100% 100%, rgba(var(--km-accent-2-rgb), .22), transparent 45%),
+        var(--km-surface-strong);
+    }
+    .contact-card h2 { font-size: clamp(2rem, 5vw, 3.4rem); font-weight: 700; }
+    .contact-card p { color: var(--km-muted); font-size: 1.1rem; max-width: 560px; margin: 1rem auto 2.2rem; }
+    .contact-email { font: 600 clamp(1rem, 3vw, 1.4rem) "JetBrains Mono", monospace; color: var(--km-text); word-break: break-all; }
+    .footer { padding: 2.4rem 0 5.5rem; color: var(--km-muted); font-size: .9rem; border-top: 1px solid var(--km-border); }
+    .footer a { color: var(--km-muted); }
+    .footer a:hover { color: var(--km-text); }
+    .to-top {
+      position: fixed; right: 20px; bottom: 20px; z-index: 1050;
+      width: 46px; height: 46px; border-radius: 14px;
+      border: 1px solid var(--km-border); background: var(--km-surface-strong); color: var(--km-text);
+      box-shadow: 0 16px 30px -14px var(--km-shadow);
+      opacity: 0; transform: translateY(16px); pointer-events: none;
+      transition: opacity .3s, transform .3s, border-color .2s;
+    }
+    .to-top.show { opacity: 1; transform: none; pointer-events: auto; }
+    .to-top:hover { border-color: var(--km-accent); }
+    .km-toast { background: var(--km-surface-strong); color: var(--km-text); border: 1px solid rgba(var(--km-accent-rgb), .5); border-radius: 14px; box-shadow: 0 20px 40px -20px var(--km-shadow); }
+    .km-toast i { color: var(--km-accent); }
+    .toast-dock { position: fixed !important; bottom: 0; left: 50%; transform: translateX(-50%); z-index: 1090; }
+
+    /* ================= Keyframes ================= */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes blink { 50% { opacity: 0; } }
+    @keyframes ping { 75%, 100% { transform: scale(2.6); opacity: 0; } }
+    @keyframes lineIn { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
+    @keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    @keyframes scrollCue { 0% { transform: translateY(0); opacity: 1; } 70% { transform: translateY(14px); opacity: 0; } 100% { opacity: 0; } }
+    @keyframes flowX { to { background-position: 10px 0; } }
+    @keyframes flowY { to { background-position: 0 10px; } }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+      .reveal { opacity: 1; transform: none; }
+      .code-card, .tilt { transform: none !important; }
+      /* A faixa de tecnologias continua rolando mesmo com animações reduzidas no sistema. */
+      .marquee-track { animation-duration: 42s !important; animation-iteration-count: infinite !important; }
+    }
+  </style>
+</head>
+<body>
+  <div id="preloader" aria-hidden="true">
+    <div class="loader">
+      <div class="loader-box"><div class="loader-ring"></div><span class="loader-mark">KM</span></div>
+      <span id="preloader-msg">carregando portfólio…</span>
+    </div>
+  </div>
+
+  <div id="root"></div>
+
+  <noscript>
+    <div style="max-width:640px;margin:120px auto;padding:0 16px;font-family:sans-serif">
+      <h1>Kluivert Mury</h1>
+      <p>Desenvolvedor Python com foco em backend. Ative o JavaScript para ver o portfólio completo.</p>
+      <p><a href="mailto:kluivert.mury@gmail.com">kluivert.mury@gmail.com</a> · <a href="https://github.com/Kluiv-Mury">GitHub</a> · <a href="https://www.linkedin.com/in/kluivertmury">LinkedIn</a></p>
+    </div>
+  </noscript>
+
+  <script>
+    // Se algum CDN falhar, avisa em vez de ficar carregando para sempre.
+    setTimeout(function () {
+      var root = document.getElementById("root");
+      var msg = document.getElementById("preloader-msg");
+      if (root && !root.hasChildNodes() && msg) msg.textContent = "Não foi possível carregar. Recarregue a página.";
+    }, 12000);
+  </script>
+
+  <!-- Three.js (hologramas 3D) é carregado sob demanda pelo componente HoloProjector. -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-bootstrap@2.10.2/dist/react-bootstrap.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone@7.24.7/babel.min.js" crossorigin></script>
+
+  <script type="text/babel" data-presets="react">
+    const { useState, useEffect, useRef, useMemo } = React;
+    const { Navbar, Nav, Container, Row, Col, Button, Modal, Toast, ToastContainer, ListGroup, Tab, OverlayTrigger, Tooltip } = ReactBootstrap;
+
+    /* ==========================================================
+       CONTEÚDO DO PORTFÓLIO: edite os textos aqui.
+       ========================================================== */
+
+    const PROFILE = {
+      name: "Kluivert Mury",
+      location: "São Gonçalo, RJ",
+      email: "kluivert.mury@gmail.com",
+      linkedin: "https://www.linkedin.com/in/kluivertmury",
+      github: "https://github.com/Kluiv-Mury",
+      cv: "cv.pdf", // coloque o PDF do currículo na raiz do repositório com este nome
+      headline: "Estagiário no Escritório de Dados da Prefeitura de Niterói",
+      roles: [
+        "Desenvolvedor Python backend",
+        "Engenharia de dados",
+        "Agentes de IA e servidores MCP",
+        "Integração de dados urbanos",
+      ],
+      summary:
+        "Desenvolvedor Python focado em backend e engenharia de dados. Construo APIs, modelo bancos de dados e mantenho testes e CI até o deploy. No Escritório de Dados da Prefeitura de Niterói, desenvolvo agentes de IA e servidores MCP e integro dados para o Gêmeo Digital da cidade e para o Colab.",
+    };
+
+    const NAV = [
+      { id: "sobre", label: "Sobre" },
+      { id: "niteroi", label: "Niterói" },
+      { id: "experiencia", label: "Experiência" },
+      { id: "projetos", label: "Projetos" },
+      { id: "habilidades", label: "Habilidades" },
+      { id: "contato", label: "Contato" },
+    ];
+
+    const STATS = [
+      { value: 149, label: "testes automatizados no pipeline de CI" },
+      { value: 2, label: "plataformas públicas de Niterói com dados integrados" },
+      { value: 3, label: "projetos pessoais desenvolvidos de ponta a ponta" },
+    ];
+
+    // Trabalho na Prefeitura de Niterói. Para incluir outra plataforma, copie um dos objetos abaixo.
+    // visual: "stack" (camadas com holograma 3D) ou "dashboard" (mini painel com gráfico).
+    // icon das camadas: qualquer ícone do Bootstrap Icons (https://icons.getbootstrap.com); ele vira o holograma 3D.
+    const CITY_PROJECTS = [
+      {
+        id: "gemeo",
+        tab: "Gêmeo Digital",
+        icon: "bi-buildings",
+        name: "Gêmeo Digital de Niterói",
+        kicker: "Escritório de Dados da Prefeitura de Niterói",
+        url: "https://gemeo.niteroi.rj.gov.br/",
+        pitch:
+          "Representação virtual da cidade que integra dados oficiais em tempo real (mobilidade, trânsito, chuva e edificações em 3D) para planejar e monitorar Niterói. Minha atuação está nos dados de trânsito, com foco no NitBike.",
+        facts: [
+          { value: "7", label: "fontes oficiais integradas na plataforma" },
+          { value: "1 min", label: "atualização das estações NitBike" },
+          { value: "2 min", label: "atualização dos alertas de trânsito" },
+        ],
+        contributions: [
+          {
+            icon: "bi-bicycle",
+            title: "Integração de dados de trânsito e NitBike",
+            text: "Integro ao Gêmeo os dados de trânsito da cidade, com foco no NitBike: disponibilidade das estações e fluxo de viagens, coletados, tratados e carregados de forma recorrente.",
+          },
+          {
+            icon: "bi-layers",
+            title: "Camadas ArcGIS que servem o Gêmeo",
+            text: "Construo e conecto as camadas no ArcGIS que alimentam a plataforma. O trabalho vai além da visualização: os dados chegam estruturados e prontos para análise.",
+          },
+          {
+            icon: "bi-thermometer-half",
+            title: "Colunas derivadas e métricas",
+            text: "Crio colunas derivadas que acrescentam informação aos dados brutos, como as estações mais quentes e mais frias da rede (maior e menor movimento) e outras métricas de uso.",
+          },
+        ],
+        visual: "stack",
+        panelTitle: "Camadas do Gêmeo",
+        panelTag: "tempo real",
+        // de baixo para cima; mine: true destaca as camadas em que você atua
+        layers: [
+          { name: "Edificações 3D", icon: "bi-buildings", source: "SMU · modelo mapeado com LiDAR" },
+          { name: "Pluviômetros", icon: "bi-cloud-rain-heavy", source: "Defesa Civil · leituras a cada 15 min" },
+          { name: "Câmeras urbanas", icon: "bi-camera-video", source: "NitTrans · último minuto de vídeo" },
+          { name: "Ônibus", icon: "bi-bus-front", source: "MobNit/SEMOBI · posição a cada 30 s" },
+          {
+            name: "Trânsito",
+            icon: "bi-stoplights",
+            source: "Waze for Cities · a cada 2 min",
+            mine: true,
+            role: "Integração dos alertas e do fluxo viário às camadas do Gêmeo.",
+          },
+          {
+            name: "NitBike",
+            icon: "bi-bicycle",
+            source: "Estações e viagens · a cada 1 min",
+            mine: true,
+            role: "Disponibilidade e viagens integradas, com colunas derivadas que apontam as estações mais quentes e mais frias.",
+          },
+        ],
+        flow: ["Feeds do NitBike e do Waze", "Coleta e tratamento em Python", "Colunas derivadas e métricas", "Camadas no ArcGIS", "Gêmeo Digital"],
+        tech: ["Python", "ArcGIS", "SQL", "APIs REST", "Dados geoespaciais"],
+      },
+      {
+        id: "colab",
+        tab: "Colab",
+        icon: "bi-people",
+        name: "Colab · Solicitações públicas",
+        kicker: "Participação cidadã · SIGeo",
+        url: "https://experience.arcgis.com/experience/8b3c6160914d46e8a25017b5d7b210d0",
+        pitch:
+          "Canal oficial em que os moradores registram pedidos à prefeitura, como iluminação e coleta de entulho. Integrado ao SIGeo, cada solicitação vira um ponto no mapa com categoria, bairro e status de atendimento.",
+        contributions: [
+          {
+            icon: "bi-plug",
+            title: "Integração de dados",
+            text: "Integro as solicitações do Colab ao SIGeo, associando cada pedido ao bairro, à categoria e ao status de atendimento.",
+          },
+          {
+            icon: "bi-geo-alt",
+            title: "Camadas de visualização",
+            text: "Construo camadas de pontos e de mapa de calor que mostram onde as demandas se concentram e como evoluem ao longo do tempo.",
+          },
+          {
+            icon: "bi-bar-chart-line",
+            title: "Indicadores de atendimento",
+            text: "Monto indicadores de solicitações abertas e resolvidas por ano, mês, dia e hora, usados no acompanhamento das equipes.",
+          },
+        ],
+        visual: "dashboard",
+        dashboard: {
+          heading: "Solicitações públicas · Niterói",
+          tag: "SIGeo/COLAB",
+          title: "Solicitações por ano",
+          source: "Painel público SIGeo/COLAB, outubro de 2026. 2026 é parcial.",
+          partialLast: true,
+          kpis: [
+            { value: "154 mil", label: "solicitações registradas", icon: "bi-inbox" },
+            { value: "87%", label: "resolvidas", icon: "bi-check2-circle", tone: "good" },
+            { value: "13%", label: "em aberto", icon: "bi-hourglass-split", tone: "warn" },
+          ],
+          series: [
+            { year: 2013, value: 1 },
+            { year: 2014, value: 967 },
+            { year: 2015, value: 3900 },
+            { year: 2016, value: 3500 },
+            { year: 2017, value: 2600 },
+            { year: 2018, value: 4200 },
+            { year: 2019, value: 7300 },
+            { year: 2020, value: 8300 },
+            { year: 2021, value: 15200 },
+            { year: 2022, value: 17900 },
+            { year: 2023, value: 20200 },
+            { year: 2024, value: 20200 },
+            { year: 2025, value: 27400 },
+            { year: 2026, value: 23200 },
+          ],
+        },
+        flow: ["Pedidos dos moradores no Colab", "Integração com o SIGeo", "Georreferenciamento por bairro e categoria", "Pontos e mapa de calor", "Painel público no ArcGIS"],
+        tech: ["Python", "SQL", "ArcGIS", "Dados geoespaciais"],
+      },
+    ];
+
+    const EXPERIENCE = [
+      {
+        period: "fev 2026 – atual",
+        role: "Estagiário de Engenharia de Dados",
+        org: "Escritório de Dados da Prefeitura de Niterói",
+        place: "Niterói, RJ",
+        bullets: [
+          "Desenvolvo servidores MCP e agentes de IA em Python para automatizar tarefas repetitivas do time de dados.",
+          "Escrevo integrações com APIs de sistemas internos e externos.",
+          "Monto pipelines no Microsoft Fabric que levam os dados das subsecretarias até os painéis de BI.",
+          { text: "No Gêmeo Digital de Niterói, integro dados de trânsito com foco no NitBike: construo camadas no ArcGIS que alimentam a plataforma e crio colunas derivadas para métricas como as estações mais quentes e mais frias.", isNew: true },
+          { text: "No Colab, atuo na integração de dados e nas camadas de visualização do painel de solicitações (SIGeo).", isNew: true },
+          "Ajudo a organizar o versionamento com Git entre os ambientes de desenvolvimento e produção.",
+        ],
+        tech: ["Python", "SQL", "Microsoft Fabric", "Git", "Azure (noções)"],
+      },
+      {
+        period: "jul 2025 – jan 2026",
+        role: "Iniciação Científica",
+        org: "Universidade Federal Fluminense (UFF)",
+        place: "Niterói, RJ",
+        bullets: ["Montei um pipeline com Data Lake em MinIO, carga em MySQL e ClickHouse e ambiente todo em Docker."],
+        tech: ["Python", "MinIO", "MySQL", "ClickHouse", "Docker"],
+      },
+    ];
+
+    const EDUCATION = { course: "Bacharelado em Sistemas de Informação", school: "Universidade Federal Fluminense", period: "2023 – atual", place: "Niterói, RJ" };
+
+    // category: "backend", "dados" ou "ia". repo/demo: deixe null para esconder o botão.
+    const PROJECTS = [
+      {
+        id: "concurso",
+        title: "Bot de concursos públicos",
+        year: "2026",
+        kind: "Projeto pessoal",
+        icon: "bi-telegram",
+        category: ["backend"],
+        highlight: "149 testes no GitHub Actions",
+        summary: "Bot de Telegram que coleta concursos abertos no Brasil e avisa cada usuário conforme os filtros dele.",
+        bullets: [
+          "Bot de Telegram que coleta concursos abertos no Brasil e avisa cada usuário conforme os filtros dele (estado, salário, nível, palavra-chave).",
+          "Scraping roda numa thread separada para não travar o bot; os dados ficam em SQLite, com migração de esquema e backup diário.",
+          "149 testes com pytest no GitHub Actions e arquivo de serviço systemd para rodar no Linux.",
+        ],
+        tech: ["Python", "python-telegram-bot", "SQLite", "pytest", "GitHub Actions", "Linux"],
+        repo: "https://github.com/Kluiv-Mury/concurso-notifier",
+        demo: null,
+      },
+      {
+        id: "saude",
+        title: "Painel de saúde no Brasil",
+        year: "2025",
+        kind: "Projeto pessoal",
+        icon: "bi-heart-pulse",
+        category: ["backend", "dados"],
+        highlight: "Mapa interativo por estado",
+        summary: "API em FastAPI que serve um mapa interativo com profissionais e estabelecimentos de saúde por estado.",
+        bullets: [
+          "Fiz a API em FastAPI que serve um mapa interativo com a quantidade de profissionais e estabelecimentos de saúde por estado.",
+          "Tratei os dados públicos com Pandas e publiquei tudo em servidor próprio.",
+        ],
+        tech: ["Python", "FastAPI", "Pandas", "Plotly"],
+        repo: null,
+        demo: null, // coloque aqui o link do painel publicado
+      },
+      {
+        id: "mocforge",
+        title: "MocForge MCP",
+        year: "2026",
+        kind: "Projeto pessoal",
+        icon: "bi-bricks",
+        category: ["ia"],
+        highlight: "Claude + LeoCAD",
+        summary: "Servidor MCP que deixa o Claude montar modelos de LEGO no LeoCAD a partir de pedidos em texto.",
+        bullets: [
+          "Servidor MCP que deixa o Claude montar modelos de LEGO no LeoCAD a partir de pedidos em texto.",
+          "Edita o arquivo do modelo e gera imagens para conferir o resultado.",
+        ],
+        tech: ["Python", "FastMCP"],
+        repo: "https://github.com/Kluiv-Mury/mocforge-mcp",
+        demo: null,
+      },
+    ];
+
+    const FILTERS = [
+      { id: "todos", label: "Todos" },
+      { id: "backend", label: "Backend" },
+      { id: "dados", label: "Dados" },
+      { id: "ia", label: "IA e MCP" },
+    ];
+
+    // d = ícone do Devicon, bi = ícone do Bootstrap Icons
+    const SKILLS = [
+      { group: "Linguagens", icon: "bi-code-slash", items: [{ n: "Python", d: "devicon-python-plain" }, { n: "SQL", bi: "bi-filetype-sql" }, { n: "Bash", d: "devicon-bash-plain" }] },
+      { group: "Backend", icon: "bi-hdd-network", items: [{ n: "FastAPI", d: "devicon-fastapi-plain" }, { n: "APIs REST", bi: "bi-plug" }, { n: "requests", bi: "bi-globe2" }, { n: "BeautifulSoup", bi: "bi-code-square" }] },
+      { group: "Bancos de dados", icon: "bi-database", items: [{ n: "MySQL", d: "devicon-mysql-original" }, { n: "SQLite", d: "devicon-sqlite-plain" }, { n: "ClickHouse", bi: "bi-bar-chart-steps" }] },
+      { group: "Ferramentas", icon: "bi-tools", items: [{ n: "Git", d: "devicon-git-plain" }, { n: "GitHub Actions", d: "devicon-githubactions-plain" }, { n: "Docker", d: "devicon-docker-plain" }, { n: "Linux", d: "devicon-linux-plain" }, { n: "pytest", d: "devicon-pytest-plain" }, { n: "Azure (noções)", d: "devicon-azure-plain" }] },
+      { group: "Dados e IA", icon: "bi-cpu", items: [{ n: "Pandas", d: "devicon-pandas-plain" }, { n: "Microsoft Fabric", bi: "bi-microsoft" }, { n: "Servidores MCP", bi: "bi-hdd-stack" }, { n: "Agentes de IA", bi: "bi-robot" }] },
+    ];
+
+    /* ==========================================================
+       Utilitários e hooks
+       ========================================================== */
+
+    const prefersReducedMotion = () => window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function useInView({ threshold = 0.15, once = true } = {}) {
+      const ref = useRef(null);
+      const [inView, setInView] = useState(false);
+      useEffect(() => {
+        const el = ref.current;
+        if (!el) return;
+        if (!("IntersectionObserver" in window)) { setInView(true); return; }
+        const io = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) {
+            setInView(true);
+            if (once) io.disconnect();
+          } else if (!once) {
+            setInView(false);
+          }
+        }, { threshold });
+        io.observe(el);
+        return () => io.disconnect();
+      }, []);
+      return [ref, inView];
+    }
+
+    function Reveal({ children, delay = 0, className = "", ...rest }) {
+      const [ref, inView] = useInView();
+      return (
+        <div ref={ref} className={`reveal ${inView ? "is-visible" : ""} ${className}`} style={delay ? { transitionDelay: `${delay}ms` } : undefined} {...rest}>
+          {children}
+        </div>
+      );
+    }
+
+    function useTyping(words, { typeSpeed = 65, deleteSpeed = 32, pause = 1700 } = {}) {
+      const [text, setText] = useState("");
+      const [index, setIndex] = useState(0);
+      const [deleting, setDeleting] = useState(false);
+      useEffect(() => {
+        if (prefersReducedMotion()) { setText(words[0]); return; }
+        const word = words[index % words.length];
+        let timer;
+        if (!deleting && text === word) {
+          timer = setTimeout(() => setDeleting(true), pause);
+        } else if (deleting && text === "") {
+          setDeleting(false);
+          setIndex((i) => i + 1);
+        } else {
+          const next = deleting ? word.slice(0, text.length - 1) : word.slice(0, text.length + 1);
+          timer = setTimeout(() => setText(next), deleting ? deleteSpeed : typeSpeed);
+        }
+        return () => clearTimeout(timer);
+      }, [text, deleting, index]);
+      return text;
+    }
+
+    function useScrollSpy(ids) {
+      const [active, setActive] = useState("");
+      useEffect(() => {
+        const els = ids.map((id) => document.getElementById(id)).filter(Boolean);
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((e) => { if (e.isIntersecting) setActive(e.target.id); });
+        }, { rootMargin: "-45% 0px -50% 0px" });
+        els.forEach((el) => io.observe(el));
+        return () => io.disconnect();
+      }, []);
+      return active;
+    }
+
+    function useTheme() {
+      const [theme, setTheme] = useState(() => document.documentElement.getAttribute("data-bs-theme") || "dark");
+      useEffect(() => {
+        document.documentElement.setAttribute("data-bs-theme", theme);
+        const meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute("content", theme === "dark" ? "#070b14" : "#f5f7fb");
+      }, [theme]);
+      const toggle = () => setTheme((t) => {
+        const next = t === "dark" ? "light" : "dark";
+        try { localStorage.setItem("km-theme", next); } catch (e) {}
+        return next;
+      });
+      return [theme, toggle];
+    }
+
+    function CountUp({ end, duration = 1500 }) {
+      const [ref, inView] = useInView({ threshold: 0.5 });
+      const [value, setValue] = useState(0);
+      useEffect(() => {
+        if (!inView) return;
+        if (prefersReducedMotion()) { setValue(end); return; }
+        let raf, start;
+        const step = (ts) => {
+          if (!start) start = ts;
+          const p = Math.min((ts - start) / duration, 1);
+          setValue(Math.round(end * (1 - Math.pow(1 - p, 3))));
+          if (p < 1) raf = requestAnimationFrame(step);
+        };
+        raf = requestAnimationFrame(step);
+        return () => cancelAnimationFrame(raf);
+      }, [inView, end]);
+      return <span ref={ref}>{value}</span>;
+    }
+
+    /* ==========================================================
+       Componentes visuais
+       ========================================================== */
+
+    // Rede de pontos animada no fundo do topo: dados se conectando.
+    function DataNetwork({ theme }) {
+      const canvasRef = useRef(null);
+      const rgbRef = useRef("45, 212, 191");
+      const redrawRef = useRef(() => {});
+
+      useEffect(() => {
+        rgbRef.current = getComputedStyle(document.documentElement).getPropertyValue("--km-accent-rgb").trim() || "45, 212, 191";
+        redrawRef.current();
+      }, [theme]);
+
+      useEffect(() => {
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext("2d");
+        const reduced = prefersReducedMotion();
+        const mouse = { x: -9999, y: -9999 };
+        let w = 0, h = 0, nodes = [], raf = 0, visible = true;
+
+        const resize = () => {
+          const dpr = Math.min(window.devicePixelRatio || 1, 2);
+          w = canvas.clientWidth; h = canvas.clientHeight;
+          canvas.width = w * dpr; canvas.height = h * dpr;
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          const count = Math.round(Math.min(110, Math.max(36, (w * h) / 15000)));
+          nodes = Array.from({ length: count }, () => ({
+            x: Math.random() * w, y: Math.random() * h,
+            vx: (Math.random() - 0.5) * 0.35, vy: (Math.random() - 0.5) * 0.35,
+            r: Math.random() * 1.6 + 0.7,
+          }));
+        };
+
+        const frame = () => {
+          const rgb = rgbRef.current;
+          ctx.clearRect(0, 0, w, h);
+          const maxD = 130;
+          for (let i = 0; i < nodes.length; i++) {
+            const a = nodes[i];
+            if (!reduced) {
+              a.x += a.vx; a.y += a.vy;
+              if (a.x < 0 || a.x > w) a.vx *= -1;
+              if (a.y < 0 || a.y > h) a.vy *= -1;
+            }
+            for (let j = i + 1; j < nodes.length; j++) {
+              const b = nodes[j];
+              const dx = a.x - b.x, dy = a.y - b.y;
+              const d2 = dx * dx + dy * dy;
+              if (d2 < maxD * maxD) {
+                ctx.strokeStyle = `rgba(${rgb}, ${(1 - Math.sqrt(d2) / maxD) * 0.32})`;
+                ctx.lineWidth = 1;
+                ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+              }
+            }
+            const md = Math.hypot(a.x - mouse.x, a.y - mouse.y);
+            if (md < 170) {
+              ctx.strokeStyle = `rgba(${rgb}, ${(1 - md / 170) * 0.6})`;
+              ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
+            }
+          }
+          ctx.fillStyle = `rgba(${rgb}, 0.9)`;
+          for (const n of nodes) { ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fill(); }
+        };
+
+        const loop = () => { frame(); if (visible && !reduced) raf = requestAnimationFrame(loop); };
+        const start = () => { cancelAnimationFrame(raf); loop(); };
+        redrawRef.current = () => { if (reduced || !visible) frame(); };
+
+        const onMove = (e) => {
+          const r = canvas.getBoundingClientRect();
+          mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
+          if (reduced) frame();
+        };
+        const onLeave = () => { mouse.x = -9999; mouse.y = -9999; };
+        const onResize = () => { resize(); if (reduced) frame(); };
+
+        resize();
+        start();
+        window.addEventListener("resize", onResize);
+        window.addEventListener("pointermove", onMove, { passive: true });
+        document.addEventListener("pointerleave", onLeave);
+        const io = new IntersectionObserver(([entry]) => {
+          visible = entry.isIntersecting;
+          if (visible) start(); else cancelAnimationFrame(raf);
+        });
+        io.observe(canvas);
+
+        return () => {
+          cancelAnimationFrame(raf);
+          io.disconnect();
+          window.removeEventListener("resize", onResize);
+          window.removeEventListener("pointermove", onMove);
+          document.removeEventListener("pointerleave", onLeave);
+        };
+      }, []);
+
+      return <canvas ref={canvasRef} className="hero-canvas" aria-hidden="true" />;
+    }
+
+    function TiltCard({ children, className = "", ...rest }) {
+      const ref = useRef(null);
+      const onMove = (e) => {
+        if (e.pointerType === "touch" || prefersReducedMotion()) return;
+        const el = ref.current;
+        const r = el.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5;
+        const py = (e.clientY - r.top) / r.height - 0.5;
+        el.style.setProperty("--rx", `${(-py * 6).toFixed(2)}deg`);
+        el.style.setProperty("--ry", `${(px * 8).toFixed(2)}deg`);
+        el.style.setProperty("--mx", `${((px + 0.5) * 100).toFixed(1)}%`);
+        el.style.setProperty("--my", `${((py + 0.5) * 100).toFixed(1)}%`);
+      };
+      const onLeave = () => {
+        const el = ref.current;
+        el.style.setProperty("--rx", "0deg");
+        el.style.setProperty("--ry", "0deg");
+      };
+      return <div ref={ref} className={`tilt ${className}`} onPointerMove={onMove} onPointerLeave={onLeave} {...rest}>{children}</div>;
+    }
+
+    function SectionHeader({ kicker, title, children, center = false }) {
+      return (
+        <Reveal className={`section-header ${center ? "text-center" : ""}`}>
+          <span className="kicker">{kicker}</span>
+          <h2 className="section-title">{title}</h2>
+          {children && <p className="section-lead">{children}</p>}
+        </Reveal>
+      );
+    }
+
+    function IconLink({ href, icon, label }) {
+      const external = href.startsWith("http");
+      return (
+        <OverlayTrigger placement="top" overlay={<Tooltip>{label}</Tooltip>}>
+          <a className="icon-btn" href={href} aria-label={label} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
+            <i className={`bi ${icon}`} />
+          </a>
+        </OverlayTrigger>
+      );
+    }
+
+    /* ==========================================================
+       Seções
+       ========================================================== */
+
+    function TopNav({ active, theme, onToggleTheme }) {
+      const [scrolled, setScrolled] = useState(false);
+      const [expanded, setExpanded] = useState(false);
+      useEffect(() => {
+        const onScroll = () => setScrolled(window.scrollY > 24);
+        onScroll();
+        window.addEventListener("scroll", onScroll, { passive: true });
+        return () => window.removeEventListener("scroll", onScroll);
+      }, []);
+      return (
+        <Navbar expand="lg" fixed="top" expanded={expanded} onToggle={setExpanded} className={`km-nav ${scrolled || expanded ? "is-scrolled" : ""}`}>
+          <Container>
+            <Navbar.Brand href="#inicio" onClick={() => setExpanded(false)}>
+              <span className="brand-mark">KM</span>
+              <span>Kluivert Mury</span>
+            </Navbar.Brand>
+            <div className="d-flex align-items-center gap-2 order-lg-last ms-lg-3">
+              <button className="icon-btn" onClick={onToggleTheme} aria-label={theme === "dark" ? "Usar tema claro" : "Usar tema escuro"}>
+                <i className={`bi ${theme === "dark" ? "bi-sun" : "bi-moon-stars"}`} />
+              </button>
+              <Navbar.Toggle aria-controls="km-navbar" />
+            </div>
+            <Navbar.Collapse id="km-navbar">
+              <Nav className="ms-auto" activeKey={active} onSelect={() => setExpanded(false)}>
+                {NAV.map((item) => (
+                  <Nav.Link key={item.id} href={`#${item.id}`} eventKey={item.id}>{item.label}</Nav.Link>
+                ))}
+              </Nav>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
+      );
+    }
+
+    const CODE_LINES = [
+      { i: 0, c: <><span className="tok-kw">class</span> <span className="tok-cls">Kluivert</span>(<span className="tok-cls">DevPython</span>):</> },
+      { i: 1, c: <>base <span className="tok-op">=</span> <span className="tok-str">"São Gonçalo, RJ"</span></> },
+      { i: 1, c: <>agora <span className="tok-op">=</span> (<span className="tok-str">"Escritório de Dados da "</span></> },
+      { ch: 13, c: <><span className="tok-str">"Prefeitura de Niterói"</span>)</> },
+      { i: 1, c: <>stack <span className="tok-op">=</span> [<span className="tok-str">"Python"</span>, <span className="tok-str">"SQL"</span>, <span className="tok-str">"FastAPI"</span>]</> },
+      { i: 1, c: <>foco <span className="tok-op">=</span> [<span className="tok-str">"backend"</span>, <span className="tok-str">"dados"</span>, <span className="tok-str">"IA"</span>]</> },
+      { i: 0, c: <>{" "}</> },
+      { i: 1, c: <><span className="tok-kw">def</span> <span className="tok-fn">entregar</span>(<span className="tok-self">self</span>, ideia):</> },
+      { i: 2, c: <span className="tok-cm"># do código ao deploy</span> },
+      { i: 2, c: <><span className="tok-kw">return</span> <span className="tok-fn">deploy</span>(<span className="tok-fn">testar</span>(<span className="tok-fn">api</span>(ideia)))</> },
+    ];
+
+    function CodeCard() {
+      return (
+        <div className="code-wrap">
+          <div className="float-badge b1"><i className="bi bi-check2-circle" /> 149 testes passando</div>
+          <div className="code-card">
+            <div className="code-head">
+              <span className="dot r" /><span className="dot y" /><span className="dot g" />
+              <span className="file">kluivert.py</span>
+            </div>
+            <div className="code-body" aria-label="Trecho de código que resume o perfil">
+              {CODE_LINES.map((line, n) => (
+                <div key={n} className="code-line" style={{ "--l": n }}>
+                  <span className="ln">{n + 1}</span>
+                  <span style={{ paddingLeft: `${line.ch ?? line.i * 4}ch` }}>{line.c}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="float-badge b2"><i className="bi bi-layers-fill" /> Niterói em camadas</div>
+        </div>
+      );
+    }
+
+    function Hero({ theme }) {
+      const typed = useTyping(PROFILE.roles);
+      const onMove = (e) => {
+        const r = e.currentTarget.getBoundingClientRect();
+        e.currentTarget.style.setProperty("--gx", `${((e.clientX - r.left) / r.width) * 100}%`);
+        e.currentTarget.style.setProperty("--gy", `${((e.clientY - r.top) / r.height) * 100}%`);
+      };
+      return (
+        <section id="inicio" className="hero" onPointerMove={onMove}>
+          <DataNetwork theme={theme} />
+          <div className="hero-glow" />
+          <Container>
+            <Row className="align-items-center gx-4 gx-lg-5 gy-5">
+              <Col lg={6} xl={7}>
+                <Reveal>
+                  <span className="eyebrow"><span className="pulse" /> {PROFILE.headline}</span>
+                </Reveal>
+                <Reveal delay={100}>
+                  <h1 className="display-name">
+                    <small>Olá, eu sou</small>
+                    Kluivert <span className="text-gradient">Mury</span>
+                  </h1>
+                </Reveal>
+                <Reveal delay={200}>
+                  <p className="typing" aria-live="polite"><span className="prompt">&gt;</span>{typed}<span className="caret" /></p>
+                  <p className="hero-lead">{PROFILE.summary}</p>
+                </Reveal>
+                <Reveal delay={300}>
+                  <div className="d-flex flex-wrap gap-3">
+                    <Button variant="km" href="#niteroi">Ver trabalho em Niterói <i className="bi bi-arrow-right" /></Button>
+                    <Button variant="ghost" href="#projetos"><i className="bi bi-grid-1x2" /> Projetos</Button>
+                    <Button variant="ghost" href={PROFILE.cv} download><i className="bi bi-download" /> Currículo</Button>
+                  </div>
+                  <div className="socials">
+                    <IconLink href={PROFILE.github} icon="bi-github" label="GitHub" />
+                    <IconLink href={PROFILE.linkedin} icon="bi-linkedin" label="LinkedIn" />
+                    <IconLink href={`mailto:${PROFILE.email}`} icon="bi-envelope" label="E-mail" />
+                  </div>
+                </Reveal>
+              </Col>
+              <Col lg={6} xl={5}>
+                <Reveal delay={250}><CodeCard /></Reveal>
+              </Col>
+            </Row>
+            <a href="#sobre" className="scroll-cue" aria-label="Rolar para a próxima seção"><span /></a>
+          </Container>
+        </section>
+      );
+    }
+
+    function About() {
+      const facts = [
+        { icon: "bi-geo-alt", label: "Base", value: PROFILE.location },
+        { icon: "bi-briefcase", label: "Atualmente", value: "Estagiário de Engenharia de Dados no Escritório de Dados da Prefeitura de Niterói" },
+        { icon: "bi-mortarboard", label: "Formação", value: `${EDUCATION.course}, UFF` },
+        { icon: "bi-terminal", label: "Stack principal", value: "Python, SQL, FastAPI, Microsoft Fabric" },
+      ];
+      return (
+        <section id="sobre" className="section">
+          <Container>
+            <Row className="gx-4 gx-lg-5 gy-5 align-items-center">
+              <Col lg={6}>
+                <SectionHeader kicker="Sobre mim" title={<>Do código ao <span className="text-gradient">deploy</span></>} />
+                <Reveal delay={100} className="about-text">
+                  <p>Sou desenvolvedor Python com foco em <strong>backend</strong> e curso Sistemas de Informação na <strong>Universidade Federal Fluminense</strong>. Trabalho com o ciclo completo de uma aplicação: modelagem do banco de dados, construção da API, testes automatizados, integração contínua e deploy em servidor Linux.</p>
+                  <p>No <strong>Escritório de Dados da Prefeitura de Niterói</strong>, desenvolvo agentes de IA e servidores MCP que automatizam rotinas do time, construo pipelines no Microsoft Fabric e integro <strong>dados de trânsito ao Gêmeo Digital</strong> da cidade, com foco no NitBike, além de atuar nas camadas do painel de solicitações do Colab.</p>
+                </Reveal>
+              </Col>
+              <Col lg={6}>
+                <Reveal delay={150} className="glass">
+                  {facts.map((f) => (
+                    <div className="fact" key={f.label}>
+                      <span className="fact-icon"><i className={`bi ${f.icon}`} /></span>
+                      <div><small>{f.label}</small><span>{f.value}</span></div>
+                    </div>
+                  ))}
+                </Reveal>
+              </Col>
+            </Row>
+            <Row className="g-4 mt-4">
+              {STATS.map((s, i) => (
+                <Col md={4} key={s.label}>
+                  <Reveal delay={i * 100} className="glass stat">
+                    <div className="stat-value text-gradient"><CountUp end={s.value} /></div>
+                    <div className="stat-label">{s.label}</div>
+                  </Reveal>
+                </Col>
+              ))}
+            </Row>
+          </Container>
+        </section>
+      );
+    }
+
+    /* ---------- Holograma 3D das camadas (Three.js) ---------- */
+
+    const HOLO_COLORS = { accent: 0x2dd4bf, warm: 0xfbbf24 };
+
+    const HOLO_VERT = `
+      varying vec3 vNormal;
+      varying vec3 vView;
+      varying float vY;
+      void main() {
+        vec4 world = modelMatrix * vec4(position, 1.0);
+        vY = world.y;
+        vec4 mv = viewMatrix * world;
+        vNormal = normalize(normalMatrix * normal);
+        vView = normalize(-mv.xyz);
+        gl_Position = projectionMatrix * mv;
+      }`;
+
+    const HOLO_FRAG = `
+      uniform vec3 uColor;
+      uniform float uTime;
+      uniform float uOpacity;
+      uniform float uReveal;
+      varying vec3 vNormal;
+      varying vec3 vView;
+      varying float vY;
+      void main() {
+        if (vY > uReveal) discard;
+        float fresnel = pow(1.0 - abs(dot(normalize(vNormal), normalize(vView))), 2.0);
+        float scan = 0.65 + 0.35 * sin(vY * 60.0 - uTime * 5.0);
+        float front = smoothstep(uReveal - 0.15, uReveal, vY);
+        float alpha = ((0.08 + fresnel * 0.9) * scan + front) * uOpacity;
+        gl_FragColor = vec4(uColor * (0.7 + fresnel * 1.2 + front * 2.0), alpha);
+      }`;
+
+    const EDGE_VERT = `
+      varying float vY;
+      void main() {
+        vec4 world = modelMatrix * vec4(position, 1.0);
+        vY = world.y;
+        gl_Position = projectionMatrix * viewMatrix * world;
+      }`;
+
+    const EDGE_FRAG = `
+      uniform vec3 uColor;
+      uniform float uOpacity;
+      uniform float uReveal;
+      varying float vY;
+      void main() {
+        if (vY > uReveal) discard;
+        gl_FragColor = vec4(uColor * 1.5, 0.85 * uOpacity);
+      }`;
+
+    // Carrega o Three.js só quando o holograma aparece (o import map fica no <head>).
+    let threePromise = null;
+    function loadThree() {
+      if (!threePromise) {
+        threePromise = Promise.all([import("three"), import("three/addons/loaders/SVGLoader.js")])
+          .then(([THREE, loaders]) => ({ THREE, SVGLoader: loaders.SVGLoader }));
+        threePromise.catch(() => { threePromise = null; });
+      }
+      return threePromise;
+    }
+
+    // Busca o SVG do ícone no Bootstrap Icons e extruda em 3D.
+    const iconGeometryCache = new Map();
+    function loadIconGeometry(THREE, SVGLoader, icon) {
+      if (!iconGeometryCache.has(icon)) {
+        const url = `https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/${icon.replace(/^bi-/, "")}.svg`;
+        const promise = fetch(url)
+          .then((res) => { if (!res.ok) throw new Error(`${res.status} ${url}`); return res.text(); })
+          .then((svg) => {
+            // a cor do SVG não importa (o shader pinta), só evita o aviso do Three com "currentColor"
+            const shapes = new SVGLoader().parse(svg.replace(/currentColor/g, "#fff")).paths.flatMap((path) => SVGLoader.createShapes(path));
+            const surface = new THREE.ExtrudeGeometry(shapes, { depth: 2.2, bevelEnabled: true, bevelThickness: 0.25, bevelSize: 0.1, bevelSegments: 2, curveSegments: 12 });
+            surface.scale(1, -1, 1); // o SVG tem o eixo Y para baixo
+            surface.center();
+            surface.computeBoundingBox();
+            const size = surface.boundingBox.getSize(new THREE.Vector3());
+            const fit = 2.2 / Math.max(size.x, size.y);
+            surface.scale(fit, fit, fit);
+            return { surface, edges: new THREE.EdgesGeometry(surface, 25) };
+          });
+        iconGeometryCache.set(icon, promise);
+        promise.catch(() => iconGeometryCache.delete(icon));
+      }
+      return iconGeometryCache.get(icon);
+    }
+
+    function startHologram({ THREE, SVGLoader }, mount, stage, onReady) {
+      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.setClearColor(0x000000, 0);
+      mount.appendChild(renderer.domElement);
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 50);
+      camera.position.set(0, 0.3, 6.4);
+      camera.lookAt(0, -0.55, 0);
+      const pivot = new THREE.Group();
+      scene.add(pivot);
+
+      // Partículas subindo pelo feixe do projetor.
+      const count = 140;
+      const positions = new Float32Array(count * 3);
+      const speeds = new Float32Array(count);
+      for (let i = 0; i < count; i++) {
+        const r = Math.sqrt(Math.random()) * 1.4;
+        const a = Math.random() * Math.PI * 2;
+        positions[i * 3] = Math.cos(a) * r;
+        positions[i * 3 + 1] = -2 + Math.random() * 3.3;
+        positions[i * 3 + 2] = Math.sin(a) * r;
+        speeds[i] = 0.003 + Math.random() * 0.009;
+      }
+      const particleGeo = new THREE.BufferGeometry();
+      particleGeo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+      const particleMat = new THREE.PointsMaterial({ size: 0.035, transparent: true, opacity: 0.75, blending: THREE.AdditiveBlending, depthWrite: false });
+      scene.add(new THREE.Points(particleGeo, particleMat));
+
+      const reduced = prefersReducedMotion();
+      const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
+      const models = [];
+      const t0 = performance.now();
+      let last = t0, spin = 0.6, raf = 0, visible = true, disposed = false, pending = null;
+
+      const frame = (now) => {
+        const t = (now - t0) / 1000;
+        const dt = Math.min((now - last) / 1000, 0.05);
+        last = now;
+        pointer.x += (pointer.tx - pointer.x) * 0.08;
+        pointer.y += (pointer.ty - pointer.y) * 0.08;
+        if (!reduced) spin += dt * 0.7;
+        pivot.rotation.set(-0.12 + pointer.y * 0.35, spin + pointer.x * 0.9, 0);
+        pivot.position.y = reduced ? 0 : Math.sin(t * 1.3) * 0.06;
+        const flicker = reduced ? 1 : 0.9 + 0.1 * Math.sin(t * 47) * Math.sin(t * 3.3);
+
+        for (let i = models.length - 1; i >= 0; i--) {
+          const m = models[i];
+          const born = Math.min((now - m.born) / 750, 1);
+          const reveal = -1.4 + (1 - Math.pow(1 - born, 3)) * 2.8;
+          let opacity = flicker;
+          if (m.dying) {
+            const d = (now - m.dying) / 280;
+            if (d >= 1) {
+              pivot.remove(m.group);
+              m.materials.forEach((mat) => mat.dispose());
+              models.splice(i, 1);
+              continue;
+            }
+            opacity *= 1 - d;
+          }
+          m.materials.forEach((mat) => {
+            mat.uniforms.uTime.value = t;
+            mat.uniforms.uOpacity.value = opacity;
+            mat.uniforms.uReveal.value = reveal;
+          });
+        }
+
+        if (!reduced) {
+          for (let i = 0; i < count; i++) {
+            positions[i * 3 + 1] += speeds[i];
+            if (positions[i * 3 + 1] > 1.3) positions[i * 3 + 1] = -2;
+          }
+          particleGeo.attributes.position.needsUpdate = true;
+        }
+        renderer.render(scene, camera);
+      };
+
+      const loop = (now) => {
+        raf = 0;
+        frame(now);
+        if (visible && !disposed) raf = requestAnimationFrame(loop);
+      };
+      const kick = () => { if (!raf && visible && !disposed) raf = requestAnimationFrame(loop); };
+
+      const resize = () => {
+        const w = mount.clientWidth, h = mount.clientHeight;
+        if (!w || !h) return;
+        renderer.setSize(w, h, false);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        kick();
+      };
+      const ro = new ResizeObserver(resize);
+      ro.observe(mount);
+      resize();
+      const io = new IntersectionObserver(([entry]) => {
+        visible = entry.isIntersecting;
+        if (visible) kick(); else { cancelAnimationFrame(raf); raf = 0; }
+      });
+      io.observe(mount);
+
+      const onMove = (e) => {
+        const r = stage.getBoundingClientRect();
+        pointer.tx = ((e.clientX - r.left) / r.width - 0.5) * 2;
+        pointer.ty = ((e.clientY - r.top) / r.height - 0.5) * 2;
+        kick();
+      };
+      const onLeave = () => { pointer.tx = 0; pointer.ty = 0; };
+      stage.addEventListener("pointermove", onMove);
+      stage.addEventListener("pointerleave", onLeave);
+
+      const show = (layer) => {
+        const token = (pending = {});
+        loadIconGeometry(THREE, SVGLoader, layer.icon).then(({ surface, edges }) => {
+          if (pending !== token || disposed) return;
+          models.forEach((m) => { if (!m.dying) m.dying = performance.now(); });
+          const color = new THREE.Color(layer.mine ? HOLO_COLORS.warm : HOLO_COLORS.accent);
+          const uniforms = () => ({ uColor: { value: color }, uTime: { value: 0 }, uOpacity: { value: 0 }, uReveal: { value: -2 } });
+          const common = { transparent: true, depthWrite: false, blending: THREE.AdditiveBlending };
+          const surfaceMat = new THREE.ShaderMaterial({ ...common, side: THREE.DoubleSide, uniforms: uniforms(), vertexShader: HOLO_VERT, fragmentShader: HOLO_FRAG });
+          const edgeMat = new THREE.ShaderMaterial({ ...common, uniforms: uniforms(), vertexShader: EDGE_VERT, fragmentShader: EDGE_FRAG });
+          const group = new THREE.Group();
+          group.add(new THREE.Mesh(surface, surfaceMat), new THREE.LineSegments(edges, edgeMat));
+          pivot.add(group);
+          models.push({ group, materials: [surfaceMat, edgeMat], born: performance.now(), dying: null });
+          particleMat.color.copy(color);
+          onReady();
+          kick();
+        }).catch(() => {});
+      };
+
+      const dispose = () => {
+        disposed = true;
+        cancelAnimationFrame(raf);
+        ro.disconnect();
+        io.disconnect();
+        stage.removeEventListener("pointermove", onMove);
+        stage.removeEventListener("pointerleave", onLeave);
+        models.forEach((m) => m.materials.forEach((mat) => mat.dispose()));
+        particleGeo.dispose();
+        particleMat.dispose();
+        renderer.dispose();
+        renderer.domElement.remove();
+      };
+
+      return { show, dispose };
+    }
+
+    function HoloProjector({ layer, index, total }) {
+      const stageRef = useRef(null);
+      const mountRef = useRef(null);
+      const engineRef = useRef(null);
+      const layerRef = useRef(layer);
+      const [ready, setReady] = useState(false);
+      layerRef.current = layer;
+
+      useEffect(() => {
+        let cancelled = false;
+        loadThree()
+          .then((lib) => {
+            if (cancelled) return;
+            engineRef.current = startHologram(lib, mountRef.current, stageRef.current, () => { if (!cancelled) setReady(true); });
+            engineRef.current.show(layerRef.current);
+          })
+          .catch(() => {}); // sem WebGL ou sem rede: fica o ícone plano com efeito de holograma
+        return () => {
+          cancelled = true;
+          if (engineRef.current) engineRef.current.dispose();
+          engineRef.current = null;
+        };
+      }, []);
+
+      useEffect(() => {
+        if (engineRef.current) engineRef.current.show(layer);
+      }, [layer.icon, layer.mine]);
+
+      const pad = (n) => String(n).padStart(2, "0");
+      return (
+        <div ref={stageRef} className={`holo-stage ${layer.mine ? "is-mine" : ""}`} role="img" aria-label={`Holograma 3D da camada ${layer.name}`}>
+          <div className="holo-beam" />
+          <div className="holo-base"><span /><span /><span /></div>
+          {!ready && <i key={layer.icon} className={`bi ${layer.icon} holo-glyph`} aria-hidden="true" />}
+          <div className="holo-canvas" ref={mountRef} />
+          <div className="holo-scan" />
+          <span className="holo-corner tl" /><span className="holo-corner tr" />
+          <span className="holo-corner bl" /><span className="holo-corner br" />
+          <div className="holo-hud">
+            <div><small>CAMADA {pad(index + 1)}/{pad(total)}</small><strong>{layer.name}</strong></div>
+            {layer.mine && <span className="mine-badge"><i className="bi bi-star-fill" /> minha atuação</span>}
+          </div>
+        </div>
+      );
+    }
+
+    function LayerPanel({ title, tag, layers }) {
+      const [active, setActive] = useState(layers.length - 1);
+      const legend = layers.map((layer, i) => ({ layer, i })).reverse();
+      const hasMine = layers.some((l) => l.mine);
+      return (
+        <div className="glass stack-card">
+          <div className="dash-head">
+            <span className="dash-title"><span className="live-dot" /> {title}</span>
+            {tag && <span className="dash-tag">{tag}</span>}
+          </div>
+          <HoloProjector layer={layers[active]} index={active} total={layers.length} />
+          <ListGroup className="layer-legend">
+            {legend.map(({ layer, i }) => (
+              <ListGroup.Item
+                key={layer.name}
+                action
+                active={active === i}
+                className={layer.mine ? "is-mine" : ""}
+                onMouseEnter={() => setActive(i)}
+                onFocus={() => setActive(i)}
+                onClick={() => setActive(i)}
+              >
+                <span className={`layer-icon ${layer.mine ? "is-mine" : ""}`} aria-hidden="true"><i className={`bi ${layer.icon}`} /></span>
+                <span className="layer-text">
+                  <span className="layer-name">
+                    <strong>{layer.name}</strong>
+                    {layer.mine && <span className="mine-badge"><i className="bi bi-star-fill" /> minha atuação</span>}
+                  </span>
+                  <small>{layer.source}</small>
+                  {layer.mine && layer.role && <span className="layer-role">{layer.role}</span>}
+                </span>
+              </ListGroup.Item>
+            ))}
+          </ListGroup>
+          {hasMine && (
+            <div className="mine-key"><i className="bi bi-star-fill" /> Camadas em que atuo diretamente. As demais fazem parte da plataforma.</div>
+          )}
+        </div>
+      );
+    }
+
+    const formatCount = (v) => (v >= 1000 ? `${(v / 1000).toLocaleString("pt-BR", { maximumFractionDigits: 1 })} mil` : v.toLocaleString("pt-BR"));
+
+    function RequestsDashboard({ data }) {
+      const [ref, inView] = useInView({ threshold: 0.3 });
+      const [hover, setHover] = useState(null);
+      const { series } = data;
+      const max = Math.max(...series.map((d) => d.value));
+      const peak = series.findIndex((d) => d.value === max);
+      const last = series.length - 1;
+      const tipAlign = (i) => (i < 2 ? "start" : i > last - 2 ? "end" : "center");
+      return (
+        <div className="glass dash-card" ref={ref}>
+          <div className="dash-head">
+            <span className="dash-title"><span className="live-dot" /> {data.heading}</span>
+            <span className="dash-tag">{data.tag}</span>
+          </div>
+          <div className="dash-kpis">
+            {data.kpis.map((k) => (
+              <div className={`dash-kpi ${k.tone ? `tone-${k.tone}` : ""}`} key={k.label}>
+                <i className={`bi ${k.icon}`} aria-hidden="true" />
+                <strong>{k.value}</strong>
+                <small>{k.label}</small>
+              </div>
+            ))}
+          </div>
+          <div className="dash-chart-title">{data.title}</div>
+          <div className={`bars ${inView ? "is-in" : ""}`} aria-hidden="true" onMouseLeave={() => setHover(null)}>
+            {series.map((d, i) => (
+              <div
+                key={d.year}
+                className={`bar-col ${hover !== null && hover !== i ? "is-dim" : ""}`}
+                style={{ "--h": `${Math.max((d.value / max) * 100, 1.5)}%`, "--d": `${i * 45}ms` }}
+                onMouseEnter={() => setHover(i)}
+              >
+                <div className={`bar ${data.partialLast && i === last ? "is-partial" : ""}`} />
+                {i === peak && hover === null && <span className="bar-label">{formatCount(d.value)}</span>}
+                {hover === i && (
+                  <div className={`bar-tip align-${tipAlign(i)}`}>
+                    <strong>{formatCount(d.value)}</strong>
+                    <span>{d.year}{data.partialLast && i === last ? " · parcial" : ""}</span>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+          <div className="bar-years" aria-hidden="true">
+            {series.map((d, i) => <span key={d.year}>{i % 2 === 0 ? `'${String(d.year).slice(2)}` : ""}</span>)}
+          </div>
+          <table className="visually-hidden">
+            <caption>{data.title}</caption>
+            <thead><tr><th>Ano</th><th>Solicitações</th></tr></thead>
+            <tbody>{series.map((d) => <tr key={d.year}><td>{d.year}</td><td>{d.value}</td></tr>)}</tbody>
+          </table>
+          <div className="dash-foot"><i className="bi bi-info-circle me-1" />{data.source}</div>
+        </div>
+      );
+    }
+
+    function CityPane({ project }) {
+      return (
+        <div className="fade-swap">
+          <Row className="gx-4 gx-lg-5 gy-5 align-items-center">
+            <Col lg={5}>
+              {project.visual === "dashboard"
+                ? <RequestsDashboard data={project.dashboard} />
+                : <LayerPanel title={project.panelTitle} tag={project.panelTag} layers={project.layers} />}
+            </Col>
+            <Col lg={7}>
+              <span className="city-kicker">{project.kicker}</span>
+              <h3 className="city-name">{project.name}</h3>
+              <p className="city-pitch">{project.pitch}</p>
+              {project.facts && (
+                <div className="city-facts">
+                  {project.facts.map((f) => (
+                    <div className="city-fact" key={f.label}>
+                      <strong className="text-gradient">{f.value}</strong>
+                      <small>{f.label}</small>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <h4 className="kicker mt-4 mb-3">Minha contribuição</h4>
+              <div className="d-grid gap-3">
+                {project.contributions.map((c) => (
+                  <div className="contrib" key={c.title}>
+                    <span className="contrib-icon"><i className={`bi ${c.icon}`} /></span>
+                    <div><h4>{c.title}</h4><p>{c.text}</p></div>
+                  </div>
+                ))}
+              </div>
+              <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mt-4">
+                <div className="chip-row">
+                  {project.tech.map((t) => <span className="chip" key={t}>{t}</span>)}
+                </div>
+                {project.url && (
+                  <Button variant="ghost" href={project.url} target="_blank" rel="noopener noreferrer">
+                    <i className="bi bi-box-arrow-up-right" /> Ver plataforma
+                  </Button>
+                )}
+              </div>
+            </Col>
+          </Row>
+          <div className="glass flow-card">
+            <div className="flow-title"><i className="bi bi-signpost-split me-2" />Como os dados chegam ao mapa</div>
+            <div className="flow">
+              {project.flow.map((step, i) => (
+                <React.Fragment key={step}>
+                  <div className="flow-step">
+                    <span className="idx">{String(i + 1).padStart(2, "0")}</span>
+                    <span className="lbl">{step}</span>
+                  </div>
+                  {i < project.flow.length - 1 && <div className="flow-link" aria-hidden="true" />}
+                </React.Fragment>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function CitySection() {
+      const [key, setKey] = useState(CITY_PROJECTS[0].id);
+      return (
+        <section id="niteroi" className="section city-section">
+          <Container>
+            <SectionHeader center kicker="Dados para a cidade" title={<>Niterói em <span className="text-gradient">camadas</span></>}>
+              No Escritório de Dados da Prefeitura de Niterói, trabalho com duas plataformas públicas da cidade. No Gêmeo Digital, integro os dados de trânsito, com foco no NitBike. No Colab, integro e mapeio as solicitações dos moradores.
+            </SectionHeader>
+            <Tab.Container activeKey={key} onSelect={(k) => k && setKey(k)} id="city-tabs">
+              <Reveal className="text-center mb-5">
+                <Nav variant="pills" className="city-tabs">
+                  {CITY_PROJECTS.map((p) => (
+                    <Nav.Item key={p.id}>
+                      <Nav.Link eventKey={p.id} as="button" type="button"><i className={`bi ${p.icon}`} /> {p.tab}</Nav.Link>
+                    </Nav.Item>
+                  ))}
+                </Nav>
+              </Reveal>
+              <Reveal delay={100}>
+                <Tab.Content>
+                  {CITY_PROJECTS.map((p) => (
+                    <Tab.Pane eventKey={p.id} key={p.id}>
+                      <CityPane project={p} />
+                    </Tab.Pane>
+                  ))}
+                </Tab.Content>
+              </Reveal>
+            </Tab.Container>
+          </Container>
+        </section>
+      );
+    }
+
+    function Experience() {
+      return (
+        <section id="experiencia" className="section">
+          <Container>
+            <Row className="gx-4 gx-lg-5 gy-5">
+              <Col lg={4}>
+                <SectionHeader kicker="Trajetória" title={<>Experiência e <span className="text-gradient">formação</span></>}>
+                  Da pesquisa na universidade à engenharia de dados no setor público.
+                </SectionHeader>
+                <Reveal delay={100} className="glass edu-card">
+                  <span className="fact-icon"><i className="bi bi-mortarboard" /></span>
+                  <div>
+                    <div className="tl-period">{EDUCATION.period}</div>
+                    <div className="fw-semibold">{EDUCATION.course}</div>
+                    <div className="text-muted-km small">{EDUCATION.school} · {EDUCATION.place}</div>
+                  </div>
+                </Reveal>
+              </Col>
+              <Col lg={8}>
+                <div className="timeline">
+                  {EXPERIENCE.map((job, i) => (
+                    <Reveal className="tl-item" key={job.role} delay={i * 120}>
+                      <span className="tl-dot" />
+                      <div className="glass tl-card">
+                        <div className="d-flex flex-wrap justify-content-between gap-2">
+                          <span className="tl-period">{job.period}</span>
+                          <span className="text-muted-km small"><i className="bi bi-geo-alt me-1" />{job.place}</span>
+                        </div>
+                        <h3 className="tl-role">{job.role}</h3>
+                        <div className="tl-org">{job.org}</div>
+                        <ul className="tl-list">
+                          {job.bullets.map((b) => {
+                            const item = typeof b === "string" ? { text: b } : b;
+                            return <li key={item.text} className={item.isNew ? "is-new" : ""}>{item.text}</li>;
+                          })}
+                        </ul>
+                        <div className="chip-row">{job.tech.map((t) => <span className="chip" key={t}>{t}</span>)}</div>
+                      </div>
+                    </Reveal>
+                  ))}
+                </div>
+              </Col>
+            </Row>
+          </Container>
+        </section>
+      );
+    }
+
+    function ProjectLinks({ project, onClick }) {
+      return (
+        <>
+          {project.repo && (
+            <a className="icon-btn" href={project.repo} target="_blank" rel="noopener noreferrer" aria-label={`Código de ${project.title} no GitHub`} onClick={onClick}>
+              <i className="bi bi-github" />
+            </a>
+          )}
+          {project.demo && (
+            <a className="icon-btn" href={project.demo} target="_blank" rel="noopener noreferrer" aria-label={`Abrir ${project.title}`} onClick={onClick}>
+              <i className="bi bi-box-arrow-up-right" />
+            </a>
+          )}
+        </>
+      );
+    }
+
+    function Projects() {
+      const [filter, setFilter] = useState("todos");
+      const [selected, setSelected] = useState(null);
+      const visible = useMemo(() => PROJECTS.filter((p) => filter === "todos" || p.category.includes(filter)), [filter]);
+      const countFor = (id) => (id === "todos" ? PROJECTS.length : PROJECTS.filter((p) => p.category.includes(id)).length);
+      const stop = (e) => e.stopPropagation();
+
+      return (
+        <section id="projetos" className="section">
+          <Container>
+            <SectionHeader center kicker="Projetos" title={<>Coisas que eu <span className="text-gradient">construí</span></>}>
+              Projetos pessoais desenvolvidos de ponta a ponta, com testes, CI e deploy. Clique em um card para ver os detalhes.
+            </SectionHeader>
+            <Reveal className="filters" role="group" aria-label="Filtrar projetos">
+              {FILTERS.map((f) => (
+                <button key={f.id} type="button" className={`filter-btn ${filter === f.id ? "active" : ""}`} aria-pressed={filter === f.id} onClick={() => setFilter(f.id)}>
+                  {f.label}<span className="count">{countFor(f.id)}</span>
+                </button>
+              ))}
+            </Reveal>
+            <Row className="g-4" key={filter}>
+              {visible.map((p, i) => (
+                <Col md={6} key={p.id} className="fade-swap" style={{ animationDelay: `${i * 70}ms` }}>
+                  <TiltCard
+                    className="glass project-card"
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`Ver detalhes de ${p.title}`}
+                    onClick={() => setSelected(p)}
+                    onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSelected(p); } }}
+                  >
+                    <div className="project-top">
+                      <span className="project-icon"><i className={`bi ${p.icon}`} /></span>
+                      <span className="project-meta"><span className="yr">{p.year}</span>{p.kind}</span>
+                    </div>
+                    <span className="project-highlight"><i className="bi bi-lightning-charge-fill" />{p.highlight}</span>
+                    <h3 className="project-title">{p.title}</h3>
+                    <p className="project-summary">{p.summary}</p>
+                    <div className="chip-row">{p.tech.slice(0, 4).map((t) => <span className="chip" key={t}>{t}</span>)}{p.tech.length > 4 && <span className="chip">+{p.tech.length - 4}</span>}</div>
+                    <div className="project-actions">
+                      <span className="link-arrow">Detalhes <i className="bi bi-arrow-right" /></span>
+                      <div className="d-flex gap-2"><ProjectLinks project={p} onClick={stop} /></div>
+                    </div>
+                  </TiltCard>
+                </Col>
+              ))}
+            </Row>
+          </Container>
+
+          <Modal show={!!selected} onHide={() => setSelected(null)} centered size="lg" contentClassName="km-modal">
+            {selected && (
+              <>
+                <Modal.Header closeButton>
+                  <div className="d-flex align-items-center gap-3">
+                    <span className="project-icon"><i className={`bi ${selected.icon}`} /></span>
+                    <div>
+                      <Modal.Title as="h3" className="h4 mb-1">{selected.title}</Modal.Title>
+                      <div className="text-muted-km small font-mono">{selected.year} · {selected.kind}</div>
+                    </div>
+                  </div>
+                </Modal.Header>
+                <Modal.Body>
+                  <ul className="tl-list mt-0">
+                    {selected.bullets.map((b) => <li key={b}>{b}</li>)}
+                  </ul>
+                  <div className="chip-row">{selected.tech.map((t) => <span className="chip" key={t}>{t}</span>)}</div>
+                </Modal.Body>
+                <Modal.Footer>
+                  {selected.repo && <Button variant="km" href={selected.repo} target="_blank" rel="noopener noreferrer"><i className="bi bi-github" /> Ver código</Button>}
+                  {selected.demo && <Button variant="ghost" href={selected.demo} target="_blank" rel="noopener noreferrer"><i className="bi bi-box-arrow-up-right" /> Abrir projeto</Button>}
+                  <Button variant="ghost" onClick={() => setSelected(null)}>Fechar</Button>
+                </Modal.Footer>
+              </>
+            )}
+          </Modal>
+        </section>
+      );
+    }
+
+    function SkillIcon({ item }) {
+      return item.d ? <i className={`${item.d}`} /> : <i className={`bi ${item.bi}`} />;
+    }
+
+    function Skills() {
+      const all = SKILLS.flatMap((g) => g.items);
+      return (
+        <section id="habilidades" className="section">
+          <Container>
+            <SectionHeader center kicker="Habilidades" title={<>Minha <span className="text-gradient">caixa de ferramentas</span></>}>
+              Tecnologias que uso no desenvolvimento de APIs, pipelines de dados e automações.
+            </SectionHeader>
+            <Row className="g-4 justify-content-center">
+              {SKILLS.map((g, i) => (
+                <Col md={6} lg={4} key={g.group}>
+                  <Reveal delay={(i % 3) * 100} className="glass skill-card">
+                    <div className="skill-head">
+                      <span className="fact-icon"><i className={`bi ${g.icon}`} /></span>
+                      <h3>{g.group}</h3>
+                    </div>
+                    <div className="skill-list">
+                      {g.items.map((item) => (
+                        <span className="skill" key={item.n}><SkillIcon item={item} />{item.n}</span>
+                      ))}
+                    </div>
+                  </Reveal>
+                </Col>
+              ))}
+            </Row>
+          </Container>
+          <div className="marquee" aria-hidden="true">
+            <div className="marquee-track">
+              {[...all, ...all].map((item, i) => (
+                <span className="marquee-item" key={i}><SkillIcon item={item} />{item.n}</span>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    function Contact({ onCopy }) {
+      return (
+        <section id="contato" className="section">
+          <Container>
+            <Reveal className="contact-card text-center">
+              <span className="kicker">Contato</span>
+              <h2 className="mt-3">Vamos <span className="text-gradient">conversar?</span></h2>
+              <p>Tenho interesse em oportunidades e projetos de backend, engenharia de dados e tecnologia para o setor público. O contato mais rápido é por e-mail.</p>
+              <div className="contact-email mb-4">{PROFILE.email}</div>
+              <div className="d-flex flex-wrap justify-content-center gap-3">
+                <Button variant="km" href={`mailto:${PROFILE.email}`}><i className="bi bi-envelope" /> Enviar e-mail</Button>
+                <Button variant="ghost" onClick={onCopy}><i className="bi bi-clipboard" /> Copiar e-mail</Button>
+                <Button variant="ghost" href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer"><i className="bi bi-linkedin" /> LinkedIn</Button>
+                <Button variant="ghost" href={PROFILE.github} target="_blank" rel="noopener noreferrer"><i className="bi bi-github" /> GitHub</Button>
+              </div>
+            </Reveal>
+          </Container>
+        </section>
+      );
+    }
+
+    function Footer() {
+      return (
+        <footer className="footer">
+          <Container className="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 text-center">
+            <span>© {new Date().getFullYear()} {PROFILE.name} · Feito com React e Bootstrap</span>
+            <span className="d-flex gap-3">
+              <a href={PROFILE.github} target="_blank" rel="noopener noreferrer"><i className="bi bi-github me-1" />GitHub</a>
+              <a href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer"><i className="bi bi-linkedin me-1" />LinkedIn</a>
+              <a href={`mailto:${PROFILE.email}`}><i className="bi bi-envelope me-1" />E-mail</a>
+            </span>
+          </Container>
+        </footer>
+      );
+    }
+
+    function ScrollChrome() {
+      const barRef = useRef(null);
+      const [showTop, setShowTop] = useState(false);
+      useEffect(() => {
+        const onScroll = () => {
+          const doc = document.documentElement;
+          const max = doc.scrollHeight - doc.clientHeight;
+          if (barRef.current) barRef.current.style.transform = `scaleX(${max > 0 ? doc.scrollTop / max : 0})`;
+          setShowTop(doc.scrollTop > 700);
+        };
+        onScroll();
+        window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", onScroll);
+        return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); };
+      }, []);
+      return (
+        <>
+          <div className="scroll-progress" ref={barRef} />
+          <button className={`to-top ${showTop ? "show" : ""}`} onClick={() => window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? "auto" : "smooth" })} aria-label="Voltar ao topo">
+            <i className="bi bi-arrow-up" />
+          </button>
+        </>
+      );
+    }
+
+    async function copyText(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch (e) {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+      }
+    }
+
+    function App() {
+      const [theme, toggleTheme] = useTheme();
+      const active = useScrollSpy(["inicio", ...NAV.map((n) => n.id)]);
+      const [toast, setToast] = useState(false);
+
+      useEffect(() => {
+        const pre = document.getElementById("preloader");
+        if (!pre) return;
+        pre.classList.add("done");
+        const t = setTimeout(() => pre.remove(), 700);
+        return () => clearTimeout(t);
+      }, []);
+
+      const onCopy = async () => { await copyText(PROFILE.email); setToast(true); };
+
+      return (
+        <>
+          <ScrollChrome />
+          <TopNav active={active} theme={theme} onToggleTheme={toggleTheme} />
+          <main>
+            <Hero theme={theme} />
+            <About />
+            <CitySection />
+            <Experience />
+            <Projects />
+            <Skills />
+            <Contact onCopy={onCopy} />
+          </main>
+          <Footer />
+          <ToastContainer className="toast-dock p-3">
+            <Toast show={toast} onClose={() => setToast(false)} delay={2200} autohide className="km-toast">
+              <Toast.Body><i className="bi bi-check2-circle me-2" />E-mail copiado!</Toast.Body>
+            </Toast>
+          </ToastContainer>
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>
