@@ -1016,20 +1016,6 @@
     .city-ring { position: absolute; left: 0; top: 0; will-change: transform; }
     .city-ring span { position: absolute; width: 16px; height: 16px; margin: -8px 0 0 -8px; border-radius: 50%; border: 2px solid var(--line); background: var(--accent); opacity: .75; }
     .city-ring span::after { content: ""; position: absolute; inset: -2px; border-radius: 50%; border: 2px solid var(--accent); animation: ping 2.2s cubic-bezier(0,0,.2,1) infinite; }
-    /* Etiqueta do bairro atual, como um GPS */
-    .city-tag {
-      position: fixed; z-index: 20; left: calc(var(--route-w) + 14px); bottom: 18px;
-      display: none; align-items: center; gap: .55rem; padding: .4rem .7rem .4rem .55rem;
-      border: 2px solid var(--line); border-radius: 10px; background: var(--card); box-shadow: 3px 3px 0 var(--shadow-c);
-      pointer-events: none;
-    }
-    .city-tag { transition: opacity .3s, transform .3s; }
-    .city-tag.is-off { opacity: 0; transform: translateY(12px); }
-    .city-tag > i { color: var(--accent); font-size: 1rem; }
-    .city-tag span { display: flex; flex-direction: column; line-height: 1.15; }
-    .city-tag strong { font: 800 .86rem "Bricolage Grotesque", sans-serif; }
-    .city-tag small { font: 500 .64rem "JetBrains Mono", monospace; color: var(--muted); }
-    @media (min-width: 992px) { .city-tag { display: inline-flex; } }
     /* As seções alternadas deixam o mapa aparecer por trás */
     .section.alt { background: color-mix(in srgb, var(--paper-2) 80%, transparent); border-top: 0; border-bottom: 0; }
     /* Texto corrido sobre o mapa: uma "clareira" de papel com bordas esfumadas, para as ruas (e a lanterna)
@@ -1911,7 +1897,7 @@
 
     // Ruas, orla e lagoas reais de Niterói (OpenStreetMap), no arquivo mapa-niteroi.svg ao lado desta página.
     // A rolagem passeia pelo mapa de bairro em bairro (um por seção) e o cursor acende as ruas como uma lanterna.
-    const CITY_MAP = { src: "mapa-niteroi.svg", ratio: 2000 / 1225, lat: [-22.851, -22.9791], lon: [-43.1622, -42.935] };
+    const CITY_MAP = { src: "mapa-niteroi.svg", ratio: 2000 / 1225 };
     // x e y vão de 0 a 1 dentro do mapa; posições dos bairros tiradas do OpenStreetMap.
     const CITY_STOPS = [
       { id: "inicio", name: "Centro", x: 0.182, y: 0.2952 },
@@ -1922,23 +1908,16 @@
       { id: "habilidades", name: "Camboinhas", x: 0.4697, y: 0.8118 },
       { id: "contato", name: "Itaipu", x: 0.581, y: 0.7619 },
     ];
-    const coordOf = ({ x, y }) => {
-      const lat = CITY_MAP.lat[0] + (CITY_MAP.lat[1] - CITY_MAP.lat[0]) * y;
-      const lon = CITY_MAP.lon[0] + (CITY_MAP.lon[1] - CITY_MAP.lon[0]) * x;
-      return `${Math.abs(lat).toFixed(3)}°S · ${Math.abs(lon).toFixed(3)}°O`;
-    };
 
     function CityMap() {
       const mapRef = useRef(null);
       const litRef = useRef(null);
       const lampRef = useRef(null);
       const ringRef = useRef(null);
-      const tagRef = useRef(null);
-      const [stop, setStop] = useState(0);
 
       useEffect(() => {
         const LAMP = 160; // raio da lanterna
-        let raf = 0, tops = [], mw = 0, mh = 0, tx = 0, ty = 0, mx = -9999, my = -9999, last = -1;
+        let raf = 0, tops = [], mw = 0, mh = 0, tx = 0, ty = 0, mx = -9999, my = -9999;
         const canHover = window.matchMedia("(hover: hover)").matches;
 
         const measure = () => {
@@ -1971,13 +1950,8 @@
           tx = vw * 0.5 - (a.x + (b.x - a.x) * e) * mw;
           ty = vh * 0.5 - (a.y + (b.y - a.y) * e) * mh;
           mapRef.current.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
-          const near = t < 0.5 ? i : j;
-          if (near !== last) { last = near; setStop(near); }
-          const s = CITY_STOPS[near];
+          const s = CITY_STOPS[t < 0.5 ? i : j];
           ringRef.current.style.transform = `translate3d(${tx + s.x * mw}px, ${ty + s.y * mh}px, 0)`;
-          // a etiqueta do GPS sai de cena quando o rodapé chega, para não cobrir o texto dele
-          const footer = document.querySelector(".footer");
-          tagRef.current.classList.toggle("is-off", !!footer && footer.getBoundingClientRect().top < vh - 80);
           placeLamp();
         };
         const schedule = () => { if (!raf) raf = requestAnimationFrame(frame); };
@@ -2008,22 +1982,12 @@
         };
       }, []);
 
-      const here = CITY_STOPS[stop];
       return (
-        <>
-          <div className="city-bg" aria-hidden="true">
-            <div className="city-map" ref={mapRef} />
-            <div className="city-ring" ref={ringRef}><span /></div>
-            <div className="city-lamp" ref={lampRef}><div className="city-map lit" ref={litRef} /></div>
-          </div>
-          <div className="city-tag" ref={tagRef} aria-hidden="true">
-            <i className="bi bi-geo-alt-fill" />
-            <span key={here.name} className="fade-swap">
-              <strong>{here.name}</strong>
-              <small>{coordOf(here)}</small>
-            </span>
-          </div>
-        </>
+        <div className="city-bg" aria-hidden="true">
+          <div className="city-map" ref={mapRef} />
+          <div className="city-ring" ref={ringRef}><span /></div>
+          <div className="city-lamp" ref={lampRef}><div className="city-map lit" ref={litRef} /></div>
+        </div>
       );
     }
 
