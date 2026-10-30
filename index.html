@@ -782,6 +782,119 @@
     }
     .km-timeline .now-badge .live-dot { width: 7px; height: 7px; }
 
+    /* ================= Experiência na Prefeitura: mosaico de artefatos ================= */
+    .xp-bento { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-flow: row dense; gap: .9rem; margin-bottom: 1.2rem; }
+    .xp-card {
+      display: flex; flex-direction: column; gap: .7rem; min-width: 0; padding: .9rem;
+      border: 2px solid var(--line); border-radius: 14px; background: var(--paper); box-shadow: 3px 3px 0 var(--shadow-c);
+    }
+    .xp-card.is-wide { grid-column: 1 / -1; }
+    .xp-card-head { display: flex; align-items: center; gap: .55rem; }
+    .xp-card-head h4 { margin: 0; font-size: 1rem; font-weight: 800; letter-spacing: -.01em; }
+    .xp-card-icon { flex: none; width: 32px; height: 32px; display: grid; place-items: center; border-radius: 9px; border: 2px solid var(--line); color: #15130f; }
+    .xp-card p { margin: 0; color: var(--muted); font-size: .9rem; line-height: 1.55; }
+    .xp-card-link { align-self: flex-start; padding: 0; border: 0; background: none; color: var(--ink); font-size: .85rem; }
+    .xp-card-link:hover { color: var(--accent); }
+    @media (max-width: 767.98px) { .xp-bento { grid-template-columns: minmax(0, 1fr); } }
+
+    .art { position: relative; min-width: 0; overflow: hidden; border: 2px solid var(--line); border-radius: 10px; background: var(--card); }
+    .art-note { position: absolute; right: .5rem; bottom: .35rem; font: 500 .6rem "JetBrains Mono", monospace; color: var(--muted); }
+
+    /* 1. terminal do agente (escuro nos dois temas) */
+    .art-term { min-height: 132px; padding: .65rem .8rem; background: #0f1220; font: 500 .74rem/1.75 "JetBrains Mono", monospace; }
+    .art-term .al { opacity: 0; line-height: 1.5; padding: .12rem 0; }
+    .art.is-static .al { opacity: 1; }
+    .al-user { color: #f3ede2; } .al-agent { color: #82aaff; } .al-tool { color: #c792ea; } .al-ok { color: #c3e88d; }
+
+    /* 2. log de APIs */
+    .art-api { padding: .45rem .55rem; font: 500 .72rem "JetBrains Mono", monospace; }
+    .api-row { display: grid; grid-template-columns: 3.4rem minmax(0, 1fr) auto auto; align-items: center; gap: .5rem; padding: .32rem .2rem; border-bottom: 1px dashed color-mix(in srgb, var(--line) 25%, transparent); }
+    .api-row:last-child { border-bottom: 0; animation: apiIn .45s cubic-bezier(.2,.8,.2,1) both; }
+    .api-m { padding: .05rem .3rem; border-radius: 4px; border: 1.5px solid var(--line); text-align: center; font-weight: 700; font-size: .62rem; color: #15130f; }
+    .m-get { background: var(--lime); } .m-post { background: var(--accent); } .m-patch { background: #8fa6ff; }
+    .api-path { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .api-st { color: var(--good); font-weight: 700; }
+    .api-ms { color: var(--muted); font-size: .66rem; }
+
+    /* 3. fluxo do n8n */
+    .art-n8n { padding: .75rem .9rem 1rem; }
+    .n8n-tags { display: flex; gap: .35rem; margin-bottom: .8rem; }
+    .n8n-tags span { padding: .1rem .45rem; border: 1.5px solid var(--line); border-radius: 6px; background: var(--paper); font: 600 .66rem "JetBrains Mono", monospace; }
+    .n8n-row { position: relative; display: flex; justify-content: space-between; }
+    .n8n-row::before { content: ""; position: absolute; left: 22px; right: 22px; top: 21px; border-top: 2.5px dashed var(--line); opacity: .45; }
+    .npulse {
+      position: absolute; left: -7px; top: 14px; z-index: 2; width: 14px; height: 14px; border-radius: 50%;
+      border: 2px solid var(--line); background: var(--lime); box-shadow: 0 0 0 4px rgba(var(--accent-rgb), .25);
+    }
+    .nnode { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: .3rem; width: 64px; }
+    .nnode-icon { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 12px; border: 2px solid var(--line); background: var(--paper); font-size: 1.1rem; transition: background-color .25s, transform .25s; }
+    .nnode.on .nnode-icon { background: var(--accent); color: #15130f; transform: translateY(-2px); box-shadow: 2px 2px 0 var(--shadow-c); }
+    .nnode-label { font: 600 .64rem "JetBrains Mono", monospace; color: var(--muted); text-align: center; }
+    .nnode.on .nnode-label { color: var(--ink); }
+    @media (max-width: 575.98px) { .nnode { width: 52px; } .nnode-icon { width: 38px; height: 38px; } .n8n-row::before { top: 18px; } .npulse { top: 11px; } }
+
+    /* 4. agente do Foundry */
+    .art-foundry { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: .8rem; padding: .8rem .8rem 1.4rem; }
+    .f-chat { display: flex; flex-direction: column; gap: .45rem; }
+    .f-step { opacity: 0; }
+    .art.is-static .f-step:not(.f-think), .art.is-static .f-dax div { opacity: 1; }
+    .f-q, .f-a { max-width: 95%; padding: .45rem .65rem; border: 2px solid var(--line); border-radius: 12px; font-size: .82rem; line-height: 1.4; }
+    .f-q { align-self: flex-end; background: var(--lime); color: #15130f; border-bottom-right-radius: 4px; }
+    .f-a { align-self: flex-start; background: var(--paper); border-bottom-left-radius: 4px; }
+    .f-think { display: flex; align-items: center; gap: .35rem; font: 500 .7rem "JetBrains Mono", monospace; color: var(--muted); }
+    .f-think i { color: var(--accent); }
+    .f-dots { display: inline-flex; gap: 3px; }
+    .f-dots span { width: 4px; height: 4px; border-radius: 50%; background: var(--muted); animation: blink 1s steps(1) infinite; }
+    .f-dots span:nth-child(2) { animation-delay: .2s; } .f-dots span:nth-child(3) { animation-delay: .4s; }
+    .f-dax { align-self: start; padding: .55rem .7rem; border-radius: 10px; background: #0f1220; color: #d6deeb; font: 500 .68rem/1.6 "JetBrains Mono", monospace; white-space: pre; overflow: hidden; }
+    .f-dax div { opacity: 0; }
+    .f-dax-label { display: block; margin-bottom: .25rem; color: #8b9bb4; font-size: .6rem; text-transform: uppercase; letter-spacing: .1em; }
+    @media (max-width: 575.98px) { .art-foundry { grid-template-columns: minmax(0, 1fr); } .f-dax { white-space: pre-wrap; } }
+
+    /* 5. pipeline do Fabric */
+    .art-fabric { display: flex; flex-direction: column; gap: .4rem; padding: .7rem .8rem; }
+    .fb-row { display: grid; grid-template-columns: minmax(0, 1fr) 38% auto; align-items: center; gap: .5rem; font-size: .76rem; }
+    .fb-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .fb-bar { height: 10px; overflow: hidden; border: 1.5px solid var(--line); border-radius: 6px; background: var(--paper); }
+    .fb-fill { display: block; width: 0; height: 100%; background: var(--accent); }
+    .fb-ok { color: var(--good); opacity: .2; transition: opacity .25s; }
+    .fb-row.ok .fb-ok { opacity: 1; }
+    .art.is-static .fb-fill { width: 100%; }
+    .art.is-static .fb-ok { opacity: 1; }
+
+    /* 6. estações do NitBike no mapa */
+    .art-gemeo { height: 150px; background: var(--paper-2); }
+    .g-map {
+      position: absolute; inset: 0; background: var(--ink); opacity: .22;
+      -webkit-mask: url("mapa-niteroi.svg") 20% 40% / 600% auto no-repeat;
+              mask: url("mapa-niteroi.svg") 20% 40% / 600% auto no-repeat;
+    }
+    .gdot { position: absolute; width: 11px; height: 11px; margin: -5.5px 0 0 -5.5px; border-radius: 50%; border: 2px solid var(--line); background: var(--card); }
+    .gdot.hot { width: 16px; height: 16px; margin: -8px 0 0 -8px; background: var(--accent); }
+    .gdot.cold { width: 16px; height: 16px; margin: -8px 0 0 -8px; background: var(--blue); }
+    .g-tag {
+      position: absolute; transform: translate(12px, -50%); padding: .05rem .35rem; border: 1.5px solid var(--line); border-radius: 5px;
+      background: var(--card); font: 600 .62rem "JetBrains Mono", monospace; white-space: nowrap;
+    }
+    .g-tag.hot { color: var(--accent); }
+    .g-tag.cold { color: var(--blue); }
+
+    /* 7. gráfico do Colab */
+    .art-colab { padding: .6rem .7rem .4rem; }
+    .c-head { font-size: .78rem; color: var(--muted); }
+    .c-head strong { font: 800 1.15rem "Bricolage Grotesque", sans-serif; color: var(--accent); }
+    .c-chart { position: relative; height: 112px; }
+    .c-chart canvas { display: block; max-width: 100%; }
+
+    /* 8. git */
+    .art-git { padding: .55rem .6rem .3rem; overflow-x: auto; }
+    .art-git .gg { min-height: 90px; }
+    .gg-legend { display: flex; gap: .8rem; font: 600 .66rem "JetBrains Mono", monospace; color: var(--muted); }
+    .gg-legend span::before { content: ""; display: inline-block; width: 9px; height: 9px; margin-right: .35rem; border: 1.5px solid var(--line); border-radius: 50%; vertical-align: -1px; }
+    .gg-legend .b-prod::before { background: var(--accent); }
+    .gg-legend .b-dev::before { background: var(--blue); }
+    .art-git svg { display: block; }
+
     /* ================= Projetos ================= */
     .filters { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 2rem; }
     .filter-btn {
@@ -978,6 +1091,7 @@
     @keyframes artPop { from { transform: scale(.4); opacity: 0; } }
     @keyframes artGrow { from { transform: scaleY(0); } }
     @keyframes artDraw { to { stroke-dashoffset: 0; } }
+    @keyframes apiIn { from { opacity: 0; transform: translateY(8px); } }
     @keyframes layerPick {
       0% { transform: translateY(10px); background-color: rgba(var(--accent-rgb), .3); box-shadow: 0 0 0 0 rgba(var(--accent-rgb), .55); }
       45% { transform: none; background-color: rgba(var(--accent-rgb), .3); box-shadow: 0 0 0 7px rgba(var(--accent-rgb), 0); }
@@ -1272,15 +1386,16 @@
         org: "Escritório de Dados da Prefeitura de Niterói",
         short: "Estágio na Prefeitura de Niterói", // nome curto usado nas dicas das habilidades
         place: "Niterói, RJ",
+        // Cada frente vira um cartão com um artefato animado (kind) no mosaico da Experiência; wide ocupa a linha toda.
         bullets: [
-          "Desenvolvo servidores MCP e agentes de IA em Python para automatizar tarefas repetitivas do time de dados.",
-          { text: "Automatizo processos internos do escritório com n8n, Azure e Microsoft Fabric: os pedidos de criação e de acesso a workspaces de dados chegam pelo sistema de chamados e seguem sozinhos pela aprovação do responsável, pela criação dos grupos de acesso no Entra ID, pelo provisionamento e pelos avisos por e-mail e Teams.", isNew: true },
-          { text: "Criei no Microsoft Foundry um agente de IA que consulta um modelo semântico do Power BI e responde perguntas sobre os dados em linguagem natural.", isNew: true },
-          "Escrevo integrações com APIs de sistemas internos e externos.",
-          "Monto pipelines no Microsoft Fabric que levam os dados das subsecretarias até os painéis de BI.",
-          { text: "No Gêmeo Digital de Niterói, integro dados de trânsito com foco no NitBike: construo camadas no ArcGIS que alimentam a plataforma e crio colunas derivadas para métricas como as estações mais quentes e mais frias.", isNew: true },
-          { text: "No Colab, atuo na integração de dados e nas camadas de visualização do painel de solicitações (SIGeo).", isNew: true },
-          "Ajudo a organizar o versionamento com Git entre os ambientes de desenvolvimento e produção.",
+          { kind: "agents", icon: "bi-robot", title: "Agentes de IA e servidores MCP", text: "Desenvolvo servidores MCP e agentes de IA em Python para automatizar tarefas repetitivas do time de dados." },
+          { kind: "apis", icon: "bi-plug", title: "Integrações com APIs", text: "Escrevo integrações com APIs de sistemas internos e externos." },
+          { kind: "n8n", icon: "bi-diagram-3", title: "Automação com n8n, Azure e Fabric", wide: true, text: "Automatizo processos internos do escritório com n8n, Azure e Microsoft Fabric: os pedidos de criação e de acesso a workspaces de dados chegam pelo sistema de chamados e seguem sozinhos pela aprovação do responsável, pela criação dos grupos de acesso no Entra ID, pelo provisionamento e pelos avisos por e-mail e Teams." },
+          { kind: "foundry", icon: "bi-stars", title: "Agente no Microsoft Foundry", wide: true, text: "Criei no Microsoft Foundry um agente de IA que consulta um modelo semântico do Power BI e responde perguntas sobre os dados em linguagem natural." },
+          { kind: "fabric", icon: "bi-microsoft", title: "Pipelines no Microsoft Fabric", text: "Monto pipelines no Microsoft Fabric que levam os dados das subsecretarias até os painéis de BI." },
+          { kind: "gemeo", icon: "bi-bicycle", title: "Gêmeo Digital · NitBike", link: { to: "niteroi", label: "ver em Niterói em camadas" }, text: "No Gêmeo Digital de Niterói, integro dados de trânsito com foco no NitBike: construo camadas no ArcGIS que alimentam a plataforma e crio colunas derivadas para métricas como as estações mais quentes e mais frias." },
+          { kind: "colab", icon: "bi-people", title: "Colab · solicitações", link: { to: "niteroi", label: "ver o painel" }, text: "No Colab, atuo na integração de dados e nas camadas de visualização do painel de solicitações (SIGeo)." },
+          { kind: "git", icon: "bi-git", title: "Git entre desenvolvimento e produção", text: "Ajudo a organizar o versionamento com Git entre os ambientes de desenvolvimento e produção." },
         ],
         tech: ["Python", "SQL", "Microsoft Fabric", "Microsoft Foundry", "n8n", "Azure", "Git"],
       },
@@ -3127,6 +3242,363 @@
       );
     }
 
+    /* ---------- Experiência na Prefeitura: um artefato diferente para cada frente de trabalho ---------- */
+
+    // Bibliotecas dos artefatos, carregadas só quando eles aparecem na tela.
+    const XP_LIBS = {
+      anime: "https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js",
+      gitgraph: "https://cdn.jsdelivr.net/npm/@gitgraph/js@1.4.0/lib/gitgraph.umd.js",
+      chart: "https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.js",
+    };
+    const xpLibCache = {};
+    const loadXpLib = (name) => xpLibCache[name] || (xpLibCache[name] = new Promise((resolve, reject) => {
+      const tag = document.createElement("script");
+      tag.src = XP_LIBS[name];
+      tag.async = true;
+      tag.crossOrigin = "anonymous";
+      tag.onload = () => resolve();
+      tag.onerror = reject;
+      document.head.appendChild(tag);
+    }));
+    const themeColor = (name) => getComputedStyle(document.documentElement).getPropertyValue(`--${name}`).trim();
+
+    // Liga o artefato quando ele aparece (carrega as bibliotecas e chama setup) e pausa o loop quando ele sai da tela.
+    // setup devolve { play, pause, destroy } ou null para um artefato parado.
+    function useLive(libs, setup) {
+      const ref = useRef(null);
+      useEffect(() => {
+        const el = ref.current;
+        let ctl = null, dead = false, visible = false, starting = false;
+        const start = () => {
+          starting = true;
+          Promise.all(libs.map(loadXpLib))
+            .then(() => {
+              if (dead) return;
+              ctl = setup(el) || {};
+              if (!visible && ctl.pause) ctl.pause();
+            })
+            .catch(() => el.classList.add("is-static")); // sem rede para a biblioteca: mostra o estado final
+        };
+        const io = new IntersectionObserver(([e]) => {
+          visible = e.isIntersecting;
+          if (visible && !starting) start();
+          else if (ctl) (visible ? ctl.play : ctl.pause)?.();
+        }, { threshold: 0.2 });
+        io.observe(el);
+        return () => { dead = true; io.disconnect(); if (ctl && ctl.destroy) ctl.destroy(); };
+      }, []);
+      return ref;
+    }
+
+    // 1. Agentes e MCP: um agente recebe um pedido e chama ferramentas, linha a linha (anime.js).
+    const AGENT_LINES = [
+      { k: "user", t: "› atualizar o relatório semanal do time" },
+      { k: "agent", t: "agente · vou usar 2 ferramentas" },
+      { k: "tool", t: "↳ mcp.buscar_dados(fonte=\"fabric\")" },
+      { k: "tool", t: "↳ mcp.gerar_relatorio(formato=\"pdf\")" },
+      { k: "ok", t: "✓ pronto, enviado ao time" },
+    ];
+    function AgentsArt() {
+      const ref = useLive(["anime"], (el) => {
+        const lines = el.querySelectorAll(".al");
+        if (prefersReducedMotion()) { el.classList.add("is-static"); return null; }
+        const tl = anime.timeline({ loop: true })
+          .add({ targets: lines, opacity: [0, 1], translateY: [6, 0], delay: anime.stagger(650), duration: 380, easing: "easeOutQuad" })
+          .add({ targets: lines, opacity: 0, duration: 350, easing: "easeInQuad" }, "+=2400");
+        return { play: () => tl.play(), pause: () => tl.pause(), destroy: () => tl.pause() };
+      });
+      return (
+        <div className="art art-term" ref={ref} aria-hidden="true">
+          {AGENT_LINES.map((l, i) => <div key={i} className={`al al-${l.k}`}>{l.t}</div>)}
+        </div>
+      );
+    }
+
+    // 2. APIs: um log de requisições que não para de chegar.
+    const API_CALLS = [
+      ["GET", "/chamados?recentes", 200, 182],
+      ["POST", "/webhook/aprovacao", 201, 96],
+      ["GET", "/estacoes/status", 200, 140],
+      ["PATCH", "/workspaces/acesso", 204, 230],
+      ["GET", "/alertas/transito", 200, 118],
+      ["POST", "/notificacoes", 202, 74],
+    ];
+    function ApiArt() {
+      const [rows, setRows] = useState(() => API_CALLS.slice(0, 4).map((c, i) => ({ id: i, c })));
+      const ref = useLive([], () => {
+        if (prefersReducedMotion()) return null;
+        let n = 4, timer = null;
+        const tick = () => { const id = n++; setRows((r) => [...r.slice(1), { id, c: API_CALLS[id % API_CALLS.length] }]); };
+        const play = () => { if (!timer) timer = setInterval(tick, 1400); };
+        const pause = () => { clearInterval(timer); timer = null; };
+        play();
+        return { play, pause, destroy: pause };
+      });
+      return (
+        <div className="art art-api" ref={ref} aria-hidden="true">
+          {rows.map(({ id, c: [method, path, status, ms] }) => (
+            <div className="api-row" key={id}>
+              <span className={`api-m m-${method.toLowerCase()}`}>{method}</span>
+              <span className="api-path">{path}</span>
+              <span className="api-st">{status}</span>
+              <span className="api-ms">{ms} ms</span>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    // 3. n8n: o pedido percorre o fluxo e acende cada nó (anime.js).
+    const N8N_NODES = [
+      { icon: "bi-ticket-perforated", label: "Chamado" },
+      { icon: "bi-envelope-check", label: "Aprovação" },
+      { icon: "bi-people", label: "Entra ID" },
+      { icon: "bi-grid-3x3-gap", label: "Workspace" },
+      { icon: "bi-bell", label: "Avisos" },
+    ];
+    function N8nArt() {
+      const ref = useLive(["anime"], (el) => {
+        const nodes = [...el.querySelectorAll(".nnode")];
+        const pulse = el.querySelector(".npulse");
+        if (prefersReducedMotion()) { nodes.forEach((nd) => nd.classList.add("on")); return null; }
+        const centers = () => nodes.map((nd) => nd.offsetLeft + nd.offsetWidth / 2);
+        const state = { x: 0 };
+        const anim = anime({
+          targets: state, x: [0, 1], duration: 3400, endDelay: 1100, easing: "easeInOutSine", loop: true,
+          update: () => {
+            const c = centers();
+            const x = c[0] + (c[c.length - 1] - c[0]) * state.x;
+            pulse.style.transform = `translateX(${x}px)`;
+            nodes.forEach((nd, i) => nd.classList.toggle("on", x >= c[i] - 6));
+          },
+        });
+        return { play: () => anim.play(), pause: () => anim.pause(), destroy: () => anim.pause() };
+      });
+      return (
+        <div className="art art-n8n" ref={ref} aria-hidden="true">
+          <div className="n8n-tags"><span>n8n</span><span>Azure</span><span>Microsoft Fabric</span></div>
+          <div className="n8n-row">
+            <span className="npulse" />
+            {N8N_NODES.map((nd) => (
+              <div className="nnode" key={nd.label}>
+                <span className="nnode-icon"><i className={`bi ${nd.icon}`} /></span>
+                <span className="nnode-label">{nd.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    // 4. Foundry: pergunta em linguagem natural, a consulta ao modelo semântico e a resposta (anime.js). Exemplo ilustrativo.
+    const FOUNDRY_DAX = [
+      "EVALUATE TOPN(3,",
+      "  SUMMARIZECOLUMNS('Secretaria'[Nome],",
+      "    \"Pedidos\", [Total de pedidos]),",
+      "  [Pedidos])",
+    ];
+    function FoundryArt() {
+      const ref = useLive(["anime"], (el) => {
+        if (prefersReducedMotion()) { el.classList.add("is-static"); return null; }
+        const q = el.querySelector(".f-q"), think = el.querySelector(".f-think"), a = el.querySelector(".f-a");
+        const dax = el.querySelectorAll(".f-dax div");
+        const tl = anime.timeline({ loop: true, easing: "easeOutQuad" })
+          .add({ targets: q, opacity: [0, 1], translateY: [8, 0], duration: 450 })
+          .add({ targets: think, opacity: [0, 1], duration: 250 }, "+=250")
+          .add({ targets: dax, opacity: [0, 1], translateX: [-6, 0], delay: anime.stagger(260), duration: 320 }, "+=500")
+          .add({ targets: think, opacity: 0, duration: 200 })
+          .add({ targets: a, opacity: [0, 1], translateY: [8, 0], duration: 450 }, "+=150")
+          .add({ targets: [q, a, ...dax], opacity: 0, duration: 400 }, "+=3400");
+        return { play: () => tl.play(), pause: () => tl.pause(), destroy: () => tl.pause() };
+      });
+      return (
+        <div className="art art-foundry" ref={ref} aria-hidden="true">
+          <div className="f-chat">
+            <div className="f-q f-step">Quais secretarias tiveram mais pedidos no último mês?</div>
+            <div className="f-think f-step"><i className="bi bi-stars" /> consultando o modelo semântico<span className="f-dots"><span /><span /><span /></span></div>
+            <div className="f-a f-step">Estas são as 3 secretarias com mais pedidos no último mês, pela medida <b>Total de pedidos</b>.</div>
+          </div>
+          <div className="f-dax">
+            <span className="f-dax-label">DAX gerado</span>
+            {FOUNDRY_DAX.map((line, i) => <div key={i}>{line}</div>)}
+          </div>
+          <span className="art-note">exemplo ilustrativo</span>
+        </div>
+      );
+    }
+
+    // 5. Fabric: as etapas do pipeline enchem uma depois da outra (anime.js).
+    const FABRIC_STAGES = ["Subsecretarias", "Lakehouse", "Transformações", "Modelo semântico", "Painéis de BI"];
+    function FabricArt() {
+      const ref = useLive(["anime"], (el) => {
+        const fills = [...el.querySelectorAll(".fb-fill")];
+        const rows = [...el.querySelectorAll(".fb-row")];
+        if (prefersReducedMotion()) { el.classList.add("is-static"); return null; }
+        const tl = anime.timeline({ loop: true, easing: "easeInOutQuad" });
+        fills.forEach((f, i) => tl.add({ targets: f, width: ["0%", "100%"], duration: 620, complete: () => rows[i].classList.add("ok") }));
+        tl.add({ targets: fills, width: "0%", duration: 300, begin: () => rows.forEach((r) => r.classList.remove("ok")) }, "+=1900");
+        return { play: () => tl.play(), pause: () => tl.pause(), destroy: () => tl.pause() };
+      });
+      return (
+        <div className="art art-fabric" ref={ref} aria-hidden="true">
+          {FABRIC_STAGES.map((st) => (
+            <div className="fb-row" key={st}>
+              <span className="fb-label">{st}</span>
+              <span className="fb-bar"><span className="fb-fill" /></span>
+              <i className="bi bi-check-circle-fill fb-ok" />
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    // 6. Gêmeo: estações sobre o mapa real de Niterói; a mais quente e a mais fria pulsam (anime.js). Posições ilustrativas.
+    const GEMEO_DOTS = [[16, 34], [28, 58], [40, 26], [48, 66], [60, 40], [72, 72], [80, 30], [22, 76], [56, 18], [88, 56], [36, 84], [68, 52]];
+    const GEMEO_HOT = 4, GEMEO_COLD = 10;
+    function GemeoArt() {
+      const ref = useLive(["anime"], (el) => {
+        if (prefersReducedMotion()) return null;
+        const dots = el.querySelectorAll(".gdot");
+        const intro = anime({ targets: dots, scale: [0, 1], opacity: [0, 1], delay: anime.stagger(80, { from: "center" }), duration: 500, easing: "easeOutBack" });
+        const pulse = anime({ targets: el.querySelectorAll(".gdot.hot, .gdot.cold"), scale: [1, 1.45], direction: "alternate", loop: true, duration: 850, easing: "easeInOutSine", delay: 1100 });
+        return { play: () => pulse.play(), pause: () => pulse.pause(), destroy: () => { intro.pause(); pulse.pause(); } };
+      });
+      const [hx, hy] = GEMEO_DOTS[GEMEO_HOT], [cx, cy] = GEMEO_DOTS[GEMEO_COLD];
+      return (
+        <div className="art art-gemeo" ref={ref} aria-hidden="true">
+          <div className="g-map" />
+          {GEMEO_DOTS.map(([x, y], i) => (
+            <span key={i} className={`gdot ${i === GEMEO_HOT ? "hot" : i === GEMEO_COLD ? "cold" : ""}`} style={{ left: `${x}%`, top: `${y}%` }} />
+          ))}
+          <span className="g-tag hot" style={{ left: `${hx}%`, top: `${hy}%` }}>mais quente</span>
+          <span className="g-tag cold" style={{ left: `${cx}%`, top: `${cy}%` }}>mais fria</span>
+        </div>
+      );
+    }
+
+    // 7. Colab: os pedidos por ano do painel público, com os números reais do painel (Chart.js).
+    function ColabArt() {
+      const data = CITY_PROJECTS.find((pr) => pr.id === "colab").dashboard;
+      const ref = useLive(["chart"], (el) => {
+        const last = data.series.length - 1;
+        const colors = () => ({ accent: themeColor("accent"), muted: themeColor("muted") });
+        let c = colors();
+        const chart = new Chart(el.querySelector("canvas"), {
+          type: "line",
+          data: {
+            labels: data.series.map((d) => d.year),
+            datasets: [{
+              data: data.series.map((d) => d.value),
+              borderColor: c.accent, backgroundColor: `${c.accent}33`, fill: true, tension: 0.35,
+              borderWidth: 2.5, pointRadius: 0, pointHoverRadius: 4, pointBackgroundColor: c.accent,
+              segment: { borderDash: (ctx) => (data.partialLast && ctx.p1DataIndex === last ? [5, 4] : undefined) },
+            }],
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            animation: { duration: prefersReducedMotion() ? 0 : 1400 },
+            interaction: { mode: "index", intersect: false },
+            plugins: {
+              legend: { display: false },
+              tooltip: { displayColors: false, callbacks: { label: (ctx) => `${formatCount(ctx.parsed.y)} ${ctx.parsed.y === 1 ? "pedido" : "pedidos"}${data.partialLast && ctx.dataIndex === last ? " (parcial)" : ""}` } },
+            },
+            scales: {
+              x: { grid: { display: false }, border: { display: false }, ticks: { color: c.muted, font: { family: "JetBrains Mono", size: 10 }, maxRotation: 0, autoSkip: true, maxTicksLimit: 7, callback: (v, i) => `'${String(data.series[i].year).slice(2)}` } },
+              y: { display: false, beginAtZero: true },
+            },
+          },
+        });
+        // as cores acompanham a troca de tema
+        const mo = new MutationObserver(() => {
+          c = colors();
+          const ds = chart.data.datasets[0];
+          ds.borderColor = c.accent; ds.backgroundColor = `${c.accent}33`; ds.pointBackgroundColor = c.accent;
+          chart.options.scales.x.ticks.color = c.muted;
+          chart.update("none");
+        });
+        mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-bs-theme"] });
+        return { destroy: () => { mo.disconnect(); chart.destroy(); } };
+      });
+      return (
+        <div className="art art-colab" ref={ref}>
+          <div className="c-head"><strong>{data.kpis[0].value}</strong> chamados desde {data.series[0].year}</div>
+          <div className="c-chart"><canvas role="img" aria-label="Solicitações do Colab por ano" /></div>
+        </div>
+      );
+    }
+
+    // 8. Git: os commits entram um a um em desenvolvimento e sobem para produção com merge (gitgraph.js).
+    function GitArt() {
+      const ref = useLive(["gitgraph"], (el) => {
+        const box = el.querySelector(".gg");
+        let timers = [];
+        const clear = () => { timers.forEach(clearTimeout); timers = []; };
+        const run = (animate) => {
+          clear();
+          box.innerHTML = "";
+          const template = GitgraphJS.templateExtend(GitgraphJS.TemplateName.Metro, {
+            colors: [themeColor("accent"), themeColor("blue"), themeColor("good")],
+            branch: { lineWidth: 4, spacing: 30, label: { display: false } },
+            commit: { spacing: 40, dot: { size: 7, strokeWidth: 2, strokeColor: themeColor("line") }, message: { display: false } },
+          });
+          const gg = GitgraphJS.createGitgraph(box, { template, orientation: GitgraphJS.Orientation.Horizontal, author: "Kluivert" });
+          let prod, dev;
+          const steps = [
+            () => { prod = gg.branch("produção"); prod.commit("estável"); },
+            () => { dev = gg.branch("desenvolvimento"); dev.commit("feature"); },
+            () => dev.commit("testes"),
+            () => prod.merge(dev, "deploy"),
+            () => dev.commit("ajuste"),
+            () => dev.commit("revisão"),
+            () => prod.merge(dev, "deploy"),
+          ];
+          if (!animate) { steps.forEach((f) => f()); return; }
+          steps.forEach((f, i) => timers.push(setTimeout(f, 250 + i * 700)));
+          timers.push(setTimeout(() => run(true), 250 + steps.length * 700 + 2600)); // recomeça
+        };
+        const still = prefersReducedMotion();
+        run(!still);
+        const mo = new MutationObserver(() => run(!still));
+        mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-bs-theme"] });
+        return still
+          ? { destroy: () => mo.disconnect() }
+          : { play: () => run(true), pause: clear, destroy: () => { clear(); mo.disconnect(); } };
+      });
+      return (
+        <div className="art art-git" ref={ref} aria-hidden="true">
+          <div className="gg-legend"><span className="b-prod">produção</span><span className="b-dev">desenvolvimento</span></div>
+          <div className="gg" />
+        </div>
+      );
+    }
+
+    const XP_ART = { agents: AgentsArt, apis: ApiArt, n8n: N8nArt, foundry: FoundryArt, fabric: FabricArt, gemeo: GemeoArt, colab: ColabArt, git: GitArt };
+
+    function XpBento({ items }) {
+      return (
+        <div className="xp-bento">
+          {items.map((b, i) => {
+            const Art = XP_ART[b.kind];
+            return (
+              <article className={`xp-card ${b.wide ? "is-wide" : ""}`} key={b.title}>
+                <header className="xp-card-head">
+                  <span className={`xp-card-icon tone-${i % 3}`}><i className={`bi ${b.icon}`} /></span>
+                  <h4>{b.title}</h4>
+                </header>
+                {Art && <Art />}
+                <p>{b.text}</p>
+                {b.link && (
+                  <button type="button" className="xp-card-link link-arrow" onClick={() => scrollToSection(b.link.to)}>
+                    {b.link.label} <i className="bi bi-arrow-up-right" />
+                  </button>
+                )}
+              </article>
+            );
+          })}
+        </div>
+      );
+    }
+
     function Experience() {
       return (
         <section id="experiencia" className="section">
@@ -3148,12 +3620,14 @@
                           </span>
                         </Accordion.Header>
                         <Accordion.Body>
-                          <ul className="xp-list">
-                            {job.bullets.map((b) => {
-                              const item = typeof b === "string" ? { text: b } : b;
-                              return <li key={item.text} className={item.isNew ? "is-new" : ""}>{item.text}</li>;
-                            })}
-                          </ul>
+                          {job.bullets.some((b) => b.kind) ? <XpBento items={job.bullets} /> : (
+                            <ul className="xp-list">
+                              {job.bullets.map((b) => {
+                                const item = typeof b === "string" ? { text: b } : b;
+                                return <li key={item.text} className={item.isNew ? "is-new" : ""}>{item.text}</li>;
+                              })}
+                            </ul>
+                          )}
                           <div className="chip-row">{job.tech.map((t) => <span className="chip" key={t}>{t}</span>)}</div>
                         </Accordion.Body>
                       </Accordion.Item>
