@@ -844,6 +844,84 @@
     .toast-dock { position: fixed !important; bottom: 0; left: 50%; transform: translateX(-50%); z-index: 1090; }
     .tooltip { --bs-tooltip-bg: var(--ink); --bs-tooltip-color: var(--paper); font-weight: 600; }
 
+    /* ================= Mapa vivo de Niterói (fundo) ================= */
+    /* As linhas vêm de mapa-niteroi.svg usado como máscara: a cor é a do tema (tinta no claro, creme no escuro). */
+    .city-bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+    .city-map {
+      position: absolute; left: 0; top: 0; will-change: transform;
+      background: var(--ink); opacity: .13;
+      -webkit-mask: url("mapa-niteroi.svg") center / 100% 100% no-repeat;
+              mask: url("mapa-niteroi.svg") center / 100% 100% no-repeat;
+    }
+    [data-bs-theme="dark"] .city-map { opacity: .11; }
+    /* Lanterna: um recorte redondo que segue o cursor e mostra o mesmo mapa em laranja */
+    .city-lamp {
+      position: absolute; left: 0; top: 0; width: 320px; height: 320px; overflow: hidden;
+      opacity: 0; transition: opacity .35s; will-change: transform;
+      -webkit-mask: radial-gradient(closest-side, #000 30%, transparent);
+              mask: radial-gradient(closest-side, #000 30%, transparent);
+    }
+    .city-lamp.on { opacity: 1; }
+    .city-map.lit { background: var(--accent); opacity: .75; }
+    .city-ring { position: absolute; left: 0; top: 0; will-change: transform; }
+    .city-ring span { position: absolute; width: 16px; height: 16px; margin: -8px 0 0 -8px; border-radius: 50%; border: 2px solid var(--line); background: var(--accent); opacity: .75; }
+    .city-ring span::after { content: ""; position: absolute; inset: -2px; border-radius: 50%; border: 2px solid var(--accent); animation: ping 2.2s cubic-bezier(0,0,.2,1) infinite; }
+    /* Etiqueta do bairro atual, como um GPS */
+    .city-tag {
+      position: fixed; z-index: 20; left: calc(var(--route-w) + 14px); bottom: 18px;
+      display: none; align-items: center; gap: .55rem; padding: .4rem .7rem .4rem .55rem;
+      border: 2px solid var(--line); border-radius: 10px; background: var(--card); box-shadow: 3px 3px 0 var(--shadow-c);
+      pointer-events: none;
+    }
+    .city-tag { transition: opacity .3s, transform .3s; }
+    .city-tag.is-off { opacity: 0; transform: translateY(12px); }
+    .city-tag > i { color: var(--accent); font-size: 1rem; }
+    .city-tag span { display: flex; flex-direction: column; line-height: 1.15; }
+    .city-tag strong { font: 800 .86rem "Bricolage Grotesque", sans-serif; }
+    .city-tag small { font: 500 .64rem "JetBrains Mono", monospace; color: var(--muted); }
+    @media (min-width: 992px) { .city-tag { display: inline-flex; } }
+    /* As seções alternadas deixam o mapa aparecer por trás */
+    .section.alt { background: color-mix(in srgb, var(--paper-2) 80%, transparent); border-top: 0; border-bottom: 0; }
+    /* Texto corrido sobre o mapa: uma "clareira" de papel com bordas esfumadas, para as ruas (e a lanterna)
+       não passarem por trás das letras. A sombra da mesma cor estende o fundo sem deixar quina visível. */
+    .hero-lead, .about-text, .sec-lead {
+      --clear: color-mix(in srgb, var(--paper) 94%, transparent);
+      background: var(--clear); box-shadow: 0 0 26px 20px var(--clear); border-radius: 20px;
+    }
+    .section.alt .sec-lead { --clear: color-mix(in srgb, var(--paper-2) 94%, transparent); }
+    .hero-lead { color: color-mix(in srgb, var(--muted) 70%, var(--ink)); }
+
+    /* ================= Divisórias: ciclovia com a NitBike ================= */
+    .route { position: relative; z-index: 3; height: 88px; margin: -44px 0; pointer-events: none; }
+    .route-box { position: relative; height: 100%; }
+    .route svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+    .route-lane { fill: none; stroke: var(--ink); stroke-width: 14; stroke-linecap: round; opacity: .07; }
+    .route-track { fill: none; stroke: var(--ink); stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 1 8; opacity: .6; }
+    .route-progress { fill: none; stroke: var(--accent); stroke-width: 5; stroke-linecap: round; }
+    .route-stop { fill: var(--paper); stroke: var(--line); stroke-width: 2.5; transition: fill .25s; }
+    .route-stop[data-passed="1"] { fill: var(--accent); }
+    .route-bike {
+      position: absolute; left: 0; top: 0; width: 38px; height: 38px; display: grid; place-items: center;
+      border: 2.5px solid var(--line); border-radius: 50%; background: var(--lime); color: #15130f;
+      font-size: 1.15rem; box-shadow: 2px 2px 0 var(--shadow-c); will-change: transform;
+    }
+    .route-end {
+      position: absolute; right: 0; bottom: calc(50% + 14px); pointer-events: auto;
+      display: inline-flex; align-items: center; gap: .4rem; padding: .25rem .6rem;
+      border: 2px solid var(--line); border-radius: 8px; background: var(--card); color: var(--ink);
+      font: 700 .78rem "Bricolage Grotesque", sans-serif; box-shadow: 2px 2px 0 var(--shadow-c);
+      transition: background-color .25s, color .25s;
+    }
+    .route-end .mono { font-size: .66rem; font-weight: 500; color: var(--muted); }
+    .route[data-done="1"] .route-end { background: var(--accent); color: #15130f; }
+    .route[data-done="1"] .route-end .mono { color: #15130f; }
+    @media (max-width: 575.98px) { .route-end .mono { display: none; } }
+
+    /* ================= Anotações à mão (rough-notation) ================= */
+    /* O texto fica acima do traço; o marca-texto feito à mão substitui o do CSS. */
+    .rn { position: relative; z-index: 1; }
+    mark.rn { background: none; }
+
     /* ================= Keyframes ================= */
     @keyframes spin { to { transform: rotate(360deg); } }
     @keyframes blink { 50% { opacity: 0; } }
@@ -916,6 +994,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js" crossorigin=""></script>
   <script src="https://cdn.jsdelivr.net/npm/react-bootstrap@2.10.5/dist/react-bootstrap.min.js" crossorigin=""></script>
   <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.25.6/babel.min.js" crossorigin=""></script>
+  <script src="https://cdn.jsdelivr.net/npm/rough-notation@0.5.1/lib/rough-notation.iife.js" crossorigin=""></script>
 
   <script type="text/babel" data-presets="react">
     const { useState, useEffect, useRef, useMemo } = React;
@@ -1303,6 +1382,47 @@
       return <span ref={ref}>{value}</span>;
     }
 
+    // Anotações feitas à mão (rough-notation): desenham-se quando o elemento aparece na tela.
+    // color aceita um token do tema ("accent", "mark"...) ou uma cor fixa; o traço acompanha a troca de tema.
+    const roughColor = (c) => getComputedStyle(document.documentElement).getPropertyValue(`--${c}`).trim() || c;
+
+    function useRough(getEl, { type, color = "accent", delay = 300, ...opts }) {
+      useEffect(() => {
+        const el = getEl();
+        if (!el || !window.RoughNotation) return;
+        // o traço é posicionado em relação ao bloco em volta; sem isso ele "pula" quando o Reveal tira o transform
+        const host = el.parentElement;
+        if (getComputedStyle(host).position === "static") host.style.position = "relative";
+        const lines =["underline", "highlight", "strike-through", "crossed-off"].includes(type);
+        const note = RoughNotation.annotate(el, {
+          type, color: roughColor(color), multiline: lines,
+          animationDuration: prefersReducedMotion() ? 0 : 900, ...opts,
+        });
+        let timer;
+        const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
+        const io = new IntersectionObserver(([e]) => {
+          if (!e.isIntersecting) return;
+          // espera as fontes: antes delas o texto quebra as linhas em outro lugar e o traço sairia torto
+          fontsReady.then(() => { timer = setTimeout(() => note.show(), delay); });
+          io.disconnect();
+        }, { threshold: 0.6 });
+        io.observe(el);
+        // redesenha se o bloco em volta mudar de tamanho (quebra de linha, fonte, contagem dos números)
+        const ro = new ResizeObserver(() => note.refresh());
+        ro.observe(el.parentElement);
+        fontsReady.then(() => note.refresh());
+        const mo = new MutationObserver(() => { note.color = roughColor(color); });
+        mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-bs-theme"] });
+        return () => { clearTimeout(timer); io.disconnect(); ro.disconnect(); mo.disconnect(); note.remove(); };
+      }, []);
+    }
+
+    function Note({ as: Tag = "span", className = "", children, ...opts }) {
+      const ref = useRef(null);
+      useRough(() => ref.current, opts);
+      return <Tag ref={ref} className={`rn ${className}`}>{children}</Tag>;
+    }
+
     /* ==========================================================
        Componentes visuais
        ========================================================== */
@@ -1311,13 +1431,16 @@
     const pad2 = (n) => String(n).padStart(2, "0");
 
     function SectionHeader({ num, kicker, title, children }) {
+      const titleRef = useRef(null);
+      // a palavra em itálico do título ganha um sublinhado feito à mão
+      useRough(() => titleRef.current && titleRef.current.querySelector("em"), { type: "underline", strokeWidth: 3, padding: 2 });
       return (
         <>
           <Reveal className="sec-head">
             <span className="sec-num" aria-hidden="true">{num}</span>
             <div>
               <span className="sec-kicker">{kicker}</span>
-              <h2 className="sec-title">{title}</h2>
+              <h2 className="sec-title" ref={titleRef}>{title}</h2>
             </div>
           </Reveal>
           {children && <Reveal className="sec-lead">{children}</Reveal>}
@@ -1576,6 +1699,209 @@
       );
     }
 
+    /* ---------- Mapa vivo de Niterói no fundo ---------- */
+
+    // Ruas, orla e lagoas reais de Niterói (OpenStreetMap), no arquivo mapa-niteroi.svg ao lado desta página.
+    // A rolagem passeia pelo mapa de bairro em bairro (um por seção) e o cursor acende as ruas como uma lanterna.
+    const CITY_MAP = { src: "mapa-niteroi.svg", ratio: 2000 / 1225, lat: [-22.851, -22.9791], lon: [-43.1622, -42.935] };
+    // x e y vão de 0 a 1 dentro do mapa; posições dos bairros tiradas do OpenStreetMap.
+    const CITY_STOPS = [
+      { id: "inicio", name: "Centro", x: 0.182, y: 0.2952 },
+      { id: "sobre", name: "Icaraí", x: 0.2486, y: 0.4154 },
+      { id: "niteroi", name: "São Francisco", x: 0.3336, y: 0.5238 },
+      { id: "experiencia", name: "Charitas", x: 0.2883, y: 0.6105 },
+      { id: "projetos", name: "Piratininga", x: 0.4133, y: 0.6799 },
+      { id: "habilidades", name: "Camboinhas", x: 0.4697, y: 0.8118 },
+      { id: "contato", name: "Itaipu", x: 0.581, y: 0.7619 },
+    ];
+    const coordOf = ({ x, y }) => {
+      const lat = CITY_MAP.lat[0] + (CITY_MAP.lat[1] - CITY_MAP.lat[0]) * y;
+      const lon = CITY_MAP.lon[0] + (CITY_MAP.lon[1] - CITY_MAP.lon[0]) * x;
+      return `${Math.abs(lat).toFixed(3)}°S · ${Math.abs(lon).toFixed(3)}°O`;
+    };
+
+    function CityMap() {
+      const mapRef = useRef(null);
+      const litRef = useRef(null);
+      const lampRef = useRef(null);
+      const ringRef = useRef(null);
+      const tagRef = useRef(null);
+      const [stop, setStop] = useState(0);
+
+      useEffect(() => {
+        const LAMP = 160; // raio da lanterna
+        let raf = 0, tops = [], mw = 0, mh = 0, tx = 0, ty = 0, mx = -9999, my = -9999, last = -1;
+        const canHover = window.matchMedia("(hover: hover)").matches;
+
+        const measure = () => {
+          // o mapa fica maior que a tela para dar espaço ao passeio entre os bairros
+          const zoom = window.innerWidth < 768 ? 1.8 : 2.4;
+          mw = Math.max(window.innerWidth, window.innerHeight * CITY_MAP.ratio) * zoom;
+          mh = mw / CITY_MAP.ratio;
+          [mapRef.current, litRef.current].forEach((el) => { el.style.width = `${mw}px`; el.style.height = `${mh}px`; });
+          tops = CITY_STOPS.map((s) => {
+            const el = document.getElementById(s.id);
+            return el ? el.getBoundingClientRect().top + window.scrollY : 0;
+          });
+        };
+
+        const placeLamp = () => {
+          lampRef.current.style.transform = `translate3d(${mx - LAMP}px, ${my - LAMP}px, 0)`;
+          litRef.current.style.transform = `translate3d(${tx - (mx - LAMP)}px, ${ty - (my - LAMP)}px, 0)`;
+        };
+
+        const frame = () => {
+          raf = 0;
+          const vw = window.innerWidth, vh = window.innerHeight;
+          const y = window.scrollY + vh * 0.45;
+          let i = 0;
+          while (i < tops.length - 1 && y >= tops[i + 1]) i++;
+          const j = Math.min(i + 1, tops.length - 1);
+          const t = j === i ? 0 : Math.min(Math.max((y - tops[i]) / Math.max(tops[j] - tops[i], 1), 0), 1);
+          const e = t * t * (3 - 2 * t);
+          const a = CITY_STOPS[i], b = CITY_STOPS[j];
+          tx = vw * 0.5 - (a.x + (b.x - a.x) * e) * mw;
+          ty = vh * 0.5 - (a.y + (b.y - a.y) * e) * mh;
+          mapRef.current.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
+          const near = t < 0.5 ? i : j;
+          if (near !== last) { last = near; setStop(near); }
+          const s = CITY_STOPS[near];
+          ringRef.current.style.transform = `translate3d(${tx + s.x * mw}px, ${ty + s.y * mh}px, 0)`;
+          // a etiqueta do GPS sai de cena quando o rodapé chega, para não cobrir o texto dele
+          const footer = document.querySelector(".footer");
+          tagRef.current.classList.toggle("is-off", !!footer && footer.getBoundingClientRect().top < vh - 80);
+          placeLamp();
+        };
+        const schedule = () => { if (!raf) raf = requestAnimationFrame(frame); };
+        const onMove = (e) => {
+          mx = e.clientX; my = e.clientY;
+          lampRef.current.classList.add("on");
+          schedule();
+        };
+        const onLeave = (e) => { if (!e.relatedTarget) lampRef.current.classList.remove("on"); };
+
+        measure();
+        frame();
+        const ro = new ResizeObserver(() => { measure(); schedule(); });
+        ro.observe(document.body);
+        window.addEventListener("scroll", schedule, { passive: true });
+        window.addEventListener("resize", schedule);
+        if (canHover) {
+          window.addEventListener("pointermove", onMove, { passive: true });
+          document.addEventListener("mouseout", onLeave);
+        }
+        return () => {
+          cancelAnimationFrame(raf);
+          ro.disconnect();
+          window.removeEventListener("scroll", schedule);
+          window.removeEventListener("resize", schedule);
+          window.removeEventListener("pointermove", onMove);
+          document.removeEventListener("mouseout", onLeave);
+        };
+      }, []);
+
+      const here = CITY_STOPS[stop];
+      return (
+        <>
+          <div className="city-bg" aria-hidden="true">
+            <div className="city-map" ref={mapRef} />
+            <div className="city-ring" ref={ringRef}><span /></div>
+            <div className="city-lamp" ref={lampRef}><div className="city-map lit" ref={litRef} /></div>
+          </div>
+          <div className="city-tag" ref={tagRef} aria-hidden="true">
+            <i className="bi bi-geo-alt-fill" />
+            <span key={here.name} className="fade-swap">
+              <strong>{here.name}</strong>
+              <small>{coordOf(here)}</small>
+            </span>
+          </div>
+        </>
+      );
+    }
+
+    /* ---------- Divisória entre seções: ciclovia com a NitBike ---------- */
+
+    // A ciclovia se desenha com a rolagem e a bike pedala até a próxima seção; as paradas acendem ao passar.
+    function RouteDivider({ target, seed = 0 }) {
+      const boxRef = useRef(null);
+      const pathRef = useRef(null);
+      const progRef = useRef(null);
+      const bikeRef = useRef(null);
+      const stopRefs = useRef([]);
+      const [w, setW] = useState(0);
+      const [stops, setStops] = useState([]);
+      const [done, setDone] = useState(false);
+      const n = NAV.findIndex((s) => s.id === target);
+      const H = 88, MID = 50;
+
+      useEffect(() => {
+        const ro = new ResizeObserver(() => setW(boxRef.current.clientWidth));
+        ro.observe(boxRef.current);
+        return () => ro.disconnect();
+      }, []);
+
+      // curvas suaves e diferentes em cada divisória
+      const d = useMemo(() => {
+        if (!w) return "";
+        const x0 = 18, x1 = w - 10, parts = w < 600 ? 3 : 5;
+        const amps = [14, 9, 17, 11, 15];
+        let s = `M ${x0} ${MID}`;
+        for (let k = 0; k < parts; k++) {
+          const a = x0 + ((x1 - x0) * k) / parts, b = x0 + ((x1 - x0) * (k + 1)) / parts;
+          const amp = amps[(k + seed) % amps.length] * ((k + seed) % 2 ? 1 : -1);
+          s += ` C ${a + (b - a) * 0.35} ${MID + amp}, ${a + (b - a) * 0.65} ${MID + amp}, ${b} ${MID}`;
+        }
+        return s;
+      }, [w, seed]);
+
+      useEffect(() => {
+        if (!d) return;
+        const path = pathRef.current;
+        const len = path.getTotalLength();
+        setStops([0.33, 0.66].map((f) => { const p = path.getPointAtLength(len * f); return { f, x: p.x, y: p.y }; }));
+        progRef.current.style.strokeDasharray = `${len}`;
+        let raf = 0, wasDone = false;
+        const frame = () => {
+          raf = 0;
+          const r = boxRef.current.getBoundingClientRect(), vh = window.innerHeight;
+          const p = Math.min(Math.max((vh * 0.9 - (r.top + H / 2)) / (vh * 0.5), 0), 1);
+          progRef.current.style.strokeDashoffset = `${len * (1 - p)}`;
+          const at = path.getPointAtLength(len * p);
+          const a = path.getPointAtLength(Math.max(0, len * p - 2));
+          const b = path.getPointAtLength(Math.min(len, len * p + 2));
+          const ang = (Math.atan2(b.y - a.y, b.x - a.x) * 180) / Math.PI;
+          bikeRef.current.style.transform = `translate(${at.x}px, ${at.y}px) translate(-50%, -50%) rotate(${ang}deg)`;
+          stopRefs.current.forEach((el, k) => { if (el) el.dataset.passed = p >= [0.33, 0.66][k] ? "1" : "0"; });
+          const isDone = p >= 0.999;
+          if (isDone !== wasDone) { wasDone = isDone; setDone(isDone); }
+        };
+        const schedule = () => { if (!raf) raf = requestAnimationFrame(frame); };
+        frame();
+        window.addEventListener("scroll", schedule, { passive: true });
+        window.addEventListener("resize", schedule);
+        return () => { cancelAnimationFrame(raf); window.removeEventListener("scroll", schedule); window.removeEventListener("resize", schedule); };
+      }, [d]);
+
+      return (
+        <div className="route" data-done={done ? "1" : "0"} aria-hidden="true">
+          <Container fluid className="wrap h-100">
+            <div className="route-box" ref={boxRef}>
+              <svg>
+                <path className="route-lane" d={d} />
+                <path className="route-track" d={d} ref={pathRef} />
+                <path className="route-progress" d={d} ref={progRef} />
+                {stops.map((s, k) => <circle key={s.f} className="route-stop" cx={s.x} cy={s.y} r="6" ref={(el) => (stopRefs.current[k] = el)} />)}
+              </svg>
+              <div className="route-bike" ref={bikeRef}><i className="bi bi-bicycle" /></div>
+              <button type="button" className="route-end" tabIndex={-1} onClick={() => scrollToSection(target)}>
+                <span className="mono">próxima parada</span> {pad2(n + 1)} {NAV[n].label} <i className="bi bi-arrow-down" />
+              </button>
+            </div>
+          </Container>
+        </div>
+      );
+    }
+
     const CODE_LINES = [
       { i: 0, c: <><span className="tok-kw">class</span> <span className="tok-cls">Kluivert</span>(<span className="tok-cls">DevPython</span>):</> },
       { i: 1, c: <>base <span className="tok-op">=</span> <span className="tok-str">"São Gonçalo, RJ"</span></> },
@@ -1623,7 +1949,7 @@
               <span className="hero-name">{PROFILE.name}</span>
             </Reveal>
             <Reveal delay={80}>
-              <h1 className="hero-title">Desenvolvo <em>aplicações</em> em Python e levo os dados da cidade <mark>para o mapa</mark>.</h1>
+              <h1 className="hero-title">Desenvolvo <Note as="em" type="underline" strokeWidth={4} padding={1}>aplicações</Note> em Python e levo os dados da cidade <Note as="mark" type="highlight" color="mark" delay={900}>para o mapa</Note>.</h1>
             </Reveal>
             {/* O título ocupa a largura toda; embaixo, o texto divide a linha com o cartão de código,
                 que assim fica largo (retangular) também no desktop. */}
@@ -1648,9 +1974,11 @@
               </Col>
             </Row>
             <Reveal className="stats">
-              {STATS.map((s) => (
+              {STATS.map((s, i) => (
                 <div className="stat" key={s.label}>
-                  <div className="stat-value"><CountUp end={s.value} /></div>
+                  <div className="stat-value">
+                    {i === 0 ? <Note type="circle" strokeWidth={2.5} padding={[6, 14]} delay={1700}><CountUp end={s.value} /></Note> : <CountUp end={s.value} />}
+                  </div>
                   <div className="stat-label">{s.label}</div>
                 </div>
               ))}
@@ -1696,7 +2024,7 @@
             <SectionHeader num="01" kicker="Sobre mim" title={<>Do código ao <em>deploy</em></>} />
             <Reveal className="about-text">
               <p>Sou desenvolvedor Python com foco em <strong>backend</strong> e curso Sistemas de Informação na <strong>Universidade Federal Fluminense</strong>. Trabalho com o ciclo completo de uma aplicação: modelagem do banco de dados, construção da API, testes automatizados, integração contínua e deploy em servidor Linux.</p>
-              <p>No <strong>Escritório de Dados da Prefeitura de Niterói</strong>, desenvolvo agentes de IA e servidores MCP que automatizam rotinas do time, construo pipelines no Microsoft Fabric e integro <mark>dados de trânsito ao Gêmeo Digital</mark> da cidade, com foco no NitBike, além de atuar nas camadas do painel de solicitações do Colab.</p>
+              <p>No <strong>Escritório de Dados da Prefeitura de Niterói</strong>, desenvolvo agentes de IA e servidores MCP que automatizam rotinas do time, construo pipelines no Microsoft Fabric e integro <Note as="mark" type="highlight" color="mark">dados de trânsito ao Gêmeo Digital</Note> da cidade, com foco no NitBike, além de atuar nas camadas do painel de solicitações do Colab.</p>
             </Reveal>
             <Row className="g-3 about-facts">
               {ABOUT_FACTS.map((f, i) => (
@@ -2808,7 +3136,7 @@
             <Reveal className="contact">
               <span className="contact-star" aria-hidden="true">✶</span>
               <span className="sec-kicker">06 · Contato</span>
-              <h2>Vamos <em>conversar?</em></h2>
+              <h2>Vamos <Note as="em" type="circle" color="#15130f" strokeWidth={2.5} padding={[2, 12]}>conversar?</Note></h2>
               <p>Tenho interesse em oportunidades e projetos de backend, engenharia de dados e tecnologia para o setor público. O contato mais rápido é por e-mail.</p>
               <a className="contact-email" href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a>
               <div className="d-flex flex-wrap gap-3">
@@ -2827,7 +3155,7 @@
       return (
         <footer className="footer">
           <Container fluid className="wrap d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 text-center">
-            <span>© {new Date().getFullYear()} {PROFILE.name} · Feito com React e Bootstrap</span>
+            <span>© {new Date().getFullYear()} {PROFILE.name} · Feito com React e Bootstrap · Mapa: © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">colaboradores do OpenStreetMap</a></span>
             <span className="d-flex gap-3">
               <a href={PROFILE.github} target="_blank" rel="noopener noreferrer"><i className="bi bi-github me-1" />GitHub</a>
               <a href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer"><i className="bi bi-linkedin me-1" />LinkedIn</a>
@@ -2898,14 +3226,19 @@
           <ScrollChrome />
           <TopNav active={active} theme={theme} onToggleTheme={toggleTheme} />
           <GitGraph />
+          <CityMap />
           <div className="main">
             <main>
               <Hero />
               <Marquee />
               <About />
+              <RouteDivider target="niteroi" seed={0} />
               <CitySection />
+              <RouteDivider target="experiencia" seed={1} />
               <Experience />
+              <RouteDivider target="projetos" seed={2} />
               <Projects />
+              <RouteDivider target="habilidades" seed={3} />
               <Skills />
               <Contact onCopy={onCopy} />
             </main>
