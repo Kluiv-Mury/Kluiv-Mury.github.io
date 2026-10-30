@@ -782,20 +782,85 @@
     }
     .km-timeline .now-badge .live-dot { width: 7px; height: 7px; }
 
-    /* ================= Experiência na Prefeitura: mosaico de artefatos ================= */
-    .xp-bento { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-flow: row dense; gap: .9rem; margin-bottom: 1.2rem; }
-    .xp-card {
-      display: flex; flex-direction: column; gap: .7rem; min-width: 0; padding: .9rem;
-      border: 2px solid var(--line); border-radius: 14px; background: var(--paper); box-shadow: 3px 3px 0 var(--shadow-c);
+    /* ================= Experiência: frentes de trabalho + palco fixo (scrollytelling) ================= */
+    .xp-job-head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: .9rem 1.5rem; padding: 1.2rem 1.4rem; margin-bottom: 1.6rem; }
+    .xp-job-head .xp-role { margin: .2rem 0; }
+    .xp-job-head .chip-row { flex-basis: 100%; }
+    .xp-now.badge {
+      display: inline-flex; align-items: center; gap: .4rem; padding: .3rem .65rem; border: 1.5px solid var(--line);
+      background-color: var(--lime) !important; color: #15130f; font: 700 .68rem "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: .06em;
     }
-    .xp-card.is-wide { grid-column: 1 / -1; }
-    .xp-card-head { display: flex; align-items: center; gap: .55rem; }
-    .xp-card-head h4 { margin: 0; font-size: 1rem; font-weight: 800; letter-spacing: -.01em; }
-    .xp-card-icon { flex: none; width: 32px; height: 32px; display: grid; place-items: center; border-radius: 9px; border: 2px solid var(--line); color: #15130f; }
-    .xp-card p { margin: 0; color: var(--muted); font-size: .9rem; line-height: 1.55; }
-    .xp-card-link { align-self: flex-start; padding: 0; border: 0; background: none; color: var(--ink); font-size: .85rem; }
-    .xp-card-link:hover { color: var(--accent); }
-    @media (max-width: 767.98px) { .xp-bento { grid-template-columns: minmax(0, 1fr); } }
+    .xp-scrolly { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 1.6rem; align-items: start; }
+    .xp-steps { display: flex; flex-direction: column; gap: .6rem; }
+    .xp-step {
+      display: grid; grid-template-columns: auto minmax(0, 1fr); gap: .9rem; min-height: 150px; padding: 1rem 1.1rem;
+      border: 2px solid transparent; border-radius: 14px; cursor: pointer;
+      /* fundo de papel para as ruas do mapa não passarem por trás do texto; só o texto esmaece */
+      background: color-mix(in srgb, var(--paper) 94%, transparent);
+      transition: background-color .3s, border-color .3s, box-shadow .3s;
+    }
+    .xp-step:not(.is-active) .xp-step-num, .xp-step:not(.is-active) h4 { opacity: .5; transition: opacity .3s; }
+    .xp-step:not(.is-active) p, .xp-step:not(.is-active) .xp-step-link { opacity: .62; transition: opacity .3s; }
+    .xp-step:not(.is-active):hover h4, .xp-step:not(.is-active):hover p { opacity: .9; }
+    .xp-step.is-active { opacity: 1; background: var(--card); border-color: var(--line); box-shadow: 4px 4px 0 var(--shadow-c); }
+    .xp-step-num { font: 800 1.7rem/1 "Bricolage Grotesque", sans-serif; letter-spacing: -.04em; color: transparent; -webkit-text-stroke: 1.5px var(--ink); }
+    .xp-step.is-active .xp-step-num { color: var(--accent); -webkit-text-stroke: 1.5px var(--line); }
+    .xp-step h4 { display: flex; align-items: center; gap: .45rem; margin: .1rem 0 .4rem; font-size: 1.05rem; font-weight: 800; }
+    .xp-step h4 i { color: var(--accent); }
+    .xp-step p { margin: 0; color: var(--muted); font-size: .92rem; line-height: 1.6; }
+    .xp-step-link { margin-top: .5rem; padding: 0; border: 0; background: none; color: var(--ink); font-size: .85rem; }
+    .xp-step-link:hover { color: var(--accent); }
+    .xp-stage-col { position: sticky; top: calc(var(--nav-h) + 20px); }
+    .xp-stage { padding: 1rem 1rem .9rem; border: 2px solid var(--line); border-radius: 18px; background: var(--card); box-shadow: 5px 5px 0 var(--shadow-c); }
+    .xp-stage-hud { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: .85rem; }
+    .xp-stage-hud small { font: 600 .7rem "JetBrains Mono", monospace; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+    .xp-stage-hud strong { display: inline-flex; gap: .45rem; font: 800 1.1rem "Bricolage Grotesque", sans-serif; text-align: right; }
+    .xp-stage-hud strong i { color: var(--accent); }
+    .xp-stage-art { min-height: 330px; display: flex; flex-direction: column; justify-content: center; }
+    .xp-stage-dots { display: flex; justify-content: center; gap: .4rem; margin-top: .9rem; }
+    .xp-stage-dots button { width: 10px; height: 10px; padding: 0; border: 2px solid var(--line); border-radius: 6px; background: var(--paper); transition: width .25s, background-color .25s; }
+    .xp-stage-dots button.on { width: 28px; background: var(--accent); }
+    /* artefatos em tamanho de palco */
+    .xp-stage-art .art-term { min-height: 300px; padding: 1.1rem 1.2rem; font-size: .9rem; }
+    .xp-stage-art .art-api { padding: .8rem 1rem; font-size: .86rem; }
+    .xp-stage-art .api-row { grid-template-columns: 4.2rem minmax(0, 1fr) auto auto; padding: .75rem .3rem; }
+    .xp-stage-art .api-m { font-size: .72rem; }
+    .xp-stage-art .art-n8n { padding: 1.4rem 1.3rem 1.8rem; }
+    .xp-stage-art .n8n-tags { margin-bottom: 2.2rem; }
+    .xp-stage-art .nnode { width: 84px; }
+    .xp-stage-art .nnode-icon { width: 60px; height: 60px; font-size: 1.5rem; border-radius: 14px; }
+    .xp-stage-art .nnode-label { font-size: .74rem; }
+    .xp-stage-art .n8n-row::before { top: 29px; left: 30px; right: 30px; }
+    .xp-stage-art .npulse { top: 21px; width: 18px; height: 18px; left: -9px; }
+    .xp-stage-art .art-foundry { padding: 1.1rem 1.1rem 1.8rem; }
+    .xp-stage-art .f-q, .xp-stage-art .f-a { font-size: .92rem; }
+    .xp-stage-art .art-foundry { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); }
+    .xp-stage-art .f-dax { font-size: .74rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .xp-stage-art .art-fabric { gap: 1rem; padding: 1.4rem 1.2rem; }
+    .xp-stage-art .fb-row { font-size: .95rem; }
+    .xp-stage-art .fb-bar { height: 16px; }
+    .xp-stage-art .art-gemeo { height: 330px; }
+    .xp-stage-art .gdot { width: 14px; height: 14px; margin: -7px 0 0 -7px; }
+    .xp-stage-art .gdot.hot, .xp-stage-art .gdot.cold { width: 22px; height: 22px; margin: -11px 0 0 -11px; }
+    .xp-stage-art .g-tag { font-size: .72rem; }
+    .xp-stage-art .art-colab { padding: .9rem 1rem .6rem; }
+    .xp-stage-art .c-head strong { font-size: 1.7rem; }
+    .xp-stage-art .c-chart { height: 260px; }
+    .xp-stage-art .art-git { padding: 1rem; }
+    .xp-stage-art .art-git .gg { min-height: 220px; display: grid; place-items: center; }
+    @media (max-width: 991.98px) {
+      .xp-scrolly { grid-template-columns: minmax(0, 1fr); }
+      .xp-step { opacity: 1; min-height: 0; cursor: default; background: var(--card); border-color: var(--line); box-shadow: 3px 3px 0 var(--shadow-c); }
+      .xp-step-num { color: var(--accent); -webkit-text-stroke: 1.5px var(--line); }
+      .xp-step-art { margin-top: .9rem; }
+    }
+    /* embaixo: pesquisa, formação e linha do tempo lado a lado */
+    .xp-below { margin-top: 2.6rem; }
+    .xp-below .cardx { height: 100%; }
+    .xp-below .timeline-card { margin-top: 0; }
+    .xp-mini { padding: 1.3rem 1.4rem; }
+    .xp-mini .xp-role { margin: .35rem 0 .2rem; font-size: 1.2rem; }
+    .xp-mini .xp-list { margin: .9rem 0 1rem; }
 
     .art { position: relative; min-width: 0; overflow: hidden; border: 2px solid var(--line); border-radius: 10px; background: var(--card); }
     .art-note { position: absolute; right: .5rem; bottom: .35rem; font: 500 .6rem "JetBrains Mono", monospace; color: var(--muted); }
@@ -831,7 +896,10 @@
     .nnode.on .nnode-icon { background: var(--accent); color: #15130f; transform: translateY(-2px); box-shadow: 2px 2px 0 var(--shadow-c); }
     .nnode-label { font: 600 .64rem "JetBrains Mono", monospace; color: var(--muted); text-align: center; }
     .nnode.on .nnode-label { color: var(--ink); }
-    @media (max-width: 575.98px) { .nnode { width: 52px; } .nnode-icon { width: 38px; height: 38px; } .n8n-row::before { top: 18px; } .npulse { top: 11px; } }
+    @media (max-width: 575.98px) {
+      .nnode { width: 52px; } .nnode-icon { width: 38px; height: 38px; } .n8n-row::before { top: 18px; } .npulse { top: 11px; }
+      .nnode-label { font-size: .54rem; letter-spacing: -.02em; }
+    }
 
     /* 4. agente do Foundry */
     .art-foundry { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: .8rem; padding: .8rem .8rem 1.4rem; }
@@ -1000,8 +1068,9 @@
     .city-map {
       position: absolute; left: 0; top: 0; will-change: transform;
       background: var(--ink); opacity: .13;
-      -webkit-mask: url("mapa-niteroi.svg") center / 100% 100% no-repeat;
+      /* a versão -webkit- vem por último para o Safari usar a que ele conhece melhor */
               mask: url("mapa-niteroi.svg") center / 100% 100% no-repeat;
+      -webkit-mask: url("mapa-niteroi.svg") center / 100% 100% no-repeat;
     }
     [data-bs-theme="dark"] .city-map { opacity: .11; }
     /* Lanterna: um recorte redondo que segue o cursor e mostra o mesmo mapa em laranja */
@@ -1372,12 +1441,12 @@
         org: "Escritório de Dados da Prefeitura de Niterói",
         short: "Estágio na Prefeitura de Niterói", // nome curto usado nas dicas das habilidades
         place: "Niterói, RJ",
-        // Cada frente vira um cartão com um artefato animado (kind) no mosaico da Experiência; wide ocupa a linha toda.
+        // Cada frente vira um passo da Experiência; o palco fixo ao lado mostra o artefato animado (kind) do passo ativo.
         bullets: [
           { kind: "agents", icon: "bi-robot", title: "Agentes de IA e servidores MCP", text: "Desenvolvo servidores MCP e agentes de IA em Python para automatizar tarefas repetitivas do time de dados." },
           { kind: "apis", icon: "bi-plug", title: "Integrações com APIs", text: "Escrevo integrações com APIs de sistemas internos e externos." },
-          { kind: "n8n", icon: "bi-diagram-3", title: "Automação com n8n, Azure e Fabric", wide: true, text: "Automatizo processos internos do escritório com n8n, Azure e Microsoft Fabric: os pedidos de criação e de acesso a workspaces de dados chegam pelo sistema de chamados e seguem sozinhos pela aprovação do responsável, pela criação dos grupos de acesso no Entra ID, pelo provisionamento e pelos avisos por e-mail e Teams." },
-          { kind: "foundry", icon: "bi-stars", title: "Agente no Microsoft Foundry", wide: true, text: "Criei no Microsoft Foundry um agente de IA que consulta um modelo semântico do Power BI e responde perguntas sobre os dados em linguagem natural." },
+          { kind: "n8n", icon: "bi-diagram-3", title: "Automação com n8n, Azure e Fabric", text: "Automatizo processos internos do escritório com n8n, Azure e Microsoft Fabric: os pedidos de criação e de acesso a workspaces de dados chegam pelo sistema de chamados e seguem sozinhos pela aprovação do responsável, pela criação dos grupos de acesso no Entra ID, pelo provisionamento e pelos avisos por e-mail e Teams." },
+          { kind: "foundry", icon: "bi-stars", title: "Agente no Microsoft Foundry", text: "Criei no Microsoft Foundry um agente de IA que consulta um modelo semântico do Power BI e responde perguntas sobre os dados em linguagem natural." },
           { kind: "fabric", icon: "bi-microsoft", title: "Pipelines no Microsoft Fabric", text: "Monto pipelines no Microsoft Fabric que levam os dados das subsecretarias até os painéis de BI." },
           { kind: "gemeo", icon: "bi-bicycle", title: "Gêmeo Digital · NitBike", link: { to: "niteroi", label: "ver em Niterói em camadas" }, text: "No Gêmeo Digital de Niterói, integro dados de trânsito com foco no NitBike: construo camadas no ArcGIS que alimentam a plataforma e crio colunas derivadas para métricas como as estações mais quentes e mais frias." },
           { kind: "colab", icon: "bi-people", title: "Colab · solicitações", link: { to: "niteroi", label: "ver o painel" }, text: "No Colab, atuo na integração de dados e nas camadas de visualização do painel de solicitações (SIGeo)." },
@@ -1922,7 +1991,7 @@
 
         const measure = () => {
           // o mapa fica maior que a tela para dar espaço ao passeio entre os bairros
-          const zoom = window.innerWidth < 768 ? 1.8 : 2.4;
+          const zoom = window.innerWidth < 768 ? 1.7 : 2;
           mw = Math.max(window.innerWidth, window.innerHeight * CITY_MAP.ratio) * zoom;
           mh = mw / CITY_MAP.ratio;
           [mapRef.current, litRef.current].forEach((el) => { el.style.width = `${mw}px`; el.style.height = `${mh}px`; });
@@ -3213,6 +3282,7 @@
       anime: "https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js",
       gitgraph: "https://cdn.jsdelivr.net/npm/@gitgraph/js@1.4.0/lib/gitgraph.umd.js",
       chart: "https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.js",
+      scrollama: "https://cdn.jsdelivr.net/npm/scrollama@3.2.0/build/scrollama.min.js",
     };
     const xpLibCache = {};
     const loadXpLib = (name) => xpLibCache[name] || (xpLibCache[name] = new Promise((resolve, reject) => {
@@ -3538,74 +3608,152 @@
 
     const XP_ART = { agents: AgentsArt, apis: ApiArt, n8n: N8nArt, foundry: FoundryArt, fabric: FabricArt, gemeo: GemeoArt, colab: ColabArt, git: GitArt };
 
-    function XpBento({ items }) {
+    function useMedia(query) {
+      const [match, setMatch] = useState(() => window.matchMedia(query).matches);
+      useEffect(() => {
+        const mq = window.matchMedia(query);
+        const onChange = () => setMatch(mq.matches);
+        mq.addEventListener("change", onChange);
+        return () => mq.removeEventListener("change", onChange);
+      }, [query]);
+      return match;
+    }
+
+    // Scrollytelling: à esquerda as frentes de trabalho; à direita um palco fixo que mostra o artefato
+    // do passo ativo (um por vez). O passo muda com a rolagem (Scrollama), com o mouse ou com o teclado.
+    // No celular não há palco: cada passo mostra o próprio artefato.
+    function XpScrolly({ items }) {
+      const [active, setActive] = useState(0);
+      const wide = useMedia("(min-width: 992px)");
+      const stepsRef = useRef(null);
+      const lastScroll = useRef(0);
+
+      // Enquanto a página rola, os passos passam por baixo do cursor parado e disparariam o "mouse entrou";
+      // esse hover é ignorado para não brigar com a rolagem.
+      useEffect(() => {
+        const onScroll = () => { lastScroll.current = performance.now(); };
+        window.addEventListener("scroll", onScroll, { passive: true });
+        return () => window.removeEventListener("scroll", onScroll);
+      }, []);
+      const hoverTo = (i) => { if (wide && performance.now() - lastScroll.current > 250) setActive(i); };
+
+      useEffect(() => {
+        if (!wide) return;
+        let scroller = null, dead = false;
+        loadXpLib("scrollama").then(() => {
+          if (dead) return;
+          scroller = scrollama();
+          scroller.setup({ step: stepsRef.current.querySelectorAll(".xp-step"), offset: 0.5 }).onStepEnter(({ index }) => setActive(index));
+        }).catch(() => {});
+        return () => { dead = true; if (scroller) scroller.destroy(); };
+      }, [wide]);
+
+      const goTo = (i) => {
+        setActive(i);
+        const step = stepsRef.current.querySelectorAll(".xp-step")[i];
+        if (step) step.scrollIntoView({ block: "center", behavior: prefersReducedMotion() ? "auto" : "smooth" });
+      };
+
+      const current = items[active];
+      const StageArt = XP_ART[current.kind];
       return (
-        <div className="xp-bento">
-          {items.map((b, i) => {
-            const Art = XP_ART[b.kind];
-            return (
-              <article className={`xp-card ${b.wide ? "is-wide" : ""}`} key={b.title}>
-                <header className="xp-card-head">
-                  <span className={`xp-card-icon tone-${i % 3}`}><i className={`bi ${b.icon}`} /></span>
-                  <h4>{b.title}</h4>
-                </header>
-                {Art && <Art />}
-                <p>{b.text}</p>
-                {b.link && (
-                  <button type="button" className="xp-card-link link-arrow" onClick={() => scrollToSection(b.link.to)}>
-                    {b.link.label} <i className="bi bi-arrow-up-right" />
-                  </button>
-                )}
-              </article>
-            );
-          })}
+        <div className="xp-scrolly">
+          <div className="xp-steps" ref={stepsRef}>
+            {items.map((b, i) => {
+              const Art = XP_ART[b.kind];
+              return (
+                <article
+                  key={b.title}
+                  className={`xp-step ${wide && i === active ? "is-active" : ""}`}
+                  tabIndex={wide ? 0 : undefined}
+                  onMouseEnter={() => hoverTo(i)}
+                  onFocus={() => wide && setActive(i)}
+                  onClick={() => wide && setActive(i)}
+                >
+                  <span className="xp-step-num">{pad2(i + 1)}</span>
+                  <div className="xp-step-body">
+                    <h4><i className={`bi ${b.icon}`} /> {b.title}</h4>
+                    <p>{b.text}</p>
+                    {b.link && (
+                      <button type="button" className="xp-step-link link-arrow" onClick={(e) => { e.stopPropagation(); scrollToSection(b.link.to); }}>
+                        {b.link.label} <i className="bi bi-arrow-up-right" />
+                      </button>
+                    )}
+                    {!wide && Art && <div className="xp-step-art"><Art /></div>}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+          {wide && (
+            <div className="xp-stage-col">
+              <div className="xp-stage">
+                <div className="xp-stage-hud">
+                  <small>frente {pad2(active + 1)} / {pad2(items.length)}</small>
+                  <strong key={current.title} className="fade-swap"><i className={`bi ${current.icon}`} /> {current.title}</strong>
+                </div>
+                <div className="xp-stage-art fade-swap" key={active}>{StageArt && <StageArt />}</div>
+                <div className="xp-stage-dots" role="group" aria-label="Frentes de trabalho">
+                  {items.map((b, i) => (
+                    <button key={b.title} type="button" className={i === active ? "on" : ""} aria-label={b.title} aria-pressed={i === active} onClick={() => goTo(i)} />
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       );
     }
 
     function Experience() {
+      const main = EXPERIENCE.filter((job) => job.bullets.some((b) => b.kind));
+      const others = EXPERIENCE.filter((job) => !job.bullets.some((b) => b.kind));
       return (
         <section id="experiencia" className="section">
           <Container fluid className="wrap">
             <SectionHeader num="03" kicker="Trajetória" title={<>Experiência e <em>formação</em></>}>
               Da pesquisa na universidade à engenharia de dados no setor público.
             </SectionHeader>
-            <Row className="gx-4 gx-xl-5 gy-4">
-              <Col xl={8}>
-                <Reveal className="xp">
-                  <Accordion defaultActiveKey="0">
-                    {EXPERIENCE.map((job, i) => (
-                      <Accordion.Item eventKey={String(i)} key={job.role}>
-                        <Accordion.Header>
-                          <span className="xp-head">
-                            <span className="xp-period">{job.period} · {job.place}</span>
-                            <span className="xp-role">{job.role}</span>
-                            <span className="xp-org">{job.org}</span>
-                          </span>
-                        </Accordion.Header>
-                        <Accordion.Body>
-                          {job.bullets.some((b) => b.kind) ? <XpBento items={job.bullets} /> : (
-                            <ul className="xp-list">
-                              {job.bullets.map((b) => {
-                                const item = typeof b === "string" ? { text: b } : b;
-                                return <li key={item.text} className={item.isNew ? "is-new" : ""}>{item.text}</li>;
-                              })}
-                            </ul>
-                          )}
-                          <div className="chip-row">{job.tech.map((t) => <span className="chip" key={t}>{t}</span>)}</div>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                    ))}
-                  </Accordion>
+            {main.map((job) => (
+              <div className="xp-job" key={job.role}>
+                <Reveal className="cardx xp-job-head">
+                  <div>
+                    <span className="xp-period">{job.period} · {job.place}</span>
+                    <h3 className="xp-role">{job.role}</h3>
+                    <span className="xp-org">{job.org}</span>
+                  </div>
+                  {job.period.includes("atual") && <Badge pill className="xp-now"><span className="live-dot" /> atual</Badge>}
+                  <div className="chip-row">{job.tech.map((t) => <span className="chip" key={t}>{t}</span>)}</div>
                 </Reveal>
-              </Col>
-              <Col xl={4}>
+                <XpScrolly items={job.bullets} />
+              </div>
+            ))}
+            <Row className="g-4 xp-below">
+              {others.map((job) => (
+                <Col lg={4} key={job.role}>
+                  <Reveal className="cardx xp-mini">
+                    <span className="xp-period">{job.period} · {job.place}</span>
+                    <div className="xp-role">{job.role}</div>
+                    <div className="xp-org">{job.org}</div>
+                    <ul className="xp-list">
+                      {job.bullets.map((b) => {
+                        const item = typeof b === "string" ? { text: b } : b;
+                        return <li key={item.text}>{item.text}</li>;
+                      })}
+                    </ul>
+                    <div className="chip-row">{job.tech.map((t) => <span className="chip" key={t}>{t}</span>)}</div>
+                  </Reveal>
+                </Col>
+              ))}
+              <Col lg={4}>
                 <Reveal delay={120} className="cardx edu-card">
                   <span className="fact-icon" style={{ background: "var(--lime)", color: "#15130f" }}><i className="bi bi-mortarboard" /></span>
                   <div className="xp-role">{EDUCATION.course}</div>
                   <div className="xp-period">{EDUCATION.period}</div>
                   <div className="xp-org mt-1">{EDUCATION.school} · {EDUCATION.place}</div>
                 </Reveal>
+              </Col>
+              <Col lg={4}>
                 <Reveal delay={200} className="cardx timeline-card">
                   <div className="dash-head">
                     <span className="dash-title"><i className="bi bi-clock-history" /> Linha do tempo</span>
