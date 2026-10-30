@@ -1,6 +1,5 @@
-<!doctype html>
-<html lang="pt-BR" data-bs-theme="dark">
-<head>
+<!DOCTYPE html>
+<html lang="pt-BR" data-bs-theme="light"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kluivert Mury · Desenvolvedor Python Backend</title>
@@ -10,358 +9,500 @@
   <meta property="og:title" content="Kluivert Mury · Desenvolvedor Python Backend">
   <meta property="og:description" content="Backend, dados e agentes de IA. Integração de dados e camadas de visualização para a cidade de Niterói.">
   <meta property="og:url" content="https://kluiv-mury.github.io/">
-  <meta name="theme-color" content="#070b14">
+  <meta name="theme-color" content="#f4efe6">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232dd4bf'/%3E%3Cstop offset='1' stop-color='%2360a5fa'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial,sans-serif' font-weight='700' font-size='26' fill='%2304131a'%3EKM%3C/text%3E%3C/svg%3E">
 
   <script>
-    // Aplica o tema salvo (ou o do sistema) antes de pintar a página, para não piscar.
+    // Aplica o tema salvo (ou o claro, por padrão) antes de pintar a página, para não piscar.
     (function () {
       var theme = null;
       try { theme = localStorage.getItem("km-theme"); } catch (e) {}
-      if (theme !== "light" && theme !== "dark") {
-        theme = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
-      }
+      if (theme !== "light" && theme !== "dark") theme = "light";
       document.documentElement.setAttribute("data-bs-theme", theme);
     })();
   </script>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&amp;family=Caveat:wght@700&amp;family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&amp;family=Instrument+Serif:ital@0;1&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/devicon.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/devicon@2.16.0/devicon.min.css">
 
   <style>
     /* ================= Tokens de tema ================= */
     :root,
-    [data-bs-theme="dark"] {
-      --km-bg: #070b14;
-      --km-bg-rgb: 7, 11, 20;
-      --km-surface: rgba(255, 255, 255, 0.035);
-      --km-surface-strong: #0f1729;
-      --km-border: rgba(148, 163, 184, 0.16);
-      --km-text: #e6edf7;
-      --km-muted: #94a3b8;
-      --km-accent: #2dd4bf;
-      --km-accent-rgb: 45, 212, 191;
-      --km-accent-2: #60a5fa;
-      --km-accent-2-rgb: 96, 165, 250;
-      --km-warm: #fbbf24;
-      --km-warm-rgb: 251, 191, 36;
-      --km-text-rgb: 230, 237, 247;
-      --km-good: #34d399;
-      --km-good-rgb: 52, 211, 153;
-      --km-danger-rgb: 248, 113, 113;
-      --km-layer-bg: rgba(15, 23, 42, 0.78);
-      --km-shadow: rgba(0, 0, 0, 0.55);
-      --km-grid-rgb: 148, 163, 184;
-      --bs-body-bg: #070b14;
-      --bs-body-color: #e6edf7;
-      --bs-border-color: rgba(148, 163, 184, 0.16);
+    [data-bs-theme="light"] {
+      --paper: #f4efe6;
+      --paper-2: #ebe3d4;
+      --card: #fffdf8;
+      --ink: #15130f;
+      --muted: #5b554b;
+      --line: #15130f;
+      --shadow-c: #15130f;
+      --accent: #ff5a1f;
+      --accent-rgb: 255, 90, 31;
+      --on-accent: #15130f;
+      --blue: #2e5bff;
+      --lime: #e6ff57;
+      --mark: #e6ff57;
+      --good: #168a4a;
+      --warn: #c98a00;
+      --nav-h: 68px;
+      --route-w: 150px;
+      --bs-body-bg: #f4efe6;
+      --bs-body-color: #15130f;
+      --bs-border-color: #15130f;
+      --bs-emphasis-color: #15130f;
+      --bs-secondary-color: #5b554b;
     }
 
-    [data-bs-theme="light"] {
-      --km-bg: #f5f7fb;
-      --km-bg-rgb: 245, 247, 251;
-      --km-surface: rgba(255, 255, 255, 0.72);
-      --km-surface-strong: #ffffff;
-      --km-border: rgba(15, 23, 42, 0.10);
-      --km-text: #0f172a;
-      --km-muted: #52607a;
-      --km-accent: #0d9488;
-      --km-accent-rgb: 13, 148, 136;
-      --km-accent-2: #2563eb;
-      --km-accent-2-rgb: 37, 99, 235;
-      --km-warm: #d97706;
-      --km-warm-rgb: 217, 119, 6;
-      --km-text-rgb: 15, 23, 42;
-      --km-good: #059669;
-      --km-good-rgb: 5, 150, 105;
-      --km-danger-rgb: 220, 38, 38;
-      --km-layer-bg: rgba(255, 255, 255, 0.86);
-      --km-shadow: rgba(15, 23, 42, 0.18);
-      --km-grid-rgb: 15, 23, 42;
-      --bs-body-bg: #f5f7fb;
-      --bs-body-color: #0f172a;
-      --bs-border-color: rgba(15, 23, 42, 0.10);
+    [data-bs-theme="dark"] {
+      --paper: #13110f;
+      --paper-2: #1a1814;
+      --card: #1f1c18;
+      --ink: #f3ede2;
+      --muted: #b3aa9b;
+      --line: #f3ede2;
+      --shadow-c: #3a332a;
+      --accent: #ff6a2b;
+      --accent-rgb: 255, 106, 43;
+      --on-accent: #15130f;
+      --blue: #6f8dff;
+      --lime: #e6ff57;
+      --mark: rgba(212, 242, 63, .35);
+      --good: #3ccf7e;
+      --warn: #f2b632;
+      --bs-body-bg: #13110f;
+      --bs-body-color: #f3ede2;
+      --bs-border-color: #f3ede2;
+      --bs-emphasis-color: #f3ede2;
+      --bs-secondary-color: #b3aa9b;
     }
 
     /* ================= Base ================= */
-    html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+    html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 16px); }
     body {
-      background: var(--km-bg);
-      color: var(--km-text);
-      font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-size: 1.02rem;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
-      transition: background-color .4s ease, color .4s ease;
+      transition: background-color .3s ease, color .3s ease;
     }
+    /* textura de papel */
     body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      pointer-events: none;
-      background-image:
-        linear-gradient(rgba(var(--km-grid-rgb), .05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(var(--km-grid-rgb), .05) 1px, transparent 1px);
-      background-size: 56px 56px;
-      -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 80%);
-              mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 20%, transparent 80%);
+      content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: .55;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     }
-    h1, h2, h3, h4, h5, .font-display { font-family: "Space Grotesk", "Inter", sans-serif; letter-spacing: -0.02em; }
-    .font-mono, code { font-family: "JetBrains Mono", ui-monospace, monospace; }
-    ::selection { background: rgba(var(--km-accent-rgb), .3); }
-    a { color: var(--km-accent); text-decoration: none; }
-    a:hover { color: var(--km-accent-2); }
-    :focus-visible { outline: 2px solid var(--km-accent); outline-offset: 3px; }
-    .text-muted-km { color: var(--km-muted) !important; }
-    .text-gradient {
-      background: linear-gradient(100deg, var(--km-accent), var(--km-accent-2) 60%, var(--km-warm));
-      -webkit-background-clip: text;
-              background-clip: text;
-      color: transparent;
-    }
+    h1, h2, h3, h4, h5 { font-family: "Bricolage Grotesque", "DM Sans", sans-serif; font-weight: 700; letter-spacing: -.025em; }
+    em, .serif { font-family: "Instrument Serif", Georgia, serif; font-style: italic; font-weight: 400; letter-spacing: 0; }
+    h1 em, h2 em, h3 em { color: var(--accent); }
+    mark { background: linear-gradient(transparent 58%, var(--mark) 58%); color: inherit; padding: 0 .08em; }
+    [data-bs-theme="dark"] mark { background: linear-gradient(transparent 82%, var(--lime) 82%); }
+    .hand { font-family: "Caveat", cursive; font-weight: 700; color: var(--accent); line-height: 1; }
+    .mono, code { font-family: "JetBrains Mono", ui-monospace, monospace; }
+    a { color: inherit; text-decoration-color: var(--accent); text-underline-offset: 3px; }
+    a:hover { color: var(--accent); }
+    ::selection { background: var(--accent); color: var(--on-accent); }
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+    .text-muted-km { color: var(--muted) !important; }
 
     /* ================= Preloader ================= */
-    #preloader {
-      position: fixed; inset: 0; z-index: 9999;
-      display: grid; place-items: center;
-      background: var(--km-bg);
-      transition: opacity .6s ease, visibility .6s ease;
-    }
+    #preloader { position: fixed; inset: 0; z-index: 9999; display: grid; place-items: center; background: var(--paper); transition: opacity .5s ease, visibility .5s ease; }
     #preloader.done { opacity: 0; visibility: hidden; }
-    .loader { display: grid; place-items: center; gap: 1.2rem; text-align: center; color: var(--km-muted); font: 500 .85rem "JetBrains Mono", monospace; }
-    .loader-ring {
-      width: 74px; height: 74px; border-radius: 50%;
-      display: grid; place-items: center;
-      background: conic-gradient(from 0deg, var(--km-accent), var(--km-accent-2), transparent 70%);
-      -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px));
-              mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px));
-      animation: spin 1s linear infinite;
-    }
-    .loader-mark { position: absolute; font: 700 1.3rem "Space Grotesk", sans-serif; color: var(--km-text); }
-    .loader-box { position: relative; display: grid; place-items: center; }
+    .loader { display: grid; justify-items: center; gap: 1rem; color: var(--muted); font: 500 .85rem "JetBrains Mono", monospace; }
+    .loader .spinner-grow { width: 2.4rem; height: 2.4rem; color: var(--accent); }
 
-    /* ================= Navbar ================= */
-    .scroll-progress {
-      position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 1100;
-      transform-origin: 0 50%; transform: scaleX(0);
-      background: linear-gradient(90deg, var(--km-accent), var(--km-accent-2), var(--km-warm));
+    /* ================= Estrutura: navegação no topo + rota vertical ================= */
+    @media (max-width: 991.98px) { :root { --route-w: 24px; } }
+    body { padding-top: var(--nav-h); }
+    /* Os fundos das seções vão de ponta a ponta; só o conteúdo abre espaço para a rota. */
+    .main { position: relative; }
+    .wrap {
+      max-width: calc(1120px + var(--route-w));
+      padding-left: calc(var(--route-w) + clamp(16px, 4vw, 56px)) !important;
+      padding-right: clamp(16px, 4vw, 56px) !important;
     }
-    .km-nav { padding: 1.1rem 0; border-bottom: 1px solid transparent; transition: background-color .35s, padding .35s, border-color .35s, backdrop-filter .35s; }
-    .km-nav.is-scrolled {
-      padding: .55rem 0;
-      background: rgba(var(--km-bg-rgb), .75);
-      -webkit-backdrop-filter: blur(16px) saturate(150%);
-              backdrop-filter: blur(16px) saturate(150%);
-      border-bottom-color: var(--km-border);
-    }
-    .km-nav .navbar-brand { display: flex; align-items: center; color: var(--km-text); font: 600 1.05rem "Space Grotesk", sans-serif; }
-    .brand-mark {
-      display: inline-grid; place-items: center;
-      width: 38px; height: 38px; margin-right: .65rem; border-radius: 12px;
-      background: linear-gradient(135deg, var(--km-accent), var(--km-accent-2));
-      color: #04131a; font: 700 .95rem "Space Grotesk", sans-serif;
-      box-shadow: 0 8px 24px -8px rgba(var(--km-accent-rgb), .7);
-    }
-    .km-nav .nav-link { position: relative; color: var(--km-muted); font-weight: 500; padding: .5rem .85rem !important; transition: color .2s; }
-    .km-nav .nav-link:hover, .km-nav .nav-link.active { color: var(--km-text) !important; }
-    .km-nav .nav-link.active::after {
-      content: ""; position: absolute; left: .85rem; right: .85rem; bottom: .15rem; height: 2px; border-radius: 2px;
-      background: linear-gradient(90deg, var(--km-accent), var(--km-accent-2));
-    }
-    .km-nav .navbar-toggler { border: 1px solid var(--km-border); padding: .45rem .6rem; }
-    .km-nav .navbar-toggler:focus { box-shadow: 0 0 0 3px rgba(var(--km-accent-rgb), .25); }
+    @media (max-width: 991.98px) { .main .wrap { padding-left: calc(var(--route-w) + 12px) !important; } }
+
     .icon-btn {
-      display: inline-grid; place-items: center;
-      width: 40px; height: 40px; border-radius: 12px;
-      border: 1px solid var(--km-border); background: var(--km-surface); color: var(--km-text);
-      transition: border-color .2s, transform .2s, background-color .2s;
+      display: inline-grid; place-items: center; flex: none;
+      width: 40px; height: 40px; padding: 0; border-radius: 10px;
+      border: 2px solid var(--line); background: var(--card); color: var(--ink);
+      box-shadow: 2px 2px 0 var(--shadow-c);
+      transition: transform .15s, box-shadow .15s, background-color .2s;
     }
-    .icon-btn:hover { border-color: rgba(var(--km-accent-rgb), .6); transform: translateY(-1px); color: var(--km-text); }
+    .icon-btn:hover { color: #15130f; background: var(--lime); transform: translate(-1px, -1px); box-shadow: 3px 3px 0 var(--shadow-c); }
+
+    .km-nav { min-height: var(--nav-h); padding: 0; background: var(--paper); border-bottom: 2px solid var(--line); }
+    .nav-wrap { padding-left: clamp(16px, 3vw, 32px) !important; padding-right: clamp(16px, 3vw, 32px) !important; }
+    .km-nav .navbar-brand { display: flex; align-items: center; gap: .7rem; margin: 0; color: var(--ink); font: 800 1.15rem "Bricolage Grotesque", sans-serif; letter-spacing: -.02em; }
+    .line-badge {
+      display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 10px;
+      border: 2px solid var(--line); background: var(--accent); color: #15130f;
+      font: 800 .95rem "Bricolage Grotesque", sans-serif; box-shadow: 2px 2px 0 var(--shadow-c);
+    }
+    .km-nav .navbar-toggler { padding: 0; }
+    .km-nav .navbar-toggler:focus { box-shadow: 0 0 0 3px rgba(var(--accent-rgb), .4); }
+    .km-links .nav-link { position: relative; display: flex; align-items: baseline; gap: .4rem; padding: .5rem .7rem !important; color: var(--muted); font-weight: 700; }
+    .km-links .nav-link .n { display: none; font: 500 .7rem "JetBrains Mono", monospace; }
+    .km-links .nav-link:hover, .km-links .nav-link.active { color: var(--ink); }
+    .km-links .nav-link.active::after { content: ""; position: absolute; left: .7rem; right: .7rem; bottom: .1rem; height: 4px; background: var(--accent); }
+    .km-links .nav-link.active .n { color: var(--accent); }
+    .nav-cv { --bs-btn-padding-y: .42rem; --bs-btn-padding-x: .9rem; font-size: .9rem; box-shadow: 3px 3px 0 var(--shadow-c); }
+    .offcanvas.km-off { --bs-offcanvas-width: min(340px, 88vw); --bs-offcanvas-bg: var(--paper-2); --bs-offcanvas-color: var(--ink); }
+    .offcanvas.km-off.offcanvas-end { border-left: 2px solid var(--line); }
+    .km-off .offcanvas-body { display: flex; flex-direction: column; }
+    @media (min-width: 992px) {
+      .km-off .offcanvas-body { flex-grow: 1; flex-direction: row; align-items: center; justify-content: flex-end; }
+      .nav-cv { margin-left: .8rem; }
+    }
+    @media (min-width: 1200px) { .km-links .nav-link .n { display: inline; } }
+    @media (min-width: 992px) and (max-width: 1199.98px) { .km-nav .brand-name { display: none; } }
     @media (max-width: 991.98px) {
-      .km-nav .navbar-collapse { padding: .75rem 0 .5rem; }
-      .km-nav .nav-link.active::after { left: .85rem; right: auto; width: 24px; }
+      .km-links .nav-link { padding: .35rem 0 !important; font: 700 1.7rem "Bricolage Grotesque", sans-serif; letter-spacing: -.02em; }
+      .km-links .nav-link .n { display: inline; font-size: .8rem; }
+      .km-links .nav-link.active::after { left: 0; right: auto; bottom: 0; width: 30px; }
+      .nav-cv { align-self: flex-start; margin-top: 1.6rem; }
     }
 
-    /* ================= Botões e chips ================= */
-    .btn-km, .btn-ghost { display: inline-flex; align-items: center; gap: .55rem; border-radius: 999px; padding: .8rem 1.4rem; font-weight: 600; transition: transform .2s, box-shadow .2s, border-color .2s, background-color .2s; }
-    .btn-km {
-      border: 0; color: #04131a !important;
-      background: linear-gradient(120deg, var(--km-accent), var(--km-accent-2));
-      box-shadow: 0 12px 30px -12px rgba(var(--km-accent-rgb), .8);
+    /* Git graph vertical: o histórico do portfólio acompanha a rolagem */
+    .git { position: fixed; left: 0; top: var(--nav-h); bottom: 0; z-index: 10; width: var(--route-w); pointer-events: none; }
+    .git svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+    .git-track { stroke: var(--ink); stroke-width: 2.5; stroke-dasharray: 1 7; stroke-linecap: round; opacity: .5; }
+    .git-progress { stroke: var(--accent); stroke-width: 5; stroke-linecap: round; }
+    .git-branch { fill: none; stroke-width: 3.5; stroke-linecap: round; opacity: .28; transition: opacity .35s; }
+    .git-branch[data-on="1"] { opacity: 1; }
+    .git-branch.c-blue { stroke: var(--blue); }
+    .git-branch.c-good { stroke: var(--good); }
+    .git-node {
+      position: absolute; pointer-events: auto;
+      width: 16px; height: 16px; padding: 0; border-radius: 50%;
+      border: 2.5px solid var(--line); background: var(--paper);
+      transform: translate(-50%, -50%);
+      transition: background-color .25s, box-shadow .25s;
     }
-    .btn-km:hover, .btn-km:focus-visible { transform: translateY(-2px); box-shadow: 0 18px 40px -14px rgba(var(--km-accent-rgb), .9); }
-    .btn-ghost { border: 1px solid var(--km-border); background: var(--km-surface); color: var(--km-text) !important; }
-    .btn-ghost:hover, .btn-ghost:focus-visible { transform: translateY(-2px); border-color: rgba(var(--km-accent-rgb), .6); background: rgba(var(--km-accent-rgb), .08); }
-    .chip {
-      display: inline-flex; align-items: center; gap: .4rem;
-      padding: .32rem .72rem; border-radius: 999px;
-      font: 500 .76rem "JetBrains Mono", monospace;
-      color: var(--km-text); background: rgba(var(--km-accent-rgb), .07);
-      border: 1px solid rgba(var(--km-accent-rgb), .22);
-      white-space: nowrap;
+    .git-node:hover { background: var(--lime); }
+    .git-node[data-passed="1"] { background: var(--accent); }
+    .git-node.k-branch { width: 13px; height: 13px; }
+    .git-node.k-branch.c-blue[data-passed="1"] { background: var(--blue); }
+    .git-node.k-branch.c-good[data-passed="1"] { background: var(--good); }
+    .git-node.k-merge { width: 12px; height: 12px; border-radius: 3px; transform: translate(-50%, -50%) rotate(45deg); }
+    .git-node.k-root { width: 28px; height: 28px; border-radius: 8px; background: var(--accent); color: #15130f; font: 800 .62rem "Bricolage Grotesque", sans-serif; box-shadow: 2px 2px 0 var(--shadow-c); }
+    .git-node[data-head="1"] { background: var(--lime); box-shadow: 0 0 0 4px rgba(var(--accent-rgb), .35); }
+    .git-label {
+      position: absolute; left: calc(50% + var(--dx, 36px)); top: 50%; transform: translateY(-50%);
+      display: inline-flex; gap: .35rem; white-space: nowrap;
+      padding: .06rem .4rem; border-radius: 5px;
+      border: 1.5px solid var(--line); background: var(--paper);
+      font: 600 .68rem "JetBrains Mono", monospace; color: var(--muted);
+      transition: background-color .25s, color .25s;
     }
-    .chip-row { display: flex; flex-wrap: wrap; gap: .45rem; }
+    .git-label .msg { display: inline-flex; gap: .35rem; }
+    .git-label .h { color: var(--accent); }
+    .git-label .ref { display: none; }
+    .git-node[data-passed="1"] .git-label { color: var(--ink); }
+    /* HEAD como no `git log --decorate`: aponta para o branch em que você está (main ou feat/...). Escuro nos dois temas. */
+    .git-node[data-head="1"] .git-label { flex-direction: column; gap: .05rem; padding: .18rem .35rem; background: #15130f; color: #f3ede2; }
+    .git-node[data-head="1"] .git-label .ref { display: block; color: var(--lime); font-size: .6rem; font-weight: 700; letter-spacing: -.03em; }
+    .git-node[data-head="1"] .git-label .ref b { color: #ff7a45; }
+    .git-node.c-blue[data-head="1"] .git-label .ref b { color: #8fa6ff; }
+    .git-node.c-good[data-head="1"] .git-label .ref b { color: #3ccf7e; }
+    .git-node[data-head="1"] .git-label .h { display: none; }
+    .git-node[data-near="1"] .git-label { visibility: hidden; }
+    .git-label.is-crowded { display: none; }
+    @media (min-width: 992px) { .git-node[data-head="1"] .git-label.is-crowded { display: inline-flex; } }
+    .git-head {
+      position: absolute; left: 0; top: 0; z-index: 2; pointer-events: none;
+      width: 32px; height: 32px; border-radius: 50%;
+      display: grid; place-items: center; font-size: 1.05rem;
+      border: 2.5px solid var(--line); background: var(--lime); color: #15130f;
+      box-shadow: 2px 2px 0 var(--shadow-c);
+      will-change: transform;
+    }
+    .git-head i { display: block; transform: rotate(var(--spin, 0deg)); }
+    @media (max-width: 1199.98px) { .git-label .h { display: none; } }
+    @media (max-width: 991.98px) {
+      .git-track { stroke-width: 2; }
+      .git-progress { stroke-width: 4; }
+      .git-branch { stroke-width: 2.5; }
+      .git-node { width: 10px; height: 10px; border-width: 2px; }
+      .git-node.k-branch, .git-node.k-merge { width: 8px; height: 8px; }
+      .git-node.k-root { width: 16px; height: 16px; border-radius: 4px; font-size: 0; }
+      .git-label { display: none; }
+      .git-head { width: 22px; height: 22px; font-size: .72rem; border-width: 2px; }
+    }
 
-    /* ================= Estrutura de seção ================= */
-    .section { position: relative; padding: 112px 0; }
-    @media (max-width: 767.98px) { .section { padding: 80px 0; } }
-    .section-header { max-width: 720px; margin-bottom: 3.2rem; }
-    .section-header.text-center { margin-left: auto; margin-right: auto; }
-    .kicker {
+    /* Selo girando, colado no cartão de código */
+    .spin-badge {
+      position: absolute; z-index: 3; right: -6px; bottom: -10px;
+      width: 96px; height: 96px; border-radius: 50%;
+      display: grid; place-items: center;
+      background: var(--lime); color: #15130f;
+      border: 2px solid var(--line); box-shadow: 3px 3px 0 var(--shadow-c);
+    }
+    .spin-badge svg { position: absolute; inset: 0; width: 100%; height: 100%; animation: spin 16s linear infinite; }
+    .spin-badge text { font: 700 10px "JetBrains Mono", monospace; letter-spacing: 1px; text-transform: uppercase; fill: #15130f; }
+    .spin-badge i { font-size: 1.35rem; }
+    @media (max-width: 575.98px) { .spin-badge { width: 76px; height: 76px; right: -4px; } .spin-badge i { font-size: 1.05rem; } }
+
+    /* ================= Botões, chips, cartões ================= */
+    .btn-pop {
+      --pop-bg: var(--accent); --pop-fg: var(--on-accent);
+      --bs-btn-bg: var(--pop-bg); --bs-btn-hover-bg: var(--pop-bg); --bs-btn-active-bg: var(--pop-bg);
+      --bs-btn-color: var(--pop-fg); --bs-btn-hover-color: var(--pop-fg); --bs-btn-active-color: var(--pop-fg);
+      --bs-btn-border-color: var(--line); --bs-btn-hover-border-color: var(--line); --bs-btn-active-border-color: var(--line);
+      --bs-btn-border-width: 2px; --bs-btn-border-radius: 12px;
+      --bs-btn-padding-x: 1.2rem; --bs-btn-padding-y: .72rem; --bs-btn-font-weight: 700;
+      --bs-btn-focus-box-shadow: 0 0 0 3px rgba(var(--accent-rgb), .4);
       display: inline-flex; align-items: center; gap: .55rem;
-      font: 600 .78rem "JetBrains Mono", monospace; letter-spacing: .14em; text-transform: uppercase;
-      color: var(--km-accent);
+      box-shadow: 4px 4px 0 var(--shadow-c);
+      transition: transform .15s, box-shadow .15s;
     }
-    .kicker::before { content: ""; width: 28px; height: 2px; border-radius: 2px; background: currentColor; }
-    .section-header.text-center .kicker::after { content: ""; width: 28px; height: 2px; border-radius: 2px; background: currentColor; }
-    .section-title { font-size: clamp(2rem, 4.2vw, 3rem); font-weight: 700; margin: .9rem 0 1rem; }
-    .section-lead { color: var(--km-muted); font-size: 1.08rem; line-height: 1.7; margin: 0; }
-    .glass {
-      background: var(--km-surface);
-      border: 1px solid var(--km-border);
-      border-radius: 22px;
-      -webkit-backdrop-filter: blur(12px);
-              backdrop-filter: blur(12px);
+    .btn-pop:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--shadow-c); }
+    .btn-pop:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--shadow-c) !important; }
+    .btn-pop.alt { --pop-bg: var(--card); --pop-fg: var(--ink); }
+    .btn-pop.ink { --pop-bg: var(--ink); --pop-fg: var(--paper); }
+    .btn-pop.lime { --pop-bg: var(--lime); --pop-fg: #15130f; }
+    .cardx { background: var(--card); border: 2px solid var(--line); border-radius: 18px; box-shadow: 5px 5px 0 var(--shadow-c); }
+    .lift { transition: transform .18s, box-shadow .18s; }
+    .lift:hover { transform: translate(-3px, -3px); box-shadow: 8px 8px 0 var(--shadow-c); }
+    .chip-row { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .chip {
+      display: inline-flex; align-items: center; gap: .35rem; white-space: nowrap;
+      padding: .22rem .58rem; border-radius: 8px;
+      border: 1.5px solid var(--line); background: var(--paper); color: var(--ink);
+      font: 600 .74rem "JetBrains Mono", monospace;
     }
+
+    /* ================= Seções ================= */
+    .section { position: relative; padding: 96px 0; }
+    .section.alt { background: var(--paper-2); border-top: 2px solid var(--line); border-bottom: 2px solid var(--line); }
+    @media (max-width: 767.98px) { .section { padding: 72px 0; } }
+    .sec-head { display: flex; align-items: flex-end; flex-wrap: wrap; gap: .4rem 1.2rem; margin-bottom: 2.4rem; }
+    .sec-num { font: 800 clamp(3.6rem, 8vw, 6.2rem)/.78 "Bricolage Grotesque", sans-serif; letter-spacing: -.05em; color: transparent; -webkit-text-stroke: 2px var(--ink); }
+    .sec-kicker {
+      display: inline-block; margin-bottom: .6rem; padding: .22rem .55rem; border-radius: 6px;
+      background: var(--ink); color: var(--paper);
+      font: 600 .74rem "JetBrains Mono", monospace; letter-spacing: .14em; text-transform: uppercase;
+    }
+    .sec-title { margin: 0; font-size: clamp(2.2rem, 4.8vw, 3.5rem); line-height: .98; }
+    .sec-lead { max-width: 740px; margin: -.8rem 0 2.6rem; color: var(--muted); font-size: 1.1rem; line-height: 1.7; }
 
     /* ================= Animações de entrada ================= */
-    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .85s cubic-bezier(.2,.7,.2,1), transform .85s cubic-bezier(.2,.7,.2,1); }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
     .reveal.is-visible { opacity: 1; transform: none; }
 
-    /* ================= Hero ================= */
-    .hero { position: relative; min-height: 100vh; min-height: 100svh; display: flex; align-items: center; padding: 130px 0 90px; overflow: hidden; }
-    .hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .6; }
-    .hero-glow {
-      position: absolute; inset: 0; pointer-events: none;
-      background:
-        radial-gradient(620px circle at var(--gx, 72%) var(--gy, 32%), rgba(var(--km-accent-rgb), .15), transparent 60%),
-        radial-gradient(800px circle at 8% 92%, rgba(var(--km-accent-2-rgb), .12), transparent 60%);
+    /* ================= Topo ================= */
+    .hero { position: relative; padding: 64px 0 40px; }
+    .hero-intro { display: flex; flex-wrap: wrap; align-items: baseline; gap: .2rem .7rem; }
+    .hero-hello { display: inline-block; font-size: 2rem; transform: rotate(-3deg); }
+    .hero-name {
+      display: inline-block; padding: .15rem .6rem; border-radius: 10px;
+      border: 2px solid var(--line); background: var(--card); box-shadow: 3px 3px 0 var(--shadow-c);
+      font: 800 1.35rem "Bricolage Grotesque", sans-serif; letter-spacing: -.02em;
+      transform: rotate(1.5deg);
     }
-    .hero::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 160px; background: linear-gradient(transparent, var(--km-bg)); pointer-events: none; }
-    .hero > .container { position: relative; z-index: 2; }
-    .eyebrow {
-      display: inline-flex; align-items: center; gap: .65rem;
-      padding: .45rem .95rem; border-radius: 999px;
-      border: 1px solid var(--km-border); background: var(--km-surface);
-      color: var(--km-muted); font-size: .86rem;
-      -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    .hero-title { margin: .6rem 0 1.4rem; font-size: clamp(2.6rem, 6vw, 4.7rem); font-weight: 800; line-height: .98; letter-spacing: -.035em; }
+    .hero-title em { font-size: 1.06em; }
+    .typing {
+      display: inline-flex; align-items: center; min-height: 2.7rem; padding: .45rem .85rem;
+      border: 2px solid var(--line); border-radius: 10px; background: var(--card);
+      box-shadow: 3px 3px 0 var(--shadow-c);
+      font: 500 1rem "JetBrains Mono", monospace;
     }
-    .pulse { position: relative; width: 8px; height: 8px; border-radius: 50%; background: var(--km-accent); flex: none; }
-    .pulse::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--km-accent); animation: ping 1.8s cubic-bezier(0,0,.2,1) infinite; }
-    .display-name { font-size: clamp(2.8rem, 7.2vw, 5.4rem); font-weight: 700; line-height: .98; margin: 1.5rem 0 1.1rem; }
-    .display-name small { display: block; font-size: .32em; font-weight: 500; letter-spacing: 0; color: var(--km-muted); margin-bottom: .7rem; font-family: "Inter", sans-serif; }
-    .typing { font: 500 clamp(1rem, 2.3vw, 1.32rem) "JetBrains Mono", monospace; color: var(--km-accent); min-height: 1.9em; margin-bottom: 1.1rem; }
-    .typing .prompt { color: var(--km-muted); margin-right: .55rem; }
-    .caret { display: inline-block; width: .55ch; height: 1.1em; margin-left: 3px; vertical-align: -.18em; background: var(--km-accent); animation: blink 1s steps(1) infinite; }
-    .hero-lead { color: var(--km-muted); font-size: 1.1rem; line-height: 1.75; max-width: 600px; margin-bottom: 2rem; }
-    .socials { display: flex; gap: .6rem; margin-top: 2.2rem; }
-    .scroll-cue {
-      position: absolute; left: 50%; bottom: -54px; transform: translateX(-50%);
-      width: 26px; height: 42px; border-radius: 14px; border: 2px solid var(--km-border);
-      display: flex; justify-content: center; padding-top: 7px;
+    .typing .prompt { color: var(--accent); margin-right: .55rem; }
+    .caret { display: inline-block; width: .55ch; height: 1.1em; margin-left: 3px; vertical-align: -.18em; background: var(--accent); animation: blink 1s steps(1) infinite; }
+    .hero-lead { max-width: 640px; margin: 1.5rem 0 1.9rem; color: var(--muted); font-size: 1.1rem; line-height: 1.75; }
+    .stats {
+      display: grid; grid-template-columns: repeat(3, 1fr); overflow: hidden; margin-top: 64px;
+      border: 2px solid var(--line); border-radius: 18px; background: var(--card);
+      box-shadow: 5px 5px 0 var(--shadow-c);
     }
-    .scroll-cue span { width: 4px; height: 8px; border-radius: 2px; background: var(--km-accent); animation: scrollCue 1.8s ease-in-out infinite; }
-    @media (max-width: 991.98px) { .scroll-cue { display: none; } }
+    .stat { padding: 1.4rem 1.5rem; }
+    .stat + .stat { border-left: 2px solid var(--line); }
+    .stat-value { font: 800 clamp(2.4rem, 5vw, 3.4rem)/1 "Bricolage Grotesque", sans-serif; letter-spacing: -.04em; }
+    .stat-value .plus { color: var(--accent); }
+    .stat-label { margin-top: .45rem; color: var(--muted); font-size: .92rem; line-height: 1.4; }
+    @media (max-width: 767.98px) {
+      .stats { grid-template-columns: 1fr; }
+      .stat + .stat { border-left: 0; border-top: 2px solid var(--line); }
+    }
 
-    /* Cartão de código */
-    .code-wrap { position: relative; padding: 18px 8px; }
+    /* Cartão de código (continua escuro nos dois temas) */
+    .code-wrap { position: relative; max-width: 600px; padding: 22px 10px 26px; container-type: inline-size; }
     .code-card {
-      position: relative; overflow: hidden; border-radius: 20px;
-      background: rgba(11, 17, 32, .92); color: #d6deeb;
-      border: 1px solid rgba(148, 163, 184, .18);
-      box-shadow: 0 40px 90px -30px var(--km-shadow), 0 0 0 1px rgba(var(--km-accent-rgb), .06), 0 0 80px -30px rgba(var(--km-accent-rgb), .45);
-      transform: perspective(1300px) rotateY(-9deg) rotateX(5deg);
-      transition: transform .7s cubic-bezier(.2,.7,.2,1);
+      position: relative; overflow: hidden; border-radius: 16px;
+      background: #0f1220; color: #d6deeb;
+      border: 2px solid var(--line);
+      box-shadow: 6px 6px 0 var(--shadow-c);
+      transform: rotate(1.5deg);
+      transition: transform .35s cubic-bezier(.2,.8,.2,1);
     }
-    .code-card:hover { transform: perspective(1300px) rotateY(0) rotateX(0); }
-    .code-head { display: flex; align-items: center; gap: .5rem; padding: .85rem 1.1rem; border-bottom: 1px solid rgba(148, 163, 184, .14); font: 500 .78rem "JetBrains Mono", monospace; color: #8b9bb4; }
+    .code-card:hover { transform: rotate(0deg); }
+    .code-head { display: flex; align-items: center; gap: .5rem; padding: .8rem 1.05rem; border-bottom: 1px solid rgba(214, 222, 235, .14); font: 500 .78rem "JetBrains Mono", monospace; color: #8b9bb4; }
     .code-head .file { margin-left: .6rem; }
     .dot { width: 11px; height: 11px; border-radius: 50%; }
     .dot.r { background: #ff5f57; } .dot.y { background: #febc2e; } .dot.g { background: #28c840; }
-    .code-body { padding: 1.2rem 1.2rem 1.4rem; font: .85rem/1.85 "JetBrains Mono", monospace; overflow-x: auto; white-space: pre; }
-    .code-line { opacity: 0; animation: lineIn .5s cubic-bezier(.2,.7,.2,1) forwards; animation-delay: calc(var(--l) * 120ms + 500ms); }
+    .code-body { padding: 1.1rem 1.15rem 1.3rem; overflow-x: auto; white-space: pre; font: .85rem/1.85 "JetBrains Mono", monospace; }
+    /* A fonte encolhe com a largura do cartão para a linha mais longa (~43 caracteres) nunca ser cortada. */
+    .code-body { font-size: clamp(.68rem, calc((100cqi - 84px) / 26), .85rem); }
+    .code-line { opacity: 0; animation: lineIn .5s cubic-bezier(.2,.7,.2,1) forwards; animation-delay: calc(var(--l) * 110ms + 400ms); }
     .code-line .ln { display: inline-block; width: 2ch; margin-right: 1.1rem; text-align: right; color: #4b5b75; user-select: none; }
     .tok-kw { color: #c792ea; } .tok-cls { color: #ffcb6b; } .tok-str { color: #c3e88d; }
     .tok-fn { color: #82aaff; } .tok-op { color: #89ddff; } .tok-cm { color: #6b7f99; font-style: italic; } .tok-self { color: #f78c6c; }
-    .float-badge {
-      position: absolute; z-index: 3;
-      display: flex; align-items: center; gap: .5rem;
-      padding: .55rem .85rem; border-radius: 14px;
-      background: var(--km-surface-strong); color: var(--km-text);
-      border: 1px solid var(--km-border);
-      box-shadow: 0 20px 40px -20px var(--km-shadow);
-      font-size: .8rem; font-weight: 600;
-      animation: floaty 6s ease-in-out infinite;
+    .sticker {
+      position: absolute; z-index: 3; display: inline-flex; align-items: center; gap: .45rem;
+      padding: .5rem .8rem; border-radius: 12px; border: 2px solid var(--line);
+      box-shadow: 3px 3px 0 var(--shadow-c); font-weight: 700; font-size: .82rem; color: #15130f;
     }
-    .float-badge i { color: var(--km-accent); font-size: 1rem; }
-    .float-badge.b1 { top: 0; right: 18px; }
-    .float-badge.b2 { bottom: 0; left: 0; animation-delay: -3s; }
-    .float-badge.b2 i { color: var(--km-warm); }
-    @media (max-width: 575.98px) {
-      .code-body { font-size: .74rem; }
-      .float-badge { font-size: .72rem; padding: .45rem .7rem; }
-      .float-badge.b1 { right: 8px; }
-    }
+    .sticker.s1 { top: 0; right: 4px; background: var(--lime); transform: rotate(4deg); }
+    .sticker.s2 { bottom: 4px; left: -4px; background: var(--accent); transform: rotate(-3deg); }
+    @media (max-width: 575.98px) { .sticker { font-size: .74rem; } }
 
-    /* ================= Sobre + números ================= */
-    .about-text p { color: var(--km-muted); font-size: 1.06rem; line-height: 1.8; }
-    .about-text strong { color: var(--km-text); font-weight: 600; }
-    .fact { display: flex; gap: 1rem; align-items: flex-start; padding: 1.05rem 1.2rem; }
-    .fact + .fact { border-top: 1px solid var(--km-border); }
+    /* Faixa de tecnologias */
+    .marquee-wrap { overflow: hidden; padding: 26px 0; }
+    .marquee {
+      margin: 0 -24px; padding: .85rem 0; overflow: hidden;
+      background: var(--ink); color: var(--paper);
+      border-top: 2px solid var(--line); border-bottom: 2px solid var(--line);
+      transform: rotate(-1.4deg);
+    }
+    .marquee-track { display: flex; width: max-content; animation: marquee 40s linear infinite; }
+    .marquee-item { display: inline-flex; align-items: center; gap: .6rem; margin-right: 1.4rem; white-space: nowrap; font: 700 1.3rem "Bricolage Grotesque", sans-serif; }
+    .marquee-item i { font-size: 1.35rem; color: var(--accent); }
+    .marquee-item::after { content: "✶"; margin-left: 1.4rem; color: var(--accent); }
+
+    /* ================= Sobre ================= */
+    .about-text { max-width: 820px; }
+    .about-text p { font-size: 1.14rem; line-height: 1.8; }
+    .about-text p:first-child::first-letter { float: left; margin: .4rem .55rem 0 0; font: 800 3.8rem/.75 "Bricolage Grotesque", sans-serif; color: var(--accent); }
+    .about-text strong { font-weight: 700; }
+    .about-facts { margin-top: 2.2rem; }
+    .fact-card { height: 100%; display: flex; align-items: center; gap: .85rem; padding: 1rem 1.1rem; }
+    .fact-card .fact-icon { color: #15130f; }
+    .fact-text { min-width: 0; display: flex; flex-direction: column; gap: .1rem; }
+    .fact-text small { font: 600 .7rem "JetBrains Mono", monospace; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+    .fact-text strong { font-size: .98rem; line-height: 1.3; }
     .fact-icon {
-      flex: none; width: 42px; height: 42px; border-radius: 12px;
+      flex: none; width: 42px; height: 42px; border-radius: 11px;
       display: grid; place-items: center; font-size: 1.1rem;
-      color: var(--km-accent); background: rgba(var(--km-accent-rgb), .1); border: 1px solid rgba(var(--km-accent-rgb), .22);
+      border: 2px solid var(--line); background: var(--paper);
     }
-    .fact small { display: block; color: var(--km-muted); font-size: .8rem; }
-    .fact span { font-weight: 600; }
-    .stat { height: 100%; padding: 1.8rem 1.5rem; text-align: center; position: relative; overflow: hidden; }
-    .stat::before { content: ""; position: absolute; inset: auto -20% -60% -20%; height: 120%; background: radial-gradient(closest-side, rgba(var(--km-accent-rgb), .12), transparent); pointer-events: none; }
-    .stat-value { font: 700 clamp(2.4rem, 5vw, 3.4rem)/1 "Space Grotesk", sans-serif; }
-    .stat-label { color: var(--km-muted); margin-top: .6rem; font-size: .95rem; }
 
-    /* ================= Niterói em camadas ================= */
-    .city-section { background: linear-gradient(180deg, transparent, rgba(var(--km-accent-rgb), .045) 30%, rgba(var(--km-accent-2-rgb), .045) 70%, transparent); }
-    .city-tabs.nav {
-      display: inline-flex; flex-wrap: wrap; justify-content: center; gap: .3rem;
-      padding: .35rem; border-radius: 999px;
-      border: 1px solid var(--km-border); background: var(--km-surface);
+    /* ================= Niterói ================= */
+    .city-tabs.nav-underline {
+      --bs-nav-underline-gap: 1.8rem; --bs-nav-underline-border-width: 4px;
+      --bs-nav-underline-link-active-color: var(--ink);
+      margin-bottom: 2.6rem; border-bottom: 2px solid var(--line);
     }
     .city-tabs .nav-link {
-      display: flex; align-items: center; gap: .55rem;
-      padding: .7rem 1.3rem; border-radius: 999px !important;
-      color: var(--km-muted); font-weight: 600; transition: color .25s, background-color .25s, box-shadow .25s;
+      display: flex; align-items: center; gap: .5rem; margin-bottom: -2px; padding: .6rem 0;
+      color: var(--muted); font: 700 1.2rem "Bricolage Grotesque", sans-serif;
     }
-    .city-tabs .nav-link:hover { color: var(--km-text); }
-    .city-tabs .nav-link.active {
-      color: #04131a !important;
-      background: linear-gradient(120deg, var(--km-accent), var(--km-accent-2)) !important;
-      box-shadow: 0 10px 26px -12px rgba(var(--km-accent-rgb), .9);
+    .city-tabs .nav-link:hover { color: var(--ink); border-bottom-color: rgba(var(--accent-rgb), .4); }
+    .city-tabs .nav-link.active { color: var(--ink); border-bottom-color: var(--accent); }
+    .tab-badge.badge {
+      margin-left: .15rem; padding: .22rem .5rem; border: 1.5px solid var(--line);
+      background-color: var(--paper) !important; color: var(--muted);
+      font: 600 .66rem "JetBrains Mono", monospace; letter-spacing: 0;
     }
-    .stack-card, .dash-card { padding: 1.4rem; }
-    .dash-head { display: flex; justify-content: space-between; align-items: center; gap: .8rem; margin-bottom: 1.1rem; }
-    .dash-title { display: inline-flex; align-items: center; gap: .55rem; font-weight: 600; font-size: .95rem; }
-    .dash-tag { flex: none; padding: .2rem .6rem; border-radius: 999px; border: 1px solid var(--km-border); font: 500 .72rem "JetBrains Mono", monospace; color: var(--km-muted); }
-    .live-dot { position: relative; flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--km-good); }
-    .live-dot::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--km-good); animation: ping 1.8s cubic-bezier(0,0,.2,1) infinite; }
+    .city-tabs .nav-link.active .tab-badge { background-color: var(--accent) !important; color: #15130f; }
+    /* No celular os selos fariam as abas quebrarem em duas linhas */
+    @media (max-width: 575.98px) { .tab-badge { display: none; } }
+    .city-kicker { font: 600 .8rem "JetBrains Mono", monospace; color: var(--muted); }
+    .city-name { margin: .4rem 0 .9rem; font-size: clamp(1.9rem, 3.8vw, 2.7rem); font-weight: 800; letter-spacing: -.035em; }
+    .city-pitch { color: var(--muted); font-size: 1.06rem; line-height: 1.75; }
+    .city-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; margin: 1.4rem 0 .4rem; }
+    .city-fact { min-width: 0; padding: .85rem .9rem; border-radius: 14px; border: 2px solid var(--line); background: var(--card); }
+    .city-fact strong { display: block; font: 800 1.55rem/1.1 "Bricolage Grotesque", sans-serif; color: var(--accent); }
+    .city-fact small { display: block; margin-top: .2rem; color: var(--muted); font-size: .78rem; line-height: 1.35; }
+    .contrib-title { margin: 1.8rem 0 1rem; font: 700 1.6rem "Caveat", cursive; color: var(--accent); transform: rotate(-1.5deg); display: inline-block; }
+    .contrib { display: flex; gap: 1rem; padding: 1.1rem 1.2rem; }
+    .contrib-icon {
+      flex: none; width: 46px; height: 46px; border-radius: 12px;
+      display: grid; place-items: center; font-size: 1.2rem;
+      border: 2px solid var(--line); background: var(--accent); color: #15130f;
+    }
+    .contrib:nth-child(2) .contrib-icon { background: var(--lime); }
+    .contrib:nth-child(3) .contrib-icon { background: var(--blue); color: #fff; }
+    .contrib h4 { margin: 0 0 .25rem; font-size: 1.08rem; font-weight: 700; }
+    .contrib p { margin: 0; color: var(--muted); font-size: .95rem; line-height: 1.6; }
+
+    .stack-card, .dash-card { padding: 1.1rem; }
+    .dash-head { display: flex; justify-content: space-between; align-items: center; gap: .8rem; margin-bottom: .9rem; }
+    .dash-title { display: inline-flex; align-items: center; gap: .55rem; font-weight: 700; font-size: .95rem; }
+    .dash-tag { flex: none; padding: .18rem .55rem; border-radius: 6px; border: 1.5px solid var(--line); font: 600 .7rem "JetBrains Mono", monospace; }
+    .live-dot { position: relative; flex: none; width: 9px; height: 9px; border-radius: 50%; background: var(--good); }
+    .live-dot::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--good); animation: ping 1.8s cubic-bezier(0,0,.2,1) infinite; }
+
+    .layer-legend { margin-top: .4rem; gap: .3rem; --bs-list-group-bg: transparent; }
+    .layer-legend .list-group-item {
+      display: flex; align-items: flex-start; gap: .85rem;
+      padding: .75rem .8rem; border-radius: 12px !important;
+      border: 2px solid transparent; background: transparent; color: var(--ink);
+      transition: background-color .2s, border-color .2s;
+    }
+    .layer-legend .list-group-item + .list-group-item { border-top-width: 2px; margin-top: 0; }
+    .layer-legend .list-group-item:hover { background: var(--paper); }
+    .layer-legend .list-group-item.active { background: var(--paper); border-color: var(--line); color: var(--ink); box-shadow: 3px 3px 0 var(--shadow-c); }
+    .layer-legend .list-group-item.is-mine.active { background: rgba(var(--accent-rgb), .12); }
+    /* Faixa na camada que está no holograma */
+    .layer-legend .list-group-item.active::before {
+      content: ""; position: absolute; left: -2px; top: 12px; bottom: 12px; width: 5px;
+      border-radius: 0 4px 4px 0; background: var(--accent);
+    }
+    .layer-legend .list-group-item.active .layer-icon { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(var(--accent-rgb), .25); }
+    /* Camada que assumiu o holograma porque a anterior sumiu atrás do projetor */
+    .layer-legend .list-group-item.is-picked { animation: layerPick .9s cubic-bezier(.2,.8,.2,1); }
+    .layer-legend .list-group-item.is-picked .layer-icon { animation: iconPick .9s cubic-bezier(.2,.8,.2,1); }
+    .layer-legend strong { font-size: .97rem; }
+    .layer-legend small { display: block; margin-top: .2rem; color: var(--muted); font: .74rem/1.45 "JetBrains Mono", monospace; }
+    .layer-icon {
+      flex: none; width: 38px; height: 38px; border-radius: 10px;
+      display: grid; place-items: center; font-size: 1.1rem;
+      border: 2px solid var(--line); background: var(--card); color: var(--ink);
+    }
+    .layer-icon.is-mine { background: var(--accent); color: #15130f; }
+    .layer-text { min-width: 0; }
+    .layer-name { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .5rem; }
+    .mine-badge {
+      display: inline-flex; align-items: center; gap: .3rem;
+      padding: .08rem .45rem; border-radius: 6px;
+      border: 1.5px solid var(--line); background: var(--lime); color: #15130f;
+      font: 700 .66rem "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: .04em;
+    }
+    .mine-badge i { font-size: .65rem; color: var(--accent); }
+    .layer-role { display: block; margin-top: .4rem; font-size: .86rem; line-height: 1.5; }
+    .mine-key { display: flex; gap: .45rem; align-items: baseline; margin-top: .8rem; padding-top: .8rem; border-top: 2px dashed var(--line); font-size: .8rem; color: var(--muted); }
+    .mine-key i { color: var(--accent); }
+
     /* Projetor de holograma: o palco fica escuro nos dois temas, como o cartão de código. */
+    .stack-card { --holo-h: 330px; --holo-gap: 16px; }
     .holo-stage {
       --holo-rgb: 45, 212, 191;
       position: relative; isolation: isolate; overflow: hidden;
-      height: 330px; margin-bottom: .6rem; border-radius: 18px;
-      border: 1px solid rgba(var(--holo-rgb), .28);
+      height: var(--holo-h); margin-bottom: .6rem; border-radius: 14px;
+      border: 2px solid var(--line);
       background:
         radial-gradient(ellipse 60% 45% at 50% 85%, rgba(var(--holo-rgb), .16), transparent 70%),
-        radial-gradient(ellipse at 50% 0%, #0d1830, #050912 70%);
-      transition: border-color .4s;
+        radial-gradient(ellipse at 50% 0%, #121a30, #06080f 70%);
     }
-    .holo-stage.is-mine { --holo-rgb: 251, 191, 36; }
-    /* No desktop o projetor acompanha a rolagem enquanto o mouse percorre a lista de camadas. */
-    @media (min-width: 992px) { .holo-stage { position: sticky; top: 88px; z-index: 5; } }
+    .holo-stage.is-mine { --holo-rgb: 255, 122, 61; }
+    /* O projetor acompanha a rolagem (no desktop e no celular) e a lista de camadas passa por baixo dele.
+       Em telas muito baixas, como celular deitado, ele ocuparia a tela toda, então fica parado. */
+    @media (min-height: 520px) {
+      /* A faixa com o fundo do cartão cobre o vão entre o menu e o projetor, para a lista sumir sem aparecer por cima. */
+      .holo-dock {
+        position: sticky; top: var(--nav-h); z-index: 5;
+        margin-top: calc(-1 * var(--holo-gap)); padding-top: var(--holo-gap); background: var(--card);
+      }
+      /* Ao navegar pelo teclado, a camada focada para logo abaixo do projetor, e não atrás dele. */
+      .layer-legend .list-group-item { scroll-margin-top: calc(var(--nav-h) + var(--holo-gap) + var(--holo-h) + 12px); }
+    }
+    @media (max-width: 991.98px) { .stack-card { --holo-gap: 8px; } }
     .holo-stage::before {
       content: ""; position: absolute; left: -50%; right: -50%; bottom: -12%; height: 55%; pointer-events: none;
       background-image:
@@ -405,252 +546,344 @@
     .holo-corner.br { bottom: 10px; right: 10px; border-bottom-width: 2px; border-right-width: 2px; }
     .holo-hud { position: absolute; z-index: 4; top: 18px; left: 22px; right: 22px; display: flex; justify-content: space-between; align-items: flex-start; gap: .6rem; pointer-events: none; }
     .holo-hud small { display: block; font: 500 .68rem "JetBrains Mono", monospace; letter-spacing: .12em; color: rgba(var(--holo-rgb), .9); }
-    .holo-hud strong { display: block; margin-top: .15rem; font: 600 1.05rem "Space Grotesk", sans-serif; color: #e6edf7; text-shadow: 0 0 12px rgba(var(--holo-rgb), .6); }
-    .holo-hud .mine-badge { color: #e6edf7; }
-    @keyframes holoSweep { to { transform: translateY(480px); } }
-    @keyframes holoFloat { 50% { transform: translate(-50%, calc(-50% - 8px)); } }
-    @keyframes beamPulse { 50% { opacity: .65; } }
-    .layer-legend { margin-top: .4rem; gap: .35rem; }
-    .layer-legend .list-group-item {
-      display: flex; align-items: flex-start; gap: .9rem;
-      padding: .8rem .9rem; border-radius: 14px !important;
-      border: 1px solid transparent; background: transparent; color: var(--km-text);
-      transition: background-color .25s, border-color .25s;
-    }
-    .layer-legend .list-group-item + .list-group-item { border-top-width: 1px; margin-top: 0; }
-    .layer-legend .list-group-item:hover { background: rgba(var(--km-accent-rgb), .05); }
-    .layer-legend .list-group-item.active { background: rgba(var(--km-accent-rgb), .09); border-color: rgba(var(--km-accent-rgb), .45); color: var(--km-text); }
-    .layer-legend strong { font-size: .95rem; }
-    .layer-legend .list-group-item.is-mine.active { background: rgba(var(--km-warm-rgb), .08); border-color: rgba(var(--km-warm-rgb), .5); }
-    .layer-text { min-width: 0; }
-    .layer-name { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .5rem; }
-    .mine-badge {
-      display: inline-flex; align-items: center; gap: .3rem;
-      padding: .1rem .5rem; border-radius: 999px;
-      border: 1px solid rgba(var(--km-warm-rgb), .45); background: rgba(var(--km-warm-rgb), .12);
-      font: 600 .68rem "JetBrains Mono", monospace; color: var(--km-text);
-    }
-    .mine-badge i, .mine-key i { color: var(--km-warm); font-size: .7rem; }
-    .layer-role { display: block; margin-top: .4rem; font-size: .84rem; line-height: 1.5; color: var(--km-text); }
-    .mine-key { display: flex; gap: .45rem; align-items: baseline; margin-top: .9rem; padding-top: .9rem; border-top: 1px solid var(--km-border); font-size: .78rem; color: var(--km-muted); }
-    .layer-legend small { display: block; color: var(--km-muted); font: .74rem/1.45 "JetBrains Mono", monospace; margin-top: .2rem; }
-    .layer-icon {
-      flex: none; width: 38px; height: 38px; border-radius: 11px;
-      display: grid; place-items: center; font-size: 1.1rem;
-      color: var(--km-accent); background: rgba(var(--km-accent-rgb), .1); border: 1px solid rgba(var(--km-accent-rgb), .25);
-    }
-    .layer-icon.is-mine { color: #1a1204; background: linear-gradient(135deg, var(--km-warm), var(--km-accent)); border: 0; }
-    .city-kicker { color: var(--km-muted); font: 500 .85rem "JetBrains Mono", monospace; }
-    .city-name { font-size: clamp(1.8rem, 3.6vw, 2.5rem); font-weight: 700; margin: .5rem 0 .9rem; }
-    .city-pitch { color: var(--km-muted); font-size: 1.05rem; line-height: 1.75; }
-    .contrib { display: flex; gap: 1rem; padding: 1.15rem 1.2rem; border-radius: 18px; border: 1px solid var(--km-border); background: var(--km-surface); transition: border-color .25s, transform .25s; }
-    .contrib:hover { border-color: rgba(var(--km-accent-rgb), .45); transform: translateX(4px); }
-    .contrib-icon {
-      flex: none; width: 46px; height: 46px; border-radius: 14px;
-      display: grid; place-items: center; font-size: 1.2rem; color: #04131a;
-      background: linear-gradient(135deg, var(--km-accent), var(--km-accent-2));
-    }
-    .contrib h4 { font-size: 1.05rem; margin: 0 0 .25rem; font-weight: 600; }
-    .contrib p { margin: 0; color: var(--km-muted); font-size: .94rem; line-height: 1.6; }
-    .city-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; margin: 1.4rem 0 .4rem; }
-    .city-fact { min-width: 0; padding: .85rem .9rem; border-radius: 14px; border: 1px solid var(--km-border); background: var(--km-surface); }
-    .city-fact strong { display: block; font: 700 1.35rem/1.15 "Space Grotesk", sans-serif; }
-    .city-fact small { display: block; margin-top: .2rem; color: var(--km-muted); font-size: .78rem; line-height: 1.35; }
-    .dash-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; margin-bottom: 1.4rem; }
-    .dash-kpi { min-width: 0; display: flex; flex-direction: column; gap: .15rem; padding: .85rem .8rem; border-radius: 14px; border: 1px solid var(--km-border); background: var(--km-surface-strong); }
-    .dash-kpi i { font-size: 1.05rem; color: var(--km-accent); }
-    .dash-kpi.tone-good i { color: var(--km-good); }
-    .dash-kpi.tone-warn i { color: var(--km-warm); }
-    .dash-kpi strong { margin-top: .3rem; font: 700 1.35rem/1.1 "Space Grotesk", sans-serif; }
-    .dash-kpi small { color: var(--km-muted); font-size: .76rem; line-height: 1.3; }
-    .dash-chart-title { font-weight: 600; font-size: .88rem; margin-bottom: 1.8rem; }
-    .bars { position: relative; display: flex; gap: 4px; height: 170px; border-bottom: 1px solid var(--km-border); }
+    .holo-hud strong { display: block; margin-top: .15rem; font: 700 1.1rem "Bricolage Grotesque", sans-serif; color: #f3ede2; text-shadow: 0 0 12px rgba(var(--holo-rgb), .6); }
+
+    /* Mini painel do Colab */
+    .dash-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; margin-bottom: 1rem; }
+    .dash-kpi { min-width: 0; display: flex; flex-direction: column; gap: .1rem; padding: .8rem .75rem; border-radius: 12px; border: 2px solid var(--line); background: var(--paper); }
+    .dash-kpi i { font-size: 1.05rem; color: var(--ink); }
+    .dash-kpi.tone-good i { color: var(--good); }
+    .dash-kpi.tone-warn i { color: var(--warn); }
+    .dash-kpi strong { margin-top: .25rem; font: 800 1.4rem/1.1 "Bricolage Grotesque", sans-serif; }
+    .dash-kpi small { color: var(--muted); font-size: .76rem; line-height: 1.3; }
+    .dash-progress { --bs-progress-height: 14px; --bs-progress-bg: var(--paper); --bs-progress-border-radius: 8px; margin-bottom: .45rem; border: 2px solid var(--line); }
+    .dash-progress .progress-bar { font: 700 .62rem "JetBrains Mono", monospace; color: #15130f; }
+    .bg-good { background-color: var(--good) !important; }
+    .bg-warn { background-color: var(--warn) !important; }
+    .dash-progress-legend { display: flex; justify-content: space-between; margin-bottom: 1.3rem; font: 600 .72rem "JetBrains Mono", monospace; color: var(--muted); }
+    .dash-chart-title { margin-bottom: 1.8rem; font-weight: 700; font-size: .9rem; }
+    .bars { position: relative; display: flex; gap: 4px; height: 170px; border-bottom: 2px solid var(--line); }
     .bar-col { position: relative; flex: 1 1 0; display: flex; align-items: flex-end; transition: opacity .25s; }
     .bar-col.is-dim { opacity: .4; }
-    .bar { width: 100%; height: 0; border-radius: 4px 4px 0 0; background: var(--km-accent); transition: height .9s cubic-bezier(.2,.8,.2,1) var(--d); }
+    .bar { width: 100%; height: 0; border-radius: 4px 4px 0 0; background: var(--accent); transition: height .9s cubic-bezier(.2,.8,.2,1) var(--d); }
     .bars.is-in .bar { height: var(--h); }
-    .bar.is-partial { background: repeating-linear-gradient(135deg, var(--km-accent) 0 4px, rgba(var(--km-accent-rgb), .4) 4px 8px); }
-    .bar-label { position: absolute; left: 50%; bottom: calc(var(--h) + 6px); transform: translateX(-50%); font: 600 .72rem "JetBrains Mono", monospace; color: var(--km-text); white-space: nowrap; opacity: 0; transition: opacity .4s 1s; }
+    .bar.is-partial { background: repeating-linear-gradient(135deg, var(--accent) 0 4px, rgba(var(--accent-rgb), .35) 4px 8px); }
+    .bar-label { position: absolute; left: 50%; bottom: calc(var(--h) + 6px); transform: translateX(-50%); font: 700 .72rem "JetBrains Mono", monospace; white-space: nowrap; opacity: 0; transition: opacity .4s 1s; }
     .bars.is-in .bar-label { opacity: 1; }
     .bar-tip {
       position: absolute; bottom: calc(var(--h) + 8px); z-index: 2;
       display: flex; flex-direction: column; padding: .45rem .65rem; border-radius: 10px;
-      background: var(--km-surface-strong); border: 1px solid var(--km-border); box-shadow: 0 12px 24px -12px var(--km-shadow);
-      font-size: .75rem; color: var(--km-muted); white-space: nowrap; pointer-events: none;
+      background: var(--card); border: 2px solid var(--line); box-shadow: 3px 3px 0 var(--shadow-c);
+      font-size: .75rem; color: var(--muted); white-space: nowrap; pointer-events: none;
     }
-    .bar-tip strong { color: var(--km-text); font: 600 .9rem "Space Grotesk", sans-serif; }
+    .bar-tip strong { color: var(--ink); font: 800 .95rem "Bricolage Grotesque", sans-serif; }
     .bar-tip.align-center { left: 50%; transform: translateX(-50%); }
     .bar-tip.align-start { left: 0; }
     .bar-tip.align-end { right: 0; }
     .bar-years { display: flex; gap: 4px; margin-top: .45rem; }
-    .bar-years span { flex: 1 1 0; text-align: center; font: 500 .66rem "JetBrains Mono", monospace; color: var(--km-muted); }
-    .dash-foot { margin-top: 1.1rem; font-size: .76rem; color: var(--km-muted); }
-    .flow-card { padding: 1.6rem 1.6rem 1.8rem; margin-top: 2.6rem; }
-    .flow-title { font: 600 .8rem "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: .12em; color: var(--km-muted); margin-bottom: 1.2rem; }
+    .bar-years span { flex: 1 1 0; text-align: center; font: 500 .66rem "JetBrains Mono", monospace; color: var(--muted); }
+    .dash-foot { margin-top: 1rem; font-size: .76rem; color: var(--muted); }
+
+    /* Fluxo */
+    .flow-card { margin-top: 2.6rem; padding: 1.5rem 1.5rem 1.7rem; }
+    .flow-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .3rem 1rem; margin-bottom: 1.1rem; }
+    .flow-title { font: 600 .78rem "JetBrains Mono", monospace; letter-spacing: .12em; text-transform: uppercase; }
+    .flow-hint { display: inline-flex; align-items: center; gap: .35rem; font: 500 .74rem "JetBrains Mono", monospace; color: var(--muted); }
+    .flow-hint i { color: var(--accent); }
+    .flow-hint .on-touch { display: none; }
+    @media (hover: none) { .flow-hint .on-hover { display: none; } .flow-hint .on-touch { display: inline; } }
     .flow { display: flex; align-items: stretch; }
     .flow-step {
-      flex: 1 1 0; min-width: 0;
-      padding: 1rem; border-radius: 16px;
-      border: 1px solid var(--km-border); background: var(--km-surface-strong);
-      display: flex; flex-direction: column; gap: .35rem;
-      transition: border-color .3s, transform .3s;
+      position: relative; flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: .35rem;
+      padding: .95rem; border-radius: 12px; border: 2px solid var(--line); background: var(--paper);
+      color: var(--ink); font: inherit; text-align: left;
+      transition: transform .2s, background-color .2s, box-shadow .2s;
     }
-    .flow-step:hover { border-color: rgba(var(--km-accent-rgb), .55); transform: translateY(-3px); }
-    .flow-step .idx { font: 600 .74rem "JetBrains Mono", monospace; color: var(--km-accent); }
-    .flow-step .lbl { font-weight: 600; font-size: .93rem; line-height: 1.35; }
-    .flow-link { flex: 0 0 34px; align-self: center; height: 2px; background: linear-gradient(90deg, var(--km-accent) 50%, transparent 0) 0 0 / 10px 2px repeat-x; animation: flowX .7s linear infinite; }
-    @media (max-width: 991.98px) {
+    .flow-step:hover, .flow-step[aria-describedby] { transform: translateY(-3px); background: var(--lime); color: #15130f; box-shadow: 3px 3px 0 var(--shadow-c); }
+    .flow-step:last-child { background: var(--accent); color: #15130f; }
+    .flow-step .idx { display: inline-flex; align-items: center; gap: .45rem; font: 700 .74rem "JetBrains Mono", monospace; }
+    .flow-step .idx i { font-size: .95rem; }
+    .flow-step .lbl { font-weight: 700; font-size: .93rem; line-height: 1.35; }
+    .flow-peek { position: absolute; top: .7rem; right: .75rem; font-size: .85rem; opacity: .45; transition: opacity .2s; }
+    .flow-step:hover .flow-peek, .flow-step[aria-describedby] .flow-peek { opacity: 1; }
+
+    /* Popover com a ilustração de cada etapa */
+    .popover.flow-pop {
+      --bs-popover-max-width: 320px;
+      --bs-popover-bg: var(--card); --bs-popover-border-color: var(--line); --bs-popover-border-width: 2px;
+      --bs-popover-border-radius: 14px; --bs-popover-inner-border-radius: 12px;
+      --bs-popover-header-bg: var(--paper-2); --bs-popover-header-color: var(--ink); --bs-popover-body-color: var(--ink);
+      --bs-popover-header-padding-x: .9rem; --bs-popover-header-padding-y: .6rem;
+      --bs-popover-body-padding-x: .9rem; --bs-popover-body-padding-y: .85rem;
+      width: 320px; box-shadow: 4px 4px 0 var(--shadow-c);
+    }
+    .flow-pop .popover-header { display: flex; gap: .45rem; align-items: baseline; border-bottom: 2px solid var(--line); font: 700 .92rem/1.25 "Bricolage Grotesque", sans-serif; }
+    .flow-pop .popover-header .idx { font: 700 .72rem "JetBrains Mono", monospace; color: var(--accent); }
+    .flow-pop p { margin: .7rem 0 0; color: var(--muted); font-size: .84rem; line-height: 1.5; }
+    .flow-art { overflow: hidden; border-radius: 10px; border: 2px solid var(--line); background: var(--paper); }
+    .flow-art svg { display: block; width: 100%; height: auto; }
+
+    /* Peças das ilustrações: cores vêm dos tokens do tema */
+    .flow-art .f { fill: var(--card); stroke: var(--ink); stroke-width: 1.6; stroke-linejoin: round; }
+    .flow-art .s { fill: none; stroke: var(--ink); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .flow-art .thin { stroke-width: 1.1; opacity: .45; }
+    .flow-art .wide { stroke-width: 3.2; }
+    .flow-art .dash { stroke-dasharray: 3 3; }
+    .flow-art .fillcard { fill: var(--card); }
+    .flow-art .paper2, .flow-art .f.side { fill: var(--paper-2); }
+    .flow-art .hot { fill: var(--accent); }
+    .flow-art .lit { fill: var(--lime); }
+    .flow-art .cool { fill: var(--blue); }
+    .flow-art .good { fill: var(--good); }
+    .flow-art .warn { fill: var(--warn); }
+    .flow-art .ink { fill: var(--ink); }
+    .flow-art .faint { opacity: .4; }
+    .flow-art .litsoft { fill: var(--lime); fill-opacity: .5; }
+    .flow-art .inkfix { fill: #15130f; }
+    .flow-art .hotline { stroke: var(--accent); }
+    .flow-art .coolline { stroke: var(--blue); }
+    .flow-art .darkline { stroke: #15130f; }
+    /* No escuro o lima translúcido vira verde-oliva; fica mais sutil */
+    [data-bs-theme="dark"] .flow-art .lit.faint { opacity: .14; }
+    [data-bs-theme="dark"] .flow-art .litsoft { fill-opacity: .2; }
+    .flow-art .h { font: 700 9.5px "Bricolage Grotesque", sans-serif; fill: var(--ink); }
+    .flow-art .t { font: 600 8px "JetBrains Mono", monospace; fill: var(--ink); }
+    .flow-art .t.b { font-weight: 800; font-size: 9px; }
+    .flow-art .tm { font: 500 7px "JetBrains Mono", monospace; fill: var(--muted); }
+    .flow-art .code { font: 500 7.5px "JetBrains Mono", monospace; fill: var(--ink); }
+    .flow-art .code .k, .flow-art .hotfill { fill: var(--accent); }
+    .flow-art .goodfill { fill: var(--good); }
+    .flow-art .warnfill { fill: var(--warn); }
+    .flow-art .dark { fill: #15130f; }
+    .flow-art .light { fill: #fff; }
+    .flow-art .limefix { fill: #e6ff57; }
+    /* Terminal: escuro nos dois temas, como o cartão de código */
+    .flow-art .term { fill: #0f1220; stroke: var(--line); stroke-width: 2; }
+    .flow-art .tc { font: 500 8px "JetBrains Mono", monospace; fill: #d6deeb; }
+    .flow-art .k-fn { fill: #82aaff; } .flow-art .k-op { fill: #89ddff; } .flow-art .k-cm { fill: #6b7f99; font-style: italic; }
+    .flow-art .k-ln { fill: #4b5b75; } .flow-art .k-dim { fill: #8b9bb4; }
+    /* Movimento */
+    .flow-art .flowing { stroke-dasharray: 3 5; animation: artFlow .9s linear infinite; }
+    .flow-art .pulse { transform-box: fill-box; transform-origin: center; animation: artPulse 1.8s ease-in-out infinite; }
+    .flow-art .pulse.slow { animation-duration: 3.2s; }
+    .flow-art .blink { animation: blink 1s steps(1) infinite; }
+    .flow-art .drop { animation: artDrop 2.6s cubic-bezier(.3,.7,.4,1) infinite; }
+    .flow-art .pop-in { transform-box: fill-box; transform-origin: left center; animation: artPop .5s cubic-bezier(.2,.9,.3,1.4) .25s both; }
+    .flow-art .pop-in.late { animation-delay: .55s; }
+    .flow-art .grow { transform-box: fill-box; transform-origin: bottom; animation: artGrow .7s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(var(--i) * 35ms); }
+    .flow-link { flex: 0 0 30px; align-self: center; height: 3px; background: linear-gradient(90deg, var(--line) 50%, transparent 0) 0 0 / 10px 3px repeat-x; animation: flowX .7s linear infinite; }
+    @media (max-width: 1199.98px) {
       .flow { flex-direction: column; }
-      .flow-link { flex: 0 0 22px; width: 2px; height: auto; background: linear-gradient(180deg, var(--km-accent) 50%, transparent 0) 0 0 / 2px 10px repeat-y; animation-name: flowY; margin-left: 2rem; align-self: flex-start; }
+      .flow-link { flex: 0 0 22px; width: 3px; height: auto; margin-left: 1.6rem; align-self: flex-start; background: linear-gradient(180deg, var(--line) 50%, transparent 0) 0 0 / 3px 10px repeat-y; animation-name: flowY; }
     }
     @media (max-width: 575.98px) {
-      .holo-stage { height: 290px; }
+      /* Preso no topo do celular, o projetor encolhe com a altura da tela para sobrar espaço para a lista. */
+      .stack-card { --holo-h: clamp(210px, 34vh, 290px); }
       .holo-glyph { font-size: 5rem; }
-      .dash-kpi strong, .city-fact strong { font-size: 1.1rem; }
-      .dash-card, .stack-card { padding: 1.1rem; }
-      .city-tabs .nav-link { padding: .6rem 1rem; font-size: .92rem; }
+      .dash-kpi strong, .city-fact strong { font-size: 1.15rem; }
+      .stack-card, .dash-card { padding: .9rem; }
     }
 
-    /* ================= Experiência ================= */
-    .timeline { position: relative; padding-left: 2.2rem; }
-    .timeline::before { content: ""; position: absolute; left: 7px; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(var(--km-accent), var(--km-accent-2), transparent); }
-    .tl-item { position: relative; }
-    .tl-item + .tl-item { margin-top: 1.6rem; }
-    .tl-dot { position: absolute; left: calc(-2.2rem + 1px); top: 1.85rem; width: 14px; height: 14px; border-radius: 50%; background: var(--km-bg); border: 3px solid var(--km-accent); box-shadow: 0 0 0 6px rgba(var(--km-accent-rgb), .14); }
-    .tl-card { padding: 1.7rem 1.8rem; transition: border-color .3s; }
-    .tl-card:hover { border-color: rgba(var(--km-accent-rgb), .4); }
-    .tl-period { font: 500 .8rem "JetBrains Mono", monospace; color: var(--km-accent); }
-    .tl-role { font-size: 1.3rem; font-weight: 600; margin: .35rem 0 .2rem; }
-    .tl-org { color: var(--km-muted); font-size: .95rem; }
-    .tl-list { list-style: none; padding: 0; margin: 1.1rem 0 1.2rem; }
-    .tl-list li { position: relative; padding-left: 1.5rem; color: var(--km-muted); line-height: 1.65; }
-    .tl-list li + li { margin-top: .45rem; }
-    .tl-list li::before { content: "▹"; position: absolute; left: 0; color: var(--km-accent); }
-    .tl-list li.is-new { color: var(--km-text); }
-    .edu-card { padding: 1.6rem 1.7rem; display: flex; gap: 1.1rem; align-items: center; }
+    /* ================= Experiência (Accordion) ================= */
+    .xp .accordion {
+      --bs-accordion-bg: var(--card); --bs-accordion-color: var(--ink);
+      --bs-accordion-border-color: var(--line); --bs-accordion-border-width: 2px;
+      --bs-accordion-border-radius: 18px; --bs-accordion-inner-border-radius: 16px;
+      --bs-accordion-btn-color: var(--ink); --bs-accordion-btn-bg: var(--card);
+      --bs-accordion-active-bg: var(--card); --bs-accordion-active-color: var(--ink);
+      --bs-accordion-btn-focus-box-shadow: inset 0 0 0 3px rgba(var(--accent-rgb), .5);
+      --bs-accordion-btn-padding-x: 1.4rem; --bs-accordion-btn-padding-y: 1.2rem;
+      --bs-accordion-body-padding-x: 1.4rem; --bs-accordion-body-padding-y: 1.2rem;
+    }
+    .xp .accordion-item { margin-bottom: 1.2rem; overflow: hidden; border: 2px solid var(--line) !important; border-radius: 18px !important; box-shadow: 5px 5px 0 var(--shadow-c); }
+    .xp .accordion-button { gap: 1rem; align-items: flex-start; }
+    .xp .accordion-button::after,
+    .xp .accordion-button:not(.collapsed)::after {
+      content: "+"; width: auto; height: auto; margin-left: auto; background-image: none;
+      font: 400 2.2rem/.8 "DM Sans", sans-serif; color: var(--accent);
+      transition: transform .25s;
+    }
+    .xp .accordion-button:not(.collapsed)::after { transform: rotate(45deg); }
+    .xp .accordion-button:not(.collapsed) { box-shadow: inset 0 -2px 0 var(--line); }
+    .xp-head { display: flex; flex-direction: column; gap: .2rem; }
+    .xp-period { font: 600 .78rem "JetBrains Mono", monospace; color: var(--accent); }
+    .xp-role { font: 800 1.35rem/1.15 "Bricolage Grotesque", sans-serif; letter-spacing: -.02em; }
+    .xp-org { color: var(--muted); font-size: .95rem; }
+    .xp-list { list-style: none; margin: 0 0 1.1rem; padding: 0; }
+    .xp-list li { position: relative; padding-left: 1.5rem; line-height: 1.65; }
+    .xp-list li + li { margin-top: .5rem; }
+    .xp-list li::before { content: "→"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+    .xp-list li.is-new { padding: .5rem .7rem .5rem 2.1rem; border-radius: 10px; background: rgba(var(--accent-rgb), .1); }
+    .xp-list li.is-new::before { left: .7rem; top: .5rem; }
+    .edu-card { padding: 1.4rem 1.5rem; }
+    .edu-card .xp-role { font-size: 1.2rem; margin: .5rem 0 .3rem; }
+    /* Linha do tempo (ListGroup + Badges) ao lado da experiência */
+    .timeline-card { margin-top: 1.4rem; padding: 1.2rem 1.3rem 1.3rem; }
+    .km-timeline { --bs-list-group-bg: transparent; --bs-list-group-border-width: 0; position: relative; padding-left: 0; }
+    .km-timeline::before { content: ""; position: absolute; left: 6px; top: 10px; bottom: 10px; border-left: 2px dashed var(--line); opacity: .5; }
+    .km-timeline .list-group-item {
+      position: relative; display: grid; grid-template-columns: auto 1fr; align-items: start; gap: .25rem .7rem;
+      padding: .55rem 0 .55rem 1.6rem; color: var(--ink);
+    }
+    .km-timeline .list-group-item::before {
+      content: ""; position: absolute; left: 0; top: .85rem; width: 14px; height: 14px; border-radius: 50%;
+      border: 2px solid var(--line); background: var(--paper);
+    }
+    .km-timeline .is-now::before { background: var(--accent); box-shadow: 0 0 0 4px rgba(var(--accent-rgb), .25); }
+    .km-timeline .when.badge {
+      padding: .25rem .45rem; border: 1.5px solid var(--line); border-radius: 6px;
+      background-color: var(--ink) !important; color: var(--paper); font: 600 .68rem "JetBrains Mono", monospace;
+    }
+    .km-timeline .is-now .when.badge { background-color: var(--accent) !important; color: #15130f; }
+    .km-timeline .what { display: flex; flex-direction: column; min-width: 0; }
+    .km-timeline .what strong { font-size: .92rem; line-height: 1.3; }
+    .km-timeline .what small { color: var(--muted); font-size: .8rem; line-height: 1.35; }
+    .km-timeline .now-badge.badge {
+      grid-column: 2; justify-self: start; display: inline-flex; align-items: center; gap: .35rem;
+      padding: .2rem .5rem; border: 1.5px solid var(--line); background-color: var(--lime) !important; color: #15130f;
+      font: 700 .64rem "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: .06em;
+    }
+    .km-timeline .now-badge .live-dot { width: 7px; height: 7px; }
 
     /* ================= Projetos ================= */
-    .filters { display: flex; flex-wrap: wrap; gap: .5rem; justify-content: center; margin-bottom: 2.4rem; }
+    .filters { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 2rem; }
     .filter-btn {
-      border: 1px solid var(--km-border); background: var(--km-surface); color: var(--km-muted);
-      padding: .5rem 1.05rem; border-radius: 999px; font-weight: 500; font-size: .92rem;
-      transition: color .2s, border-color .2s, background-color .2s;
+      padding: .45rem 1rem; border-radius: 999px;
+      border: 2px solid var(--line); background: var(--card); color: var(--ink);
+      font-weight: 700; font-size: .92rem;
+      transition: background-color .2s, color .2s;
     }
-    .filter-btn:hover { color: var(--km-text); border-color: rgba(var(--km-accent-rgb), .45); }
-    .filter-btn.active { color: var(--km-text); border-color: var(--km-accent); background: rgba(var(--km-accent-rgb), .12); }
-    .filter-btn .count { margin-left: .4rem; font: 500 .75rem "JetBrains Mono", monospace; color: var(--km-accent); }
-    .tilt { transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .25s ease-out, border-color .3s; will-change: transform; }
-    .project-card { position: relative; height: 100%; padding: 1.8rem; overflow: hidden; cursor: pointer; display: flex; flex-direction: column; }
-    .project-card::before {
-      content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .3s;
-      background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), rgba(var(--km-accent-rgb), .13), transparent 45%);
-    }
-    .project-card:hover::before { opacity: 1; }
-    .project-card:hover { border-color: rgba(var(--km-accent-rgb), .42); }
-    .project-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.3rem; }
-    .project-icon {
-      width: 54px; height: 54px; border-radius: 16px;
-      display: grid; place-items: center; font-size: 1.45rem; color: var(--km-accent);
-      background: linear-gradient(135deg, rgba(var(--km-accent-rgb), .16), rgba(var(--km-accent-2-rgb), .16));
-      border: 1px solid rgba(var(--km-accent-rgb), .28);
-    }
-    .project-meta { text-align: right; font: 500 .78rem "JetBrains Mono", monospace; color: var(--km-muted); }
-    .project-meta .yr { display: block; color: var(--km-accent); font-size: .85rem; }
-    .project-title { font-size: 1.32rem; font-weight: 600; margin-bottom: .55rem; }
-    .project-summary { color: var(--km-muted); line-height: 1.65; flex: 1; }
-    .project-highlight { display: inline-flex; align-items: center; gap: .4rem; font: 600 .78rem "JetBrains Mono", monospace; color: var(--km-warm); margin-bottom: .9rem; }
-    .project-actions { display: flex; align-items: center; justify-content: space-between; gap: .8rem; margin-top: 1.4rem; padding-top: 1.2rem; border-top: 1px solid var(--km-border); }
-    .link-arrow { display: inline-flex; align-items: center; gap: .4rem; font-weight: 600; font-size: .92rem; color: var(--km-text); background: none; border: 0; padding: 0; }
-    .link-arrow i { transition: transform .2s; color: var(--km-accent); }
-    .project-card:hover .link-arrow i.bi-arrow-right { transform: translateX(4px); }
-    .fade-swap { animation: fadeUp .55s cubic-bezier(.2,.7,.2,1) both; }
-
-    /* Modal */
-    .km-modal { background: var(--km-surface-strong); color: var(--km-text); border: 1px solid var(--km-border); border-radius: 22px; overflow: hidden; }
-    .km-modal .modal-header, .km-modal .modal-footer { border-color: var(--km-border); }
-    .km-modal .modal-header { padding: 1.4rem 1.6rem; }
-    .km-modal .modal-body { padding: 1.6rem; }
-    .modal-backdrop.show { opacity: .7; }
+    .filter-btn:hover { background: var(--lime); color: #15130f; }
+    .filter-btn.active { background: var(--ink); color: var(--paper); }
+    .filter-btn .count { margin-left: .35rem; font: 600 .72rem "JetBrains Mono", monospace; color: var(--accent); }
+    .project-card { height: 100%; padding: 1.5rem; display: flex; flex-direction: column; cursor: pointer; }
+    .project-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.2rem; }
+    .project-icon { width: 56px; height: 56px; border-radius: 14px; display: grid; place-items: center; font-size: 1.5rem; border: 2px solid var(--line); color: #15130f; }
+    .tone-0 { background: var(--accent); }
+    .tone-1 { background: var(--lime); }
+    .tone-2 { background: var(--blue); color: #fff !important; }
+    .project-kind { padding: .15rem .5rem; border-radius: 6px; border: 1.5px solid var(--line); font: 600 .74rem "JetBrains Mono", monospace; color: var(--muted); }
+    .project-highlight { align-self: flex-start; margin-bottom: .6rem; font-weight: 700; font-size: .85rem; }
+    .project-title { margin-bottom: .45rem; font-size: 1.45rem; font-weight: 800; letter-spacing: -.025em; }
+    .project-summary { flex: 1; color: var(--muted); line-height: 1.65; }
+    .project-actions { display: flex; align-items: center; justify-content: space-between; gap: .8rem; margin-top: 1.2rem; padding-top: 1rem; border-top: 2px dashed var(--line); }
+    .link-arrow { display: inline-flex; align-items: center; gap: .4rem; font-weight: 700; }
+    .link-arrow i { color: var(--accent); transition: transform .2s; }
+    .project-card:hover .link-arrow i { transform: translateX(4px); }
+    .fade-swap { animation: fadeUp .5s cubic-bezier(.2,.7,.2,1) both; }
+    .km-modal { background: var(--card); color: var(--ink); border: 2px solid var(--line); border-radius: 18px; box-shadow: 8px 8px 0 var(--shadow-c); overflow: hidden; }
+    .km-modal .modal-header, .km-modal .modal-footer { border-color: var(--line); border-width: 2px; }
+    .km-modal .modal-header { padding: 1.3rem 1.5rem; }
+    .km-modal .modal-body { padding: 1.5rem; }
+    .modal-backdrop.show { opacity: .55; }
 
     /* ================= Habilidades ================= */
-    .skill-card { height: 100%; padding: 1.6rem; transition: border-color .3s, transform .3s; }
-    .skill-card:hover { border-color: rgba(var(--km-accent-rgb), .42); transform: translateY(-4px); }
-    .skill-head { display: flex; align-items: center; gap: .8rem; margin-bottom: 1.2rem; }
-    .skill-head h3 { font-size: 1.12rem; font-weight: 600; margin: 0; }
-    .skill-list { display: flex; flex-wrap: wrap; gap: .5rem; }
-    .skill {
-      display: inline-flex; align-items: center; gap: .5rem;
-      padding: .5rem .8rem; border-radius: 12px;
-      border: 1px solid var(--km-border); background: var(--km-surface-strong);
-      font-size: .9rem; font-weight: 500;
+    .skill-card { height: 100%; overflow: hidden; }
+    .skill-head { display: flex; align-items: center; gap: .7rem; padding: .9rem 1.2rem; border-bottom: 2px solid var(--line); background: var(--paper); }
+    .skill-head h3 { margin: 0; font-size: 1.12rem; font-weight: 800; }
+    .skill-head i { font-size: 1.15rem; color: var(--accent); }
+    .skill-list { display: flex; flex-wrap: wrap; gap: .5rem; padding: 1.2rem; }
+    .skill { display: inline-flex; align-items: center; gap: .5rem; padding: .45rem .75rem; border-radius: 10px; border: 2px solid var(--line); background: var(--card); font-weight: 600; font-size: .92rem; transition: background-color .2s, transform .2s; }
+    .skill:hover { background: var(--lime); color: #15130f; transform: rotate(-2deg); }
+    .skill i { font-size: 1.1rem; }
+    .skill.has-tip { cursor: help; }
+    .skill-count.badge {
+      margin-left: -.1rem; padding: .18rem .38rem; border: 1.5px solid var(--line);
+      background-color: var(--paper) !important; color: var(--ink);
+      font: 700 .62rem "JetBrains Mono", monospace;
     }
-    .skill i { font-size: 1.1rem; color: var(--km-accent); }
-    .skill i[class*="devicon-"] { color: var(--km-text); }
-    .marquee { overflow: hidden; margin-top: 3.5rem; padding: 1.2rem 0; border-top: 1px solid var(--km-border); border-bottom: 1px solid var(--km-border); -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
-    .marquee-track { display: flex; width: max-content; animation: marquee 42s linear infinite; }
-    .marquee-item { display: inline-flex; align-items: center; gap: .6rem; margin-right: 3rem; color: var(--km-muted); font: 600 1.05rem "Space Grotesk", sans-serif; white-space: nowrap; }
-    .marquee-item i { font-size: 1.5rem; color: var(--km-text); opacity: .85; }
+    .skill:hover .skill-count, .skill:focus-visible .skill-count { background-color: #15130f !important; color: var(--lime); border-color: #15130f; }
+    .skill-tip { --bs-tooltip-max-width: 240px; }
+    .skill-tip .tooltip-inner { text-align: left; font-size: .8rem; line-height: 1.4; }
+    .skill-tip small { display: block; margin-bottom: .1rem; color: var(--lime); font: 600 .66rem "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: .08em; }
+    [data-bs-theme="dark"] .skill-tip small { color: var(--accent); }
+
+    /* Carrossel de prints no modal do projeto (aparece quando o projeto tem shots) */
+    .km-carousel { margin-bottom: 1.4rem; overflow: hidden; border: 2px solid var(--line); border-radius: 14px; background: var(--paper-2); }
+    .km-carousel img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+    .km-carousel .carousel-caption { right: auto; left: .8rem; bottom: .8rem; padding: 0; text-align: left; }
+    .km-carousel .carousel-caption span { display: inline-block; padding: .3rem .6rem; border-radius: 8px; border: 2px solid #15130f; background: var(--lime); color: #15130f; font: 700 .8rem "DM Sans", sans-serif; }
+    .km-carousel .carousel-indicators [data-bs-target] { width: 10px; height: 10px; border-radius: 50%; border: 2px solid #15130f; background-color: #fffdf8; opacity: 1; }
+    .km-carousel .carousel-indicators .active { background-color: var(--accent); }
 
     /* ================= Contato + rodapé ================= */
-    .contact-card {
-      position: relative; overflow: hidden; border-radius: 30px;
-      padding: clamp(2.2rem, 6vw, 4.5rem);
-      border: 1px solid var(--km-border);
-      background:
-        radial-gradient(circle at 0% 0%, rgba(var(--km-accent-rgb), .22), transparent 45%),
-        radial-gradient(circle at 100% 100%, rgba(var(--km-accent-2-rgb), .22), transparent 45%),
-        var(--km-surface-strong);
+    .contact {
+      position: relative; overflow: hidden;
+      padding: clamp(2.2rem, 6vw, 4.2rem);
+      border: 2px solid var(--line); border-radius: 26px;
+      background: var(--accent); color: #15130f;
+      box-shadow: 8px 8px 0 var(--shadow-c);
     }
-    .contact-card h2 { font-size: clamp(2rem, 5vw, 3.4rem); font-weight: 700; }
-    .contact-card p { color: var(--km-muted); font-size: 1.1rem; max-width: 560px; margin: 1rem auto 2.2rem; }
-    .contact-email { font: 600 clamp(1rem, 3vw, 1.4rem) "JetBrains Mono", monospace; color: var(--km-text); word-break: break-all; }
-    .footer { padding: 2.4rem 0 5.5rem; color: var(--km-muted); font-size: .9rem; border-top: 1px solid var(--km-border); }
-    .footer a { color: var(--km-muted); }
-    .footer a:hover { color: var(--km-text); }
+    .contact .sec-kicker { background: #15130f; color: var(--lime); }
+    .contact h2 { margin: .6rem 0 1rem; font-size: clamp(2.8rem, 7.5vw, 5.4rem); line-height: .92; font-weight: 800; letter-spacing: -.045em; }
+    .contact h2 em { color: #15130f; }
+    .contact p { max-width: 560px; font-size: 1.15rem; line-height: 1.65; }
+    .contact-email { display: inline-block; margin: .4rem 0 2rem; font: 700 clamp(1.05rem, 3.2vw, 1.7rem) "JetBrains Mono", monospace; color: #15130f; text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 6px; word-break: break-all; }
+    .contact-email:hover { color: #15130f; text-decoration-color: var(--lime); }
+    .contact .btn-pop { --bs-btn-border-color: #15130f; --bs-btn-hover-border-color: #15130f; box-shadow: 4px 4px 0 #15130f; }
+    .contact .btn-pop.ink { --pop-bg: #15130f; --pop-fg: #f4efe6; }
+    .contact .btn-pop.alt { --pop-bg: #fffdf8; --pop-fg: #15130f; }
+    .contact-star { position: absolute; right: -40px; top: -60px; font-size: 15rem; line-height: 1; color: #15130f; opacity: .14; animation: spin 40s linear infinite; pointer-events: none; }
+    .contact .hand { color: #15130f; font-size: 1.6rem; }
+    .footer { padding: 1.8rem 0 5.5rem; border-top: 2px solid var(--line); color: var(--muted); font-size: .9rem; }
+    .footer a { color: var(--muted); }
+    .footer a:hover { color: var(--accent); }
+
+    .scroll-progress { position: fixed; top: 0; left: 0; right: 0; z-index: 1100; height: 4px; transform-origin: 0 50%; transform: scaleX(0); background: var(--accent); }
     .to-top {
       position: fixed; right: 20px; bottom: 20px; z-index: 1050;
-      width: 46px; height: 46px; border-radius: 14px;
-      border: 1px solid var(--km-border); background: var(--km-surface-strong); color: var(--km-text);
-      box-shadow: 0 16px 30px -14px var(--km-shadow);
+      width: 46px; height: 46px; border-radius: 12px;
+      border: 2px solid var(--line); background: var(--lime); color: #15130f;
+      box-shadow: 3px 3px 0 var(--shadow-c);
       opacity: 0; transform: translateY(16px); pointer-events: none;
-      transition: opacity .3s, transform .3s, border-color .2s;
+      transition: opacity .3s, transform .3s;
     }
     .to-top.show { opacity: 1; transform: none; pointer-events: auto; }
-    .to-top:hover { border-color: var(--km-accent); }
-    .km-toast { background: var(--km-surface-strong); color: var(--km-text); border: 1px solid rgba(var(--km-accent-rgb), .5); border-radius: 14px; box-shadow: 0 20px 40px -20px var(--km-shadow); }
-    .km-toast i { color: var(--km-accent); }
+    .km-toast { background: var(--card); color: var(--ink); border: 2px solid var(--line); border-radius: 12px; box-shadow: 4px 4px 0 var(--shadow-c); }
+    .km-toast i { color: var(--good); }
     .toast-dock { position: fixed !important; bottom: 0; left: 50%; transform: translateX(-50%); z-index: 1090; }
+    .tooltip { --bs-tooltip-bg: var(--ink); --bs-tooltip-color: var(--paper); font-weight: 600; }
 
     /* ================= Keyframes ================= */
     @keyframes spin { to { transform: rotate(360deg); } }
     @keyframes blink { 50% { opacity: 0; } }
     @keyframes ping { 75%, 100% { transform: scale(2.6); opacity: 0; } }
+    @keyframes pulseDot { 0%, 100% { box-shadow: 0 0 0 0 rgba(22, 138, 74, .45); } 50% { box-shadow: 0 0 0 6px rgba(22, 138, 74, 0); } }
     @keyframes lineIn { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
-    @keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-    @keyframes scrollCue { 0% { transform: translateY(0); opacity: 1; } 70% { transform: translateY(14px); opacity: 0; } 100% { opacity: 0; } }
     @keyframes flowX { to { background-position: 10px 0; } }
     @keyframes flowY { to { background-position: 0 10px; } }
     @keyframes marquee { to { transform: translateX(-50%); } }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+    @keyframes holoSweep { to { transform: translateY(480px); } }
+    @keyframes holoFloat { 50% { transform: translate(-50%, calc(-50% - 8px)); } }
+    @keyframes beamPulse { 50% { opacity: .65; } }
+    @keyframes artFlow { to { stroke-dashoffset: -16; } }
+    @keyframes artPulse { 50% { transform: scale(1.18); opacity: .75; } }
+    @keyframes artDrop { 0% { transform: translateY(-14px); opacity: 0; } 25% { transform: none; opacity: 1; } 85% { opacity: 1; } 100% { opacity: 0; } }
+    @keyframes artPop { from { transform: scale(.4); opacity: 0; } }
+    @keyframes artGrow { from { transform: scaleY(0); } }
+    @keyframes layerPick {
+      0% { transform: translateY(10px); background-color: rgba(var(--accent-rgb), .3); box-shadow: 0 0 0 0 rgba(var(--accent-rgb), .55); }
+      45% { transform: none; background-color: rgba(var(--accent-rgb), .3); box-shadow: 0 0 0 7px rgba(var(--accent-rgb), 0); }
+    }
+    @keyframes iconPick { 0% { transform: scale(.7) rotate(-12deg); } 50% { transform: scale(1.15); } }
 
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
       .reveal { opacity: 1; transform: none; }
-      .code-card, .tilt { transform: none !important; }
       /* A faixa de tecnologias continua rolando mesmo com animações reduzidas no sistema. */
-      .marquee-track { animation-duration: 42s !important; animation-iteration-count: infinite !important; }
+      .marquee-track { animation-duration: 40s !important; animation-iteration-count: infinite !important; }
     }
   </style>
 </head>
 <body>
   <div id="preloader" aria-hidden="true">
     <div class="loader">
-      <div class="loader-box"><div class="loader-ring"></div><span class="loader-mark">KM</span></div>
+      <div class="spinner-grow"></div>
       <span id="preloader-msg">carregando portfólio…</span>
     </div>
   </div>
-
   <div id="root"></div>
 
   <noscript>
@@ -679,14 +912,14 @@
       }
     }
   </script>
-  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/react-bootstrap@2.10.2/dist/react-bootstrap.min.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone@7.24.7/babel.min.js" crossorigin></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js" crossorigin=""></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js" crossorigin=""></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-bootstrap@2.10.5/dist/react-bootstrap.min.js" crossorigin=""></script>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.25.6/babel.min.js" crossorigin=""></script>
 
   <script type="text/babel" data-presets="react">
     const { useState, useEffect, useRef, useMemo } = React;
-    const { Navbar, Nav, Container, Row, Col, Button, Modal, Toast, ToastContainer, ListGroup, Tab, OverlayTrigger, Tooltip } = ReactBootstrap;
+    const { Navbar, Nav, Container, Row, Col, Button, Modal, Toast, ToastContainer, ListGroup, Tab, OverlayTrigger, Tooltip, Popover, Badge, Carousel, Offcanvas, Accordion, ProgressBar } = ReactBootstrap;
 
     /* ==========================================================
        CONTEÚDO DO PORTFÓLIO: edite os textos aqui.
@@ -699,6 +932,7 @@
       linkedin: "https://www.linkedin.com/in/kluivertmury",
       github: "https://github.com/Kluiv-Mury",
       cv: "cv.pdf", // coloque o PDF do currículo na raiz do repositório com este nome
+      role: "Desenvolvedor Python · backend e dados",
       headline: "Estagiário no Escritório de Dados da Prefeitura de Niterói",
       roles: [
         "Desenvolvedor Python backend",
@@ -707,7 +941,7 @@
         "Integração de dados urbanos",
       ],
       summary:
-        "Desenvolvedor Python focado em backend e engenharia de dados. Construo APIs, modelo bancos de dados e mantenho testes e CI até o deploy. No Escritório de Dados da Prefeitura de Niterói, desenvolvo agentes de IA e servidores MCP e integro dados para o Gêmeo Digital da cidade e para o Colab.",
+        "Desenvolvedor Python focado em backend e engenharia de dados. Construo APIs, modelo bancos de dados e mantenho testes e CI até o deploy.",
     };
 
     const NAV = [
@@ -784,7 +1018,14 @@
             role: "Disponibilidade e viagens integradas, com colunas derivadas que apontam as estações mais quentes e mais frias.",
           },
         ],
-        flow: ["Feeds do NitBike e do Waze", "Coleta e tratamento em Python", "Colunas derivadas e métricas", "Camadas no ArcGIS", "Gêmeo Digital"],
+        // Etapas de "Como os dados chegam ao mapa". art: ilustração que abre ao passar o mouse (veja FLOW_ART).
+        flow: [
+          { label: "Feeds do NitBike e do Waze", icon: "bi-broadcast", art: "feeds", note: "As estações do NitBike chegam a cada 1 min e os alertas de trânsito do Waze a cada 2 min." },
+          { label: "Coleta e tratamento em Python", icon: "bi-filetype-py", art: "python", note: "Scripts em Python coletam os feeds, tratam e padronizam os dados de forma recorrente." },
+          { label: "Colunas derivadas e métricas", icon: "bi-table", art: "derived", note: "Colunas novas apontam as estações mais quentes e mais frias da rede, com maior e menor movimento." },
+          { label: "Camadas no ArcGIS", icon: "bi-layers", art: "arcgis", note: "Os dados viram camadas no ArcGIS, estruturadas e prontas para análise." },
+          { label: "Gêmeo Digital", icon: "bi-buildings", art: "twin", note: "As camadas entram no Gêmeo Digital ao lado das outras fontes oficiais da cidade." },
+        ],
         tech: ["Python", "ArcGIS", "SQL", "APIs REST", "Dados geoespaciais"],
       },
       {
@@ -813,6 +1054,7 @@
             text: "Monto indicadores de solicitações abertas e resolvidas por ano, mês, dia e hora, usados no acompanhamento das equipes.",
           },
         ],
+        badge: "154 mil", // selo na aba; no Gêmeo ele mostra o número de camadas
         visual: "dashboard",
         dashboard: {
           heading: "Solicitações públicas · Niterói",
@@ -842,7 +1084,13 @@
             { year: 2026, value: 23200 },
           ],
         },
-        flow: ["Pedidos dos moradores no Colab", "Integração com o SIGeo", "Georreferenciamento por bairro e categoria", "Pontos e mapa de calor", "Painel público no ArcGIS"],
+        flow: [
+          { label: "Pedidos dos moradores no Colab", icon: "bi-phone", art: "requests", note: "Moradores registram pedidos à prefeitura, como iluminação e coleta de entulho." },
+          { label: "Integração com o SIGeo", icon: "bi-arrow-left-right", art: "sigeo", note: "Cada solicitação é integrada ao SIGeo com bairro, categoria e status de atendimento." },
+          { label: "Georreferenciamento por bairro e categoria", icon: "bi-geo-alt", art: "geocode", note: "Cada pedido vira um ponto no mapa, ligado ao bairro e à categoria." },
+          { label: "Pontos e mapa de calor", icon: "bi-fire", art: "heatmap", note: "Camadas de pontos e de mapa de calor mostram onde as demandas se concentram." },
+          { label: "Painel público no ArcGIS", icon: "bi-bar-chart-line", art: "panel", note: "O painel mostra os pedidos abertos e resolvidos por ano, mês, dia e hora." },
+        ],
         tech: ["Python", "SQL", "ArcGIS", "Dados geoespaciais"],
       },
     ];
@@ -852,6 +1100,7 @@
         period: "fev 2026 – atual",
         role: "Estagiário de Engenharia de Dados",
         org: "Escritório de Dados da Prefeitura de Niterói",
+        short: "Estágio na Prefeitura de Niterói", // nome curto usado nas dicas das habilidades
         place: "Niterói, RJ",
         bullets: [
           "Desenvolvo servidores MCP e agentes de IA em Python para automatizar tarefas repetitivas do time de dados.",
@@ -867,6 +1116,7 @@
         period: "jul 2025 – jan 2026",
         role: "Iniciação Científica",
         org: "Universidade Federal Fluminense (UFF)",
+        short: "Iniciação Científica na UFF",
         place: "Niterói, RJ",
         bullets: ["Montei um pipeline com Data Lake em MinIO, carga em MySQL e ClickHouse e ambiente todo em Docker."],
         tech: ["Python", "MinIO", "MySQL", "ClickHouse", "Docker"],
@@ -876,15 +1126,16 @@
     const EDUCATION = { course: "Bacharelado em Sistemas de Informação", school: "Universidade Federal Fluminense", period: "2023 – atual", place: "Niterói, RJ" };
 
     // category: "backend", "dados" ou "ia". repo/demo: deixe null para esconder o botão.
+    // shots (opcional): prints que viram um carrossel no modal, ex.:
+    //   shots: [{ src: "img/concurso-1.png", alt: "Bot avisando um concurso no Telegram", caption: "Aviso no Telegram" }]
     const PROJECTS = [
       {
         id: "concurso",
         title: "Bot de concursos públicos",
-        year: "2026",
         kind: "Projeto pessoal",
         icon: "bi-telegram",
         category: ["backend"],
-        highlight: "149 testes no GitHub Actions",
+        highlight: "Bot no Telegram hospedado na AWS",
         summary: "Bot de Telegram que coleta concursos abertos no Brasil e avisa cada usuário conforme os filtros dele.",
         bullets: [
           "Bot de Telegram que coleta concursos abertos no Brasil e avisa cada usuário conforme os filtros dele (estado, salário, nível, palavra-chave).",
@@ -898,7 +1149,6 @@
       {
         id: "saude",
         title: "Painel de saúde no Brasil",
-        year: "2025",
         kind: "Projeto pessoal",
         icon: "bi-heart-pulse",
         category: ["backend", "dados"],
@@ -915,7 +1165,6 @@
       {
         id: "mocforge",
         title: "MocForge MCP",
-        year: "2026",
         kind: "Projeto pessoal",
         icon: "bi-bricks",
         category: ["ia"],
@@ -938,13 +1187,15 @@
       { id: "ia", label: "IA e MCP" },
     ];
 
-    // d = ícone do Devicon, bi = ícone do Bootstrap Icons
+    // d = ícone do Devicon, bi = ícone do Bootstrap Icons.
+    // A dica "usei em" é montada sozinha a partir das tecnologias das experiências e dos projetos;
+    // also acrescenta lugares que não aparecem nessas listas.
     const SKILLS = [
       { group: "Linguagens", icon: "bi-code-slash", items: [{ n: "Python", d: "devicon-python-plain" }, { n: "SQL", bi: "bi-filetype-sql" }, { n: "Bash", d: "devicon-bash-plain" }] },
       { group: "Backend", icon: "bi-hdd-network", items: [{ n: "FastAPI", d: "devicon-fastapi-plain" }, { n: "APIs REST", bi: "bi-plug" }, { n: "requests", bi: "bi-globe2" }, { n: "BeautifulSoup", bi: "bi-code-square" }] },
       { group: "Bancos de dados", icon: "bi-database", items: [{ n: "PostgreSQL", d: "devicon-postgresql-plain" }, { n: "MySQL", d: "devicon-mysql-original" }, { n: "ClickHouse", bi: "bi-bar-chart-steps" }] },
-      { group: "Ferramentas", icon: "bi-tools", items: [{ n: "Git", d: "devicon-git-plain" }, { n: "GitHub Actions", d: "devicon-githubactions-plain" }, { n: "Docker", d: "devicon-docker-plain" }, { n: "Linux", d: "devicon-linux-plain" }, { n: "pytest", d: "devicon-pytest-plain" }] },
-      { group: "Dados e IA", icon: "bi-cpu", items: [{ n: "Pandas", d: "devicon-pandas-plain" }, { n: "Microsoft Fabric", bi: "bi-microsoft" }, { n: "Microsoft Foundry", bi: "bi-stars" }, { n: "Servidores MCP", bi: "bi-hdd-stack" }, { n: "Agentes de IA", bi: "bi-robot" }] },
+      { group: "Ferramentas", icon: "bi-tools", items: [{ n: "Git", d: "devicon-git-plain" }, { n: "GitHub Actions", d: "devicon-githubactions-plain" }, { n: "Docker", d: "devicon-docker-plain" }, { n: "Linux", d: "devicon-linux-plain" }, { n: "pytest", d: "devicon-pytest-plain" }, { n: "Azure", d: "devicon-azure-plain" }] },
+      { group: "Dados e IA", icon: "bi-cpu", items: [{ n: "Pandas", d: "devicon-pandas-plain" }, { n: "Microsoft Fabric", bi: "bi-microsoft" }, { n: "Microsoft Foundry", bi: "bi-stars" }, { n: "Servidores MCP", bi: "bi-hdd-stack", also: ["Estágio na Prefeitura de Niterói", "MocForge MCP"] }, { n: "Agentes de IA", bi: "bi-robot", also: ["Estágio na Prefeitura de Niterói"] }] },
     ];
 
     /* ==========================================================
@@ -1019,11 +1270,11 @@
     }
 
     function useTheme() {
-      const [theme, setTheme] = useState(() => document.documentElement.getAttribute("data-bs-theme") || "dark");
+      const [theme, setTheme] = useState(() => document.documentElement.getAttribute("data-bs-theme") || "light");
       useEffect(() => {
         document.documentElement.setAttribute("data-bs-theme", theme);
         const meta = document.querySelector('meta[name="theme-color"]');
-        if (meta) meta.setAttribute("content", theme === "dark" ? "#070b14" : "#f5f7fb");
+        if (meta) meta.setAttribute("content", theme === "dark" ? "#13110f" : "#f4efe6");
       }, [theme]);
       const toggle = () => setTheme((t) => {
         const next = t === "dark" ? "light" : "dark";
@@ -1057,137 +1308,27 @@
        ========================================================== */
 
     // Rede de pontos animada no fundo do topo: dados se conectando.
-    function DataNetwork({ theme }) {
-      const canvasRef = useRef(null);
-      const rgbRef = useRef("45, 212, 191");
-      const redrawRef = useRef(() => {});
+    const pad2 = (n) => String(n).padStart(2, "0");
 
-      useEffect(() => {
-        rgbRef.current = getComputedStyle(document.documentElement).getPropertyValue("--km-accent-rgb").trim() || "45, 212, 191";
-        redrawRef.current();
-      }, [theme]);
-
-      useEffect(() => {
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext("2d");
-        const reduced = prefersReducedMotion();
-        const mouse = { x: -9999, y: -9999 };
-        let w = 0, h = 0, nodes = [], raf = 0, visible = true;
-
-        const resize = () => {
-          const dpr = Math.min(window.devicePixelRatio || 1, 2);
-          w = canvas.clientWidth; h = canvas.clientHeight;
-          canvas.width = w * dpr; canvas.height = h * dpr;
-          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-          const count = Math.round(Math.min(110, Math.max(36, (w * h) / 15000)));
-          nodes = Array.from({ length: count }, () => ({
-            x: Math.random() * w, y: Math.random() * h,
-            vx: (Math.random() - 0.5) * 0.35, vy: (Math.random() - 0.5) * 0.35,
-            r: Math.random() * 1.6 + 0.7,
-          }));
-        };
-
-        const frame = () => {
-          const rgb = rgbRef.current;
-          ctx.clearRect(0, 0, w, h);
-          const maxD = 130;
-          for (let i = 0; i < nodes.length; i++) {
-            const a = nodes[i];
-            if (!reduced) {
-              a.x += a.vx; a.y += a.vy;
-              if (a.x < 0 || a.x > w) a.vx *= -1;
-              if (a.y < 0 || a.y > h) a.vy *= -1;
-            }
-            for (let j = i + 1; j < nodes.length; j++) {
-              const b = nodes[j];
-              const dx = a.x - b.x, dy = a.y - b.y;
-              const d2 = dx * dx + dy * dy;
-              if (d2 < maxD * maxD) {
-                ctx.strokeStyle = `rgba(${rgb}, ${(1 - Math.sqrt(d2) / maxD) * 0.32})`;
-                ctx.lineWidth = 1;
-                ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
-              }
-            }
-            const md = Math.hypot(a.x - mouse.x, a.y - mouse.y);
-            if (md < 170) {
-              ctx.strokeStyle = `rgba(${rgb}, ${(1 - md / 170) * 0.6})`;
-              ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
-            }
-          }
-          ctx.fillStyle = `rgba(${rgb}, 0.9)`;
-          for (const n of nodes) { ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fill(); }
-        };
-
-        const loop = () => { frame(); if (visible && !reduced) raf = requestAnimationFrame(loop); };
-        const start = () => { cancelAnimationFrame(raf); loop(); };
-        redrawRef.current = () => { if (reduced || !visible) frame(); };
-
-        const onMove = (e) => {
-          const r = canvas.getBoundingClientRect();
-          mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
-          if (reduced) frame();
-        };
-        const onLeave = () => { mouse.x = -9999; mouse.y = -9999; };
-        const onResize = () => { resize(); if (reduced) frame(); };
-
-        resize();
-        start();
-        window.addEventListener("resize", onResize);
-        window.addEventListener("pointermove", onMove, { passive: true });
-        document.addEventListener("pointerleave", onLeave);
-        const io = new IntersectionObserver(([entry]) => {
-          visible = entry.isIntersecting;
-          if (visible) start(); else cancelAnimationFrame(raf);
-        });
-        io.observe(canvas);
-
-        return () => {
-          cancelAnimationFrame(raf);
-          io.disconnect();
-          window.removeEventListener("resize", onResize);
-          window.removeEventListener("pointermove", onMove);
-          document.removeEventListener("pointerleave", onLeave);
-        };
-      }, []);
-
-      return <canvas ref={canvasRef} className="hero-canvas" aria-hidden="true" />;
-    }
-
-    function TiltCard({ children, className = "", ...rest }) {
-      const ref = useRef(null);
-      const onMove = (e) => {
-        if (e.pointerType === "touch" || prefersReducedMotion()) return;
-        const el = ref.current;
-        const r = el.getBoundingClientRect();
-        const px = (e.clientX - r.left) / r.width - 0.5;
-        const py = (e.clientY - r.top) / r.height - 0.5;
-        el.style.setProperty("--rx", `${(-py * 6).toFixed(2)}deg`);
-        el.style.setProperty("--ry", `${(px * 8).toFixed(2)}deg`);
-        el.style.setProperty("--mx", `${((px + 0.5) * 100).toFixed(1)}%`);
-        el.style.setProperty("--my", `${((py + 0.5) * 100).toFixed(1)}%`);
-      };
-      const onLeave = () => {
-        const el = ref.current;
-        el.style.setProperty("--rx", "0deg");
-        el.style.setProperty("--ry", "0deg");
-      };
-      return <div ref={ref} className={`tilt ${className}`} onPointerMove={onMove} onPointerLeave={onLeave} {...rest}>{children}</div>;
-    }
-
-    function SectionHeader({ kicker, title, children, center = false }) {
+    function SectionHeader({ num, kicker, title, children }) {
       return (
-        <Reveal className={`section-header ${center ? "text-center" : ""}`}>
-          <span className="kicker">{kicker}</span>
-          <h2 className="section-title">{title}</h2>
-          {children && <p className="section-lead">{children}</p>}
-        </Reveal>
+        <>
+          <Reveal className="sec-head">
+            <span className="sec-num" aria-hidden="true">{num}</span>
+            <div>
+              <span className="sec-kicker">{kicker}</span>
+              <h2 className="sec-title">{title}</h2>
+            </div>
+          </Reveal>
+          {children && <Reveal className="sec-lead">{children}</Reveal>}
+        </>
       );
     }
 
-    function IconLink({ href, icon, label }) {
+    function IconLink({ href, icon, label, placement = "top" }) {
       const external = href.startsWith("http");
       return (
-        <OverlayTrigger placement="top" overlay={<Tooltip>{label}</Tooltip>}>
+        <OverlayTrigger placement={placement} overlay={<Tooltip>{label}</Tooltip>}>
           <a className="icon-btn" href={href} aria-label={label} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
             <i className={`bi ${icon}`} />
           </a>
@@ -1195,41 +1336,243 @@
       );
     }
 
-    /* ==========================================================
-       Seções
-       ========================================================== */
+    function SpinBadge() {
+      const id = "spin" + React.useId().replace(/:/g, "");
+      return (
+        <div className="spin-badge" aria-hidden="true">
+          <svg viewBox="0 0 100 100">
+            <defs><path id={id} d="M50,50 m-36,0 a36,36 0 1,1 72,0 a36,36 0 1,1 -72,0" /></defs>
+            <text><textPath href={`#${id}`} textLength="224" lengthAdjust="spacing">python · backend · dados ·</textPath></text>
+          </svg>
+          <i className="bi bi-braces" />
+        </div>
+      );
+    }
+
+    const scrollToSection = (id) => {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: prefersReducedMotion() ? "auto" : "smooth" });
+    };
 
     function TopNav({ active, theme, onToggleTheme }) {
-      const [scrolled, setScrolled] = useState(false);
-      const [expanded, setExpanded] = useState(false);
-      useEffect(() => {
-        const onScroll = () => setScrolled(window.scrollY > 24);
-        onScroll();
-        window.addEventListener("scroll", onScroll, { passive: true });
-        return () => window.removeEventListener("scroll", onScroll);
-      }, []);
+      const [open, setOpen] = useState(false);
+      const target = useRef(null);
+      // No celular o menu fecha primeiro e só depois rola até a seção, para o Offcanvas não travar a rolagem.
+      const onSelect = (key, e) => {
+        if (window.matchMedia("(min-width: 992px)").matches) return;
+        if (e) e.preventDefault();
+        target.current = key;
+        setOpen(false);
+      };
+      const onExited = () => {
+        if (target.current) scrollToSection(target.current);
+        target.current = null;
+      };
       return (
-        <Navbar expand="lg" fixed="top" expanded={expanded} onToggle={setExpanded} className={`km-nav ${scrolled || expanded ? "is-scrolled" : ""}`}>
-          <Container>
-            <Navbar.Brand href="#inicio" onClick={() => setExpanded(false)}>
-              <span className="brand-mark">KM</span>
-              <span>Kluivert Mury</span>
+        <Navbar expand="lg" fixed="top" expanded={open} onToggle={setOpen} className="km-nav">
+          <Container fluid className="nav-wrap">
+            <Navbar.Brand href="#inicio">
+              <span className="line-badge">KM</span>
+              <span className="brand-name">{PROFILE.name}</span>
             </Navbar.Brand>
             <div className="d-flex align-items-center gap-2 order-lg-last ms-lg-3">
               <button className="icon-btn" onClick={onToggleTheme} aria-label={theme === "dark" ? "Usar tema claro" : "Usar tema escuro"}>
                 <i className={`bi ${theme === "dark" ? "bi-sun" : "bi-moon-stars"}`} />
               </button>
-              <Navbar.Toggle aria-controls="km-navbar" />
+              <Navbar.Toggle aria-controls="km-menu" className="icon-btn"><i className="bi bi-list" /></Navbar.Toggle>
             </div>
-            <Navbar.Collapse id="km-navbar">
-              <Nav className="ms-auto" activeKey={active} onSelect={() => setExpanded(false)}>
-                {NAV.map((item) => (
-                  <Nav.Link key={item.id} href={`#${item.id}`} eventKey={item.id}>{item.label}</Nav.Link>
-                ))}
-              </Nav>
-            </Navbar.Collapse>
+            <Navbar.Offcanvas id="km-menu" placement="end" className="km-off" onExited={onExited} aria-labelledby="km-menu-title">
+              <Offcanvas.Header closeButton>
+                <Offcanvas.Title id="km-menu-title" as="span" className="mono small">menu</Offcanvas.Title>
+              </Offcanvas.Header>
+              <Offcanvas.Body>
+                <Nav className="km-links" activeKey={active} onSelect={onSelect}>
+                  {NAV.map((item, i) => (
+                    <Nav.Link key={item.id} href={`#${item.id}`} eventKey={item.id}>
+                      <span className="n">{pad2(i + 1)}</span>{item.label}
+                    </Nav.Link>
+                  ))}
+                </Nav>
+                <Button variant="pop" href={PROFILE.cv} download className="nav-cv">
+                  <i className="bi bi-download" /> Currículo
+                </Button>
+                <div className="d-flex gap-2 mt-4 d-lg-none">
+                  <IconLink href={PROFILE.github} icon="bi-github" label="GitHub" />
+                  <IconLink href={PROFILE.linkedin} icon="bi-linkedin" label="LinkedIn" />
+                  <IconLink href={`mailto:${PROFILE.email}`} icon="bi-envelope" label="E-mail" />
+                </div>
+              </Offcanvas.Body>
+            </Navbar.Offcanvas>
           </Container>
         </Navbar>
+      );
+    }
+
+    /* ---------- Git graph vertical: o histórico do portfólio acompanha a rolagem ---------- */
+
+    // Hash curto e estável (FNV-1a) para cada commit parecer de verdade.
+    const fakeHash = (text) => {
+      let h = 2166136261;
+      for (const ch of text) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); }
+      return (h >>> 0).toString(16).padStart(8, "0").slice(0, 7);
+    };
+
+    // Cada seção é um commit na main; Niterói e Projetos ganham um branch com os próprios commits.
+    const GIT_MAIN = [{ id: "inicio", msg: "init" }, ...NAV.map((n) => ({ id: n.id, msg: n.label.toLowerCase() }))];
+    const GIT_BRANCHES = {
+      niteroi: { name: "feat/niteroi", color: "blue", commits: CITY_PROJECTS.map((p) => p.id) },
+      projetos: { name: "feat/projetos", color: "good", commits: PROJECTS.map((p) => p.id) },
+    };
+
+    function GitGraph() {
+      const boxRef = useRef(null);
+      const progressRef = useRef(null);
+      const headRef = useRef(null);
+      const graphRef = useRef(null);
+      const [graph, setGraph] = useState(null);
+
+      // Monta o grafo: posição de cada commit conforme onde a seção começa na página.
+      useEffect(() => {
+        const box = boxRef.current;
+        let raf = 0;
+        const layout = () => {
+          raf = 0;
+          const w = box.clientWidth, h = box.clientHeight;
+          if (!w || !h) return;
+          const wide = w > 60;
+          const x0 = wide ? 24 : 8, x1 = wide ? 46 : 17, labelX = 60;
+          const top = 26, bottom = h - 26;
+          const max = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+          const fracOf = (id) => {
+            const el = document.getElementById(id);
+            const y = el ? el.getBoundingClientRect().top + window.scrollY : 0;
+            return Math.min(Math.max((y - window.innerHeight * 0.45) / max, 0), 1);
+          };
+          const yOf = (f) => top + f * (bottom - top);
+          const nodes = [], branches = [];
+          GIT_MAIN.forEach((c, i) => {
+            const f = fracOf(c.id);
+            nodes.push({ key: c.id, kind: i === 0 ? "root" : "main", ref: "main", x: x0, y: yOf(f), frac: f, hash: fakeHash(c.id), msg: c.msg, target: c.id });
+            const br = GIT_BRANCHES[c.id];
+            if (!br) return;
+            const next = GIT_MAIN[i + 1];
+            const fNext = next ? fracOf(next.id) : 1;
+            const fMerge = f + (fNext - f) * 0.86;
+            br.commits.forEach((msg, k) => {
+              const fb = f + ((fMerge - f) * (k + 1)) / (br.commits.length + 1);
+              nodes.push({ key: `${c.id}-${msg}`, kind: "branch", color: br.color, ref: br.name, x: x1, y: yOf(fb), frac: fb, hash: fakeHash(`${br.name}/${msg}`), msg, target: c.id, title: `${br.name}: ${msg}` });
+            });
+            nodes.push({ key: `${c.id}-merge`, kind: "merge", x: x0, y: yOf(fMerge), frac: fMerge, target: c.id, title: `Merge branch '${br.name}'` });
+            branches.push({ name: br.name, color: br.color, fork: yOf(f), merge: yOf(fMerge), frac: f });
+          });
+          // Rótulos muito próximos se escondem (continuam no hover).
+          let lastY = -Infinity;
+          nodes.forEach((n) => {
+            if (n.kind === "merge") return;
+            n.crowded = n.y - lastY < 17;
+            if (!n.crowded) lastY = n.y;
+            n.dx = labelX - n.x;
+          });
+          const next = { x0, x1, top, bottom, nodes, branches };
+          graphRef.current = next;
+          setGraph(next);
+        };
+        const schedule = () => { if (!raf) raf = requestAnimationFrame(layout); };
+        layout();
+        const ro = new ResizeObserver(schedule);
+        ro.observe(box);
+        ro.observe(document.body);
+        window.addEventListener("resize", schedule);
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule);
+        return () => { cancelAnimationFrame(raf); ro.disconnect(); window.removeEventListener("resize", schedule); };
+      }, []);
+
+      // O HEAD desce com a rolagem, faz checkout nos branches e acende os commits aplicados.
+      useEffect(() => {
+        let raf = 0;
+        const ease = (t) => t * t * (3 - 2 * t);
+        const headX = (g, y) => {
+          for (const b of g.branches) {
+            if (y < b.fork || y > b.merge) continue;
+            const curve = 22;
+            if (y < b.fork + curve) return g.x0 + (g.x1 - g.x0) * ease((y - b.fork) / curve);
+            if (y > b.merge - curve) return g.x1 + (g.x0 - g.x1) * ease((y - (b.merge - curve)) / curve);
+            return g.x1;
+          }
+          return g.x0;
+        };
+        const frame = () => {
+          raf = 0;
+          const g = graphRef.current;
+          if (!g || !headRef.current || !progressRef.current) return;
+          const max = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+          const p = Math.min(Math.max(window.scrollY / max, 0), 1);
+          const y = g.top + p * (g.bottom - g.top);
+          progressRef.current.setAttribute("y2", y);
+          headRef.current.style.transform = `translate(${headX(g, y)}px, ${y}px) translate(-50%, -50%)`;
+          headRef.current.style.setProperty("--spin", `${Math.round(window.scrollY * 0.3) % 360}deg`);
+          let current = null;
+          const nodes = boxRef.current.querySelectorAll(".git-node");
+          nodes.forEach((n) => {
+            const passed = p + 0.002 >= Number(n.dataset.frac);
+            n.dataset.passed = passed ? "1" : "0";
+            n.dataset.head = "0";
+            if (passed && !n.classList.contains("k-merge")) current = n;
+          });
+          // O rótulo do HEAD tem duas linhas; os rótulos vizinhos que encostariam nele se escondem.
+          const headY = current ? Number(current.dataset.y) : NaN;
+          nodes.forEach((n) => { n.dataset.near = n !== current && Math.abs(Number(n.dataset.y) - headY) < 24 ? "1" : "0"; });
+          if (current) current.dataset.head = "1";
+          boxRef.current.querySelectorAll(".git-branch").forEach((b) => {
+            b.dataset.on = p + 0.002 >= Number(b.dataset.frac) ? "1" : "0";
+          });
+        };
+        const onScroll = () => { if (!raf) raf = requestAnimationFrame(frame); };
+        frame();
+        window.addEventListener("scroll", onScroll, { passive: true });
+        return () => { cancelAnimationFrame(raf); window.removeEventListener("scroll", onScroll); };
+      }, [graph]);
+
+      const branchPath = (g, b) =>
+        `M ${g.x0} ${b.fork} C ${g.x0} ${b.fork + 16} ${g.x1} ${b.fork + 6} ${g.x1} ${b.fork + 22} ` +
+        `L ${g.x1} ${b.merge - 22} C ${g.x1} ${b.merge - 6} ${g.x0} ${b.merge - 16} ${g.x0} ${b.merge}`;
+
+      return (
+        <div className="git" ref={boxRef}>
+          {graph && (
+            <>
+              <svg aria-hidden="true">
+                <line className="git-track" x1={graph.x0} y1={graph.top} x2={graph.x0} y2={graph.bottom} />
+                {graph.branches.map((b) => (
+                  <path key={b.name} className={`git-branch c-${b.color}`} data-frac={b.frac} d={branchPath(graph, b)} />
+                ))}
+                <line ref={progressRef} className="git-progress" x1={graph.x0} y1={graph.top} x2={graph.x0} y2={graph.top} />
+              </svg>
+              {graph.nodes.map((n) => (
+                <button
+                  key={n.key}
+                  type="button"
+                  className={`git-node k-${n.kind} ${n.color ? `c-${n.color}` : ""}`}
+                  data-frac={n.frac}
+                  data-y={n.y}
+                  style={{ left: n.x, top: n.y, "--dx": `${n.dx}px` }}
+                  onClick={() => scrollToSection(n.target)}
+                  title={n.title || `${n.hash} ${n.msg}`}
+                  aria-label={`Ir para ${n.msg || n.title}`}
+                >
+                  {n.kind === "root" && "KM"}
+                  {n.kind !== "merge" && (
+                    <span className={`git-label ${n.crowded ? "is-crowded" : ""}`}>
+                      <span className="ref">HEAD → <b>{n.ref}</b></span>
+                      <span className="msg"><span className="h">{n.hash}</span>{n.msg}</span>
+                    </span>
+                  )}
+                </button>
+              ))}
+            </>
+          )}
+          <div className="git-head" ref={headRef} aria-hidden="true"><i className="bi bi-git" /></div>
+        </div>
       );
     }
 
@@ -1249,7 +1592,7 @@
     function CodeCard() {
       return (
         <div className="code-wrap">
-          <div className="float-badge b1"><i className="bi bi-check2-circle" /> 149 testes passando</div>
+          <div className="sticker s1"><i className="bi bi-check2-circle" /> 149 testes passando</div>
           <div className="code-card">
             <div className="code-head">
               <span className="dot r" /><span className="dot y" /><span className="dot g" />
@@ -1264,96 +1607,106 @@
               ))}
             </div>
           </div>
-          <div className="float-badge b2"><i className="bi bi-layers-fill" /> Niterói em camadas</div>
+          <div className="sticker s2"><i className="bi bi-layers-fill" /> Niterói em camadas</div>
+          <SpinBadge />
         </div>
       );
     }
 
-    function Hero({ theme }) {
+    function Hero() {
       const typed = useTyping(PROFILE.roles);
-      const onMove = (e) => {
-        const r = e.currentTarget.getBoundingClientRect();
-        e.currentTarget.style.setProperty("--gx", `${((e.clientX - r.left) / r.width) * 100}%`);
-        e.currentTarget.style.setProperty("--gy", `${((e.clientY - r.top) / r.height) * 100}%`);
-      };
       return (
-        <section id="inicio" className="hero" onPointerMove={onMove}>
-          <DataNetwork theme={theme} />
-          <div className="hero-glow" />
-          <Container>
-            <Row className="align-items-center gx-4 gx-lg-5 gy-5">
-              <Col lg={6} xl={7}>
-                <Reveal>
-                  <span className="eyebrow"><span className="pulse" /> {PROFILE.headline}</span>
-                </Reveal>
-                <Reveal delay={100}>
-                  <h1 className="display-name">
-                    <small>Olá, eu sou</small>
-                    Kluivert <span className="text-gradient">Mury</span>
-                  </h1>
-                </Reveal>
-                <Reveal delay={200}>
-                  <p className="typing" aria-live="polite"><span className="prompt">&gt;</span>{typed}<span className="caret" /></p>
+        <section id="inicio" className="hero">
+          <Container fluid className="wrap">
+            <Reveal className="hero-intro">
+              <span className="hand hero-hello">olá, eu sou o</span>
+              <span className="hero-name">{PROFILE.name}</span>
+            </Reveal>
+            <Reveal delay={80}>
+              <h1 className="hero-title">Desenvolvo <em>aplicações</em> em Python e levo os dados da cidade <mark>para o mapa</mark>.</h1>
+            </Reveal>
+            {/* O título ocupa a largura toda; embaixo, o texto divide a linha com o cartão de código,
+                que assim fica largo (retangular) também no desktop. */}
+            <Row className="align-items-center gx-4 gx-xxl-5 gy-4">
+              <Col xxl={5}>
+                <Reveal delay={160}>
+                  <p className="typing mb-0" aria-live="polite"><span className="prompt">&gt;</span>{typed}<span className="caret" /></p>
                   <p className="hero-lead">{PROFILE.summary}</p>
-                </Reveal>
-                <Reveal delay={300}>
                   <div className="d-flex flex-wrap gap-3">
-                    <Button variant="km" href="#niteroi">Ver trabalho em Niterói <i className="bi bi-arrow-right" /></Button>
-                    <Button variant="ghost" href="#projetos"><i className="bi bi-grid-1x2" /> Projetos</Button>
-                    <Button variant="ghost" href={PROFILE.cv} download><i className="bi bi-download" /> Currículo</Button>
-                  </div>
-                  <div className="socials">
-                    <IconLink href={PROFILE.github} icon="bi-github" label="GitHub" />
-                    <IconLink href={PROFILE.linkedin} icon="bi-linkedin" label="LinkedIn" />
-                    <IconLink href={`mailto:${PROFILE.email}`} icon="bi-envelope" label="E-mail" />
+                    <Button variant="pop" href="#niteroi">Ver trabalho em Niterói <i className="bi bi-arrow-right" /></Button>
+                    <Button variant="pop" className="alt" href="#projetos"><i className="bi bi-grid-1x2" /> Projetos</Button>
+                    <div className="d-flex gap-2 align-items-center ms-sm-2">
+                      <IconLink href={PROFILE.github} icon="bi-github" label="GitHub" />
+                      <IconLink href={PROFILE.linkedin} icon="bi-linkedin" label="LinkedIn" />
+                      <IconLink href={`mailto:${PROFILE.email}`} icon="bi-envelope" label="E-mail" />
+                    </div>
                   </div>
                 </Reveal>
               </Col>
-              <Col lg={6} xl={5}>
-                <Reveal delay={250}><CodeCard /></Reveal>
+              <Col xxl={7}>
+                <Reveal delay={220}><CodeCard /></Reveal>
               </Col>
             </Row>
-            <a href="#sobre" className="scroll-cue" aria-label="Rolar para a próxima seção"><span /></a>
+            <Reveal className="stats">
+              {STATS.map((s) => (
+                <div className="stat" key={s.label}>
+                  <div className="stat-value"><CountUp end={s.value} /></div>
+                  <div className="stat-label">{s.label}</div>
+                </div>
+              ))}
+            </Reveal>
           </Container>
         </section>
       );
     }
 
+    function Marquee() {
+      const all = SKILLS.flatMap((g) => g.items);
+      return (
+        <div className="marquee-wrap" aria-hidden="true">
+          <div className="marquee">
+            <div className="marquee-track">
+              {[...all, ...all].map((item, i) => (
+                <span className="marquee-item" key={i}><SkillIcon item={item} />{item.n}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // Ficha rápida do "Sobre": montada a partir do perfil, da formação e da experiência atual.
+    const ABOUT_FACTS = [
+      { icon: "bi-geo-alt", label: "Base", value: PROFILE.location },
+      { icon: "bi-mortarboard", label: "Formação", value: `${EDUCATION.course.replace("Bacharelado em ", "")} na UFF` },
+      { icon: "bi-building", label: "Agora", value: EXPERIENCE[0].org },
+      { icon: "bi-crosshair", label: "Foco", value: "Backend, dados e IA" },
+    ];
+
+    // Linha do tempo da "Experiência": cada vaga entra pela data de início, mais o começo da graduação.
+    const TIMELINE = [
+      ...EXPERIENCE.map((e) => ({ when: e.period.split(" – ")[0], what: e.role, where: e.org, now: e.period.includes("atual") })),
+      { when: EDUCATION.period.split(" – ")[0], what: `Início em ${EDUCATION.course.replace("Bacharelado em ", "")}`, where: EDUCATION.school },
+    ];
+
     function About() {
-      const facts = [
-        { icon: "bi-geo-alt", label: "Base", value: PROFILE.location },
-        { icon: "bi-briefcase", label: "Atualmente", value: "Estagiário de Engenharia de Dados no Escritório de Dados da Prefeitura de Niterói" },
-        { icon: "bi-mortarboard", label: "Formação", value: `${EDUCATION.course}, UFF` },
-        { icon: "bi-terminal", label: "Stack principal", value: "Python, SQL, FastAPI, Microsoft Fabric" },
-      ];
       return (
         <section id="sobre" className="section">
-          <Container>
-            <Row className="gx-4 gx-lg-5 gy-5 align-items-center">
-              <Col lg={6}>
-                <SectionHeader kicker="Sobre mim" title={<>Do código ao <span className="text-gradient">deploy</span></>} />
-                <Reveal delay={100} className="about-text">
-                  <p>Sou desenvolvedor Python com foco em <strong>backend</strong> e curso Sistemas de Informação na <strong>Universidade Federal Fluminense</strong>. Trabalho com o ciclo completo de uma aplicação: modelagem do banco de dados, construção da API, testes automatizados, integração contínua e deploy em servidor Linux.</p>
-                  <p>No <strong>Escritório de Dados da Prefeitura de Niterói</strong>, desenvolvo agentes de IA e servidores MCP que automatizam rotinas do time, construo pipelines no Microsoft Fabric e integro <strong>dados de trânsito ao Gêmeo Digital</strong> da cidade, com foco no NitBike, além de atuar nas camadas do painel de solicitações do Colab.</p>
-                </Reveal>
-              </Col>
-              <Col lg={6}>
-                <Reveal delay={150} className="glass">
-                  {facts.map((f) => (
-                    <div className="fact" key={f.label}>
-                      <span className="fact-icon"><i className={`bi ${f.icon}`} /></span>
-                      <div><small>{f.label}</small><span>{f.value}</span></div>
+          <Container fluid className="wrap">
+            <SectionHeader num="01" kicker="Sobre mim" title={<>Do código ao <em>deploy</em></>} />
+            <Reveal className="about-text">
+              <p>Sou desenvolvedor Python com foco em <strong>backend</strong> e curso Sistemas de Informação na <strong>Universidade Federal Fluminense</strong>. Trabalho com o ciclo completo de uma aplicação: modelagem do banco de dados, construção da API, testes automatizados, integração contínua e deploy em servidor Linux.</p>
+              <p>No <strong>Escritório de Dados da Prefeitura de Niterói</strong>, desenvolvo agentes de IA e servidores MCP que automatizam rotinas do time, construo pipelines no Microsoft Fabric e integro <mark>dados de trânsito ao Gêmeo Digital</mark> da cidade, com foco no NitBike, além de atuar nas camadas do painel de solicitações do Colab.</p>
+            </Reveal>
+            <Row className="g-3 about-facts">
+              {ABOUT_FACTS.map((f, i) => (
+                <Col sm={6} xl={3} key={f.label}>
+                  <Reveal delay={i * 70} className="cardx lift fact-card">
+                    <span className={`fact-icon tone-${i % 3}`}><i className={`bi ${f.icon}`} /></span>
+                    <div className="fact-text">
+                      <small>{f.label}</small>
+                      <strong>{f.value}</strong>
                     </div>
-                  ))}
-                </Reveal>
-              </Col>
-            </Row>
-            <Row className="g-4 mt-4">
-              {STATS.map((s, i) => (
-                <Col md={4} key={s.label}>
-                  <Reveal delay={i * 100} className="glass stat">
-                    <div className="stat-value text-gradient"><CountUp end={s.value} /></div>
-                    <div className="stat-label">{s.label}</div>
                   </Reveal>
                 </Col>
               ))}
@@ -1365,7 +1718,7 @@
 
     /* ---------- Holograma 3D das camadas (Three.js) ---------- */
 
-    const HOLO_COLORS = { accent: 0x2dd4bf, warm: 0xfbbf24 };
+    const HOLO_COLORS = { accent: 0x2dd4bf, warm: 0xff7a3d };
 
     const HOLO_VERT = `
       varying vec3 vNormal;
@@ -1649,25 +2002,66 @@
 
     function LayerPanel({ title, tag, layers }) {
       const [active, setActive] = useState(layers.length - 1);
+      const [picked, setPicked] = useState(null); // camada escolhida pela rolagem, para o destaque animado
+      const panelRef = useRef(null);
+      const activeRef = useRef(active);
+      activeRef.current = active;
       const legend = layers.map((layer, i) => ({ layer, i })).reverse();
       const hasMine = layers.some((l) => l.mine);
+
+      // No desktop o projetor fica fixo e "come" a lista ao rolar. Se a camada selecionada
+      // some atrás dele, a primeira camada que ainda aparece abaixo assume o holograma.
+      useEffect(() => {
+        const panel = panelRef.current;
+        let raf = 0;
+        const check = () => {
+          raf = 0;
+          const stage = panel.querySelector(".holo-stage");
+          if (!stage) return;
+          const edge = stage.getBoundingClientRect().bottom;
+          // "Sumiu" quando o nome da camada começa a entrar atrás do projetor.
+          const hidden = (el) => { const r = el.getBoundingClientRect(); return r.height > 0 && r.top + 20 < edge; };
+          const items = [...panel.querySelectorAll("[data-layer]")];
+          const current = items.find((el) => Number(el.dataset.layer) === activeRef.current);
+          if (!current || !hidden(current)) return;
+          const next = items.find((el) => !hidden(el));
+          if (!next) return;
+          const i = Number(next.dataset.layer);
+          setActive(i);
+          setPicked(i);
+        };
+        const onScroll = () => { if (!raf) raf = requestAnimationFrame(check); };
+        window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", onScroll);
+        return () => {
+          window.removeEventListener("scroll", onScroll);
+          window.removeEventListener("resize", onScroll);
+          cancelAnimationFrame(raf);
+        };
+      }, []);
+
+      const choose = (i) => { setActive(i); setPicked(null); };
       return (
-        <div className="glass stack-card">
+        <div className="cardx stack-card" ref={panelRef}>
           <div className="dash-head">
             <span className="dash-title"><span className="live-dot" /> {title}</span>
             {tag && <span className="dash-tag">{tag}</span>}
           </div>
-          <HoloProjector layer={layers[active]} index={active} total={layers.length} />
+          <div className="holo-dock">
+            <HoloProjector layer={layers[active]} index={active} total={layers.length} />
+          </div>
           <ListGroup className="layer-legend">
             {legend.map(({ layer, i }) => (
               <ListGroup.Item
                 key={layer.name}
                 action
                 active={active === i}
-                className={layer.mine ? "is-mine" : ""}
-                onMouseEnter={() => setActive(i)}
-                onFocus={() => setActive(i)}
-                onClick={() => setActive(i)}
+                className={[layer.mine && "is-mine", picked === i && "is-picked"].filter(Boolean).join(" ")}
+                data-layer={i}
+                onMouseEnter={() => choose(i)}
+                onFocus={() => choose(i)}
+                onClick={() => choose(i)}
+                onAnimationEnd={(e) => { if (e.animationName === "layerPick") setPicked(null); }}
               >
                 <span className={`layer-icon ${layer.mine ? "is-mine" : ""}`} aria-hidden="true"><i className={`bi ${layer.icon}`} /></span>
                 <span className="layer-text">
@@ -1698,8 +2092,9 @@
       const peak = series.findIndex((d) => d.value === max);
       const last = series.length - 1;
       const tipAlign = (i) => (i < 2 ? "start" : i > last - 2 ? "end" : "center");
+      const shares = data.kpis.filter((k) => k.tone).map((k) => ({ ...k, pct: parseFloat(k.value) }));
       return (
-        <div className="glass dash-card" ref={ref}>
+        <div className="cardx dash-card" ref={ref}>
           <div className="dash-head">
             <span className="dash-title"><span className="live-dot" /> {data.heading}</span>
             <span className="dash-tag">{data.tag}</span>
@@ -1712,6 +2107,12 @@
                 <small>{k.label}</small>
               </div>
             ))}
+          </div>
+          <ProgressBar className="dash-progress" aria-label="Solicitações resolvidas e em aberto">
+            {shares.map((s) => <ProgressBar key={s.label} variant={s.tone} now={inView ? s.pct : 0} />)}
+          </ProgressBar>
+          <div className="dash-progress-legend">
+            {shares.map((s) => <span key={s.label}>{s.value} {s.label}</span>)}
           </div>
           <div className="dash-chart-title">{data.title}</div>
           <div className={`bars ${inView ? "is-in" : ""}`} aria-hidden="true" onMouseLeave={() => setHover(null)}>
@@ -1746,16 +2147,327 @@
       );
     }
 
+    /* ---------- Ilustrações das etapas do fluxo: SVG desenhado em código, acompanha o tema ---------- */
+
+    // Bloco isométrico: (x, y) é o canto da frente no chão; w e d são os dois lados e h a altura.
+    function IsoBox({ x, y, w, d, h, top = "f" }) {
+      const F = [x, y], R = [x + w, y - w / 2], L = [x - d, y - d / 2], B = [x + w - d, y - w / 2 - d / 2];
+      const up = ([px, py]) => [px, py - h];
+      const pts = (list) => list.map((p) => p.join(",")).join(" ");
+      return (
+        <g>
+          <polygon className="f side" points={pts([L, F, up(F), up(L)])} />
+          <polygon className="f" points={pts([F, R, up(R), up(F)])} />
+          <polygon className={top} points={pts([up(L), up(F), up(R), up(B)])} />
+        </g>
+      );
+    }
+
+    // Alfinete de mapa com a ponta em (x, y).
+    function Pin({ x, y, c = "hot", drop = false }) {
+      return (
+        <g transform={`translate(${x} ${y})`}>
+          <g className={drop ? "drop" : undefined}>
+            <path className={`f ${c}`} d="M0 0C-4-5-6-8-6-11a6 6 0 1 1 12 0c0 3-2 6-6 11z" />
+            <circle className="f" cx="0" cy="-11" r="2.2" />
+          </g>
+        </g>
+      );
+    }
+
+    function HeatGradient({ id }) {
+      return (
+        <radialGradient id={id}>
+          <stop offset="0" style={{ stopColor: "var(--accent)", stopOpacity: 1 }} />
+          <stop offset=".55" style={{ stopColor: "var(--lime)", stopOpacity: .55 }} />
+          <stop offset="1" style={{ stopColor: "var(--lime)", stopOpacity: 0 }} />
+        </radialGradient>
+      );
+    }
+
+    const HEAT_POINTS = [
+      [36, 56], [42, 60], [48, 58], [40, 66], [46, 68], [52, 64], [38, 72], [44, 52], [34, 62], [50, 72],
+      [78, 98], [84, 96], [90, 100], [82, 106], [88, 108], [94, 104], [80, 112],
+      [24, 104], [64, 40], [100, 50], [70, 84], [102, 120], [20, 36], [60, 118],
+    ];
+
+    const FLOW_ART = {
+      feeds: () => (
+        <svg viewBox="0 0 240 140" aria-hidden="true">
+          <path className="s hotline flowing" d="M106 36C126 36 126 58 144 58" />
+          <path className="s coolline flowing" d="M106 104C126 104 126 82 144 82" />
+          <rect className="f" x="10" y="14" width="96" height="44" rx="9" />
+          <circle className="s" cx="26" cy="43" r="7" />
+          <circle className="s" cx="48" cy="43" r="7" />
+          <path className="s" d="M26 43L34 32L43 43ZM34 32H44L48 43M31 28h6M44 32l-2-4h5" />
+          <text className="h" x="60" y="34">NitBike</text>
+          <text className="tm" x="60" y="46">↻ 1 min</text>
+          <rect className="f" x="10" y="82" width="96" height="44" rx="9" />
+          <path className="f lit" d="M30 92L41 112H19Z" />
+          <path className="s darkline" d="M30 99v6M30 108.6v.4" />
+          <text className="h" x="50" y="101">Waze</text>
+          <text className="tm" x="50" y="113">↻ 2 min</text>
+          <rect className="f" x="144" y="20" width="86" height="100" rx="9" />
+          <text className="tm" x="152" y="34">feed.json</text>
+          <line className="s thin" x1="144" y1="41" x2="230" y2="41" />
+          <text className="code" x="152" y="56"><tspan className="k">"estacao"</tspan>: 12,</text>
+          <text className="code" x="152" y="70"><tspan className="k">"bikes"</tspan>: 7,</text>
+          <text className="code" x="152" y="84"><tspan className="k">"tipo"</tspan>: "JAM",</text>
+          <text className="code" x="152" y="98"><tspan className="k">"hora"</tspan>: "08:41"</text>
+          <rect className="hot blink" x="152" y="104" width="4" height="8" />
+        </svg>
+      ),
+
+      python: () => (
+        <svg viewBox="0 0 240 140" aria-hidden="true">
+          <rect className="term" x="10" y="12" width="220" height="116" rx="10" />
+          <circle cx="24" cy="25" r="3.2" fill="#ff5f57" />
+          <circle cx="34" cy="25" r="3.2" fill="#febc2e" />
+          <circle cx="44" cy="25" r="3.2" fill="#28c840" />
+          <text className="tc k-dim" x="56" y="28">coleta.py</text>
+          <circle className="good pulse" cx="182" cy="25" r="2.6" />
+          <text className="tc k-dim" x="189" y="28">rodando</text>
+          <line x1="10" y1="36" x2="230" y2="36" stroke="rgba(214,222,235,.14)" />
+          <text className="tc" x="20" y="54"><tspan className="k-ln">1</tspan><tspan x="34">feeds </tspan><tspan className="k-op">= </tspan><tspan className="k-fn">coletar</tspan>(nitbike, waze)</text>
+          <text className="tc" x="20" y="70"><tspan className="k-ln">2</tspan><tspan x="34">df </tspan><tspan className="k-op">= </tspan><tspan className="k-fn">tratar</tspan>(feeds)</text>
+          <text className="tc" x="20" y="86"><tspan className="k-ln">3</tspan><tspan x="34">df </tspan><tspan className="k-op">= </tspan><tspan className="k-fn">padronizar</tspan>(df)</text>
+          <text className="tc" x="20" y="102"><tspan className="k-ln">4</tspan><tspan x="34" className="k-fn">carregar</tspan>(df)  <tspan className="k-cm"># a cada 1 min</tspan></text>
+          <text className="tc" x="20" y="118"><tspan className="k-ln">5</tspan></text>
+          <rect className="hot blink" x="34" y="110" width="4.5" height="9" />
+        </svg>
+      ),
+
+      derived: () => (
+        <svg viewBox="0 0 240 140" aria-hidden="true">
+          <text className="t hotfill" x="141" y="19">+ coluna derivada</text>
+          <rect className="fillcard" x="10" y="26" width="220" height="104" rx="8" />
+          <path className="paper2" d="M10 46V34a8 8 0 0 1 8-8H140V46Z" />
+          <path className="lit" d="M140 46V26H222a8 8 0 0 1 8 8V46Z" />
+          <path className="lit faint" d="M140 46H230V122a8 8 0 0 1-8 8H140Z" />
+          <path className="s thin" d="M10 46H230M10 74H230M10 102H230M80 26V130M140 26V130" />
+          <rect className="s" x="10" y="26" width="220" height="104" rx="8" />
+          <path className="s hotline" d="M140 26V130" />
+          <text className="t" x="18" y="39">estação</text>
+          <text className="t" x="88" y="39">viagens</text>
+          <text className="t dark" x="148" y="39">movimento</text>
+          <text className="t" x="18" y="63">est. 01</text>
+          <text className="t" x="88" y="63">128</text>
+          <g className="pop-in"><rect className="f hot" x="148" y="53" width="50" height="14" rx="5" /><text className="t dark" x="154" y="63">▲ quente</text></g>
+          <text className="t" x="18" y="91">est. 02</text>
+          <text className="t" x="88" y="91">64</text>
+          <text className="tm" x="150" y="91">—</text>
+          <text className="t" x="18" y="119">est. 03</text>
+          <text className="t" x="88" y="119">9</text>
+          <g className="pop-in late"><rect className="f cool" x="148" y="109" width="44" height="14" rx="5" /><text className="t light" x="154" y="119">▼ fria</text></g>
+        </svg>
+      ),
+
+      arcgis: () => (
+        <svg viewBox="0 0 240 140" aria-hidden="true">
+          <polygon className="f paper2" points="110,77 185,102 110,127 35,102" />
+          <path className="s thin" d="M53.8 108.3L128.8 83.3M72.5 114.5L147.5 89.5M91.3 120.8L166.3 95.8M53.8 95.8L128.8 120.8M72.5 89.5L147.5 114.5M91.3 83.3L166.3 108.3" />
+          <polygon className="f" points="110,45 185,70 110,95 35,70" />
+          <path className="s coolline wide flowing" d="M58 70L90 62L118 76L150 66L170 71" />
+          <polygon className="f" points="110,13 185,38 110,63 35,38" />
+          {[[85, 38], [108, 24], [128, 44], [100, 50], [150, 34]].map(([cx, cy], i) => (
+            <circle key={i} className={`f hot ${i === 2 ? "pulse" : ""}`} cx={cx} cy={cy} r="3.6" />
+          ))}
+          <path className="s thin" d="M185 38H192M185 70H192M185 102H192" />
+          <text className="t" x="195" y="41">NitBike</text>
+          <text className="t" x="195" y="73">trânsito</text>
+          <text className="t" x="195" y="105">mapa base</text>
+        </svg>
+      ),
+
+      twin: () => (
+        <svg viewBox="0 0 240 140" aria-hidden="true">
+          <polygon className="f paper2" points="120,47 210,92 120,137 30,92" />
+          <path className="s coolline wide flowing" d="M80 112L160 72" />
+          <IsoBox x={120} y={70} w={18} d={18} h={40} />
+          <IsoBox x={92} y={88} w={16} d={16} h={26} />
+          <IsoBox x={150} y={88} w={20} d={14} h={34} top="f hot" />
+          <IsoBox x={172} y={104} w={14} d={12} h={14} />
+          <IsoBox x={70} y={108} w={14} d={12} h={22} top="f lit" />
+          <IsoBox x={120} y={112} w={22} d={18} h={18} />
+          <Pin x={121} y={90} drop />
+          <circle className="good pulse" cx="18" cy="18" r="4" />
+          <text className="t" x="27" y="21">ao vivo</text>
+        </svg>
+      ),
+
+      requests: () => (
+        <svg viewBox="0 0 240 140" aria-hidden="true">
+          <path className="f" d="M8 80L26 64L44 80V104H8Z" />
+          <rect className="f" x="22" y="90" width="8" height="14" />
+          <text className="tm" x="10" y="118">morador</text>
+          <path className="s hotline flowing" d="M46 88H66" />
+          <rect className="f" x="68" y="8" width="94" height="124" rx="12" />
+          <rect className="ink" x="103" y="13" width="24" height="4" rx="2" />
+          <text className="h" x="78" y="32">Colab</text>
+          <rect className="f" x="76" y="40" width="78" height="26" rx="6" />
+          <circle className="f lit" cx="86" cy="50" r="5" />
+          <rect className="ink" x="84" y="55" width="4" height="3" />
+          <text className="t" x="96" y="51">iluminação</text>
+          <text className="tm warnfill" x="96" y="61">em aberto</text>
+          <rect className="f" x="76" y="72" width="78" height="26" rx="6" />
+          <path className="f cool" d="M80 80H92L90.5 92H81.5Z" />
+          <text className="t" x="96" y="83">entulho</text>
+          <text className="tm goodfill" x="96" y="93">resolvido</text>
+          <g className="pop-in"><rect className="f dash" x="76" y="104" width="78" height="18" rx="6" /><text className="tm" x="85" y="116">+ novo pedido</text></g>
+          <path className="s coolline flowing" d="M164 74H176" />
+          <path className="f" d="M178 60L203 47L228 60Z" />
+          <path className="s" d="M185 60V88M196 60V88M207 60V88M218 60V88" />
+          <rect className="f" x="178" y="88" width="50" height="6" />
+          <text className="tm" x="182" y="108">prefeitura</text>
+        </svg>
+      ),
+
+      sigeo: () => (
+        <svg viewBox="0 0 240 140" aria-hidden="true">
+          <rect className="f" x="10" y="24" width="70" height="44" rx="9" />
+          <rect className="f" x="20" y="33" width="14" height="25" rx="3" />
+          <path className="s thin" d="M24 52H30" />
+          <text className="h" x="40" y="50">Colab</text>
+          <path className="s hotline flowing" d="M84 38H155" />
+          <polygon className="hot" points="155,34 162,38 155,42" />
+          <path className="s coolline flowing" d="M160 54H89" />
+          <polygon className="cool" points="89,50 82,54 89,58" />
+          <path className="f" d="M164 26V62A32 9 0 0 0 228 62V26" />
+          <ellipse className="f" cx="196" cy="26" rx="32" ry="9" />
+          <path className="s thin" d="M164 44A32 9 0 0 0 228 44" />
+          <text className="h" x="182" y="60">SIGeo</text>
+          <path className="s thin dash" d="M120 60V74" />
+          <rect className="f" x="40" y="80" width="160" height="50" rx="8" />
+          <rect className="inkfix" x="48" y="74" width="42" height="12" rx="4" />
+          <text className="t limefix" x="53" y="83">pedido</text>
+          <text className="tm" x="52" y="100">bairro</text>
+          <text className="t" x="104" y="100">Centro</text>
+          <text className="tm" x="52" y="112">categoria</text>
+          <text className="t" x="104" y="112">iluminação</text>
+          <text className="tm" x="52" y="124">status</text>
+          <rect className="f warn" x="102" y="115.5" width="50" height="11" rx="4" />
+          <text className="t dark" x="106" y="124">em aberto</text>
+        </svg>
+      ),
+
+      geocode: () => (
+        <svg viewBox="0 0 240 140" aria-hidden="true">
+          <rect className="f paper2" x="8" y="8" width="160" height="124" rx="8" />
+          <path className="f" d="M14 14H84L92 52L56 70L14 60Z" />
+          <path className="f" d="M84 14H162V58L118 66L92 52Z" />
+          <path className="f" d="M14 60L56 70L66 126H14Z" />
+          <path className="f litsoft" d="M56 70L92 52L118 66L128 126H66Z" />
+          <path className="f" d="M118 66L162 58V126H128Z" />
+          <text className="tm" x="76" y="122">bairro</text>
+          <Pin x={40} y={44} c="lit" />
+          <Pin x={132} y={38} c="cool" />
+          <Pin x={34} y={100} c="lit" />
+          <Pin x={146} y={104} c="hot" />
+          <Pin x={98} y={96} c="cool" />
+          <Pin x={84} y={84} c="hot" />
+          <Pin x={110} y={110} c="hot" drop />
+          <text className="t" x="178" y="26">categoria</text>
+          <circle className="f hot" cx="182" cy="42" r="4" /><text className="tm" x="190" y="45">iluminação</text>
+          <circle className="f cool" cx="182" cy="58" r="4" /><text className="tm" x="190" y="61">entulho</text>
+          <circle className="f lit" cx="182" cy="74" r="4" /><text className="tm" x="190" y="77">outros</text>
+        </svg>
+      ),
+
+      heatmap: () => {
+        const id = "heat" + React.useId().replace(/:/g, "");
+        return (
+          <svg viewBox="0 0 240 140" aria-hidden="true">
+            <defs><HeatGradient id={id} /></defs>
+            <text className="t" x="10" y="14">pontos</text>
+            <text className="t" x="126" y="14">calor</text>
+            <rect className="f paper2" x="8" y="20" width="108" height="112" rx="8" />
+            <rect className="f paper2" x="124" y="20" width="108" height="112" rx="8" />
+            {HEAT_POINTS.map(([x, y], i) => <circle key={i} className="hot" cx={x} cy={y} r="2.3" />)}
+            <circle className="pulse slow" cx="158" cy="62" r="30" fill={`url(#${id})`} />
+            <circle className="pulse slow" cx="200" cy="103" r="24" fill={`url(#${id})`} />
+            <circle cx="180" cy="40" r="10" fill={`url(#${id})`} />
+            <circle cx="218" cy="120" r="9" fill={`url(#${id})`} />
+            <circle cx="140" cy="104" r="9" fill={`url(#${id})`} />
+          </svg>
+        );
+      },
+
+      panel: ({ project }) => {
+        const id = "panel" + React.useId().replace(/:/g, "");
+        const dash = project.dashboard || { kpis: [], series: [] };
+        const max = Math.max(1, ...dash.series.map((d) => d.value));
+        const bw = 128 / Math.max(dash.series.length, 1);
+        // "solicitações registradas" -> "solicitações"; "em aberto" continua inteiro
+        const short = (s) => { const w = s.split(" "); return w[0].length < 4 && w[1] ? `${w[0]} ${w[1]}` : w[0]; };
+        const tone = { good: "goodfill", warn: "warnfill" };
+        return (
+          <svg viewBox="0 0 240 140" aria-hidden="true">
+            <defs><HeatGradient id={id} /></defs>
+            <rect className="f" x="8" y="8" width="224" height="124" rx="9" />
+            <path className="paper2" d="M9 26V17a8 8 0 0 1 8-8H223a8 8 0 0 1 8 8V26Z" />
+            <line className="s thin" x1="8" y1="26" x2="232" y2="26" />
+            <circle className="hot" cx="18" cy="17.5" r="2.5" />
+            <circle className="lit" cx="26" cy="17.5" r="2.5" />
+            <circle className="good" cx="34" cy="17.5" r="2.5" />
+            <text className="tm" x="44" y="20">painel público · SIGeo</text>
+            {dash.kpis.slice(0, 3).map((k, i) => (
+              <g key={k.label} transform={`translate(${16 + i * 72} 32)`}>
+                <rect className="f" width="64" height="26" rx="5" />
+                <text className={`t b ${tone[k.tone] || ""}`} x="6" y="12">{k.value}</text>
+                <text className="tm" x="6" y="21">{short(k.label)}</text>
+              </g>
+            ))}
+            <text className="tm" x="16" y="72">pedidos por ano</text>
+            {dash.series.map((d, i) => {
+              const h = Math.max(1.5, (d.value / max) * 46);
+              const partial = dash.partialLast && i === dash.series.length - 1;
+              return <rect key={d.year} className={`hot grow ${partial ? "faint" : ""}`} style={{ "--i": i }} x={16 + i * bw + 1} y={124 - h} width={bw - 2} height={h} rx="1.5" />;
+            })}
+            <line className="s thin" x1="16" y1="124.5" x2="144" y2="124.5" />
+            <rect className="f paper2" x="152" y="64" width="72" height="60" rx="5" />
+            <circle className="pulse slow" cx="178" cy="88" r="16" fill={`url(#${id})`} />
+            <circle cx="205" cy="108" r="11" fill={`url(#${id})`} />
+            <circle className="hot" cx="196" cy="78" r="2" /><circle className="hot" cx="168" cy="110" r="2" /><circle className="hot" cx="212" cy="90" r="2" />
+          </svg>
+        );
+      },
+    };
+
+    function FlowStep({ step, index, project }) {
+      const Art = FLOW_ART[step.art];
+      const box = (
+        <button type="button" className={`flow-step ${Art ? "has-art" : ""}`}>
+          <span className="idx">{pad2(index + 1)}{step.icon && <i className={`bi ${step.icon}`} aria-hidden="true" />}</span>
+          <span className="lbl">{step.label}</span>
+          {Art && <i className="bi bi-eye flow-peek" aria-hidden="true" />}
+        </button>
+      );
+      if (!Art) return box;
+      return (
+        <OverlayTrigger
+          placement="top"
+          trigger={["hover", "focus"]}
+          delay={{ show: 60, hide: 80 }}
+          overlay={
+            <Popover id={`flow-${project.id}-${step.art}`} className="flow-pop">
+              <Popover.Header as="div"><span className="idx">{pad2(index + 1)}</span>{step.label}</Popover.Header>
+              <Popover.Body>
+                <div className="flow-art"><Art project={project} /></div>
+                {step.note && <p>{step.note}</p>}
+              </Popover.Body>
+            </Popover>
+          }
+        >
+          {box}
+        </OverlayTrigger>
+      );
+    }
+
     function CityPane({ project }) {
       return (
         <div className="fade-swap">
-          <Row className="gx-4 gx-lg-5 gy-5 align-items-center">
-            <Col lg={5}>
-              {project.visual === "dashboard"
-                ? <RequestsDashboard data={project.dashboard} />
-                : <LayerPanel title={project.panelTitle} tag={project.panelTag} layers={project.layers} />}
-            </Col>
-            <Col lg={7}>
+          <Row className="gx-4 gx-xl-5 gy-5 align-items-start">
+            <Col xl={7}>
               <span className="city-kicker">{project.kicker}</span>
               <h3 className="city-name">{project.name}</h3>
               <p className="city-pitch">{project.pitch}</p>
@@ -1763,16 +2475,16 @@
                 <div className="city-facts">
                   {project.facts.map((f) => (
                     <div className="city-fact" key={f.label}>
-                      <strong className="text-gradient">{f.value}</strong>
+                      <strong>{f.value}</strong>
                       <small>{f.label}</small>
                     </div>
                   ))}
                 </div>
               )}
-              <h4 className="kicker mt-4 mb-3">Minha contribuição</h4>
+              <h4 className="contrib-title">minha contribuição ↓</h4>
               <div className="d-grid gap-3">
                 {project.contributions.map((c) => (
-                  <div className="contrib" key={c.title}>
+                  <div className="cardx lift contrib" key={c.title}>
                     <span className="contrib-icon"><i className={`bi ${c.icon}`} /></span>
                     <div><h4>{c.title}</h4><p>{c.text}</p></div>
                   </div>
@@ -1783,22 +2495,30 @@
                   {project.tech.map((t) => <span className="chip" key={t}>{t}</span>)}
                 </div>
                 {project.url && (
-                  <Button variant="ghost" href={project.url} target="_blank" rel="noopener noreferrer">
+                  <Button variant="pop" className="alt" href={project.url} target="_blank" rel="noopener noreferrer">
                     <i className="bi bi-box-arrow-up-right" /> Ver plataforma
                   </Button>
                 )}
               </div>
             </Col>
+            <Col xl={5}>
+              {project.visual === "dashboard"
+                ? <RequestsDashboard data={project.dashboard} />
+                : <LayerPanel title={project.panelTitle} tag={project.panelTag} layers={project.layers} />}
+            </Col>
           </Row>
-          <div className="glass flow-card">
-            <div className="flow-title"><i className="bi bi-signpost-split me-2" />Como os dados chegam ao mapa</div>
+          <div className="cardx flow-card">
+            <div className="flow-head">
+              <div className="flow-title"><i className="bi bi-signpost-split me-2" />Como os dados chegam ao mapa</div>
+              <span className="flow-hint">
+                <i className="bi bi-hand-index" />
+                <span className="on-hover">passe o mouse em uma etapa</span><span className="on-touch">toque em uma etapa</span>
+              </span>
+            </div>
             <div className="flow">
               {project.flow.map((step, i) => (
-                <React.Fragment key={step}>
-                  <div className="flow-step">
-                    <span className="idx">{String(i + 1).padStart(2, "0")}</span>
-                    <span className="lbl">{step}</span>
-                  </div>
+                <React.Fragment key={step.label}>
+                  <FlowStep step={step} index={i} project={project} />
                   {i < project.flow.length - 1 && <div className="flow-link" aria-hidden="true" />}
                 </React.Fragment>
               ))}
@@ -1811,19 +2531,25 @@
     function CitySection() {
       const [key, setKey] = useState(CITY_PROJECTS[0].id);
       return (
-        <section id="niteroi" className="section city-section">
-          <Container>
-            <SectionHeader center kicker="Dados para a cidade" title={<>Niterói em <span className="text-gradient">camadas</span></>}>
+        <section id="niteroi" className="section alt">
+          <Container fluid className="wrap">
+            <SectionHeader num="02" kicker="Dados para a cidade" title={<>Niterói em <em>camadas</em></>}>
               No Escritório de Dados da Prefeitura de Niterói, trabalho com duas plataformas públicas da cidade. No Gêmeo Digital, integro os dados de trânsito, com foco no NitBike. No Colab, integro e mapeio as solicitações dos moradores.
             </SectionHeader>
             <Tab.Container activeKey={key} onSelect={(k) => k && setKey(k)} id="city-tabs">
-              <Reveal className="text-center mb-5">
-                <Nav variant="pills" className="city-tabs">
-                  {CITY_PROJECTS.map((p) => (
-                    <Nav.Item key={p.id}>
-                      <Nav.Link eventKey={p.id} as="button" type="button"><i className={`bi ${p.icon}`} /> {p.tab}</Nav.Link>
-                    </Nav.Item>
-                  ))}
+              <Reveal>
+                <Nav variant="underline" className="city-tabs">
+                  {CITY_PROJECTS.map((p) => {
+                    const badge = p.badge || (p.layers ? `${p.layers.length} camadas` : null);
+                    return (
+                      <Nav.Item key={p.id}>
+                        <Nav.Link eventKey={p.id} as="button" type="button">
+                          <i className={`bi ${p.icon}`} /> {p.tab}
+                          {badge && <Badge pill className="tab-badge">{badge}</Badge>}
+                        </Nav.Link>
+                      </Nav.Item>
+                    );
+                  })}
                 </Nav>
               </Reveal>
               <Reveal delay={100}>
@@ -1844,44 +2570,61 @@
     function Experience() {
       return (
         <section id="experiencia" className="section">
-          <Container>
-            <Row className="gx-4 gx-lg-5 gy-5">
-              <Col lg={4}>
-                <SectionHeader kicker="Trajetória" title={<>Experiência e <span className="text-gradient">formação</span></>}>
-                  Da pesquisa na universidade à engenharia de dados no setor público.
-                </SectionHeader>
-                <Reveal delay={100} className="glass edu-card">
-                  <span className="fact-icon"><i className="bi bi-mortarboard" /></span>
-                  <div>
-                    <div className="tl-period">{EDUCATION.period}</div>
-                    <div className="fw-semibold">{EDUCATION.course}</div>
-                    <div className="text-muted-km small">{EDUCATION.school} · {EDUCATION.place}</div>
-                  </div>
+          <Container fluid className="wrap">
+            <SectionHeader num="03" kicker="Trajetória" title={<>Experiência e <em>formação</em></>}>
+              Da pesquisa na universidade à engenharia de dados no setor público.
+            </SectionHeader>
+            <Row className="gx-4 gx-xl-5 gy-4">
+              <Col xl={8}>
+                <Reveal className="xp">
+                  <Accordion defaultActiveKey="0">
+                    {EXPERIENCE.map((job, i) => (
+                      <Accordion.Item eventKey={String(i)} key={job.role}>
+                        <Accordion.Header>
+                          <span className="xp-head">
+                            <span className="xp-period">{job.period} · {job.place}</span>
+                            <span className="xp-role">{job.role}</span>
+                            <span className="xp-org">{job.org}</span>
+                          </span>
+                        </Accordion.Header>
+                        <Accordion.Body>
+                          <ul className="xp-list">
+                            {job.bullets.map((b) => {
+                              const item = typeof b === "string" ? { text: b } : b;
+                              return <li key={item.text} className={item.isNew ? "is-new" : ""}>{item.text}</li>;
+                            })}
+                          </ul>
+                          <div className="chip-row">{job.tech.map((t) => <span className="chip" key={t}>{t}</span>)}</div>
+                        </Accordion.Body>
+                      </Accordion.Item>
+                    ))}
+                  </Accordion>
                 </Reveal>
               </Col>
-              <Col lg={8}>
-                <div className="timeline">
-                  {EXPERIENCE.map((job, i) => (
-                    <Reveal className="tl-item" key={job.role} delay={i * 120}>
-                      <span className="tl-dot" />
-                      <div className="glass tl-card">
-                        <div className="d-flex flex-wrap justify-content-between gap-2">
-                          <span className="tl-period">{job.period}</span>
-                          <span className="text-muted-km small"><i className="bi bi-geo-alt me-1" />{job.place}</span>
-                        </div>
-                        <h3 className="tl-role">{job.role}</h3>
-                        <div className="tl-org">{job.org}</div>
-                        <ul className="tl-list">
-                          {job.bullets.map((b) => {
-                            const item = typeof b === "string" ? { text: b } : b;
-                            return <li key={item.text} className={item.isNew ? "is-new" : ""}>{item.text}</li>;
-                          })}
-                        </ul>
-                        <div className="chip-row">{job.tech.map((t) => <span className="chip" key={t}>{t}</span>)}</div>
-                      </div>
-                    </Reveal>
-                  ))}
-                </div>
+              <Col xl={4}>
+                <Reveal delay={120} className="cardx edu-card">
+                  <span className="fact-icon" style={{ background: "var(--lime)", color: "#15130f" }}><i className="bi bi-mortarboard" /></span>
+                  <div className="xp-role">{EDUCATION.course}</div>
+                  <div className="xp-period">{EDUCATION.period}</div>
+                  <div className="xp-org mt-1">{EDUCATION.school} · {EDUCATION.place}</div>
+                </Reveal>
+                <Reveal delay={200} className="cardx timeline-card">
+                  <div className="dash-head">
+                    <span className="dash-title"><i className="bi bi-clock-history" /> Linha do tempo</span>
+                  </div>
+                  <ListGroup as="ol" className="km-timeline">
+                    {TIMELINE.map((t) => (
+                      <ListGroup.Item as="li" key={t.what} className={t.now ? "is-now" : ""}>
+                        <Badge className="when">{t.when}</Badge>
+                        <span className="what">
+                          <strong>{t.what}</strong>
+                          <small>{t.where}</small>
+                        </span>
+                        {t.now && <Badge pill className="now-badge"><span className="live-dot" /> atual</Badge>}
+                      </ListGroup.Item>
+                    ))}
+                  </ListGroup>
+                </Reveal>
               </Col>
             </Row>
           </Container>
@@ -1914,9 +2657,9 @@
       const stop = (e) => e.stopPropagation();
 
       return (
-        <section id="projetos" className="section">
-          <Container>
-            <SectionHeader center kicker="Projetos" title={<>Coisas que eu <span className="text-gradient">construí</span></>}>
+        <section id="projetos" className="section alt">
+          <Container fluid className="wrap">
+            <SectionHeader num="04" kicker="Projetos" title={<>Coisas que eu <em>construí</em></>}>
               Projetos pessoais desenvolvidos de ponta a ponta, com testes, CI e deploy. Clique em um card para ver os detalhes.
             </SectionHeader>
             <Reveal className="filters" role="group" aria-label="Filtrar projetos">
@@ -1928,9 +2671,9 @@
             </Reveal>
             <Row className="g-4" key={filter}>
               {visible.map((p, i) => (
-                <Col md={6} key={p.id} className="fade-swap" style={{ animationDelay: `${i * 70}ms` }}>
-                  <TiltCard
-                    className="glass project-card"
+                <Col md={6} xxl={4} key={p.id} className="fade-swap" style={{ animationDelay: `${i * 70}ms` }}>
+                  <div
+                    className="cardx lift project-card"
                     role="button"
                     tabIndex={0}
                     aria-label={`Ver detalhes de ${p.title}`}
@@ -1938,10 +2681,10 @@
                     onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSelected(p); } }}
                   >
                     <div className="project-top">
-                      <span className="project-icon"><i className={`bi ${p.icon}`} /></span>
-                      <span className="project-meta"><span className="yr">{p.year}</span>{p.kind}</span>
+                      <span className={`project-icon tone-${PROJECTS.indexOf(p) % 3}`}><i className={`bi ${p.icon}`} /></span>
+                      <span className="project-kind">{p.kind}</span>
                     </div>
-                    <span className="project-highlight"><i className="bi bi-lightning-charge-fill" />{p.highlight}</span>
+                    <mark className="project-highlight">{p.highlight}</mark>
                     <h3 className="project-title">{p.title}</h3>
                     <p className="project-summary">{p.summary}</p>
                     <div className="chip-row">{p.tech.slice(0, 4).map((t) => <span className="chip" key={t}>{t}</span>)}{p.tech.length > 4 && <span className="chip">+{p.tech.length - 4}</span>}</div>
@@ -1949,7 +2692,7 @@
                       <span className="link-arrow">Detalhes <i className="bi bi-arrow-right" /></span>
                       <div className="d-flex gap-2"><ProjectLinks project={p} onClick={stop} /></div>
                     </div>
-                  </TiltCard>
+                  </div>
                 </Col>
               ))}
             </Row>
@@ -1960,23 +2703,33 @@
               <>
                 <Modal.Header closeButton>
                   <div className="d-flex align-items-center gap-3">
-                    <span className="project-icon"><i className={`bi ${selected.icon}`} /></span>
+                    <span className={`project-icon tone-${PROJECTS.indexOf(selected) % 3}`}><i className={`bi ${selected.icon}`} /></span>
                     <div>
                       <Modal.Title as="h3" className="h4 mb-1">{selected.title}</Modal.Title>
-                      <div className="text-muted-km small font-mono">{selected.year} · {selected.kind}</div>
+                      <div className="text-muted-km small mono">{selected.kind}</div>
                     </div>
                   </div>
                 </Modal.Header>
                 <Modal.Body>
-                  <ul className="tl-list mt-0">
+                  {selected.shots && selected.shots.length > 0 && (
+                    <Carousel className="km-carousel" interval={null} indicators={selected.shots.length > 1} controls={selected.shots.length > 1}>
+                      {selected.shots.map((s) => (
+                        <Carousel.Item key={s.src}>
+                          <img src={s.src} alt={s.alt || ""} loading="lazy" />
+                          {s.caption && <Carousel.Caption><span>{s.caption}</span></Carousel.Caption>}
+                        </Carousel.Item>
+                      ))}
+                    </Carousel>
+                  )}
+                  <ul className="xp-list">
                     {selected.bullets.map((b) => <li key={b}>{b}</li>)}
                   </ul>
                   <div className="chip-row">{selected.tech.map((t) => <span className="chip" key={t}>{t}</span>)}</div>
                 </Modal.Body>
                 <Modal.Footer>
-                  {selected.repo && <Button variant="km" href={selected.repo} target="_blank" rel="noopener noreferrer"><i className="bi bi-github" /> Ver código</Button>}
-                  {selected.demo && <Button variant="ghost" href={selected.demo} target="_blank" rel="noopener noreferrer"><i className="bi bi-box-arrow-up-right" /> Abrir projeto</Button>}
-                  <Button variant="ghost" onClick={() => setSelected(null)}>Fechar</Button>
+                  {selected.repo && <Button variant="pop" href={selected.repo} target="_blank" rel="noopener noreferrer"><i className="bi bi-github" /> Ver código</Button>}
+                  {selected.demo && <Button variant="pop" className="alt" href={selected.demo} target="_blank" rel="noopener noreferrer"><i className="bi bi-box-arrow-up-right" /> Abrir projeto</Button>}
+                  <Button variant="pop" className="alt" onClick={() => setSelected(null)}>Fechar</Button>
                 </Modal.Footer>
               </>
             )}
@@ -1986,60 +2739,83 @@
     }
 
     function SkillIcon({ item }) {
-      return item.d ? <i className={`${item.d}`} /> : <i className={`bi ${item.bi}`} />;
+      return item.d ? <i className={item.d} /> : <i className={`bi ${item.bi}`} />;
+    }
+
+    // Onde cada tecnologia aparece no portfólio: experiências, plataformas de Niterói e projetos.
+    const SKILL_USES = (() => {
+      const uses = {};
+      const add = (techs, where) => techs.forEach((t) => {
+        uses[t] = uses[t] || [];
+        if (!uses[t].includes(where)) uses[t].push(where);
+      });
+      EXPERIENCE.forEach((e) => add(e.tech, e.short || e.org));
+      CITY_PROJECTS.forEach((p) => add(p.tech, p.tab));
+      PROJECTS.forEach((p) => add(p.tech, p.title));
+      return uses;
+    })();
+
+    const listPt = (items) => (items.length > 1 ? `${items.slice(0, -1).join(", ")} e ${items[items.length - 1]}` : items[0]);
+
+    function Skill({ item }) {
+      const where = [...(SKILL_USES[item.n] || []), ...(item.also || [])].filter((w, i, all) => all.indexOf(w) === i);
+      const chip = (
+        <span className={`skill ${where.length ? "has-tip" : ""}`} tabIndex={where.length ? 0 : undefined}>
+          <SkillIcon item={item} />{item.n}
+          {where.length > 0 && <Badge pill className="skill-count">{where.length}</Badge>}
+        </span>
+      );
+      if (!where.length) return chip;
+      const shown = where.length > 3 ? [...where.slice(0, 3), `mais ${where.length - 3}`] : where;
+      return (
+        <OverlayTrigger placement="top" overlay={<Tooltip className="skill-tip"><small>usei em</small>{listPt(shown)}</Tooltip>}>
+          {chip}
+        </OverlayTrigger>
+      );
     }
 
     function Skills() {
-      const all = SKILLS.flatMap((g) => g.items);
       return (
         <section id="habilidades" className="section">
-          <Container>
-            <SectionHeader center kicker="Habilidades" title={<>Minha <span className="text-gradient">caixa de ferramentas</span></>}>
+          <Container fluid className="wrap">
+            <SectionHeader num="05" kicker="Habilidades" title={<>Minha <em>caixa de ferramentas</em></>}>
               Tecnologias que uso no desenvolvimento de APIs, pipelines de dados e automações.
             </SectionHeader>
-            <Row className="g-4 justify-content-center">
+            <Row className="g-4">
               {SKILLS.map((g, i) => (
-                <Col md={6} lg={4} key={g.group}>
-                  <Reveal delay={(i % 3) * 100} className="glass skill-card">
+                <Col md={6} xl={4} key={g.group}>
+                  <Reveal delay={(i % 3) * 90} className="cardx skill-card">
                     <div className="skill-head">
-                      <span className="fact-icon"><i className={`bi ${g.icon}`} /></span>
+                      <i className={`bi ${g.icon}`} />
                       <h3>{g.group}</h3>
                     </div>
                     <div className="skill-list">
-                      {g.items.map((item) => (
-                        <span className="skill" key={item.n}><SkillIcon item={item} />{item.n}</span>
-                      ))}
+                      {g.items.map((item) => <Skill item={item} key={item.n} />)}
                     </div>
                   </Reveal>
                 </Col>
               ))}
             </Row>
           </Container>
-          <div className="marquee" aria-hidden="true">
-            <div className="marquee-track">
-              {[...all, ...all].map((item, i) => (
-                <span className="marquee-item" key={i}><SkillIcon item={item} />{item.n}</span>
-              ))}
-            </div>
-          </div>
         </section>
       );
     }
 
     function Contact({ onCopy }) {
       return (
-        <section id="contato" className="section">
-          <Container>
-            <Reveal className="contact-card text-center">
-              <span className="kicker">Contato</span>
-              <h2 className="mt-3">Vamos <span className="text-gradient">conversar?</span></h2>
+        <section id="contato" className="section pt-0">
+          <Container fluid className="wrap">
+            <Reveal className="contact">
+              <span className="contact-star" aria-hidden="true">✶</span>
+              <span className="sec-kicker">06 · Contato</span>
+              <h2>Vamos <em>conversar?</em></h2>
               <p>Tenho interesse em oportunidades e projetos de backend, engenharia de dados e tecnologia para o setor público. O contato mais rápido é por e-mail.</p>
-              <div className="contact-email mb-4">{PROFILE.email}</div>
-              <div className="d-flex flex-wrap justify-content-center gap-3">
-                <Button variant="km" href={`mailto:${PROFILE.email}`}><i className="bi bi-envelope" /> Enviar e-mail</Button>
-                <Button variant="ghost" onClick={onCopy}><i className="bi bi-clipboard" /> Copiar e-mail</Button>
-                <Button variant="ghost" href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer"><i className="bi bi-linkedin" /> LinkedIn</Button>
-                <Button variant="ghost" href={PROFILE.github} target="_blank" rel="noopener noreferrer"><i className="bi bi-github" /> GitHub</Button>
+              <a className="contact-email" href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a>
+              <div className="d-flex flex-wrap gap-3">
+                <Button variant="pop" className="ink" href={`mailto:${PROFILE.email}`}><i className="bi bi-envelope" /> Enviar e-mail</Button>
+                <Button variant="pop" className="alt" onClick={onCopy}><i className="bi bi-clipboard" /> Copiar e-mail</Button>
+                <Button variant="pop" className="alt" href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer"><i className="bi bi-linkedin" /> LinkedIn</Button>
+                <Button variant="pop" className="alt" href={PROFILE.github} target="_blank" rel="noopener noreferrer"><i className="bi bi-github" /> GitHub</Button>
               </div>
             </Reveal>
           </Container>
@@ -2050,7 +2826,7 @@
     function Footer() {
       return (
         <footer className="footer">
-          <Container className="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 text-center">
+          <Container fluid className="wrap d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 text-center">
             <span>© {new Date().getFullYear()} {PROFILE.name} · Feito com React e Bootstrap</span>
             <span className="d-flex gap-3">
               <a href={PROFILE.github} target="_blank" rel="noopener noreferrer"><i className="bi bi-github me-1" />GitHub</a>
@@ -2111,7 +2887,7 @@
         const pre = document.getElementById("preloader");
         if (!pre) return;
         pre.classList.add("done");
-        const t = setTimeout(() => pre.remove(), 700);
+        const t = setTimeout(() => pre.remove(), 600);
         return () => clearTimeout(t);
       }, []);
 
@@ -2121,16 +2897,20 @@
         <>
           <ScrollChrome />
           <TopNav active={active} theme={theme} onToggleTheme={toggleTheme} />
-          <main>
-            <Hero theme={theme} />
-            <About />
-            <CitySection />
-            <Experience />
-            <Projects />
-            <Skills />
-            <Contact onCopy={onCopy} />
-          </main>
-          <Footer />
+          <GitGraph />
+          <div className="main">
+            <main>
+              <Hero />
+              <Marquee />
+              <About />
+              <CitySection />
+              <Experience />
+              <Projects />
+              <Skills />
+              <Contact onCopy={onCopy} />
+            </main>
+            <Footer />
+          </div>
           <ToastContainer className="toast-dock p-3">
             <Toast show={toast} onClose={() => setToast(false)} delay={2200} autohide className="km-toast">
               <Toast.Body><i className="bi bi-check2-circle me-2" />E-mail copiado!</Toast.Body>
@@ -2142,5 +2922,7 @@
 
     ReactDOM.createRoot(document.getElementById("root")).render(<App />);
   </script>
+
+
 </body>
 </html>
