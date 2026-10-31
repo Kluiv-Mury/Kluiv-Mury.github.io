@@ -396,25 +396,32 @@
     .city-tabs.nav-underline {
       --bs-nav-underline-gap: 1.8rem; --bs-nav-underline-border-width: 4px;
       --bs-nav-underline-link-active-color: var(--ink);
+      --bs-nav-underline-gap: .5rem;
       margin-bottom: 2.6rem; border-bottom: 2px solid var(--line);
     }
     .city-tabs .nav-link {
-      display: flex; align-items: center; gap: .5rem; margin-bottom: -2px; padding: .6rem 0;
+      display: flex; align-items: center; gap: .5rem; margin-bottom: -2px; padding: .6rem 1rem;
+      border: 2px solid transparent; border-bottom: 0; border-radius: 12px 12px 0 0;
       color: var(--muted); font: 700 1.2rem "Bricolage Grotesque", sans-serif;
+      transition: background-color .2s, color .2s;
     }
-    .city-tabs .nav-link:hover { color: var(--ink); border-bottom-color: rgba(var(--accent-rgb), .4); }
-    .city-tabs .nav-link.active { color: var(--ink); border-bottom-color: var(--accent); }
+    .city-tabs .nav-link:hover { color: var(--ink); background: rgba(var(--accent-rgb), .14); border-color: transparent; }
+    /* a aba selecionada é uma etiqueta cheia na cor de destaque, encostada na linha */
+    .city-tabs .nav-link.active, .city-tabs .nav-link.active:hover {
+      color: #15130f; background: var(--accent); border-color: var(--line);
+      box-shadow: 3px 0 0 var(--shadow-c);
+    }
     .tab-badge.badge {
       margin-left: .15rem; padding: .22rem .5rem; border: 1.5px solid var(--line);
       background-color: var(--paper) !important; color: var(--muted);
       font: 600 .66rem "JetBrains Mono", monospace; letter-spacing: 0;
     }
-    .city-tabs .nav-link.active .tab-badge { background-color: var(--accent) !important; color: #15130f; }
+    .city-tabs .nav-link.active .tab-badge { background-color: var(--paper) !important; color: var(--ink); }
     /* Em telas menores que 1200px os selos fariam as três abas quebrarem em duas linhas */
     @media (max-width: 1199.98px) { .tab-badge { display: none; } }
     @media (max-width: 575.98px) {
-      .city-tabs.nav-underline { --bs-nav-underline-gap: .75rem; }
-      .city-tabs .nav-link { font-size: 1rem; }
+      .city-tabs.nav-underline { --bs-nav-underline-gap: .2rem; }
+      .city-tabs .nav-link { padding: .5rem .55rem; font-size: 1rem; }
     }
     /* nos celulares mais estreitos os ícones das abas saem para as três caberem numa linha */
     @media (max-width: 399.98px) { .city-tabs .nav-link > .bi { display: none; } }
@@ -640,7 +647,7 @@
     .flow-step:last-child { background: var(--accent); color: #15130f; }
     .flow-step .idx { display: inline-flex; align-items: center; gap: .45rem; font: 700 .74rem "JetBrains Mono", monospace; }
     .flow-step .idx i { font-size: .95rem; }
-    .flow-step .lbl { font-weight: 700; font-size: .93rem; line-height: 1.35; }
+    .flow-step .lbl { font-weight: 700; font-size: .93rem; line-height: 1.35; overflow-wrap: anywhere; }
     .flow-peek { position: absolute; top: .7rem; right: .75rem; font-size: .85rem; opacity: .45; transition: opacity .2s; }
     .flow-step:hover .flow-peek, .flow-step[aria-describedby] .flow-peek { opacity: 1; }
 
@@ -799,10 +806,13 @@
       background: color-mix(in srgb, var(--paper) 94%, transparent);
       transition: background-color .3s, border-color .3s, box-shadow .3s;
     }
-    .xp-step:not(.is-active) .xp-step-num, .xp-step:not(.is-active) h4 { opacity: .5; transition: opacity .3s; }
-    .xp-step:not(.is-active) p, .xp-step:not(.is-active) .xp-step-link { opacity: .62; transition: opacity .3s; }
-    .xp-step:not(.is-active):hover h4, .xp-step:not(.is-active):hover p { opacity: .9; }
-    .xp-step.is-active { opacity: 1; background: var(--card); border-color: var(--line); box-shadow: 4px 4px 0 var(--shadow-c); }
+    /* só com palco existe frente selecionada; no celular todas ficam com o texto inteiro */
+    @media (min-width: 992px) {
+      .xp-step:not(.is-active) .xp-step-num, .xp-step:not(.is-active) h4 { opacity: .5; transition: opacity .3s; }
+      .xp-step:not(.is-active) p, .xp-step:not(.is-active) .xp-step-link { opacity: .62; transition: opacity .3s; }
+      .xp-step:not(.is-active):hover h4, .xp-step:not(.is-active):hover p { opacity: .9; }
+    }
+    .xp-step.is-active { opacity: 1; background: var(--card); border-color: var(--line); box-shadow: 6px 6px 0 var(--accent); }
     .xp-step-num { font: 800 1.7rem/1 "Bricolage Grotesque", sans-serif; letter-spacing: -.04em; color: transparent; -webkit-text-stroke: 1.5px var(--ink); }
     .xp-step.is-active .xp-step-num { color: var(--accent); -webkit-text-stroke: 1.5px var(--line); }
     .xp-step h4 { display: flex; align-items: center; gap: .45rem; margin: .1rem 0 .4rem; font-size: 1.05rem; font-weight: 800; }
@@ -834,8 +844,8 @@
     .xp-stage-art .npulse { top: 21px; width: 18px; height: 18px; left: -9px; }
     .xp-stage-art .art-foundry { padding: 1.1rem 1.1rem 1.8rem; }
     .xp-stage-art .f-q, .xp-stage-art .f-a { font-size: .92rem; }
-    .xp-stage-art .art-foundry { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); }
-    .xp-stage-art .f-dax { font-size: .74rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .xp-stage-art .art-foundry { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
+    .xp-stage-art .f-dax { font-size: .7rem; white-space: pre-wrap; overflow-wrap: anywhere; }
     .xp-stage-art .art-fabric { gap: 1rem; padding: 1.4rem 1.2rem; }
     .xp-stage-art .fb-row { font-size: .95rem; }
     .xp-stage-art .fb-bar { height: 16px; }
@@ -854,7 +864,51 @@
       .xp-step-num { color: var(--accent); -webkit-text-stroke: 1.5px var(--line); }
       .xp-step-art { margin-top: .9rem; }
     }
-    /* embaixo: pesquisa, formação e linha do tempo lado a lado */
+    .xp-tabs { margin-bottom: 1.8rem !important; }
+    /* 9. Data Lake em Docker */
+    .art-lake { padding: .8rem .9rem 1rem; }
+    .lk-cmd { margin-bottom: .8rem; font: 500 .74rem "JetBrains Mono", monospace; color: var(--muted); opacity: 0; }
+    .lk-cmd b { color: var(--good); }
+    .lk-row { display: flex; align-items: center; }
+    .lk-box {
+      flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: .15rem; padding: .6rem .3rem;
+      border: 2px solid var(--line); border-radius: 12px; background: var(--paper); text-align: center; opacity: 0;
+    }
+    .lk-box > i { font-size: 1.3rem; color: var(--accent); }
+    .lk-box strong { font: 700 .74rem "JetBrains Mono", monospace; }
+    .lk-box small { font-size: .68rem; color: var(--muted); }
+    .lk-status { display: inline-flex; align-items: center; gap: .3rem; margin-top: .2rem; font: 600 .6rem "JetBrains Mono", monospace; color: var(--good); }
+    .lk-status .live-dot { width: 7px; height: 7px; }
+    .lk-link { flex: 0 0 18px; height: 3px; opacity: 0; background: linear-gradient(90deg, var(--line) 50%, transparent 0) 0 0 / 8px 3px repeat-x; animation: flowX .7s linear infinite; }
+    .art.is-static .lk-cmd, .art.is-static .lk-box, .art.is-static .lk-link { opacity: 1; }
+    /* 10. dados hospitalares */
+    .art-health { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 1.2rem; padding: .9rem 1rem 1.4rem; }
+    .hl-units { display: flex; flex-direction: column; gap: .5rem; }
+    .hl-unit { position: relative; display: flex; align-items: center; gap: .45rem; padding: .35rem .55rem; border: 2px solid var(--line); border-radius: 9px; background: var(--paper); font: 600 .7rem "JetBrains Mono", monospace; }
+    .hl-unit > .bi-hospital { color: var(--blue); font-size: .95rem; }
+    .hl-doc { position: absolute; right: .45rem; color: var(--accent); font-size: .95rem; }
+    .hl-lake { display: flex; flex-direction: column; align-items: center; gap: .15rem; padding: .8rem .9rem; border: 2px solid var(--line); border-radius: 14px; background: var(--paper); }
+    .hl-lake > i { font-size: 1.8rem; color: var(--accent); }
+    .hl-lake strong { font-size: .85rem; }
+    .hl-lake small { font: 600 .62rem "JetBrains Mono", monospace; color: var(--good); }
+    @media (max-width: 575.98px) {
+      .lk-link { flex-basis: 10px; }
+      .lk-box strong { font-size: clamp(.58rem, 2.6vw, .66rem); }
+      .art-health { gap: .6rem; padding-inline: .7rem; }
+      .hl-units { min-width: 0; }
+      .hl-unit { padding-inline: .4rem; gap: .3rem; font-size: .64rem; }
+      .hl-lake { padding-inline: .55rem; }
+    }
+    /* no palco */
+    .xp-stage-art .art-lake { padding: 1.4rem 1.2rem 1.6rem; }
+    .xp-stage-art .lk-box { padding: 1rem .4rem; }
+    .xp-stage-art .lk-box > i { font-size: 1.9rem; }
+    .xp-stage-art .lk-box strong { font-size: .9rem; }
+    .xp-stage-art .lk-link { flex-basis: 32px; }
+    .xp-stage-art .art-health { padding: 1.4rem 1.3rem 1.8rem; }
+    .xp-stage-art .hl-unit { padding: .6rem .8rem; font-size: .8rem; }
+    .xp-stage-art .hl-lake > i { font-size: 2.6rem; }
+    /* embaixo: formação e linha do tempo lado a lado */
     .xp-below { margin-top: 2.6rem; }
     .xp-below .cardx { height: 100%; }
     .xp-below .timeline-card { margin-top: 0; }
@@ -867,8 +921,9 @@
 
     /* 1. terminal do agente (escuro nos dois temas) */
     .art-term { min-height: 132px; padding: .65rem .8rem; background: #0f1220; font: 500 .74rem/1.75 "JetBrains Mono", monospace; }
-    .art-term .al { opacity: 0; line-height: 1.5; padding: .12rem 0; }
+    .art-term .al { opacity: 0; line-height: 1.5; padding: .12rem 0; overflow-wrap: anywhere; }
     .art.is-static .al { opacity: 1; }
+    @media (max-width: 575.98px) { .art-term .al-tool { font-size: .64rem; } }
     .al-user { color: #f3ede2; } .al-agent { color: #82aaff; } .al-tool { color: #c792ea; } .al-ok { color: #c3e88d; }
 
     /* 2. log de APIs */
@@ -878,6 +933,8 @@
     .api-m { padding: .05rem .3rem; border-radius: 4px; border: 1.5px solid var(--line); text-align: center; font-weight: 700; font-size: .62rem; color: #15130f; }
     .m-get { background: var(--lime); } .m-post { background: var(--accent); } .m-patch { background: #8fa6ff; }
     .api-path { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    /* no celular a rota quebra de linha em vez de ser cortada */
+    @media (max-width: 575.98px) { .api-path { white-space: normal; overflow-wrap: anywhere; } }
     .api-st { color: var(--good); font-weight: 700; }
     .api-ms { color: var(--muted); font-size: .66rem; }
 
@@ -917,12 +974,13 @@
     .f-dax { align-self: start; padding: .55rem .7rem; border-radius: 10px; background: #0f1220; color: #d6deeb; font: 500 .68rem/1.6 "JetBrains Mono", monospace; white-space: pre; overflow: hidden; }
     .f-dax div { opacity: 0; }
     .f-dax-label { display: block; margin-bottom: .25rem; color: #8b9bb4; font-size: .6rem; text-transform: uppercase; letter-spacing: .1em; }
-    @media (max-width: 575.98px) { .art-foundry { grid-template-columns: minmax(0, 1fr); } .f-dax { white-space: pre-wrap; } }
+    @media (max-width: 575.98px) { .art-foundry { grid-template-columns: minmax(0, 1fr); } .f-dax { white-space: pre-wrap; overflow-wrap: anywhere; } }
 
     /* 5. pipeline do Fabric */
     .art-fabric { display: flex; flex-direction: column; gap: .4rem; padding: .7rem .8rem; }
     .fb-row { display: grid; grid-template-columns: minmax(0, 1fr) 38% auto; align-items: center; gap: .5rem; font-size: .76rem; }
     .fb-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    @media (max-width: 399.98px) { .fb-label { white-space: normal; } }
     .fb-bar { height: 10px; overflow: hidden; border: 1.5px solid var(--line); border-radius: 6px; background: var(--paper); }
     .fb-fill { display: block; width: 0; height: 100%; background: var(--accent); }
     .fb-ok { color: var(--good); opacity: .2; transition: opacity .25s; }
@@ -1268,7 +1326,7 @@
           {
             icon: "bi-bicycle",
             title: "Integração de dados de trânsito e NitBike",
-            text: "Integro ao Gêmeo os dados de trânsito da cidade, com foco no NitBike: disponibilidade das estações e fluxo de viagens, coletados, tratados e carregados de forma recorrente.",
+            text: "Integro ao Gêmeo os dados de trânsito da cidade, com foco no NitBike: a disponibilidade de cada estação é coletada, tratada e carregada de forma recorrente, e as viagens são calculadas a partir dela.",
           },
           {
             icon: "bi-layers",
@@ -1277,8 +1335,8 @@
           },
           {
             icon: "bi-thermometer-half",
-            title: "Colunas derivadas e métricas",
-            text: "Crio colunas derivadas que acrescentam informação aos dados brutos, como as estações mais quentes e mais frias da rede (maior e menor movimento) e outras métricas de uso.",
+            title: "Viagens e métricas derivadas",
+            text: "O feed só informa, por estação, as bikes e as vagas disponíveis, entre outros dados. Faço as contas e derivo o que ele não traz: as próprias viagens, as estações mais quentes e mais frias da rede (maior e menor movimento) e outras métricas de uso.",
           },
         ],
         visual: "stack",
@@ -1300,16 +1358,16 @@
           {
             name: "NitBike",
             icon: "bi-bicycle",
-            source: "Estações e viagens · a cada 1 min",
+            source: "Disponibilidade por estação · a cada 1 min",
             mine: true,
-            role: "Disponibilidade e viagens integradas, com colunas derivadas que apontam as estações mais quentes e mais frias.",
+            role: "Disponibilidade das estações integrada, com dados derivados por cálculo: as viagens e as estações mais quentes e mais frias.",
           },
         ],
         // Etapas de "Como os dados chegam ao mapa". art: ilustração que abre ao passar o mouse (veja FLOW_ART).
         flow: [
           { label: "Feeds do NitBike e do Waze", icon: "bi-broadcast", art: "feeds", note: "As estações do NitBike chegam a cada 1 min e os alertas de trânsito do Waze a cada 2 min." },
           { label: "Coleta e tratamento em Python", icon: "bi-filetype-py", art: "python", note: "Scripts em Python coletam os feeds, tratam e padronizam os dados de forma recorrente." },
-          { label: "Colunas derivadas e métricas", icon: "bi-table", art: "derived", note: "Colunas novas apontam as estações mais quentes e mais frias da rede, com maior e menor movimento." },
+          { label: "Viagens e métricas derivadas", icon: "bi-table", art: "derived", note: "O feed só traz bikes e vagas por estação. As contas derivam as viagens e apontam as estações mais quentes e mais frias." },
           { label: "Camadas no ArcGIS", icon: "bi-layers", art: "arcgis", note: "Os dados viram camadas no ArcGIS, estruturadas e prontas para análise." },
           { label: "Gêmeo Digital", icon: "bi-buildings", art: "twin", note: "As camadas entram no Gêmeo Digital ao lado das outras fontes oficiais da cidade." },
         ],
@@ -1374,7 +1432,7 @@
         flow: [
           { label: "Pedidos dos moradores no Colab", icon: "bi-phone", art: "requests", note: "Moradores registram pedidos à prefeitura, como iluminação e coleta de entulho." },
           { label: "Integração com o SIGeo", icon: "bi-arrow-left-right", art: "sigeo", note: "Cada solicitação é integrada ao SIGeo com bairro, categoria e status de atendimento." },
-          { label: "Georreferenciamento por bairro e categoria", icon: "bi-geo-alt", art: "geocode", note: "Cada pedido vira um ponto no mapa, ligado ao bairro e à categoria." },
+          { label: "Georreferen\u00ADciamento por bairro e categoria", icon: "bi-geo-alt", art: "geocode", note: "Cada pedido vira um ponto no mapa, ligado ao bairro e à categoria." },
           { label: "Pontos e mapa de calor", icon: "bi-fire", art: "heatmap", note: "Camadas de pontos e de mapa de calor mostram onde as demandas se concentram." },
           { label: "Painel público no ArcGIS", icon: "bi-bar-chart-line", art: "panel", note: "O painel mostra os pedidos abertos e resolvidos por ano, mês, dia e hora." },
         ],
@@ -1440,15 +1498,19 @@
         role: "Estagiário de Engenharia de Dados",
         org: "Escritório de Dados da Prefeitura de Niterói",
         short: "Estágio na Prefeitura de Niterói", // nome curto usado nas dicas das habilidades
+        tab: "Estágio na Prefeitura", // aba no seletor da Experiência
+        tabShort: "Prefeitura",
+        tabIcon: "bi-building",
+        badge: "atual",
         place: "Niterói, RJ",
         // Cada frente vira um passo da Experiência; o palco fixo ao lado mostra o artefato animado (kind) do passo ativo.
         bullets: [
           { kind: "agents", icon: "bi-robot", title: "Agentes de IA e servidores MCP", text: "Desenvolvo servidores MCP e agentes de IA em Python para automatizar tarefas repetitivas do time de dados." },
           { kind: "apis", icon: "bi-plug", title: "Integrações com APIs", text: "Escrevo integrações com APIs de sistemas internos e externos." },
           { kind: "n8n", icon: "bi-diagram-3", title: "Automação com n8n, Azure e Fabric", text: "Automatizo processos internos do escritório com n8n, Azure e Microsoft Fabric: os pedidos de criação e de acesso a workspaces de dados chegam pelo sistema de chamados e seguem sozinhos pela aprovação do responsável, pela criação dos grupos de acesso no Entra ID, pelo provisionamento e pelos avisos por e-mail e Teams." },
-          { kind: "foundry", icon: "bi-stars", title: "Agente no Microsoft Foundry", text: "Criei no Microsoft Foundry um agente de IA que consulta um modelo semântico do Power BI e responde perguntas sobre os dados em linguagem natural." },
+          { kind: "foundry", icon: "bi-stars", title: "Agente no Microsoft Foundry", text: "Criei no Microsoft Foundry um agente de IA que consulta um modelo semântico do Power BI com dados de trânsito e responde perguntas sobre eles em linguagem natural." },
           { kind: "fabric", icon: "bi-microsoft", title: "Pipelines no Microsoft Fabric", text: "Monto pipelines no Microsoft Fabric que levam os dados das subsecretarias até os painéis de BI." },
-          { kind: "gemeo", icon: "bi-bicycle", title: "Gêmeo Digital · NitBike", link: { to: "niteroi", label: "ver em Niterói em camadas" }, text: "No Gêmeo Digital de Niterói, integro dados de trânsito com foco no NitBike: construo camadas no ArcGIS que alimentam a plataforma e crio colunas derivadas para métricas como as estações mais quentes e mais frias." },
+          { kind: "gemeo", icon: "bi-bicycle", title: "Gêmeo Digital · NitBike", link: { to: "niteroi", label: "ver em Niterói em camadas" }, text: "No Gêmeo Digital de Niterói, integro dados de trânsito com foco no NitBike: construo camadas no ArcGIS que alimentam a plataforma e derivo por cálculo o que o feed não traz, como as próprias viagens e as estações mais quentes e mais frias." },
           { kind: "colab", icon: "bi-people", title: "Colab · solicitações", link: { to: "niteroi", label: "ver o painel" }, text: "No Colab, atuo na integração de dados e nas camadas de visualização do painel de solicitações (SIGeo)." },
           { kind: "git", icon: "bi-git", title: "Git entre desenvolvimento e produção", text: "Ajudo a organizar o versionamento com Git entre os ambientes de desenvolvimento e produção." },
         ],
@@ -1459,8 +1521,15 @@
         role: "Iniciação Científica",
         org: "Universidade Federal Fluminense (UFF)",
         short: "Iniciação Científica na UFF",
+        tab: "Iniciação Científica",
+        tabShort: "Iniciação",
+        tabIcon: "bi-journal-code",
+        badge: "UFF",
         place: "Niterói, RJ",
-        bullets: ["Montei um pipeline com Data Lake em MinIO, carga em MySQL e ClickHouse e ambiente todo em Docker."],
+        bullets: [
+          { kind: "lake", icon: "bi-bucket", title: "Data Lake em Docker", text: "Montei um pipeline com Data Lake em MinIO, carga em MySQL e ClickHouse e ambiente todo em Docker." },
+          { kind: "health", icon: "bi-hospital", title: "Dados hospitalares com o SUS", text: "Hospedei no Data Lake dados hospitalares de uma parceria com o SUS." },
+        ],
         tech: ["Python", "MinIO", "MySQL", "ClickHouse", "Docker"],
       },
     ];
@@ -1711,10 +1780,13 @@
       );
     }
 
+    // Pop-ups abrem para cima, mas descem quando não caberiam entre a barra de navegação e a borda da tela.
+    const POP_FLIP = { modifiers: [{ name: "flip", options: { padding: { top: 76, bottom: 8, left: 8, right: 8 } } }, { name: "preventOverflow", options: { padding: 8 } }] };
+
     function IconLink({ href, icon, label, placement = "top" }) {
       const external = href.startsWith("http");
       return (
-        <OverlayTrigger placement={placement} overlay={<Tooltip>{label}</Tooltip>}>
+        <OverlayTrigger placement={placement} flip popperConfig={POP_FLIP} overlay={<Tooltip>{label}</Tooltip>}>
           <a className="icon-btn" href={href} aria-label={label} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
             <i className={`bi ${icon}`} />
           </a>
@@ -2265,7 +2337,7 @@
             <SectionHeader num="01" kicker="Sobre mim" title={<>Do código ao <em>deploy</em></>} />
             <Reveal className="about-text">
               <p>Sou desenvolvedor Python com foco em <strong>backend</strong> e curso Sistemas de Informação na <strong>Universidade Federal Fluminense</strong>. Trabalho com o ciclo completo de uma aplicação: modelagem do banco de dados, construção da API, testes automatizados, integração contínua e deploy em servidor Linux.</p>
-              <p>No <strong>Escritório de Dados da Prefeitura de Niterói</strong>, construo pipelines no Microsoft Fabric e integro <Note as="mark" type="highlight" color="mark">dados de trânsito ao Gêmeo Digital</Note> da cidade, com foco no NitBike, além de atuar nas camadas do painel de solicitações do Colab. Também automatizo processos internos do escritório com <strong>n8n, Azure e Fabric</strong> e desenvolvo agentes de IA e servidores MCP, como um agente no Microsoft Foundry que responde em linguagem natural sobre um modelo semântico de BI.</p>
+              <p>No <strong>Escritório de Dados da Prefeitura de Niterói</strong>, construo pipelines no Microsoft Fabric e integro <Note as="mark" type="highlight" color="mark">dados de trânsito ao Gêmeo Digital</Note> da cidade, com foco no NitBike, além de atuar nas camadas do painel de solicitações do Colab. Também automatizo processos internos do escritório com <strong>n8n, Azure e Fabric</strong> e desenvolvo agentes de IA e servidores MCP, como um agente no Microsoft Foundry que responde em linguagem natural sobre um modelo semântico de dados de trânsito.</p>
             </Reveal>
             <Row className="g-3 about-facts">
               {ABOUT_FACTS.map((f, i) => (
@@ -2813,21 +2885,28 @@
           <path className="paper2" d="M10 46V34a8 8 0 0 1 8-8H140V46Z" />
           <path className="lit" d="M140 46V26H222a8 8 0 0 1 8 8V46Z" />
           <path className="lit faint" d="M140 46H230V122a8 8 0 0 1-8 8H140Z" />
-          <path className="s thin" d="M10 46H230M10 74H230M10 102H230M80 26V130M140 26V130" />
+          <path className="s thin" d="M10 46H230M10 74H230M10 102H230M64 26V130M102 26V130M140 26V130" />
           <rect className="s" x="10" y="26" width="220" height="104" rx="8" />
           <path className="s hotline" d="M140 26V130" />
-          <text className="t" x="18" y="39">estação</text>
-          <text className="t" x="88" y="39">viagens</text>
-          <text className="t dark" x="148" y="39">movimento</text>
-          <text className="t" x="18" y="63">est. 01</text>
-          <text className="t" x="88" y="63">128</text>
-          <g className="pop-in"><rect className="f hot" x="148" y="53" width="50" height="14" rx="5" /><text className="t dark" x="154" y="63">▲ quente</text></g>
-          <text className="t" x="18" y="91">est. 02</text>
-          <text className="t" x="88" y="91">64</text>
-          <text className="tm" x="150" y="91">—</text>
-          <text className="t" x="18" y="119">est. 03</text>
-          <text className="t" x="88" y="119">9</text>
-          <g className="pop-in late"><rect className="f cool" x="148" y="109" width="44" height="14" rx="5" /><text className="t light" x="154" y="119">▼ fria</text></g>
+          <text className="t" x="16" y="39">estação</text>
+          <text className="t" x="70" y="39">bikes</text>
+          <text className="t" x="108" y="39">vagas</text>
+          <text className="t dark" x="148" y="39">viagens</text>
+          <text className="t" x="16" y="63">est. 01</text>
+          <text className="t" x="70" y="63">3</text>
+          <text className="t" x="108" y="63">9</text>
+          <text className="t b" x="146" y="63">128</text>
+          <g className="pop-in"><rect className="f hot" x="169" y="53" width="50" height="14" rx="5" /><text className="t dark" x="175" y="63">▲ quente</text></g>
+          <text className="t" x="16" y="91">est. 02</text>
+          <text className="t" x="70" y="91">7</text>
+          <text className="t" x="108" y="91">5</text>
+          <text className="t b" x="146" y="91">64</text>
+          <text className="tm" x="171" y="91">—</text>
+          <text className="t" x="16" y="119">est. 03</text>
+          <text className="t" x="70" y="119">11</text>
+          <text className="t" x="108" y="119">1</text>
+          <text className="t b" x="146" y="119">9</text>
+          <g className="pop-in late"><rect className="f cool" x="169" y="109" width="44" height="14" rx="5" /><text className="t light" x="175" y="119">▼ fria</text></g>
         </svg>
       ),
 
@@ -3154,6 +3233,8 @@
       return (
         <OverlayTrigger
           placement="top"
+          flip
+          popperConfig={POP_FLIP}
           trigger={["hover", "focus"]}
           delay={{ show: 60, hide: 80 }}
           overlay={
@@ -3424,12 +3505,12 @@
       );
     }
 
-    // 4. Foundry: pergunta em linguagem natural, a consulta ao modelo semântico e a resposta (anime.js). Exemplo ilustrativo.
+    // 4. Foundry: pergunta em linguagem natural, a consulta ao modelo semântico e a resposta (anime.js).
     const FOUNDRY_DAX = [
       "EVALUATE TOPN(3,",
-      "  SUMMARIZECOLUMNS('Secretaria'[Nome],",
-      "    \"Pedidos\", [Total de pedidos]),",
-      "  [Pedidos])",
+      "  SUMMARIZECOLUMNS('Via'[Nome],",
+      "    \"Alertas\", [Total de alertas]),",
+      "  [Alertas])",
     ];
     function FoundryArt() {
       const ref = useLive(["anime"], (el) => {
@@ -3448,15 +3529,14 @@
       return (
         <div className="art art-foundry" ref={ref} aria-hidden="true">
           <div className="f-chat">
-            <div className="f-q f-step">Quais secretarias tiveram mais pedidos no último mês?</div>
+            <div className="f-q f-step">Quais vias tiveram mais alertas de trânsito no último mês?</div>
             <div className="f-think f-step"><i className="bi bi-stars" /> consultando o modelo semântico<span className="f-dots"><span /><span /><span /></span></div>
-            <div className="f-a f-step">Estas são as 3 secretarias com mais pedidos no último mês, pela medida <b>Total de pedidos</b>.</div>
+            <div className="f-a f-step">Estas são as 3 vias com mais alertas no último mês, pela medida <b>Total de alertas</b>.</div>
           </div>
           <div className="f-dax">
             <span className="f-dax-label">DAX gerado</span>
             {FOUNDRY_DAX.map((line, i) => <div key={i}>{line}</div>)}
           </div>
-          <span className="art-note">exemplo ilustrativo</span>
         </div>
       );
     }
@@ -3606,7 +3686,77 @@
       );
     }
 
-    const XP_ART = { agents: AgentsArt, apis: ApiArt, n8n: N8nArt, foundry: FoundryArt, fabric: FabricArt, gemeo: GemeoArt, colab: ColabArt, git: GitArt };
+    // 9. Data Lake em Docker: os contêineres sobem um a um e os dados passam de um para o outro (anime.js).
+    const LAKE_CONTAINERS = [
+      { name: "minio", icon: "bi-bucket", label: "Data Lake" },
+      { name: "mysql", icon: "bi-database", label: "carga" },
+      { name: "clickhouse", icon: "bi-bar-chart-steps", label: "análise" },
+    ];
+    function LakeArt() {
+      const ref = useLive(["anime"], (el) => {
+        if (prefersReducedMotion()) { el.classList.add("is-static"); return null; }
+        const cmd = el.querySelector(".lk-cmd"), boxes = el.querySelectorAll(".lk-box"), links = el.querySelectorAll(".lk-link");
+        const tl = anime.timeline({ loop: true, easing: "easeOutQuad" })
+          .add({ targets: cmd, opacity: [0, 1], duration: 300 })
+          .add({ targets: boxes, opacity: [0, 1], translateY: [10, 0], delay: anime.stagger(320), duration: 420, easing: "easeOutBack" }, "+=200")
+          .add({ targets: links, opacity: [0, 1], duration: 300 })
+          .add({ targets: [cmd, ...boxes, ...links], opacity: 0, duration: 400 }, "+=2800");
+        return { play: () => tl.play(), pause: () => tl.pause(), destroy: () => tl.pause() };
+      });
+      return (
+        <div className="art art-lake" ref={ref} aria-hidden="true">
+          <div className="lk-cmd">$ docker compose up -d <b>✓</b></div>
+          <div className="lk-row">
+            {LAKE_CONTAINERS.map((c, i) => (
+              <React.Fragment key={c.name}>
+                <div className="lk-box">
+                  <i className={`bi ${c.icon}`} />
+                  <strong>{c.name}</strong>
+                  <small>{c.label}</small>
+                  <span className="lk-status"><span className="live-dot" /> running</span>
+                </div>
+                {i < LAKE_CONTAINERS.length - 1 && <span className="lk-link" />}
+              </React.Fragment>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    // 10. Dados hospitalares: registros saem das unidades e entram no Data Lake (anime.js). Ilustrativo.
+    function HealthArt() {
+      const ref = useLive(["anime"], (el) => {
+        if (prefersReducedMotion()) return null;
+        const docs = [...el.querySelectorAll(".hl-doc")];
+        const lake = el.querySelector(".hl-lake");
+        const dx = (doc) => lake.getBoundingClientRect().left + 18 - doc.getBoundingClientRect().left;
+        const anim = anime({
+          targets: docs, translateX: (doc) => [0, dx(doc)], opacity: [{ value: 1, duration: 200 }, { value: 0, duration: 300, delay: 900 }],
+          delay: anime.stagger(450), duration: 1400, easing: "easeInOutSine", loop: true, endDelay: 600,
+        });
+        return { play: () => anim.play(), pause: () => anim.pause(), destroy: () => anim.pause() };
+      });
+      return (
+        <div className="art art-health" ref={ref} aria-hidden="true">
+          <div className="hl-units">
+            {["unidade", "unidade", "unidade"].map((u, i) => (
+              <div className="hl-unit" key={i}>
+                <i className="bi bi-hospital" /><span>{u} {i + 1}</span>
+                <i className="bi bi-file-earmark-medical hl-doc" />
+              </div>
+            ))}
+          </div>
+          <div className="hl-lake">
+            <i className="bi bi-bucket" />
+            <strong>Data Lake</strong>
+            <small><i className="bi bi-shield-lock" /> parceria SUS</small>
+          </div>
+          <span className="art-note">ilustrativo</span>
+        </div>
+      );
+    }
+
+    const XP_ART = { agents: AgentsArt, apis: ApiArt, n8n: N8nArt, foundry: FoundryArt, fabric: FabricArt, gemeo: GemeoArt, colab: ColabArt, git: GitArt, lake: LakeArt, health: HealthArt };
 
     function useMedia(query) {
       const [match, setMatch] = useState(() => window.matchMedia(query).matches);
@@ -3622,7 +3772,9 @@
     // Scrollytelling: à esquerda as frentes de trabalho; à direita um palco fixo que mostra o artefato
     // do passo ativo (um por vez). O passo muda com a rolagem (Scrollama), com o mouse ou com o teclado.
     // No celular não há palco: cada passo mostra o próprio artefato.
-    function XpScrolly({ items }) {
+    // shown: a aba desta lista está visível. O Scrollama só liga com ela à mostra, porque numa aba escondida
+    // os passos medem altura zero e ele nunca dispararia.
+    function XpScrolly({ items, shown = true }) {
       const [active, setActive] = useState(0);
       const wide = useMedia("(min-width: 992px)");
       const stepsRef = useRef(null);
@@ -3638,15 +3790,16 @@
       const hoverTo = (i) => { if (wide && performance.now() - lastScroll.current > 250) setActive(i); };
 
       useEffect(() => {
-        if (!wide) return;
-        let scroller = null, dead = false;
-        loadXpLib("scrollama").then(() => {
+        if (!wide || !shown) return;
+        let scroller = null, dead = false, timer = 0;
+        // espera um instante para a aba recém-mostrada ganhar altura antes de medir os passos
+        loadXpLib("scrollama").then(() => { timer = setTimeout(() => {
           if (dead) return;
           scroller = scrollama();
           scroller.setup({ step: stepsRef.current.querySelectorAll(".xp-step"), offset: 0.5 }).onStepEnter(({ index }) => setActive(index));
-        }).catch(() => {});
-        return () => { dead = true; if (scroller) scroller.destroy(); };
-      }, [wide]);
+        }, 80); }).catch(() => {});
+        return () => { dead = true; clearTimeout(timer); if (scroller) scroller.destroy(); };
+      }, [wide, shown]);
 
       const goTo = (i) => {
         setActive(i);
@@ -3706,46 +3859,55 @@
     }
 
     function Experience() {
-      const main = EXPERIENCE.filter((job) => job.bullets.some((b) => b.kind));
-      const others = EXPERIENCE.filter((job) => !job.bullets.some((b) => b.kind));
+      const [key, setKey] = useState("0");
       return (
         <section id="experiencia" className="section">
           <Container fluid className="wrap">
             <SectionHeader num="03" kicker="Trajetória" title={<>Experiência e <em>formação</em></>}>
               Da pesquisa na universidade à engenharia de dados no setor público.
             </SectionHeader>
-            {main.map((job) => (
-              <div className="xp-job" key={job.role}>
-                <Reveal className="cardx xp-job-head">
-                  <div>
-                    <span className="xp-period">{job.period} · {job.place}</span>
-                    <h3 className="xp-role">{job.role}</h3>
-                    <span className="xp-org">{job.org}</span>
-                  </div>
-                  {job.period.includes("atual") && <Badge pill className="xp-now"><span className="live-dot" /> atual</Badge>}
-                  <div className="chip-row">{job.tech.map((t) => <span className="chip" key={t}>{t}</span>)}</div>
-                </Reveal>
-                <XpScrolly items={job.bullets} />
-              </div>
-            ))}
+            {/* Seletor igual ao de Niterói: cada experiência tem a sua lista de frentes e o seu palco. */}
+            <Tab.Container activeKey={key} onSelect={(k) => k && setKey(k)} id="xp-tabs">
+              <Reveal>
+                <Nav variant="underline" className="city-tabs xp-tabs">
+                  {EXPERIENCE.map((job, i) => (
+                    <Nav.Item key={job.role}>
+                      <Nav.Link eventKey={String(i)} as="button" type="button">
+                        <i className={`bi ${job.tabIcon || "bi-briefcase"}`} /> <span className="d-none d-sm-inline">{job.tab || job.role}</span><span className="d-sm-none">{job.tabShort || job.tab || job.role}</span>
+                        {job.badge && <Badge pill className="tab-badge">{job.badge}</Badge>}
+                      </Nav.Link>
+                    </Nav.Item>
+                  ))}
+                </Nav>
+              </Reveal>
+              <Tab.Content>
+                {EXPERIENCE.map((job, i) => (
+                  <Tab.Pane eventKey={String(i)} key={job.role}>
+                    <div className="fade-swap">
+                      <div className="cardx xp-job-head">
+                        <div>
+                          <span className="xp-period">{job.period} · {job.place}</span>
+                          <h3 className="xp-role">{job.role}</h3>
+                          <span className="xp-org">{job.org}</span>
+                        </div>
+                        {job.period.includes("atual") && <Badge pill className="xp-now"><span className="live-dot" /> atual</Badge>}
+                        <div className="chip-row">{job.tech.map((t) => <span className="chip" key={t}>{t}</span>)}</div>
+                      </div>
+                      {job.bullets.some((b) => b.kind) ? <XpScrolly items={job.bullets} shown={key === String(i)} /> : (
+                        <ul className="xp-list">
+                          {job.bullets.map((b) => {
+                            const item = typeof b === "string" ? { text: b } : b;
+                            return <li key={item.text}>{item.text}</li>;
+                          })}
+                        </ul>
+                      )}
+                    </div>
+                  </Tab.Pane>
+                ))}
+              </Tab.Content>
+            </Tab.Container>
             <Row className="g-4 xp-below">
-              {others.map((job) => (
-                <Col lg={4} key={job.role}>
-                  <Reveal className="cardx xp-mini">
-                    <span className="xp-period">{job.period} · {job.place}</span>
-                    <div className="xp-role">{job.role}</div>
-                    <div className="xp-org">{job.org}</div>
-                    <ul className="xp-list">
-                      {job.bullets.map((b) => {
-                        const item = typeof b === "string" ? { text: b } : b;
-                        return <li key={item.text}>{item.text}</li>;
-                      })}
-                    </ul>
-                    <div className="chip-row">{job.tech.map((t) => <span className="chip" key={t}>{t}</span>)}</div>
-                  </Reveal>
-                </Col>
-              ))}
-              <Col lg={4}>
+              <Col lg={6}>
                 <Reveal delay={120} className="cardx edu-card">
                   <span className="fact-icon" style={{ background: "var(--lime)", color: "#15130f" }}><i className="bi bi-mortarboard" /></span>
                   <div className="xp-role">{EDUCATION.course}</div>
@@ -3753,7 +3915,7 @@
                   <div className="xp-org mt-1">{EDUCATION.school} · {EDUCATION.place}</div>
                 </Reveal>
               </Col>
-              <Col lg={4}>
+              <Col lg={6}>
                 <Reveal delay={200} className="cardx timeline-card">
                   <div className="dash-head">
                     <span className="dash-title"><i className="bi bi-clock-history" /> Linha do tempo</span>
@@ -3914,7 +4076,7 @@
       if (!where.length) return chip;
       const shown = where.length > 3 ? [...where.slice(0, 3), `mais ${where.length - 3}`] : where;
       return (
-        <OverlayTrigger placement="top" overlay={<Tooltip className="skill-tip"><small>usei em</small>{listPt(shown)}</Tooltip>}>
+        <OverlayTrigger placement="top" flip popperConfig={POP_FLIP} overlay={<Tooltip className="skill-tip"><small>usei em</small>{listPt(shown)}</Tooltip>}>
           {chip}
         </OverlayTrigger>
       );
