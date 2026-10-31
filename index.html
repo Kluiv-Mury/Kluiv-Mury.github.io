@@ -36,6 +36,7 @@
       --paper: #f4efe6;
       --paper-2: #ebe3d4;
       --card: #fffdf8;
+      --well: #ebe3d4; /* fundo do card externo quando há outro card dentro */
       --ink: #15130f;
       --muted: #5b554b;
       --line: #15130f;
@@ -61,6 +62,7 @@
       --paper: #13110f;
       --paper-2: #1a1814;
       --card: #1f1c18;
+      --well: #181512;
       --ink: #f3ede2;
       --muted: #b3aa9b;
       --line: #f3ede2;
@@ -821,14 +823,19 @@
     .xp-step-link { margin-top: .5rem; padding: 0; border: 0; background: none; color: var(--ink); font-size: .85rem; }
     .xp-step-link:hover { color: var(--accent); }
     .xp-stage-col { position: sticky; top: calc(var(--nav-h) + 20px); }
-    .xp-stage { padding: 1rem 1rem .9rem; border: 2px solid var(--line); border-radius: 18px; background: var(--card); box-shadow: 5px 5px 0 var(--shadow-c); }
+    .xp-stage {
+      padding: 1rem 1rem .9rem; border: 2px solid var(--line); border-radius: 18px; box-shadow: 5px 5px 0 var(--shadow-c);
+      /* o palco é um fundo tingido e pontilhado; o artefato é o cartão claro em cima dele */
+      background: radial-gradient(color-mix(in srgb, var(--line) 16%, transparent) 1px, transparent 1.2px) 0 0 / 14px 14px, var(--well);
+    }
+    .xp-stage-art .art { box-shadow: 3px 3px 0 var(--shadow-c); }
     .xp-stage-hud { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: .85rem; }
     .xp-stage-hud small { font: 600 .7rem "JetBrains Mono", monospace; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
     .xp-stage-hud strong { display: inline-flex; gap: .45rem; font: 800 1.1rem "Bricolage Grotesque", sans-serif; text-align: right; }
     .xp-stage-hud strong i { color: var(--accent); }
     .xp-stage-art { min-height: 330px; display: flex; flex-direction: column; justify-content: center; }
     .xp-stage-dots { display: flex; justify-content: center; gap: .4rem; margin-top: .9rem; }
-    .xp-stage-dots button { width: 10px; height: 10px; padding: 0; border: 2px solid var(--line); border-radius: 6px; background: var(--paper); transition: width .25s, background-color .25s; }
+    .xp-stage-dots button { width: 10px; height: 10px; padding: 0; border: 2px solid var(--line); border-radius: 6px; background: var(--card); transition: width .25s, background-color .25s; }
     .xp-stage-dots button.on { width: 28px; background: var(--accent); }
     /* artefatos em tamanho de palco */
     .xp-stage-art .art-term { min-height: 300px; padding: 1.1rem 1.2rem; font-size: .9rem; }
@@ -860,7 +867,7 @@
     .xp-stage-art .art-git .gg { min-height: 220px; display: grid; place-items: center; }
     @media (max-width: 991.98px) {
       .xp-scrolly { grid-template-columns: minmax(0, 1fr); }
-      .xp-step { opacity: 1; min-height: 0; cursor: default; background: var(--card); border-color: var(--line); box-shadow: 3px 3px 0 var(--shadow-c); }
+      .xp-step { opacity: 1; min-height: 0; cursor: default; background: var(--well); border-color: var(--line); box-shadow: 3px 3px 0 var(--shadow-c); }
       .xp-step-num { color: var(--accent); -webkit-text-stroke: 1.5px var(--line); }
       .xp-step-art { margin-top: .9rem; }
     }
@@ -989,7 +996,7 @@
     .art.is-static .fb-ok { opacity: 1; }
 
     /* 6. estações do NitBike no mapa */
-    .art-gemeo { height: 150px; background: var(--paper-2); }
+    .art-gemeo { height: 150px; background: var(--card); }
     .g-map {
       position: absolute; inset: 0; background: var(--ink); opacity: .22;
       -webkit-mask: url("mapa-niteroi.svg") 20% 40% / 600% auto no-repeat;
@@ -1059,7 +1066,7 @@
     .skill-head h3 { margin: 0; font-size: 1.12rem; font-weight: 800; }
     .skill-head i { font-size: 1.15rem; color: var(--accent); }
     .skill-list { display: flex; flex-wrap: wrap; gap: .5rem; padding: 1.2rem; }
-    .skill { display: inline-flex; align-items: center; gap: .5rem; padding: .45rem .75rem; border-radius: 10px; border: 2px solid var(--line); background: var(--card); font-weight: 600; font-size: .92rem; transition: background-color .2s, transform .2s; }
+    .skill { display: inline-flex; align-items: center; gap: .5rem; padding: .45rem .75rem; border-radius: 10px; border: 2px solid var(--line); background: var(--paper); font-weight: 600; font-size: .92rem; transition: background-color .2s, transform .2s; }
     .skill:hover { background: var(--lime); color: #15130f; transform: rotate(-2deg); }
     .skill i { font-size: 1.1rem; }
     .skill.has-tip { cursor: help; }
