@@ -1199,15 +1199,14 @@
     .tooltip { --bs-tooltip-bg: var(--ink); --bs-tooltip-color: var(--paper); font-weight: 600; }
 
     /* ================= Mapa vivo de Niterói (fundo) ================= */
-    /* As linhas vêm de mapa-niteroi.svg usado como máscara: a cor é a do tema (tinta no claro, creme no escuro). */
+    /* As linhas vêm de mapa-niteroi.svg, desenhado uma vez num canvas na cor do tema (--map-ink; a lanterna usa --map-lit).
+       Antes era uma máscara do tamanho de duas telas, redesenhada a cada rolagem: pesava em computadores mais fracos. */
+    :root { --map-ink: var(--ink); --map-lit: var(--accent); }
     .city-bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
     .city-map {
-      position: absolute; left: 0; top: 0; will-change: transform;
-      background: var(--ink); opacity: .13;
-      /* a versão -webkit- vem por último para o Safari usar a que ele conhece melhor */
-              mask: url("mapa-niteroi.svg") center / 100% 100% no-repeat;
-      -webkit-mask: url("mapa-niteroi.svg") center / 100% 100% no-repeat;
+      position: absolute; left: 0; top: 0; will-change: transform; opacity: .13;
     }
+    .city-map canvas { display: block; width: 100%; height: 100%; }
     [data-bs-theme="dark"] .city-map { opacity: .11; }
     /* Lanterna: um recorte redondo que segue o cursor e mostra o mesmo mapa em laranja */
     .city-lamp {
@@ -1217,7 +1216,7 @@
               mask: radial-gradient(closest-side, #000 30%, transparent);
     }
     .city-lamp.on { opacity: 1; }
-    .city-map.lit { background: var(--accent); opacity: .75; }
+    .city-map.lit { opacity: .75; }
     .city-ring { position: absolute; left: 0; top: 0; will-change: transform; }
     .city-ring span { position: absolute; width: 16px; height: 16px; margin: -8px 0 0 -8px; border-radius: 50%; border: 2px solid var(--line); background: var(--accent); opacity: .75; }
     .city-ring span::after { content: ""; position: absolute; inset: -2px; border-radius: 50%; border: 2px solid var(--accent); animation: ping 2.2s cubic-bezier(0,0,.2,1) infinite; }
@@ -1328,15 +1327,14 @@
       content: ""; position: fixed; inset: 0; z-index: 1090; pointer-events: none;
       background: repeating-linear-gradient(180deg, rgba(255, 255, 255, .025) 0 1px, transparent 1px 3px);
     }
-    [data-bs-theme="dark"] .city-map { background: var(--neon-c) !important; }
-    [data-bs-theme="dark"] .city-map.lit { background: var(--neon-m) !important; }
+    [data-bs-theme="dark"] { --map-ink: var(--neon-c); --map-lit: var(--neon-m); }
     [data-bs-theme="dark"] .section.alt { background: transparent !important; }
     [data-bs-theme="dark"] .rough-annotation { display: none !important; }
     [data-bs-theme="dark"] ::selection { background: var(--neon-m); color: #05040f; }
     [data-bs-theme="dark"] h1, [data-bs-theme="dark"] h2, [data-bs-theme="dark"] h3, [data-bs-theme="dark"] h4, [data-bs-theme="dark"] h5 { letter-spacing: 0; }
     
     /* barra de navegação: vidro escuro com filete ciano */
-    [data-bs-theme="dark"] .km-nav { background: rgba(5, 4, 15, .78) !important; border-bottom: 1px solid rgba(0, 229, 255, .28) !important; -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: 0 0 24px -6px rgba(0, 229, 255, .35); }
+    [data-bs-theme="dark"] .km-nav { background: rgba(5, 4, 15, .93) !important; border-bottom: 1px solid rgba(0, 229, 255, .28) !important; box-shadow: 0 0 24px -6px rgba(0, 229, 255, .35); }
     [data-bs-theme="dark"] .km-nav .navbar-brand { font-family: "Orbitron", sans-serif !important; font-weight: 700 !important; letter-spacing: .06em !important; text-transform: uppercase; font-size: 1rem !important; }
     [data-bs-theme="dark"] .line-badge { border-radius: 2px !important; background: transparent !important; color: var(--neon-c) !important; border: 1.5px solid var(--neon-c) !important; box-shadow: 0 0 10px rgba(0, 229, 255, .6), inset 0 0 10px rgba(0, 229, 255, .3) !important; text-shadow: 0 0 6px var(--neon-c); font-family: "Orbitron", sans-serif !important; }
     [data-bs-theme="dark"] .km-links .nav-link { font-family: "Share Tech Mono", monospace !important; font-weight: 400 !important; text-transform: uppercase; letter-spacing: .08em; }
@@ -1686,8 +1684,7 @@
     [data-bs-theme="dark"] .cy-tag b { margin-left: .6rem; color: #ffc9f4; font-weight: 400; }
     [data-bs-theme="dark"] .cy-data {
       position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); max-width: 760px; margin-top: 2.4rem;
-      border-top: 1px solid rgba(0, 229, 255, .35); border-bottom: 1px solid rgba(0, 229, 255, .35); background: rgba(5, 4, 15, .55);
-      -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+      border-top: 1px solid rgba(0, 229, 255, .35); border-bottom: 1px solid rgba(0, 229, 255, .35); background: rgba(5, 4, 15, .72);
     }
     [data-bs-theme="dark"] .cy-data::before, [data-bs-theme="dark"] .cy-data::after { content: ""; position: absolute; top: -5px; width: 9px; height: 9px; border: 1px solid var(--neon-m); background: #05040f; transform: rotate(45deg); }
     [data-bs-theme="dark"] .cy-data::before { left: -5px; } [data-bs-theme="dark"] .cy-data::after { right: -5px; }
@@ -3162,8 +3159,51 @@ function CityMap() {
     const onLeave = e => {
       if (!e.relatedTarget) lampRef.current.classList.remove("on");
     };
+
+    // desenha as ruas uma vez num canvas (o mapa e a lanterna), na cor do tema; só redesenha se a cor mudar
+    let svgText = null,
+      painted = "",
+      dead = false;
+    const paint = async () => {
+      const css = getComputedStyle(document.documentElement);
+      const ink = css.getPropertyValue("--map-ink").trim(),
+        lit = css.getPropertyValue("--map-lit").trim();
+      if (!ink || ink + lit === painted) return;
+      painted = ink + lit;
+      try {
+        if (!svgText) svgText = await fetch(CITY_MAP.src).then(r => r.text());
+        const max = window.innerWidth < 768 ? 2048 : 3072;
+        const w = Math.round(Math.min(max, mw * Math.min(window.devicePixelRatio || 1, 1.5))),
+          h = Math.round(w / CITY_MAP.ratio);
+        await Promise.all([[mapRef, ink], [litRef, lit]].map(async ([ref, color]) => {
+          const url = URL.createObjectURL(new Blob([svgText.replace('stroke="#000"', `stroke="${color}"`)], {
+            type: "image/svg+xml"
+          }));
+          try {
+            const img = new Image();
+            img.src = url;
+            await img.decode();
+            const cv = ref.current && ref.current.querySelector("canvas");
+            if (dead || !cv) return;
+            cv.width = w;
+            cv.height = h;
+            cv.getContext("2d").drawImage(img, 0, 0, w, h);
+          } finally {
+            URL.revokeObjectURL(url);
+          }
+        }));
+      } catch (e) {
+        painted = "";
+      }
+    };
+    const themeObs = new MutationObserver(() => paint());
+    themeObs.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-bs-theme"]
+    });
     measure();
     frame();
+    paint();
     const ro = new ResizeObserver(() => {
       measure();
       schedule();
@@ -3180,8 +3220,10 @@ function CityMap() {
       document.addEventListener("mouseout", onLeave);
     }
     return () => {
+      dead = true;
       cancelAnimationFrame(raf);
       ro.disconnect();
+      themeObs.disconnect();
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
       window.removeEventListener("pointermove", onMove);
@@ -3194,7 +3236,7 @@ function CityMap() {
   }, /*#__PURE__*/React.createElement("div", {
     className: "city-map",
     ref: mapRef
-  }), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("canvas", null)), /*#__PURE__*/React.createElement("div", {
     className: "city-ring",
     ref: ringRef
   }, /*#__PURE__*/React.createElement("span", null)), /*#__PURE__*/React.createElement("div", {
@@ -3203,7 +3245,7 @@ function CityMap() {
   }, /*#__PURE__*/React.createElement("div", {
     className: "city-map lit",
     ref: litRef
-  })));
+  }, /*#__PURE__*/React.createElement("canvas", null))));
 }
 
 /* ---------- Divisória entre seções: ciclovia com a NitBike ---------- */
@@ -3604,7 +3646,7 @@ function CyberCity() {
         alpha: true,
         antialias: true
       });
-      renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+      renderer.setPixelRatio(Math.min(1.5, window.devicePixelRatio || 1));
       const scene = new THREE.Scene();
       scene.fog = new THREE.FogExp2(0x07051a, 0.018);
       const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 260);
@@ -4288,7 +4330,7 @@ function startHologram({
     alpha: true,
     antialias: true
   });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
   renderer.setClearColor(0x000000, 0);
   mount.appendChild(renderer.domElement);
   const scene = new THREE.Scene();
