@@ -5391,6 +5391,73 @@
 
     ReactDOM.createRoot(document.getElementById("root")).render(<App />);
   </script>
+  <script>
+    // Diagnóstico: abra o site com ?diag no fim do endereço para ver um painel com o que o navegador está usando
+    // (placa de vídeo, aceleração, escala da tela) e a fluidez de cada seção enquanto rola. O botão copia o resultado.
+    (function () {
+      if (!/[?&]diag\b/.test(location.search)) return;
+      var ua = navigator.userAgent;
+      var browser = (/Edg\/([\d]+)/.exec(ua) && "Edge " + RegExp.$1) || (/OPR\/([\d]+)/.exec(ua) && "Opera " + RegExp.$1) ||
+        (/Firefox\/([\d]+)/.exec(ua) && "Firefox " + RegExp.$1) || (/Chrome\/([\d]+)/.exec(ua) && "Chrome " + RegExp.$1) ||
+        (/Version\/([\d.]+).*Safari/.exec(ua) && "Safari " + RegExp.$1) || "desconhecido";
+      var os = /Windows NT 10/.test(ua) ? "Windows 10/11" : /Windows/.test(ua) ? "Windows" : /Mac OS X/.test(ua) ? "macOS" : /Android/.test(ua) ? "Android" : /iPhone|iPad/.test(ua) ? "iOS" : /Linux/.test(ua) ? "Linux" : "?";
+      var gpu = "WebGL indisponível", software = true;
+      try {
+        var gl = document.createElement("canvas").getContext("webgl");
+        if (gl) {
+          var ext = gl.getExtension("WEBGL_debug_renderer_info");
+          gpu = ext ? gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER);
+          software = /swiftshader|llvmpipe|basic render|software|microsoft basic/i.test(gpu);
+        }
+      } catch (e) {}
+      var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var stats = {}, frames = 0, last = performance.now(), secStart = last, fps = 0;
+      var box = document.createElement("div");
+      box.style.cssText = "position:fixed;left:12px;bottom:12px;z-index:99999;width:min(360px,calc(100vw - 24px));padding:12px 14px;border-radius:10px;background:rgba(10,10,20,.92);color:#e6f4ff;font:12px/1.5 ui-monospace,Menlo,Consolas,monospace;box-shadow:0 10px 30px rgba(0,0,0,.5)";
+      document.body.appendChild(box);
+      function section() {
+        var mid = innerHeight * 0.45, list = document.querySelectorAll("section[id]");
+        for (var i = 0; i < list.length; i++) { var r = list[i].getBoundingClientRect(); if (r.top <= mid && r.bottom > mid) return list[i].id; }
+        return "-";
+      }
+      function tick(now) {
+        var dt = now - last; last = now; frames++;
+        var s = stats[section()] || (stats[section()] = { n: 0, t: 0, slow: 0 });
+        s.n++; s.t += dt; if (dt > 50) s.slow++;
+        if (now - secStart >= 1000) { fps = Math.round(frames * 1000 / (now - secStart)); frames = 0; secStart = now; }
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+      function report() {
+        var lines = [
+          "navegador: " + browser + " · " + os,
+          "tela: " + innerWidth + "×" + innerHeight + " · escala " + (devicePixelRatio || 1),
+          "placa de vídeo: " + gpu,
+          "aceleração de hardware: " + (software ? "DESLIGADA (o navegador desenha sem a placa de vídeo)" : "ligada"),
+          "reduzir movimento: " + (reduced ? "ligado" : "desligado"),
+          "tema: " + (document.documentElement.getAttribute("data-bs-theme") || "?"),
+          "fluidez agora: " + fps + " quadros/s",
+          "por seção (média · travadas):"
+        ];
+        Object.keys(stats).forEach(function (k) {
+          var s = stats[k]; if (s.n < 20) return;
+          lines.push("  " + k + ": " + Math.round(1000 / (s.t / s.n)) + " q/s · " + s.slow);
+        });
+        return lines.join("\n");
+      }
+      var pre = document.createElement("pre"); pre.style.cssText = "margin:0 0 8px;white-space:pre-wrap;font:inherit";
+      var btn = document.createElement("button"); btn.type = "button"; btn.textContent = "copiar resultado";
+      btn.style.cssText = "padding:6px 10px;border:1px solid #00e5ff;border-radius:6px;background:transparent;color:#00e5ff;font:inherit;cursor:pointer";
+      btn.onclick = function () {
+        var text = report();
+        var done = function () { btn.textContent = "copiado!"; setTimeout(function () { btn.textContent = "copiar resultado"; }, 1500); };
+        if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, function () { prompt("copie o texto:", text); });
+        else prompt("copie o texto:", text);
+      };
+      box.appendChild(pre); box.appendChild(btn);
+      setInterval(function () { pre.textContent = report() + "\n\nrole a página inteira e troque de tema antes de copiar."; }, 500);
+    })();
+  </script>
 
 
 </body>
