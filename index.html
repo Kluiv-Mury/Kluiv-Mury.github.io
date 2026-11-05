@@ -636,8 +636,6 @@
     .flow-title { font: 600 .78rem "JetBrains Mono", monospace; letter-spacing: .12em; text-transform: uppercase; }
     .flow-hint { display: inline-flex; align-items: center; gap: .35rem; font: 500 .74rem "JetBrains Mono", monospace; color: var(--muted); }
     .flow-hint i { color: var(--accent); }
-    .flow-hint .on-touch { display: none; }
-    @media (hover: none) { .flow-hint .on-hover { display: none; } .flow-hint .on-touch { display: inline; } }
     .flow { display: flex; align-items: stretch; }
     .flow-step {
       position: relative; flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: .35rem;
@@ -645,27 +643,48 @@
       color: var(--ink); font: inherit; text-align: left;
       transition: transform .2s, background-color .2s, box-shadow .2s;
     }
-    .flow-step:hover, .flow-step[aria-describedby] { transform: translateY(-3px); background: var(--lime); color: #15130f; box-shadow: 3px 3px 0 var(--shadow-c); }
     .flow-step:last-child { background: var(--accent); color: #15130f; }
+    .flow-step:hover, .flow-step.is-on { transform: translateY(-3px); background: var(--lime); color: #15130f; box-shadow: 3px 3px 0 var(--shadow-c); }
+    .flow-step { cursor: pointer; }
     .flow-step .idx { display: inline-flex; align-items: center; gap: .45rem; font: 700 .74rem "JetBrains Mono", monospace; }
     .flow-step .idx i { font-size: .95rem; }
     .flow-step .lbl { font-weight: 700; font-size: .93rem; line-height: 1.35; overflow-wrap: anywhere; }
-    .flow-peek { position: absolute; top: .7rem; right: .75rem; font-size: .85rem; opacity: .45; transition: opacity .2s; }
-    .flow-step:hover .flow-peek, .flow-step[aria-describedby] .flow-peek { opacity: 1; }
-
-    /* Popover com a ilustração de cada etapa */
-    .popover.flow-pop {
-      --bs-popover-max-width: 320px;
-      --bs-popover-bg: var(--card); --bs-popover-border-color: var(--line); --bs-popover-border-width: 2px;
-      --bs-popover-border-radius: 14px; --bs-popover-inner-border-radius: 12px;
-      --bs-popover-header-bg: var(--paper-2); --bs-popover-header-color: var(--ink); --bs-popover-body-color: var(--ink);
-      --bs-popover-header-padding-x: .9rem; --bs-popover-header-padding-y: .6rem;
-      --bs-popover-body-padding-x: .9rem; --bs-popover-body-padding-y: .85rem;
-      width: 320px; box-shadow: 4px 4px 0 var(--shadow-c);
+    /* Fluxo fixo: o card para na tela e a rolagem acende uma etapa por vez (a altura extra vem do espaçador) */
+    .flow-pin { margin-top: 2.6rem; }
+    .flow-pin .flow-card { position: sticky; top: calc(var(--nav-h) + 16px); z-index: 2; margin-top: 0; }
+    .flow-spacer { height: calc(var(--flow-n) * 30vh); }
+    .flow-step .idx .bi-check2 { color: var(--good); }
+    .flow-stage {
+      display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); align-items: center; gap: 1.8rem;
+      margin-top: 1.4rem; padding-top: 1.4rem; border-top: 2px dashed color-mix(in srgb, var(--line) 25%, transparent);
     }
-    .flow-pop .popover-header { display: flex; gap: .45rem; align-items: baseline; border-bottom: 2px solid var(--line); font: 700 .92rem/1.25 "Bricolage Grotesque", sans-serif; }
-    .flow-pop .popover-header .idx { font: 700 .72rem "JetBrains Mono", monospace; color: var(--accent); }
-    .flow-pop p { margin: .7rem 0 0; color: var(--muted); font-size: .84rem; line-height: 1.5; }
+    /* a ilustração encolhe em telas baixas para o card inteiro caber abaixo da barra */
+    .flow-stage .flow-art { justify-self: center; width: min(100%, calc((100vh - var(--nav-h) - 400px) * 1.71)); box-shadow: 3px 3px 0 var(--shadow-c); }
+    .flow-stage-text small { font: 600 .7rem "JetBrains Mono", monospace; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+    .flow-stage-text h4 { margin: .35rem 0 .55rem; font: 800 1.35rem/1.2 "Bricolage Grotesque", sans-serif; }
+    .flow-stage-text p { margin: 0 0 1.1rem; color: var(--muted); font-size: .98rem; line-height: 1.6; }
+    .flow-progress { height: 8px; margin-bottom: .9rem; overflow: hidden; border: 2px solid var(--line); border-radius: 6px; background: var(--paper); }
+    .flow-progress span { display: block; height: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left; }
+    .flow-skip { padding: 0; border: 0; background: none; color: var(--ink); font-size: .85rem; font-weight: 700; }
+    .flow-skip:hover { color: var(--accent); }
+    /* Fluxo aberto (celular, telas baixas, menos movimento): cada etapa em sequência, com a sua ilustração */
+    .flow-open { display: grid; gap: 1.1rem; margin: 0; padding: 0; list-style: none; }
+    .flow-open-step { display: grid; gap: .7rem; padding-bottom: 1.1rem; border-bottom: 2px dashed color-mix(in srgb, var(--line) 25%, transparent); }
+    .flow-open-step:last-child { padding-bottom: 0; border-bottom: 0; }
+    .flow-open-head { display: flex; align-items: center; gap: .6rem; font-weight: 700; font-size: .98rem; line-height: 1.35; }
+    .flow-open-head .idx {
+      flex: none; display: inline-flex; align-items: center; gap: .35rem; padding: .2rem .5rem;
+      border: 2px solid var(--line); border-radius: 8px; background: var(--lime); color: #15130f; font: 700 .74rem "JetBrains Mono", monospace;
+    }
+    .flow-open-step:last-child .flow-open-head .idx { background: var(--accent); }
+    .flow-open .flow-art { max-width: 460px; }
+    .flow-open p { margin: 0; color: var(--muted); font-size: .9rem; line-height: 1.55; }
+    @media (min-width: 768px) {
+      .flow-open-step { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); grid-template-areas: "head art" "note art"; align-items: start; column-gap: 1.4rem; }
+      .flow-open-head { grid-area: head; }
+      .flow-open .flow-art { grid-area: art; }
+      .flow-open p { grid-area: note; }
+    }
     .flow-art { overflow: hidden; border-radius: 10px; border: 2px solid var(--line); background: var(--paper); }
     .flow-art svg { display: block; width: 100%; height: auto; }
 
@@ -3227,35 +3246,97 @@
       );
     }
 
-    function FlowStep({ step, index, project }) {
-      const Art = FLOW_ART[step.art];
-      const box = (
-        <button type="button" className={`flow-step ${Art ? "has-art" : ""}`}>
-          <span className="idx">{pad2(index + 1)}{step.icon && <i className={`bi ${step.icon}`} aria-hidden="true" />}</span>
-          <span className="lbl">{step.label}</span>
-          {Art && <i className="bi bi-eye flow-peek" aria-hidden="true" />}
-        </button>
+    // Como os dados chegam ao mapa. No desktop o card fica fixo na tela e a rolagem acende uma etapa por vez,
+    // com a ilustração grande ao lado; a rolagem continua livre, e "pular" leva ao fim. No celular, em telas
+    // baixas ou com menos movimento, as etapas ficam abertas em sequência, cada uma com a sua ilustração.
+    const navOffset = () => (parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--nav-h")) || 68) + 16;
+    function FlowCard({ project }) {
+      const steps = project.flow;
+      const reduced = useMedia("(prefers-reduced-motion: reduce)");
+      const pin = useMedia("(min-width: 1200px) and (min-height: 700px)") && !reduced;
+      const [active, setActive] = useState(0);
+      const wrapRef = useRef(null), spacerRef = useRef(null), barRef = useRef(null);
+
+      useEffect(() => {
+        if (!pin) return;
+        const onScroll = () => {
+          const w = wrapRef.current;
+          if (!w || !w.offsetParent) return; // aba escondida
+          const p = Math.min(1, Math.max(0, (navOffset() - w.getBoundingClientRect().top) / spacerRef.current.offsetHeight));
+          if (barRef.current) barRef.current.style.transform = `scaleX(${p})`;
+          setActive(Math.min(steps.length - 1, Math.floor(p * steps.length)));
+        };
+        onScroll();
+        window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", onScroll);
+        return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); };
+      }, [pin, steps.length]);
+
+      // leva a rolagem até o trecho da etapa i, ou (i = steps.length) até depois do card
+      const scrollToStep = (i) => {
+        const w = wrapRef.current;
+        const top = w.getBoundingClientRect().top + window.scrollY - navOffset();
+        const y = i >= steps.length ? top + w.offsetHeight : top + ((i + 0.5) * spacerRef.current.offsetHeight) / steps.length;
+        window.scrollTo({ top: y, behavior: reduced ? "auto" : "smooth" });
+      };
+
+      const head = (
+        <div className="flow-head">
+          <div className="flow-title"><i className="bi bi-signpost-split me-2" />Como os dados chegam ao mapa</div>
+          {pin && <span className="flow-hint"><i className="bi bi-mouse" /> role para passar pelas etapas</span>}
+        </div>
       );
-      if (!Art) return box;
+
+      if (!pin) {
+        return (
+          <div className="cardx flow-card">
+            {head}
+            <ol className="flow-open">
+              {steps.map((step, i) => {
+                const Art = FLOW_ART[step.art];
+                return (
+                  <li className="flow-open-step" key={step.label}>
+                    <div className="flow-open-head"><span className="idx">{pad2(i + 1)}{step.icon && <i className={`bi ${step.icon}`} aria-hidden="true" />}</span>{step.label}</div>
+                    {Art && <div className="flow-art"><Art project={project} /></div>}
+                    {step.note && <p>{step.note}</p>}
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+        );
+      }
+
+      const current = steps[active];
+      const Art = FLOW_ART[current.art];
       return (
-        <OverlayTrigger
-          placement="top"
-          flip
-          popperConfig={POP_FLIP}
-          trigger={["hover", "focus"]}
-          delay={{ show: 60, hide: 80 }}
-          overlay={
-            <Popover id={`flow-${project.id}-${step.art}`} className="flow-pop">
-              <Popover.Header as="div"><span className="idx">{pad2(index + 1)}</span>{step.label}</Popover.Header>
-              <Popover.Body>
-                <div className="flow-art"><Art project={project} /></div>
-                {step.note && <p>{step.note}</p>}
-              </Popover.Body>
-            </Popover>
-          }
-        >
-          {box}
-        </OverlayTrigger>
+        <div className="flow-pin" ref={wrapRef} style={{ "--flow-n": steps.length }}>
+          <div className="cardx flow-card">
+            {head}
+            <div className="flow">
+              {steps.map((step, i) => (
+                <React.Fragment key={step.label}>
+                  <button type="button" className={`flow-step ${i === active ? "is-on" : ""}`} aria-current={i === active ? "step" : undefined} onClick={() => scrollToStep(i)}>
+                    <span className="idx">{pad2(i + 1)}<i className={`bi ${i < active ? "bi-check2" : step.icon}`} aria-hidden="true" /></span>
+                    <span className="lbl">{step.label}</span>
+                  </button>
+                  {i < steps.length - 1 && <div className="flow-link" aria-hidden="true" />}
+                </React.Fragment>
+              ))}
+            </div>
+            <div className="flow-stage">
+              <div className="flow-art fade-swap" key={active}>{Art && <Art project={project} />}</div>
+              <div className="flow-stage-text" aria-live="polite">
+                <small>etapa {pad2(active + 1)} / {pad2(steps.length)}</small>
+                <h4>{current.label}</h4>
+                {current.note && <p>{current.note}</p>}
+                <div className="flow-progress" aria-hidden="true"><span ref={barRef} /></div>
+                <button type="button" className="flow-skip" onClick={() => scrollToStep(steps.length)}>pular o fluxo <i className="bi bi-arrow-down" /></button>
+              </div>
+            </div>
+          </div>
+          <div className="flow-spacer" ref={spacerRef} aria-hidden="true" />
+        </div>
       );
     }
 
@@ -3303,23 +3384,7 @@
               {project.visual === "roadmap" && <RoadmapPanel data={project.roadmap} />}
             </Col>
           </Row>
-          <div className="cardx flow-card">
-            <div className="flow-head">
-              <div className="flow-title"><i className="bi bi-signpost-split me-2" />Como os dados chegam ao mapa</div>
-              <span className="flow-hint">
-                <i className="bi bi-hand-index" />
-                <span className="on-hover">passe o mouse em uma etapa</span><span className="on-touch">toque em uma etapa</span>
-              </span>
-            </div>
-            <div className="flow">
-              {project.flow.map((step, i) => (
-                <React.Fragment key={step.label}>
-                  <FlowStep step={step} index={i} project={project} />
-                  {i < project.flow.length - 1 && <div className="flow-link" aria-hidden="true" />}
-                </React.Fragment>
-              ))}
-            </div>
-          </div>
+          <FlowCard project={project} />
         </div>
       );
     }
