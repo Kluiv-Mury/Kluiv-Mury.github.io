@@ -3762,7 +3762,7 @@ function CyberCity() {
       mac.add(new THREE.LineSegments(merGeo, lines(CYAN, 0.32)));
 
       // a versão no endereço faz o navegador baixar o modelo de novo quando ele muda
-      new GLTFLoader().load("mac-niteroi.glb?v=10", gltf => {
+      new GLTFLoader().load("mac-niteroi.glb?v=14", gltf => {
         if (dead) return;
         const add = [];
         gltf.scene.traverse(o => {
@@ -3793,9 +3793,6 @@ function CyberCity() {
           else if (/^Rio_Cristo/.test(n)) {
             o.material = holo(0xe8fbff, 0.45);
             add.push([o, lines(0xffffff, 1, false)]);
-          } else if (/^Mirante_Rua/.test(n)) {
-            o.visible = false;
-            add.push([o, lines(ORANGE, 0.55)]);
           } else if (/^Mirante_|^Ilhota|^Ilha_Pedra/.test(n)) {
             o.visible = false;
             add.push([o, lines(0x7d6bff, 0.5)]);
@@ -4006,7 +4003,7 @@ function CyberCity() {
         // enquadramento da foto: o MAC na frente, a Ilha da Boa Viagem à direita e o Pão de Açúcar ao fundo
         // vista do sul, como a foto aérea: o MAC na frente, o Pão de Açúcar atrás e a Ilha da Boa Viagem à direita
         // do sul: o MAC, a passarela vista de lado ligando o Mirante à ilha e o Cristo no alto
-        camera.position.set(4 + Math.sin(t * 0.09) * 1.2 + mx * 2, 8.8 - my * 1.2, 27.5);
+        camera.position.set(4 + Math.sin(t * 0.09) * 1.2 + mx * 2, 7.6 - my * 0.8, 27.5);
         camera.lookAt(1.6, 0.9, -3.5);
         const s = (Math.sin(t * 0.8) + 1) / 2;
         scan.position.y = 0.05 + s * 1.55;
