@@ -3784,7 +3784,7 @@ function CyberCity() {
       mac.add(new THREE.LineSegments(merGeo, lines(CYAN, 0.32)));
 
       // a versão no endereço faz o navegador baixar o modelo de novo quando ele muda
-      new GLTFLoader().load("mac-niteroi.glb?v=17", gltf => {
+      new GLTFLoader().load("mac-niteroi.glb?v=18", gltf => {
         if (dead) return;
         const add = [];
         gltf.scene.traverse(o => {
@@ -3835,10 +3835,7 @@ function CyberCity() {
             add.push([o, lines(0xe8fbff, 0.5, false)]);
           }
           // a passarela em destaque, com os pilares descendo até o mar e a areia
-          else if (/^Ilha_Ponte_Cabeceira/.test(n)) {
-            o.material = holo(CYAN, 0.04);
-            add.push([o, lines(CYAN, 0.6)]);
-          } else if (/^Ilha_Ponte/.test(n)) {
+          else if (/^Ilha_Ponte/.test(n)) {
             o.material = holo(0x8ff6ff, 0.45);
             add.push([o, lines(0xd8fdff, 1, false)]);
           } else if (/^Ilha_Pilares/.test(n)) {
