@@ -2936,6 +2936,23 @@
           });
           const lines = (color, opacity, fog = true) => new THREE.LineBasicMaterial({ color, transparent: true, opacity, fog });
           // piso da esplanada: as juntas das placas em grade, como na foto
+          // areia da praia: ondulações finas paralelas à beira e um brilho na parte molhada, junto da água
+          const sandMat = new THREE.ShaderMaterial({
+            uniforms: { uTime: shared.uTime },
+            vertexShader: MAC_VERT,
+            fragmentShader: `
+              uniform float uTime; varying vec3 vW;
+              void main() {
+                float h = clamp((vW.y + 1.3) / .14, 0., 1.);
+                float rip = 1. - smoothstep(0., .08, .5 - abs(fract(vW.y * 90. + sin(vW.x * 3.) * .4) - .5));
+                float grain = fract(sin(dot(floor(vW.xz * 40.), vec2(12.9898, 78.233))) * 43758.5453);
+                float wet = (1. - smoothstep(.0, .35, h)) * (.55 + .45 * sin(uTime * 1.4 + vW.x * 2.));
+                vec3 sand = vec3(1., .78, .42);
+                vec3 c = sand * (.42 + rip * .4 + grain * .14) + vec3(.5, .9, 1.) * wet * .4;
+                gl_FragColor = vec4(c, .5 + rip * .25 + wet * .2);
+              }`,
+            transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide,
+          });
           const plazaMat = new THREE.ShaderMaterial({
             uniforms: { uTime: shared.uTime, uColor: { value: new THREE.Color(0x7a5cff) } },
             vertexShader: MAC_VERT,
@@ -2964,7 +2981,7 @@
           mac.add(new THREE.LineSegments(merGeo, lines(CYAN, 0.32)));
 
           // a versão no endereço faz o navegador baixar o modelo de novo quando ele muda
-          new GLTFLoader().load("mac-niteroi.glb?v=14", (gltf) => {
+          new GLTFLoader().load("mac-niteroi.glb?v=17", (gltf) => {
             if (dead) return;
             const add = [];
             gltf.scene.traverse((o) => {
@@ -2988,7 +3005,8 @@
               else if (/^Ilha_Ponte_Cabeceira/.test(n)) { o.material = holo(CYAN, 0.04); add.push([o, lines(CYAN, 0.6)]); }
               else if (/^Ilha_Ponte/.test(n)) { o.material = holo(0x8ff6ff, 0.45); add.push([o, lines(0xd8fdff, 1, false)]); }
               else if (/^Ilha_Pilares/.test(n)) { o.material = holo(CYAN, 0.35); add.push([o, lines(0x8ff6ff, 0.85, false)]); }
-              else if (/^Praia/.test(n)) { o.material = holo(0xffcf6e, 0.1); add.push([o, lines(0xffd98a, 0.7, false)]); }
+              else if (/^Praia/.test(n)) { o.material = sandMat; add.push([o, lines(0xffd98a, 0.55, false)]); }
+              else if (/^Ilha_Espuma_Praia/.test(n)) { o.material = holo(0xe8fbff, 0.5); }
               else if (/^Ilha_Espuma/.test(n)) { o.visible = false; add.push([o, lines(0xd8f6ff, 0.45)]); }
               else if (/^Mata/.test(n)) {
                 // vegetação como nuvem de pontos verdes
