@@ -669,12 +669,59 @@
       margin-top: 1.4rem; padding-top: 1.4rem; border-top: 2px dashed color-mix(in srgb, var(--line) 25%, transparent);
     }
     /* a ilustração encolhe em telas baixas para o card inteiro caber abaixo da barra */
-    .flow-stage .flow-art { justify-self: center; width: min(100%, calc((100vh - var(--nav-h) - 400px) * 1.71)); box-shadow: 3px 3px 0 var(--shadow-c); }
+    .flow-stage .flow-art { justify-self: center; width: min(100%, calc((100vh - var(--nav-h) - 460px) * 1.71)); box-shadow: 3px 3px 0 var(--shadow-c); }
     .flow-stage-text small { font: 600 .7rem "JetBrains Mono", monospace; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
     .flow-stage-text h4 { margin: .35rem 0 .55rem; font: 800 1.35rem/1.2 "Bricolage Grotesque", sans-serif; }
     .flow-stage-text p { margin: 0 0 1.1rem; color: var(--muted); font-size: .98rem; line-height: 1.6; }
-    .flow-progress { height: 8px; margin-bottom: .9rem; overflow: hidden; border: 2px solid var(--line); border-radius: 6px; background: var(--paper); }
-    .flow-progress span { display: block; height: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left; }
+    /* Rota embaixo das etapas, no mesmo traço dos divisores do site: cada etapa é uma parada, a bike pedala de uma
+       parada para a seguinte com a rolagem e a pista percorrida fica laranja. */
+    .flow-pin .flow { gap: 16px; }
+    .flow-pin .flow-step { z-index: 2; }
+    .flow-route { position: relative; height: 50px; margin-top: 12px; }
+    .flow-road {
+      position: absolute; top: 18px; left: var(--road-l, 0); width: var(--road-w, 100%); height: 16px; overflow: hidden;
+      border: 2px solid var(--line); border-radius: 999px; background: var(--paper); box-shadow: 0 3px 0 var(--shadow-c);
+    }
+    /* faixa tracejada no meio da pista */
+    .flow-road::before {
+      content: ""; position: absolute; left: 6px; right: 6px; top: 50%; height: 2px; margin-top: -1px;
+      background: repeating-linear-gradient(90deg, color-mix(in srgb, var(--line) 30%, transparent) 0 10px, transparent 10px 20px);
+    }
+    .flow-road-fill { position: absolute; z-index: 1; inset: 0 auto 0 0; width: var(--road-fill, 0px); background: var(--accent); }
+    .flow-road-fill::before {
+      content: ""; position: absolute; left: 6px; right: 0; top: 50%; height: 2px; margin-top: -1px;
+      background: repeating-linear-gradient(90deg, rgba(255, 253, 248, .75) 0 10px, transparent 10px 20px);
+      animation: roadRun .5s linear infinite;
+    }
+    @keyframes roadRun { to { background-position: 20px 0; } }
+    /* paradas: uma por etapa, ligadas à etapa por uma haste tracejada */
+    .flow-stop {
+      position: absolute; z-index: 2; top: 26px; left: 0; display: grid; place-items: center; width: 22px; height: 22px; margin: -11px 0 0 -11px;
+      border: 2px solid var(--line); border-radius: 50%; background: var(--card); transition: background-color .25s, transform .3s;
+    }
+    .flow-stop::before { content: ""; width: 8px; height: 8px; border: 2px solid var(--line); border-radius: 50%; background: var(--paper); transition: background-color .25s; }
+    .flow-stop::after {
+      content: ""; position: absolute; left: 50%; bottom: calc(100% + 2px); width: 2px; height: 16px; margin-left: -1px;
+      background: repeating-linear-gradient(180deg, var(--line) 0 4px, transparent 4px 7px);
+    }
+    .flow-stop.is-reached { background: var(--accent); }
+    .flow-stop.is-reached::before { background: var(--lime); }
+    .flow-stop.end { width: 28px; height: 28px; margin: -14px 0 0 -14px; background: var(--accent); color: #15130f; font-size: .85rem; }
+    .flow-stop.end::before { display: none; }
+    /* a bike: anda pela pista e balança enquanto pedala */
+    .flow-bike {
+      position: absolute; z-index: 3; top: 26px; left: 0; display: grid; place-items: center; width: 42px; height: 42px; margin: -21px 0 0 -21px;
+      transform: translateX(var(--bike-x, 0px)); border: 2px solid var(--line); border-radius: 50%;
+      background: var(--lime); color: #15130f; box-shadow: 3px 3px 0 var(--shadow-c); font-size: 1.25rem;
+    }
+    .flow-bike i { display: block; animation: bikeBob .42s ease-in-out infinite alternate; }
+    .flow-route.is-parked .flow-bike i { animation-play-state: paused; }
+    /* encaixe na parada: a bike e a pista deslizam com mola, e a parada dá um tranco ao receber a bike */
+    .flow-route.is-snapping .flow-bike { transition: transform .38s cubic-bezier(.34, 1.56, .64, 1); }
+    .flow-route.is-snapping .flow-road-fill { transition: width .38s cubic-bezier(.34, 1.56, .64, 1); }
+    @keyframes bikeBob { from { transform: translateY(-1.5px) rotate(-3deg); } to { transform: translateY(1.5px) rotate(3deg); } }
+    /* chegada numa etapa: um anel que se abre a partir dela (anime.js) */
+    .flow-step .flow-burst { position: absolute; inset: -2px; border: 3px solid var(--accent); border-radius: 12px; opacity: 0; pointer-events: none; }
     .flow-skip { padding: 0; border: 0; background: none; color: var(--ink); font-size: .85rem; font-weight: 700; }
     .flow-skip:hover { color: var(--accent); }
     /* Fluxo aberto (celular, telas baixas, menos movimento): cada etapa em sequência, com a sua ilustração */
@@ -746,11 +793,6 @@
     .flow-art .pop-in { transform-box: fill-box; transform-origin: left center; animation: artPop .5s cubic-bezier(.2,.9,.3,1.4) .25s both; }
     .flow-art .pop-in.late { animation-delay: .55s; }
     .flow-art .grow { transform-box: fill-box; transform-origin: bottom; animation: artGrow .7s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(var(--i) * 35ms); }
-    .flow-link { flex: 0 0 30px; align-self: center; height: 3px; background: linear-gradient(90deg, var(--line) 50%, transparent 0) 0 0 / 10px 3px repeat-x; animation: flowX .7s linear infinite; }
-    @media (max-width: 1199.98px) {
-      .flow { flex-direction: column; }
-      .flow-link { flex: 0 0 22px; width: 3px; height: auto; margin-left: 1.6rem; align-self: flex-start; background: linear-gradient(180deg, var(--line) 50%, transparent 0) 0 0 / 3px 10px repeat-y; animation-name: flowY; }
-    }
     @media (max-width: 575.98px) {
       /* Preso no topo do celular, o projetor encolhe com a altura da tela para sobrar espaço para a lista. */
       .stack-card { --holo-h: clamp(210px, 34vh, 290px); }
@@ -1651,7 +1693,7 @@
 
     const prefersReducedMotion = () => window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    function useInView({ threshold = 0.15, once = true } = {}) {
+    function useInView({ threshold = 0.15, rootMargin = "0px", once = true } = {}) {
       const ref = useRef(null);
       const [inView, setInView] = useState(false);
       useEffect(() => {
@@ -1665,7 +1707,7 @@
           } else if (!once) {
             setInView(false);
           }
-        }, { threshold });
+        }, { threshold, rootMargin });
         io.observe(el);
         return () => io.disconnect();
       }, []);
@@ -1673,7 +1715,8 @@
     }
 
     function Reveal({ children, delay = 0, className = "", ...rest }) {
-      const [ref, inView] = useInView();
+      // aparece assim que a borda de cima entra na tela; uma fração do bloco nunca ficaria visível nos blocos altos do celular
+      const [ref, inView] = useInView({ threshold: 0, rootMargin: "0px 0px -10% 0px" });
       return (
         <div ref={ref} className={`reveal ${inView ? "is-visible" : ""} ${className}`} style={delay ? { transitionDelay: `${delay}ms` } : undefined} {...rest}>
           {children}
@@ -3265,7 +3308,42 @@
       const reduced = useMedia("(prefers-reduced-motion: reduce)");
       const pin = useMedia("(min-width: 1200px) and (min-height: 700px)") && !reduced;
       const [active, setActive] = useState(0);
-      const wrapRef = useRef(null), spacerRef = useRef(null), barRef = useRef(null);
+      const wrapRef = useRef(null), spacerRef = useRef(null), routeRef = useRef(null), lastActive = useRef(0);
+      const snapRef = useRef({ on: false, timer: 0 });
+
+      // Posiciona a pista, as paradas e a bike a partir das etapas. Em cada etapa a bike espera na parada e,
+      // na reta final antes da etapa seguinte acender, pedala até a próxima parada. Quando encosta nela, é puxada
+      // para o centro da parada e fica presa ali, e a etapa seguinte acende. Devolve a etapa ativa.
+      const placeRoute = (t) => {
+        const route = routeRef.current;
+        if (!route) return Math.min(steps.length - 1, Math.floor(t));
+        const base = route.getBoundingClientRect().left;
+        const c = [...route.parentNode.querySelectorAll(".flow-step")].map((b) => { const r = b.getBoundingClientRect(); return r.left + r.width / 2 - base; });
+        const n = c.length, i = Math.min(n - 1, Math.floor(t));
+        const u = i >= n - 1 ? 0 : Math.min(1, Math.max(0, (t - i - 0.35) / 0.65));
+        const ease = u < 0.5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2;
+        const raw = i >= n - 1 ? c[n - 1] : c[i] + (c[i + 1] - c[i]) * ease;
+        // encostou: a borda da bike tocou a parada seguinte
+        const bike = route.querySelector(".flow-bike"), stops = route.querySelectorAll(".flow-stop");
+        const touch = i < n - 1 ? (bike.offsetWidth + stops[i + 1].offsetWidth) / 2 : 0;
+        const snapped = i < n - 1 && c[i + 1] - raw <= touch;
+        const x = snapped ? c[i + 1] : raw;
+        // ao prender ou soltar, a bike desliza com mola até o lugar; no resto do tempo segue a rolagem direto
+        const st = snapRef.current;
+        if (snapped !== st.on) {
+          st.on = snapped;
+          route.classList.add("is-snapping");
+          clearTimeout(st.timer);
+          st.timer = setTimeout(() => route.classList.remove("is-snapping"), 420);
+        }
+        route.style.setProperty("--road-l", `${c[0]}px`);
+        route.style.setProperty("--road-w", `${c[n - 1] - c[0]}px`);
+        route.style.setProperty("--road-fill", `${x - c[0]}px`);
+        route.style.setProperty("--bike-x", `${x}px`);
+        route.classList.toggle("is-parked", u === 0 || u === 1 || snapped);
+        stops.forEach((s, k) => { s.style.left = `${c[k]}px`; s.classList.toggle("is-reached", x >= c[k] - 1); });
+        return snapped ? i + 1 : i;
+      };
 
       useEffect(() => {
         if (!pin) return;
@@ -3273,14 +3351,28 @@
           const w = wrapRef.current;
           if (!w || !w.offsetParent) return; // aba escondida
           const p = Math.min(1, Math.max(0, (navOffset() - w.getBoundingClientRect().top) / spacerRef.current.offsetHeight));
-          if (barRef.current) barRef.current.style.transform = `scaleX(${p})`;
-          setActive(Math.min(steps.length - 1, Math.floor(p * steps.length)));
+          const t = p * steps.length;
+          setActive(placeRoute(t));
         };
         onScroll();
         window.addEventListener("scroll", onScroll, { passive: true });
         window.addEventListener("resize", onScroll);
         return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); };
       }, [pin, steps.length]);
+
+      // ao chegar numa etapa nova, um anel se abre a partir dela
+      useEffect(() => {
+        if (!pin || prefersReducedMotion()) return;
+        const forward = active > lastActive.current;
+        lastActive.current = active;
+        if (!forward) return;
+        const ring = wrapRef.current && wrapRef.current.querySelectorAll(".flow-burst")[active];
+        if (!ring) return;
+        loadXpLib("anime").then(() => {
+          anime.remove(ring);
+          anime({ targets: ring, scale: [1, 1.14], opacity: [0.9, 0], duration: 750, easing: "easeOutExpo" });
+        }).catch(() => {});
+      }, [active, pin]);
 
       // leva a rolagem até o trecho da etapa i, ou (i = steps.length) até depois do card
       const scrollToStep = (i) => {
@@ -3329,10 +3421,17 @@
                   <button type="button" className={`flow-step ${i === active ? "is-on" : ""}`} aria-current={i === active ? "step" : undefined} onClick={() => scrollToStep(i)}>
                     <span className="idx">{pad2(i + 1)}<i className={`bi ${i < active ? "bi-check2" : step.icon}`} aria-hidden="true" /></span>
                     <span className="lbl">{step.label}</span>
+                    <span className="flow-burst" aria-hidden="true" />
                   </button>
-                  {i < steps.length - 1 && <div className="flow-link" aria-hidden="true" />}
                 </React.Fragment>
               ))}
+            </div>
+            <div className="flow-route" ref={routeRef} aria-hidden="true">
+              <div className="flow-road"><span className="flow-road-fill" /></div>
+              {steps.map((step, i) => (
+                <span key={step.label} className={`flow-stop ${i === steps.length - 1 ? "end" : ""}`}>{i === steps.length - 1 && <i className="bi bi-geo-alt-fill" />}</span>
+              ))}
+              <span className="flow-bike"><i className="bi bi-bicycle" /></span>
             </div>
             <div className="flow-stage">
               <div className="flow-art fade-swap" key={active}>{Art && <Art project={project} />}</div>
@@ -3340,7 +3439,6 @@
                 <small>etapa {pad2(active + 1)} / {pad2(steps.length)}</small>
                 <h4>{current.label}</h4>
                 {current.note && <p>{current.note}</p>}
-                <div className="flow-progress" aria-hidden="true"><span ref={barRef} /></div>
                 <button type="button" className="flow-skip" onClick={() => scrollToStep(steps.length)}>pular o fluxo <i className="bi bi-arrow-down" /></button>
               </div>
             </div>
