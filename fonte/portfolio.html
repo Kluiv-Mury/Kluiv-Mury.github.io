@@ -1681,6 +1681,10 @@
     
 
     /* topo: faixa de dados em grade, com fios finos e cantoneiras */
+    [data-bs-theme="dark"] .holo-stage.is-mine { --holo-rgb: 255, 79, 216; }
+    [data-bs-theme="dark"] .layer-icon.is-mine { color: #ff8be8 !important; background: rgba(255, 79, 216, .12) !important; box-shadow: 0 0 12px rgba(255, 79, 216, .45) !important; }
+    [data-bs-theme="dark"] .layer-legend .list-group-item.is-mine.active { background: rgba(255, 79, 216, .1); }
+    [data-bs-theme="dark"] .mine-badge i, [data-bs-theme="dark"] .mine-key i { color: #ff8be8 !important; }
     [data-bs-theme="dark"] .cy-tag b { margin-left: .6rem; color: #ffc9f4; font-weight: 400; }
     [data-bs-theme="dark"] .cy-data {
       position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); max-width: 760px; margin-top: 2.4rem;
@@ -2981,7 +2985,7 @@
           mac.add(new THREE.LineSegments(merGeo, lines(CYAN, 0.32)));
 
           // a versão no endereço faz o navegador baixar o modelo de novo quando ele muda
-          new GLTFLoader().load("mac-niteroi.glb?v=18", (gltf) => {
+          new GLTFLoader().load("mac-niteroi.glb?v=19", (gltf) => {
             if (dead) return;
             const add = [];
             gltf.scene.traverse((o) => {
@@ -3250,7 +3254,9 @@
 
     /* ---------- Holograma 3D das camadas (Three.js) ---------- */
 
-    const HOLO_COLORS = { accent: 0x2dd4bf, warm: 0xff7a3d };
+    // no modo escuro, as camadas em que atuo ficam no rosa de destaque do tema em vez do laranja
+    const HOLO_COLORS = { accent: 0x2dd4bf, warm: 0xff7a3d, warmDark: 0xff4fd8 };
+    const holoMineColor = () => (document.documentElement.getAttribute("data-bs-theme") === "dark" ? HOLO_COLORS.warmDark : HOLO_COLORS.warm);
 
     const HOLO_VERT = `
       varying vec3 vNormal;
@@ -3449,12 +3455,23 @@
       stage.addEventListener("pointermove", onMove);
       stage.addEventListener("pointerleave", onLeave);
 
+      // ao trocar o tema, a camada que está no projetor muda de cor na hora
+      let current = null;
+      const themeObs = new MutationObserver(() => {
+        if (!current || !current.mine) return;
+        current.color.set(holoMineColor());
+        particleMat.color.copy(current.color);
+        kick();
+      });
+      themeObs.observe(document.documentElement, { attributes: true, attributeFilter: ["data-bs-theme"] });
+
       const show = (layer) => {
         const token = (pending = {});
         loadIconGeometry(THREE, SVGLoader, layer.icon).then(({ surface, edges }) => {
           if (pending !== token || disposed) return;
           models.forEach((m) => { if (!m.dying) m.dying = performance.now(); });
-          const color = new THREE.Color(layer.mine ? HOLO_COLORS.warm : HOLO_COLORS.accent);
+          const color = new THREE.Color(layer.mine ? holoMineColor() : HOLO_COLORS.accent);
+          current = { color, mine: layer.mine };
           const uniforms = () => ({ uColor: { value: color }, uTime: { value: 0 }, uOpacity: { value: 0 }, uReveal: { value: -2 } });
           const common = { transparent: true, depthWrite: false, blending: THREE.AdditiveBlending };
           const surfaceMat = new THREE.ShaderMaterial({ ...common, side: THREE.DoubleSide, uniforms: uniforms(), vertexShader: HOLO_VERT, fragmentShader: HOLO_FRAG });
@@ -3474,6 +3491,7 @@
         cancelAnimationFrame(raf);
         ro.disconnect();
         io.disconnect();
+        themeObs.disconnect();
         stage.removeEventListener("pointermove", onMove);
         stage.removeEventListener("pointerleave", onLeave);
         models.forEach((m) => m.materials.forEach((mat) => mat.dispose()));
