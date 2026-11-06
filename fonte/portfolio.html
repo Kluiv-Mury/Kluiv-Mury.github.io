@@ -1831,9 +1831,9 @@
     .fx-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
     .fx-edge {
       fill: none; stroke: color-mix(in srgb, var(--line) 30%, transparent); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round;
-      stroke-dasharray: 5 7; animation: fxFlow 1.6s linear infinite; transition: stroke .3s, opacity .3s;
+      stroke-dasharray: 5 7; animation: fxFlow 1.6s linear infinite; transition: stroke .8s ease, stroke-width .8s ease, opacity .5s;
     }
-    .fx-edge.on { stroke: rgba(var(--accent-rgb), .85); stroke-dasharray: none; }
+    .fx-edge.on { stroke: rgba(var(--accent-rgb), .7); stroke-width: 2.4; }
     .fx-edge.ok { stroke: color-mix(in srgb, var(--good) 70%, transparent); stroke-dasharray: none; }
     .fx-edge.dim { opacity: .25; }
     @keyframes fxFlow { to { stroke-dashoffset: -24; } }
@@ -1854,7 +1854,7 @@
       position: absolute; box-sizing: border-box; display: flex; flex-direction: column; gap: calc(var(--u) * 8);
       padding: calc(var(--u) * 10) calc(var(--u) * 12); border: 2px solid var(--line); border-radius: calc(var(--u) * 12);
       background: linear-gradient(180deg, var(--card), color-mix(in srgb, var(--card) 82%, var(--paper)));
-      box-shadow: 3px 3px 0 var(--shadow-c); cursor: pointer; overflow: hidden; transition: border-color .25s, box-shadow .25s;
+      box-shadow: 3px 3px 0 var(--shadow-c); cursor: pointer; overflow: hidden; transition: border-color .7s ease, box-shadow .7s ease, background-color .7s ease;
     }
     .fx-box.busy { border-color: var(--accent); box-shadow: 0 0 0 calc(var(--u) * 4) rgba(var(--accent-rgb), .16), 3px 3px 0 var(--accent); }
     .fx-box.fail { border-color: #e5484d; box-shadow: 0 0 0 calc(var(--u) * 4) rgba(229, 72, 77, .16), 3px 3px 0 #e5484d; }
@@ -2109,7 +2109,9 @@
     .dash-tag.live { display: inline-flex; align-items: center; gap: .35rem; border-color: var(--good); color: var(--good); }
     .city-mini .live-st text { font-size: 6px; }
     .city-mini .live-st.wait .live-st-bg { stroke-dasharray: 2 2; }
-    .city-alert-r { fill: rgba(245, 158, 11, .07); stroke: rgba(245, 158, 11, .35); stroke-width: .6; stroke-dasharray: 2 2; }
+    .city-alert-r { fill: rgba(245, 158, 11, .05); stroke: rgba(245, 158, 11, .4); stroke-width: .5; stroke-dasharray: 1.6 1.6; pointer-events: none; transition: fill .4s, stroke .4s; }
+    .city-alert-r.sel { fill: rgba(245, 158, 11, .14); stroke: rgba(245, 158, 11, .8); stroke-width: .8; }
+    .city-alert-r.sim { fill: rgba(229, 72, 77, .1); stroke: rgba(229, 72, 77, .75); stroke-width: .8; }
     .city-rain-area { fill: rgba(59, 130, 246, .16); stroke: rgba(59, 130, 246, .55); stroke-width: .8; stroke-linejoin: round; animation: liveIn .6s ease-out; }
     .city-rain-area.sim { stroke-dasharray: 3 2; }
     .city-jam { stroke-width: 2.4; }
@@ -2182,11 +2184,6 @@
     .city-stage { position: relative; }
     .city-banner { position: absolute; top: .6rem; left: .6rem; right: .6rem; display: flex; flex-wrap: wrap; gap: .35rem; pointer-events: none; }
     .city-banner button { pointer-events: auto; display: inline-flex; align-items: center; gap: .35rem; padding: .25rem .65rem; border: 2px solid var(--line); border-radius: 999px; background: var(--accent); color: #15130f; font: 700 .74rem "JetBrains Mono", monospace; box-shadow: 2px 2px 0 var(--shadow-c); animation: liveIn .3s ease-out; }
-    .map-chips { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; margin-top: .7rem; }
-    .map-chips > button:not(.live-pause) { display: inline-flex; align-items: center; gap: .4rem; padding: .28rem .7rem; border: 2px solid var(--line); border-radius: 999px; background: var(--card); color: var(--ink); font: 700 .78rem "DM Sans", sans-serif; opacity: .45; transition: opacity .2s, background-color .2s; }
-    .map-chips > button.on { opacity: 1; }
-    .map-chips i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
-    .map-chips .live-pause { margin-left: auto; }
     .live-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .3rem; padding: .25rem; border: 2px solid var(--line); border-radius: 12px; background: var(--paper); }
     .live-tabs button { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: .3rem; padding: .4rem .3rem; border: 0; border-radius: 8px; background: transparent; color: var(--muted); font: 700 .78rem "DM Sans", sans-serif; transition: background-color .2s, color .2s; }
     .live-tabs button.on { background: var(--ink); color: var(--paper); }
@@ -2206,7 +2203,6 @@
     [data-bs-theme="dark"] .live-tabs, [data-bs-theme="dark"] .city-rules { border-color: rgba(0, 229, 255, .3); border-radius: 3px; background: #05040f; }
     [data-bs-theme="dark"] .live-tabs button { border-radius: 2px; }
     [data-bs-theme="dark"] .live-tabs button.on { background: var(--neon-c); color: #05040f; }
-    [data-bs-theme="dark"] .map-chips > button:not(.live-pause) { border-radius: 2px; border-color: rgba(0, 229, 255, .45); background: transparent; color: #fff; }
     [data-bs-theme="dark"] .city-banner button { border-radius: 2px; background: var(--neon-m); border-color: var(--neon-m); }
 
     /* mini Gêmeo: pluviômetro com chuva caindo, eventos visíveis no mapa e doca de simulação */
@@ -2236,28 +2232,6 @@
     .city-banner button.t-acc { background: #e5484d; color: #fff; }
     .city-banner button.t-fail { background: var(--ink); color: var(--paper); }
 
-    .sim-dock { margin-top: 1.1rem; padding-top: 1rem; border-top: 2px dashed color-mix(in srgb, var(--line) 30%, transparent); }
-    .sim-dock-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: .3rem .7rem; margin-bottom: .6rem; }
-    .sim-dock-head small { color: var(--ink); font: 700 .72rem "JetBrains Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
-    .sim-dock-head span { color: var(--muted); font-size: .8rem; }
-    .sim-tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .55rem; }
-    .sim-tile { --t: var(--ink); position: relative; display: flex; align-items: center; gap: .6rem; min-width: 0; padding: .6rem .7rem; overflow: hidden; border: 2px solid var(--line); border-radius: 12px; background: var(--card); color: var(--ink); text-align: left; box-shadow: 3px 3px 0 var(--shadow-c); transition: transform .15s, box-shadow .15s, background-color .25s, border-color .25s; }
-    .sim-tile.t-rain { --t: #3b82f6; }
-    .sim-tile.t-acc { --t: #e5484d; }
-    .sim-tile.t-fail { --t: #6b7280; }
-    .sim-tile:hover:not(:disabled) { transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--shadow-c); }
-    .sim-tile:active:not(:disabled) { transform: translate(1px, 1px); box-shadow: 1px 1px 0 var(--shadow-c); }
-    .sim-ic { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: color-mix(in srgb, var(--t) 16%, transparent); color: var(--t); font-size: 1.05rem; transition: background-color .25s, color .25s; }
-    .sim-tx { display: grid; min-width: 0; line-height: 1.2; }
-    .sim-tx b { font-size: .84rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .sim-tx small { color: var(--muted); font-size: .72rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .sim-tile.on { border-color: var(--t); background: color-mix(in srgb, var(--t) 9%, var(--card)); }
-    .sim-tile.on .sim-ic { background: var(--t); color: #fff; animation: simPulse 1.6s ease-in-out infinite; }
-    .sim-tile.on small { color: var(--t); font-weight: 700; }
-    .sim-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--t); transform-origin: left; transition: transform 1s linear; }
-    @keyframes simPulse { 50% { box-shadow: 0 0 0 5px color-mix(in srgb, var(--t) 20%, transparent); } }
-    @media (max-width: 991.98px) { .sim-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    @media (max-width: 575.98px) { .sim-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } .sim-dock-head span { font-size: .74rem; } }
 
     .sim-impact { --t: var(--ink); display: grid; gap: .5rem; padding: .75rem .85rem; border: 2px solid var(--t); border-radius: 12px; background: color-mix(in srgb, var(--t) 6%, var(--paper)); animation: liveIn .3s ease-out; }
     .sim-impact.t-rain { --t: #3b82f6; }
@@ -2289,14 +2263,6 @@
     [data-bs-theme="dark"] .city-rain.forte .rain-disc { fill: rgba(96, 165, 250, .45); stroke: #93c5fd; }
     [data-bs-theme="dark"] .rain-drop { stroke: #93c5fd; }
     [data-bs-theme="dark"] .city-rain.forte .rain-drop { stroke: #fff; }
-    [data-bs-theme="dark"] .sim-tile, [data-bs-theme="dark"] .sim-impact { border-radius: 3px; border-width: 1px; box-shadow: none; background: #05040f; }
-    [data-bs-theme="dark"] .sim-tile { border-color: rgba(0, 229, 255, .35); color: #fff; }
-    [data-bs-theme="dark"] .sim-tile.t-fail, [data-bs-theme="dark"] .sim-impact.t-fail { --t: #00e5ff; }
-    [data-bs-theme="dark"] .sim-tile.on { border-color: var(--t); background: color-mix(in srgb, var(--t) 12%, #05040f); }
-    [data-bs-theme="dark"] .sim-ic { border-radius: 2px; }
-    [data-bs-theme="dark"] .sim-tile.on .sim-ic { color: #05040f; }
-    [data-bs-theme="dark"] .sim-dock-head small { color: var(--neon-c); }
-    [data-bs-theme="dark"] .sim-dock { border-top-color: rgba(0, 229, 255, .25); }
     [data-bs-theme="dark"] .nb-kpis { border: 1px solid rgba(0, 229, 255, .3); border-radius: 3px; background: #05040f; }
     [data-bs-theme="dark"] .nb-kpis div { border: 0 !important; background: none !important; box-shadow: inset -1px -1px 0 rgba(0, 229, 255, .15); }
     [data-bs-theme="dark"] .city-layer { border: 0 !important; border-bottom: 1px dashed rgba(0, 229, 255, .2) !important; border-radius: 0 !important; background: none !important; }
@@ -2305,7 +2271,7 @@
     [data-bs-theme="dark"] .city-banner button.t-acc { background: #e5484d; border-color: #e5484d; }
 
     @media (prefers-reduced-motion: reduce) {
-      .rain-drop, .city-ripple, .bus-ping, .sim-tile.on .sim-ic { animation: none; }
+      .rain-drop, .city-ripple, .bus-ping { animation: none; }
     }
 
     /* Gêmeo ao vivo: capítulos com navegação fixa, passo atual do pipeline e o pico da madrugada */
@@ -2320,7 +2286,7 @@
     .live-story > .live-chapter:first-of-type, .live-story > .live-nav + .live-chapter { margin-top: 1.8rem; }
     @media (max-width: 575.98px) { .live-nav a:not(.on) span { display: none; } .live-nav a:not(.on) { padding-right: .35rem; } }
 
-    .fx-n { position: absolute; top: calc(var(--u) * 7); right: calc(var(--u) * 7); display: grid; place-items: center; width: calc(var(--u) * 19); height: calc(var(--u) * 19); border-radius: 50%; background: var(--ink); color: var(--paper); font: 800 calc(var(--u) * 11) "Bricolage Grotesque", sans-serif; font-style: normal; }
+    .fx-n { transition: background-color .7s ease, color .7s ease; position: absolute; top: calc(var(--u) * 7); right: calc(var(--u) * 7); display: grid; place-items: center; width: calc(var(--u) * 19); height: calc(var(--u) * 19); border-radius: 50%; background: var(--ink); color: var(--paper); font: 800 calc(var(--u) * 11) "Bricolage Grotesque", sans-serif; font-style: normal; }
     .fx-box.busy .fx-n { background: var(--accent); color: #15130f; }
     .fx-box:has(> .fx-n) .fx-tt { padding-right: calc(var(--u) * 20); }
     .fx-box.fail .fx-n { background: #e5484d; color: #fff; }
@@ -2424,7 +2390,8 @@
     @media (prefers-reduced-motion: reduce) { .brk-link, .brk-node.x { animation: none; } }
 
     /* etiqueta do que passa em cada linha dos fluxogramas */
-    .fx-tag { position: absolute; z-index: 3; transform: translate(-50%, -50%); padding: max(1px, calc(var(--u) * 2)) max(5px, calc(var(--u) * 7)); border-radius: 999px; background: var(--accent); color: #15130f; font: 700 max(9px, calc(var(--u) * 10.5)) "JetBrains Mono", monospace; white-space: nowrap; pointer-events: none; box-shadow: 0 0 0 2px var(--card); animation: liveIn .2s ease-out; }
+    .fx-tag { --tag-in: .45s; position: absolute; z-index: 3; transform: translate(-50%, -50%); padding: max(1px, calc(var(--u) * 2)) max(5px, calc(var(--u) * 7)); border-radius: 999px; background: var(--accent); color: #15130f; font: 700 max(9px, calc(var(--u) * 10.5)) "JetBrains Mono", monospace; white-space: nowrap; pointer-events: none; box-shadow: 0 0 0 2px var(--card); animation: tagIn var(--tag-in) cubic-bezier(.2, .8, .2, 1); }
+    @keyframes tagIn { from { opacity: 0; transform: translate(-50%, -30%) scale(.92); } }
     .fx-tag.read { background: var(--blue); color: #fff; }
     .fx-tag.fail { background: #e5484d; color: #fff; }
     .fx-tag.muted { background: var(--card); color: var(--muted); border: 1px dashed color-mix(in srgb, var(--line) 40%, transparent); box-shadow: none; animation: none; font-weight: 500; }
@@ -2437,12 +2404,12 @@
     [data-bs-theme="dark"] .fx-tag.muted { background: #05040f; color: rgba(255, 255, 255, .6); border-color: rgba(0, 229, 255, .35); }
 
     /* log em terminal, linha do tempo dos snapshots e tabela por minuto */
-    .nb-ops { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 1rem; margin-top: 1rem; align-items: stretch; }
+    .nb-ops { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 1rem; margin-top: 1rem; align-items: start; }
     @media (max-width: 991.98px) { .nb-ops { grid-template-columns: minmax(0, 1fr); } }
     .flow-log { display: flex; flex-direction: column; min-width: 0; overflow: hidden; border: 2px solid var(--line); border-radius: 14px; background: #0f1220; color: #d6deeb; box-shadow: 4px 4px 0 var(--shadow-c); }
     .flow-log-head { padding: .55rem .8rem; }
     .flow-log-clock { margin-left: auto; color: #6b7f99; }
-    .flow-log ol { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; gap: .1rem; min-height: 15.5rem; margin: 0; padding: .6rem .8rem .7rem; list-style: none; font: .72rem/1.5 "JetBrains Mono", monospace; }
+    .flow-log ol { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; gap: .1rem; min-height: 10.2rem; margin: 0; padding: .6rem .8rem .7rem; list-style: none; font: .72rem/1.5 "JetBrains Mono", monospace; }
     .flow-log li { display: grid; grid-template-columns: auto auto auto minmax(0, 1fr); gap: .55rem; align-items: baseline; animation: lineIn .35s cubic-bezier(.2, .7, .2, 1); }
     .flow-log time { color: #4b5b75; }
     .flow-log li b { min-width: 4.2em; color: #82aaff; font-weight: 700; }
@@ -2459,7 +2426,7 @@
     .nb-pg > b { font: 800 calc(var(--u) * 38) / 1 "Bricolage Grotesque", sans-serif; color: var(--ink); }
     .nb-pg > small { color: var(--muted); font: calc(var(--u) * 10.5) "JetBrains Mono", monospace; }
     .nb-slots-row { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 2px; }
-    .nb-slots-row i { height: 22px; border-radius: 3px; background: var(--blue); transition: background-color .3s, opacity .3s; }
+    .nb-slots-row i { height: 22px; border-radius: 3px; background: var(--blue); transition: background-color 1.2s cubic-bezier(.45, 0, .55, 1), opacity 1.1s ease; }
     .nb-slots.mini .nb-slots-row { gap: 1px; margin-top: calc(var(--u) * 6); }
     .nb-slots.mini .nb-slots-row i { height: calc(var(--u) * 26); border-radius: 1px; }
     .nb-slots-row i.lag { background: repeating-linear-gradient(135deg, var(--blue) 0 3px, color-mix(in srgb, var(--blue) 35%, transparent) 3px 6px); }
@@ -2501,9 +2468,9 @@
 
     /* cartões curtos de cada bloco do fluxo do NitBike */
     .nb-legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: .5rem; margin: .9rem 0 0; padding: 0; list-style: none; }
-    .nb-legend button { display: flex; align-items: flex-start; gap: .55rem; width: 100%; height: 100%; padding: .55rem .65rem; border: 2px solid color-mix(in srgb, var(--line) 22%, transparent); border-radius: 12px; background: var(--paper); color: var(--ink); text-align: left; transition: border-color .25s, background-color .25s, transform .15s; }
+    .nb-legend button { display: flex; align-items: flex-start; gap: .55rem; width: 100%; height: 100%; padding: .55rem .65rem; border: 2px solid color-mix(in srgb, var(--line) 22%, transparent); border-radius: 12px; background: var(--paper); color: var(--ink); text-align: left; transition: border-color .9s ease, background-color .9s ease, transform .15s; }
     .nb-legend button:hover { transform: translateY(-1px); border-color: var(--line); }
-    .nb-legend-n { flex: none; display: grid; place-items: center; width: 1.45rem; height: 1.45rem; border-radius: 50%; background: var(--ink); color: var(--paper); font: 800 .74rem "Bricolage Grotesque", sans-serif; transition: background-color .25s; }
+    .nb-legend-n { flex: none; display: grid; place-items: center; width: 1.45rem; height: 1.45rem; border-radius: 50%; background: var(--ink); color: var(--paper); font: 800 .74rem "Bricolage Grotesque", sans-serif; transition: background-color .9s ease, color .9s ease; }
     .nb-legend b { display: block; font-size: .82rem; line-height: 1.2; }
     .nb-legend small { display: block; margin-top: .15rem; color: var(--muted); font-size: .74rem; line-height: 1.4; }
     .nb-legend li.on button { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, var(--paper)); }
@@ -2520,7 +2487,7 @@
     [data-bs-theme="dark"] .nb-legend li.on .nb-legend-n { background: var(--neon-m); color: #05040f; }
 
     /* linha do tempo deslizante dos snapshots e a conta de entradas e saídas */
-    .nb-tl { position: relative; padding-bottom: 1.1rem; }
+    .nb-tl { position: relative; padding-bottom: 2.2rem; }
     .nb-tl-track { position: relative; height: 54px; overflow: hidden; border-radius: 8px; background: color-mix(in srgb, var(--line) 5%, transparent); }
     .nb-tl-track > i { position: absolute; top: 20px; height: 24px; box-sizing: border-box; border: 1px solid var(--paper); border-radius: 4px; background: var(--blue); animation: slotIn .6s cubic-bezier(.2, .8, .2, 1); transition: opacity .9s ease, transform .9s ease, background-color .5s; }
     .nb-tl-track > i.lag { background: repeating-linear-gradient(135deg, var(--blue) 0 3px, color-mix(in srgb, var(--blue) 35%, transparent) 3px 6px); }
@@ -2539,7 +2506,13 @@
     .nb-tl-lag em { left: 2px; }
     .nb-tl-now { position: absolute; top: 0; bottom: 0; width: 0; border-left: 2px solid var(--accent); }
     .nb-tl-now em { top: auto !important; bottom: 2px; left: 4px !important; color: var(--accent) !important; }
-    .nb-tl-ax { position: absolute; left: 0; right: 0; bottom: 0; height: 1rem; }
+    .nb-tl-ax { position: absolute; left: 0; right: 0; bottom: 1.1rem; height: 1rem; }
+    .nb-tl-reads { position: absolute; left: 0; right: 0; bottom: 0; height: 1rem; }
+    .nb-tl-reads span { position: absolute; transform: translateX(-50%); padding: 0 .3rem; border-radius: 999px; background: color-mix(in srgb, var(--blue) 12%, transparent); color: var(--blue); font: 700 .56rem "JetBrains Mono", monospace; white-space: nowrap; transition: left .3s linear; }
+    .nb-tl-reads span.r5 { background: color-mix(in srgb, var(--ink) 10%, transparent); color: var(--muted); }
+    .nb-tl-reads span.r0 { background: none; border: 1px dashed color-mix(in srgb, var(--blue) 50%, transparent); }
+    [data-bs-theme="dark"] .nb-tl-reads span { border-radius: 2px; background: rgba(0, 229, 255, .12); color: var(--neon-c); }
+    [data-bs-theme="dark"] .nb-tl-reads span.r5 { background: rgba(255, 255, 255, .08); color: rgba(255, 255, 255, .6); }
     .nb-tl-ax span { position: absolute; transform: translateX(-50%); color: var(--muted); font: .6rem "JetBrains Mono", monospace; white-space: nowrap; }
     @keyframes fadeOut { to { opacity: 0; } }
     .nb-slots-key i.prev { background: none; border: 1.5px dashed color-mix(in srgb, var(--ink) 50%, transparent); }
@@ -2564,6 +2537,53 @@
     [data-bs-theme="dark"] .nb-tl-win em { color: #fff; }
     [data-bs-theme="dark"] .nb-tl-old { background: rgba(5, 4, 15, .5); }
     @media (prefers-reduced-motion: reduce) { .nb-tl-track > i { animation: none; transition: none; } }
+
+    /* quantos snapshots há no banco e de que parte cada um é */
+    .nb-count { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem; }
+    .nb-count span { display: grid; padding: .3rem .55rem; border: 2px solid var(--line); border-radius: 10px; background: var(--card); line-height: 1.1; }
+    .nb-count b { font: 800 1.05rem "JetBrains Mono", monospace; }
+    .nb-count small { color: var(--muted); font-size: .66rem; }
+    .nb-count span.old { border-color: color-mix(in srgb, var(--blue) 35%, transparent); }
+    .nb-count span.win { border-color: var(--blue); }
+    .nb-count span.win b { color: var(--blue); }
+    .nb-count span.lag { border-style: dashed; border-color: var(--blue); }
+    .nb-count i { color: var(--muted); font: 800 .9rem "JetBrains Mono", monospace; font-style: normal; }
+    [data-bs-theme="dark"] .nb-count span { border: 1px solid rgba(0, 229, 255, .3); border-radius: 3px; background: #05040f; }
+    [data-bs-theme="dark"] .nb-count span.win b { color: var(--neon-c); }
+
+    /* mini Gêmeo: ferramentas do mapa em grupos de mesma altura e a faixa de simulação */
+    .map-tools { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem; margin-top: .7rem; }
+    .seg { display: inline-flex; align-items: stretch; gap: 2px; height: 36px; padding: 3px; border: 2px solid var(--line); border-radius: 11px; background: var(--card); box-shadow: 2px 2px 0 var(--shadow-c); }
+    .seg button { display: inline-flex; align-items: center; gap: .4rem; padding: 0 .7rem; border: 0; border-radius: 7px; background: transparent; color: var(--muted); font: 700 .76rem "DM Sans", sans-serif; white-space: nowrap; transition: background-color .25s, color .25s; }
+    .seg button:hover { color: var(--ink); background: color-mix(in srgb, var(--line) 6%, transparent); }
+    .seg button.on { background: color-mix(in srgb, var(--accent) 12%, transparent); color: var(--ink); }
+    .map-layers button i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; opacity: .35; transition: opacity .25s; }
+    .map-layers button.on i { opacity: 1; }
+    .map-tools .clock-ctl { margin-left: 0; height: 36px; padding: 3px; border-radius: 11px; box-shadow: 2px 2px 0 var(--shadow-c); }
+    .map-tools .clock-ctl small { display: inline-flex; align-items: center; gap: .3rem; }
+    .map-tools .clock-ctl button { min-width: 2.2rem; padding: 0 .5rem; font-family: "JetBrains Mono", monospace; }
+    .map-tools .clock-ctl button.on { background: var(--ink); color: var(--paper); }
+    @media (max-width: 575.98px) { .map-tools { gap: .4rem; } .seg { height: 34px; max-width: 100%; } .seg.map-layers { flex-wrap: wrap; height: auto; width: 100%; } .map-layers button { height: 28px; padding: 0 .55rem; } }
+
+    .sim-row { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: .9rem; margin-top: 1.1rem; padding: .8rem 1rem; overflow: hidden; border: 2px solid var(--line); border-radius: 14px; background: var(--paper); transition: border-color .5s, background-color .5s; }
+    .sim-row-ic { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 11px; background: rgba(229, 72, 77, .12); color: #e5484d; font-size: 1.15rem; transition: background-color .5s, color .5s; }
+    .sim-row-tx { display: grid; gap: .1rem; min-width: 0; }
+    .sim-row-tx small { color: var(--muted); font: 700 .64rem "JetBrains Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
+    .sim-row-tx b { font-size: .95rem; }
+    .sim-row-tx span { color: var(--muted); font-size: .8rem; line-height: 1.4; }
+    .sim-row-btn { --bs-btn-padding-y: .55rem; --bs-btn-padding-x: 1rem; font-size: .84rem; white-space: nowrap; }
+    .sim-row.on { border-color: #e5484d; background: color-mix(in srgb, #e5484d 6%, var(--paper)); }
+    .sim-row.on .sim-row-ic { background: #e5484d; color: #fff; }
+    .sim-row-prog { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: #e5484d; transform-origin: left; transition: transform 1s linear; }
+    @media (max-width: 575.98px) { .sim-row { grid-template-columns: auto minmax(0, 1fr); } .sim-row-btn { grid-column: 1 / -1; justify-content: center; } }
+
+    [data-bs-theme="dark"] .seg { border: 1px solid rgba(0, 229, 255, .4); border-radius: 3px; background: transparent; box-shadow: none; }
+    [data-bs-theme="dark"] .seg button { border-radius: 2px; color: rgba(255, 255, 255, .6); }
+    [data-bs-theme="dark"] .seg button.on { background: rgba(0, 229, 255, .14); color: #fff; }
+    [data-bs-theme="dark"] .map-tools .clock-ctl button.on { background: var(--neon-c); color: #05040f; }
+    [data-bs-theme="dark"] .sim-row { border: 1px solid rgba(0, 229, 255, .3); border-radius: 3px; background: #05040f; }
+    [data-bs-theme="dark"] .sim-row.on { border-color: #e5484d; background: rgba(229, 72, 77, .08); }
+    [data-bs-theme="dark"] .sim-row-ic { border-radius: 2px; }
 </style>
 </head>
 <body>
@@ -5181,7 +5201,9 @@
     );
 
     // Bolinha de luz com rastro, andando por um percurso.
-    function FxPacket({ pts, f, kind = "" }) {
+    const fxEase = (x) => (x <= 0 ? 0 : x >= 1 ? 1 : x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2);
+    function FxPacket({ pts, f: raw, kind = "" }) {
+      const f = fxEase(raw);
       const [x, y] = polyAt(pts, f);
       return (
         <g className={`fx-pkt ${kind}`}>
@@ -5422,12 +5444,6 @@
     const CITY_EVENTS = [
       { id: "acidente", label: "Acidente", icon: "bi-exclamation-triangle", dur: 150, tone: "acc", fx: "trecho a 3 km/h",
         what: "Vira um alerta e um trecho a 3 km/h: quem está a até 150 m entra em alerta e quem pega o trecho fica lento." },
-      { id: "nitbike", label: "API NitBike fora", icon: "bi-plug", dur: 120, tone: "fail", fx: "a coleta falha",
-        what: "Sem nova tentativa: cada snapshot fica faltando e a camada para no último minuto publicado." },
-      { id: "waze", label: "Waze fora", icon: "bi-wifi-off", dur: 150, tone: "fail", fx: "a leitura congela",
-        what: "O Waze Live tenta de novo 1 min depois. Sem resposta, a lentidão e os alertas ficam na última leitura." },
-      { id: "cruzamento", label: "Cruzamento fora", icon: "bi-hdd-network", dur: 90, tone: "fail", fx: "ônibus sem estado",
-        what: "Os ônibus guardam o último estado enquanto o cache de 60 s vale. Depois, ficam sem estado." },
     ];
     const GAUGE_DROPS = [-3, 0.3, 3.3, -1.5, 1.8, 4.4, -4.2];
     const countBus = (shown) => {
@@ -5547,16 +5563,16 @@
 
     const NB_PIPE = {
       wide: {
-        w: 1100, h: 272, api: [16, 100, 160, 70], coleta: [222, 24, 190, 70], total: [222, 176, 190, 70],
-        pg: [458, 24, 200, 222], pub: [704, 24, 200, 222], agol: [950, 24, 134, 92], gem: [950, 154, 134, 92],
+        w: 1100, h: 272, api: [10, 100, 166, 70], coleta: [206, 24, 166, 70], total: [206, 176, 166, 70],
+        pg: [404, 24, 236, 222], pub: [672, 24, 188, 222], agol: [892, 24, 192, 92], gem: [892, 154, 192, 92],
         p: {
-          api: [[96, 135], [199, 135], [199, 59], [317, 59]], coleta: [[317, 59], [558, 59]],
-          total: [[96, 135], [199, 135], [199, 211], [317, 211]], sub: [[317, 211], [435, 211], [435, 262], [681, 262], [681, 200], [804, 200]],
-          pico: [[317, 211], [435, 211], [435, 262], [927, 262], [927, 90], [950, 90]],
-          ler: [[558, 112], [804, 112]], clear: [[804, 160], [558, 160]], camada: [[804, 70], [1017, 70]], gemeo: [[1017, 70], [1017, 200]],
+          api: [[93, 135], [191, 135], [191, 59], [289, 59]], coleta: [[289, 59], [522, 59]],
+          total: [[93, 135], [191, 135], [191, 211], [289, 211]], sub: [[289, 211], [388, 211], [388, 262], [656, 262], [656, 200], [766, 200]],
+          pico: [[289, 211], [388, 211], [388, 262], [876, 262], [876, 90], [892, 90]],
+          ler: [[522, 112], [766, 112]], clear: [[766, 160], [522, 160]], camada: [[766, 70], [988, 70]], gemeo: [[988, 70], [988, 200]],
         },
         // onde fica a etiqueta do que passa em cada linha (no vão entre as caixas)
-        tag: { api: [199, 97], coleta: [435, 59], total: [199, 173], sub: [560, 262], pico: [810, 262], ler: [681, 112], clear: [681, 160], camada: [927, 70], gemeo: [1017, 135] },
+        tag: { api: [191, 97], coleta: [388, 59], total: [191, 173], sub: [520, 262], pico: [766, 262], ler: [656, 112], clear: [656, 160], camada: [876, 70], gemeo: [988, 135] },
       },
       narrow: {
         w: 340, h: 676, api: [10, 10, 320, 62], coleta: [10, 102, 155, 66], total: [175, 102, 155, 66],
@@ -5683,7 +5699,7 @@
       }
       return (
         <div className={`nb-slots ${mini ? "mini" : ""} ${reading ? "reading" : ""} ${clearing ? "clearing" : ""}`} aria-hidden={mini ? "true" : undefined}>
-          <div className="nb-slots-row">{slots.map(([t, st]) => <i key={t} className={st} />)}</div>
+          <div className="nb-slots-row">{slots.map(([t, st], i) => <i key={t} className={st} style={{ transitionDelay: `${i * 18}ms` }} />)}</div>
           {!mini && <div className="nb-slots-ax">{slots.map(([t]) => <span key={t}>{t % 60 === 0 ? hhmm(t) : ""}</span>)}</div>}
         </div>
       );
@@ -5707,13 +5723,18 @@
       for (let t = Math.ceil(Math.max(start, first) / NB_SNAP) * NB_SNAP; t <= sim.t; t += NB_SNAP) if (!have.has(t)) miss.push(t);
       const ticks = [];
       for (let t = Math.ceil(start / 60) * 60; t <= end; t += 60) ticks.push(t);
+      // a última janela já lida termina em lastCut; o minuto m esteve em toda janela com fim entre m + 60 e m + 300
+      const lastCut = sim.pub ? sim.pub.to : null;
+      const reads = (m) => (lastCut === null || lastCut < m + 60 ? 0 : Math.min(5, Math.floor((lastCut - m - 60) / 60) + 1));
+      const mins = [];
+      for (let m = Math.floor(start / 60) * 60; m < sim.t; m += 60) if (m + 60 > start && sim.snaps.some((c) => c.t >= m && c.t < m + 60)) mins.push(m);
       return (
         <div className={`nb-tl ${reading ? "reading" : ""} ${clearing ? "clearing" : ""}`}>
           <div className="nb-tl-track">
             {prevOn && <span className="nb-tl-win prev" style={{ left: `${X(anim.current.prev)}%`, width: `${W(NB_WINDOW)}%` }} />}
             <span className="nb-tl-win" style={{ left: `${X(from)}%`, width: `${W(NB_WINDOW)}%` }}><em>janela · 5 min</em></span>
             <span className="nb-tl-lag" style={{ left: `${X(from + NB_WINDOW)}%`, width: `${W(NB_LAG)}%` }}><em>+30 s</em></span>
-            {from > start && <span className="nb-tl-old" style={{ left: 0, width: `${X(from)}%` }}><em>{clearing ? "apagando" : "sai na próxima"}</em></span>}
+            {from > start && <span className="nb-tl-old" style={{ left: 0, width: `${X(from)}%` }}><em>{clearing ? "apagando" : "fora da janela"}</em></span>}
             {sim.snaps.filter((c) => c.t > start - NB_SNAP).map((c) => (
               <i key={c.t} className={c.t < cur.from ? `old ${clearing ? "dying" : ""}` : c.t >= cur.to ? "lag" : "win"} style={{ left: `${X(c.t)}%`, width: `${W(NB_SNAP)}%` }} />
             ))}
@@ -5721,9 +5742,18 @@
             <span className="nb-tl-now" style={{ left: `${X(sim.t + NB_SNAP)}%` }}><em>agora</em></span>
           </div>
           <div className="nb-tl-ax">{ticks.map((t) => <span key={t} style={{ left: `${X(t)}%` }}>{hhmm(t)}</span>)}</div>
+          <div className="nb-tl-reads" aria-hidden="true">
+            {mins.map((m) => { const r = reads(m); return <span key={m} className={`r${r}`} style={{ left: `${X(Math.max(start, m) + (Math.min(m + 60, sim.t) - Math.max(start, m)) / 2)}%` }}>{r === 5 ? "lido 5× ✓" : `lido ${r}×`}</span>; })}
+          </div>
         </div>
       );
     }
+
+    const nbParts = (sim, cur) => {
+      let old = 0, win = 0, lag = 0;
+      sim.snaps.forEach((c) => { if (c.t < cur.from) old++; else if (c.t >= cur.to) lag++; else win++; });
+      return { old, win, lag, n: sim.snaps.length };
+    };
 
     function NbSnaps({ sim, reading, clearing, pubOn }) {
       // durante a publicação, a janela é a dela; depois, a da próxima (que começa 1 min depois)
@@ -5735,12 +5765,23 @@
             <small className="nb-cap">snapshots no PostgreSQL</small>
             <span>{pubOn ? "publicação lendo" : "próxima publicação lê"} <b>{hhmmss(w.from)} → {hhmmss(w.to)}</b></span>
           </div>
-          <p className="nb-snaps-tx">Cada quadrado é um snapshot das 65 estações, de 10 em 10 s. A cada minuto a janela anda 1 min: 4 dos 5 minutos se repetem, o minuto mais antigo é apagado e o novo entra. Os 30 s mais recentes esperam a próxima.</p>
+          <p className="nb-snaps-tx">Cada quadrado é um snapshot das 65 estações, de 10 em 10 s: 6 por minuto, 30 na janela. Cada minuto é lido por 5 publicações seguidas; depois da 5ª, sai da janela e a limpeza seguinte o apaga, porque ela só apaga o que ficou antes da janela que leu. Os 30 s mais recentes esperam a próxima.</p>
+          {(() => {
+            const c = nbParts(sim, w);
+            return (
+              <div className="nb-count" aria-label={`${c.n} snapshots no banco: ${c.old} saem na limpeza, ${c.win} na janela, ${c.lag} dos últimos 30 segundos`}>
+                <span className="tot"><b>{c.n}</b><small>no banco</small></span><i>=</i>
+                <span className="old"><b>{c.old}</b><small>já lidos 5×, saem</small></span><i>+</i>
+                <span className="win"><b>{c.win}</b><small>na janela</small></span><i>+</i>
+                <span className="lag"><b>{c.lag}</b><small>últimos 30 s</small></span>
+              </div>
+            );
+          })()}
           <NbTimeline sim={sim} cur={w} reading={reading} clearing={clearing} />
           <div className="nb-slots-key">
             <span><i className="win" /> na janela</span>
             <span><i className="lag" /> últimos 30 s, ficam para a próxima</span>
-            <span><i className="old" /> antes da janela, apagados na limpeza</span>
+            <span><i className="old" /> já lidos 5×, apagados na limpeza</span>
             <span><i className="prev" /> janela anterior</span>
             <span><i className="miss" /> faltou</span>
           </div>
@@ -5807,6 +5848,7 @@
       const stepOn = pubFail ? -1 : pp < T.total ? 0 : pp < T.load ? 1 : pp < T.calc ? 2 : pp < T.layer ? 3 : pp < T.clear ? 4 : pp < T.gem ? 5 : pp < T.end + 1.5 ? 6 : -1;
       const w = sim.next || sim.pub;
       const reading = !pubFail && between(T.load, T.calc), clearing = !pubFail && between(T.clear, T.gem);
+      const glow = !pubFail && between(T.load, T.layer);
       const pick = (k) => () => setInfo((cur) => (cur === k ? "ler" : k));
       const st = (busy, fail) => (fail ? "fail" : busy ? "busy" : "");
       // quem está trabalhando (A) ou falhou (F) agora: acende o bloco e o cartão dele
@@ -5822,12 +5864,12 @@
           <FxCanvas L={L} cls={narrow ? "narrow" : ""} label="Pipeline do NitBike: a coleta grava snapshots no PostgreSQL a cada 10 s; a publicação, a cada minuto, soma o total e o pico, lê a janela, calcula, atualiza a camada do ArcGIS Online e apaga os snapshots antigos; o Gêmeo lê a camada" lines={lines} packets={pk} tags={tags}>
             <FxBox L={L} r={L.api} icon="bi-broadcast" title="API NitBike" sub="bikes e vagas" sel={info === "api"} onPick={pick("api")} state={st(A.api, F.api)} />
             <FxBox L={L} r={L.coleta} n={1} icon="bi-camera" title="Coleta" sub="a cada 10 s" sel={info === "coleta"} onPick={pick("coleta")} state={st(A.coleta, F.coleta)} />
-            <FxBox L={L} r={L.total} icon="bi-calculator" title="Total e pico" sub={pico ? `subflow · pico ${pico}` : "subflow"} sel={info === "total"} onPick={pick("total")} state={st(A.total, F.total)} />
+            <FxBox L={L} r={L.total} icon="bi-calculator" title="Total e pico" sub={pico ? `pico ${pico}` : "subflow"} sel={info === "total"} onPick={pick("total")} state={st(A.total, F.total)} />
             <FxBox L={L} r={L.pg} n={2} icon="bi-database" title="PostgreSQL" sub={`${sim.snaps.length} snapshots`} sel={info === "pg"} onPick={pick("pg")} state={st(A.pg)}>
               <div className="nb-pg">
                 <b>{sim.snaps.length}</b>
                 <small>snapshots · {(sim.snaps.length * NB_REAL.length).toLocaleString("pt-BR")} linhas</small>
-                <NbSlots sim={sim} mini reading={reading} clearing={clearing} />
+                <NbSlots sim={sim} mini reading={glow} clearing={clearing} />
               </div>
             </FxBox>
             <FxBox L={L} r={L.pub} n={3} icon="bi-arrow-repeat" title="Publicação" sub="a cada 1 min" sel={info === "pub"} onPick={pick("pub")} state={st(A.pub, F.pub)}>
@@ -5855,7 +5897,7 @@
             </div>
           )}
           <div className="nb-ops">
-            <FlowLog title="logs · nitbike" clock={hhmmss(sim.t)} lines={sim.log.slice(-9)} />
+            <FlowLog title="logs · nitbike" clock={hhmmss(sim.t)} lines={sim.log.slice(-7)} />
             <NbSnaps sim={sim} reading={reading} clearing={clearing} pubOn={!pubFail && pp < T.end} />
           </div>
           <NbPeak N={N} />
@@ -5907,7 +5949,7 @@
       const [show, setShow] = useState({ estacoes: true, onibus: true, waze: true, chuva: true, cameras: false });
       const [paused, setPaused] = useState(false);
       // 1× é o tempo real (ciclo do cruzamento a cada 30 s, snapshot a cada 10 s); 5× e 10× aceleram tudo junto
-      const [speed, setSpeed] = useState(10);
+      const [speed, setSpeed] = useState(5);
       const [sel, setSel] = useState(null);
       const [panel, setPanel] = useState("agora");
       const [, setTick] = useState(0);
@@ -6034,32 +6076,9 @@
       );
       const hint = (txt) => <p className="live-hint"><i className="bi bi-hand-index" /> {txt}</p>;
       // segundos simulados desde o início do evento e até o próximo ciclo do cruzamento
-      const simSince = (id) => (base.current[id] ? ((now - base.current[id].at) * speed) / 1000 : 0);
       const nextCycle = Math.max(0, Math.ceil((B.next - B.real) * speed));
-      const breakOf = (id) => {
-        if (id === "nitbike") return [
-          ["API", "bi-broadcast", "x", "não responde"],
-          ["Coleta", "bi-camera", "fail", `${(nb.current.missed || 0) - ((base.current[id] || {}).missed || 0)} perdidos`],
-          ["Publicação", "bi-arrow-repeat", "fail", "sem nova tentativa"],
-          ["Camada", "bi-layers", "stale", `parada às ${N && N.at ? clockOf(N.at) : "—"}`],
-        ];
-        if (id === "waze") {
-          const el = simSince(id);
-          return [
-            ["Waze", "bi-cone-striped", "x", "feed fora"],
-            ["Waze Live", "bi-arrow-repeat", el < 60 ? "retry" : "fail", el < 60 ? `nova tentativa em ${Math.ceil(60 - el)} s` : "a nova tentativa falhou"],
-            ["Camadas", "bi-layers", "stale", `leitura de ${alertsAt ? clockOf(alertsAt) : "—"}`],
-          ];
-        }
-        const cache = Math.max(0, Math.ceil((60000 / speed - (now - B.cycleAt)) * speed / 1000));
-        return [
-          ["Ônibus", "bi-bus-front", "ok", "posições chegando"],
-          ["Cruzamento", "bi-hdd-network", "x", "fora do ar"],
-          ["Mapa", "bi-map", cache > 0 ? "retry" : "stale", cache > 0 ? `cache ${cache} s` : "sem estado"],
-        ];
-      };
-      const PANELS = [["agora", "Agora", "bi-broadcast"], ["onibus", "Ônibus", "bi-bus-front"], ["nitbike", "NitBike", "bi-bicycle"], ["falhas", "Eventos", "bi-lightning-charge"]];
-      const CHIPS = [["estacoes", "Estações", "lg-st"], ["onibus", "Ônibus", "lg-bus st-normal"], ["waze", "Waze · lento e alertas", "lg-jam"], ["chuva", "Chuva", "lg-rain"], ["cameras", "Câmeras", "lg-cam"]];
+      const PANELS = [["agora", "Agora", "bi-broadcast"], ["onibus", "Ônibus", "bi-bus-front"], ["nitbike", "NitBike", "bi-bicycle"], ["falhas", "Acidente", "bi-exclamation-triangle"]];
+      const CHIPS = [["estacoes", "Estações", "lg-st"], ["onibus", "Ônibus", "lg-bus st-normal"], ["waze", "Waze", "lg-jam"], ["chuva", "Chuva", "lg-rain"], ["cameras", "Câmeras", "lg-cam"]];
       const secLeft = (id) => Math.ceil(((ev.current[id] || 0) - now) / 1000);
 
       return (
@@ -6080,7 +6099,10 @@
                   {show.waze && slowJams.map((j, k) => j.pts.some((p) => inCityView(p, 20)) && (
                     <polyline key={`j${k}`} points={ptsAttr(j.pts)} className={`city-jam l${Math.min(5, Math.max(1, j.level))} ${j.kmh !== null && j.kmh < CROSS.slow ? "slow" : ""} ${j.sim ? "sim" : ""}`} />
                   ))}
-                  {show.waze && alerts.map((a, k) => inCityView(a.pt) && (a.sim || (sel && sel.kind === "alert" && sel.id === k)) && <circle key={`ar${k}`} cx={a.pt[0]} cy={a.pt[1]} r={CROSS.alert} className="city-alert-r" />)}
+                  {/* o raio de 150 m de cada alerta que alcança uma rota fica sempre à mostra; o clicado e o simulado se destacam */}
+                  {show.waze && alertIdx.map((k) => alerts[k] && inCityView(alerts[k].pt, CROSS.alert) && (
+                    <circle key={`ar${k}`} cx={alerts[k].pt[0]} cy={alerts[k].pt[1]} r={CROSS.alert} className={`city-alert-r ${alerts[k].sim ? "sim" : ""} ${sel && sel.kind === "alert" && sel.id === k ? "sel" : ""}`} />
+                  ))}
                   {on("acidente") && simAlert.current && !still && [0, 1].map((k) => <circle key={`rp${k}`} cx={simAlert.current.alert.pt[0]} cy={simAlert.current.alert.pt[1]} r={CROSS.alert} className="city-ripple" style={{ animationDelay: `${k * 1.1}s` }} />)}
                   {show.onibus && BUS_ROUTES.map((r) => <polyline key={`l${r[0]}`} points={ptsAttr(r[2])} className="city-busline" />)}
                   {show.estacoes && NB_REAL.map(([n, name, x, y, cap]) => {
@@ -6133,28 +6155,6 @@
                     </g>
                   ))}
                 </svg>
-                  {activeEv.some((e) => e.tone === "fail") && (
-                    <div className="city-breaks">
-                      {activeEv.filter((e) => e.tone === "fail").map((e) => {
-                        const nodes = breakOf(e.id);
-                        const cut = nodes.findIndex((nd) => nd[2] === "x");
-                        return (
-                          <div key={e.id} className="city-break">
-                            <div className="brk-head"><b>{e.label}</b><span>{secLeft(e.id)} s</span></div>
-                            <div className="brk-path">
-                              {nodes.map(([name, icon, st, sub], i) => (
-                                <React.Fragment key={name}>
-                                  {i > 0 && <span className={`brk-link ${i <= cut ? "ok" : "cut"} ${i === cut + 1 ? "first" : ""}`} aria-hidden="true">{i === cut + 1 && <i className="bi bi-x-lg" />}</span>}
-                                  <span className={`brk-node ${st}`}><i className={`bi ${st === "x" ? "bi-x-octagon-fill" : icon}`} /><span><b>{name}</b><small>{sub}</small></span></span>
-                                </React.Fragment>
-                              ))}
-                            </div>
-                            <button type="button" className="brk-x" onClick={() => fire(e.id)} aria-label={`Encerrar ${e.label}`}><i className="bi bi-x-lg" /></button>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
                   {activeEv.some((e) => e.tone !== "fail") && (
                     <div className="city-banner">
                       {activeEv.filter((e) => e.tone !== "fail").map((e) => (
@@ -6165,12 +6165,14 @@
                     </div>
                   )}
                 </div>
-                <div className="map-chips" role="group" aria-label="Camadas do mapa">
-                  {CHIPS.map(([k, label, sym]) => (
-                    <button key={k} type="button" className={show[k] ? "on" : ""} aria-pressed={show[k]} onClick={() => toggle(k)}><i className={sym} /> {label}</button>
-                  ))}
+                <div className="map-tools">
+                  <div className="seg map-layers" role="group" aria-label="Camadas do mapa">
+                    {CHIPS.map(([k, label, sym]) => (
+                      <button key={k} type="button" className={show[k] ? "on" : ""} aria-pressed={show[k]} onClick={() => toggle(k)}><i className={sym} /> {label}</button>
+                    ))}
+                  </div>
                   {!still && (
-                    <div className="clock-ctl" role="group" aria-label="Relógio da simulação">
+                    <div className="seg clock-ctl" role="group" aria-label="Relógio da simulação">
                       <small><i className="bi bi-clock" /> relógio</small>
                       <button type="button" className={paused ? "on" : ""} aria-pressed={paused} onClick={() => setPaused((p) => !p)} aria-label={paused ? "Continuar" : "Pausar"} title={paused ? "Continuar" : "Pausar"}>
                         <i className={`bi ${paused ? "bi-play-fill" : "bi-pause-fill"}`} />
@@ -6271,31 +6273,33 @@
                           ))}
                         </div>
                       </div>
-                    )) : hint("Escolha uma simulação embaixo do mapa. O efeito aparece aqui e no mapa.")}
+                    )) : hint("Simule um acidente na faixa embaixo do mapa: um alerta e um trecho parado numa rota. O antes e depois dos ônibus aparece aqui.")}
                     <small className="nb-cap">registro</small>
                     <ul className="city-log" aria-live="polite">
-                      {log.current.length ? log.current.map((l) => <li key={l.id} className={l.kind}><b>{clockOf(l.at)}</b> {l.msg}</li>) : <li className="muted">Nenhum evento ainda.</li>}
+                      {log.current.length ? log.current.map((l) => <li key={l.id} className={l.kind}><b>{clockOf(l.at)}</b> {l.msg}</li>) : <li className="muted">Nenhum acidente simulado ainda.</li>}
                     </ul>
                   </div>
                 )}
               </div>
             </div>
-            <div className="sim-dock">
-              <div className="sim-dock-head"><small><i className="bi bi-lightning-charge" /> simular</small><span>por cima dos dados reais · clique de novo para encerrar</span></div>
-              <div className="sim-tiles">
-                {CITY_EVENTS.map((e) => {
-                  const left = secLeft(e.id), act = left > 0;
-                  return (
-                    <button key={e.id} type="button" className={`sim-tile t-${e.tone} ${act ? "on" : ""}`} aria-pressed={act} disabled={still} onClick={() => fire(e.id)}>
-                      <span className="sim-ic"><i className={`bi ${e.icon}`} /></span>
-                      <span className="sim-tx"><b>{e.label}</b><small>{act ? `${left} s · encerrar` : e.fx}</small></span>
-                      {act && <span className="sim-bar" style={{ transform: `scaleX(${left / e.dur})` }} />}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-            <p className="live-note">No mapa, só o que entra no cruzamento: trechos abaixo de 5 km/h, alertas a até 150 m de uma rota e a área de cada pluviômetro (a região mais perto dele). Quando não chove de verdade, uma chuva simulada passa pelos pluviômetros das rotas. Fontes: camadas públicas da Prefeitura de Niterói e rotas da MobNit; ruas do OpenStreetMap. Ônibus (um por linha) e falhas simulados.</p>
+            {(() => {
+              const left = secLeft("acidente"), act = left > 0, ev = CITY_EVENTS[0];
+              return (
+                <div className={`sim-row ${act ? "on" : ""}`}>
+                  <span className="sim-row-ic"><i className="bi bi-exclamation-triangle" /></span>
+                  <div className="sim-row-tx">
+                    <small>simulação por cima dos dados reais</small>
+                    <b>{act ? `Acidente na pista · ${impact("acidente").short}` : "Acidente numa rota de ônibus"}</b>
+                    <span>{act ? "Veja o efeito no mapa e na aba Acidente. O alerta some sozinho ou quando você encerra." : "Vira um alerta e um trecho a 3 km/h: quem está a até 150 m entra em alerta e quem passa no trecho fica lento."}</span>
+                  </div>
+                  <button type="button" className={`btn btn-pop ${act ? "alt" : ""} sim-row-btn`} aria-pressed={act} disabled={still} onClick={() => fire(ev.id)}>
+                    {act ? <><i className="bi bi-stop-fill" /> Encerrar · {left} s</> : <><i className="bi bi-play-fill" /> Simular acidente</>}
+                  </button>
+                  {act && <span className="sim-row-prog" style={{ transform: `scaleX(${left / ev.dur})` }} />}
+                </div>
+              );
+            })()}
+            <p className="live-note">No mapa, só o que entra no cruzamento: trechos abaixo de 5 km/h, alertas a até 150 m de uma rota e a área de cada pluviômetro (a região mais perto dele). Quando não chove de verdade, uma chuva simulada passa pelos pluviômetros das rotas. Fontes: camadas públicas da Prefeitura de Niterói e rotas da MobNit; ruas do OpenStreetMap. Ônibus (um por linha) e acidente simulados.</p>
           </div>
           <LiveChapter n="2" title="Do snapshot à camada" text="Por trás das estações do mapa: um snapshot a cada 10 s, uma publicação por minuto e o pico da madrugada. Siga os números ou clique num bloco." />
           <div className="cardx live-card" ref={pipeRef}>
