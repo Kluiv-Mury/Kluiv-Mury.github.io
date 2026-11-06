@@ -1935,7 +1935,7 @@
     .city-jam.l4 { stroke: #e5484d; }
     .city-jam.l5 { stroke: #a4161a; }
     .city-busline { fill: none; stroke: color-mix(in srgb, var(--ink) 30%, transparent); stroke-width: 1; stroke-dasharray: 1 3; }
-    .city-bus { transition: transform 1.2s cubic-bezier(.4, 0, .2, 1); }
+    .city-bus { transition: none; }
     .city-bus circle { fill: var(--ink); stroke: var(--card); stroke-width: 1.2; }
     .city-bus .bi-glyph { fill: var(--card); }
     .city-rain-mm { font: 700 6.4px "JetBrains Mono", monospace; fill: #2563eb; paint-order: stroke; stroke: var(--paper); stroke-width: 2.4px; }
@@ -2584,6 +2584,18 @@
     [data-bs-theme="dark"] .sim-row { border: 1px solid rgba(0, 229, 255, .3); border-radius: 3px; background: #05040f; }
     [data-bs-theme="dark"] .sim-row.on { border-color: #e5484d; background: rgba(229, 72, 77, .08); }
     [data-bs-theme="dark"] .sim-row-ic { border-radius: 2px; }
+
+    /* fluxograma do NitBike: faixa de cor por papel do bloco e ícone na mesma cor */
+    .fx-box.r-src { --role: #3b82f6; }
+    .fx-box.r-proc { --role: var(--accent); }
+    .fx-box.r-db { --role: #6b5bd6; }
+    .fx-box.r-out { --role: var(--good); }
+    .fx-box[class*="r-"]::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: calc(var(--u) * 4); background: var(--role); opacity: .85; }
+    .fx-box[class*="r-"] .fx-ic { background: color-mix(in srgb, var(--role) 14%, transparent); color: var(--role); transition: background-color .7s, color .7s; }
+    .fx-box[class*="r-"].fail .fx-ic { background: rgba(229, 72, 77, .14); color: #e5484d; }
+    .nb-pipe .fx-canvas:not(.narrow) .fx-box { padding-top: calc(var(--u) * 14); }
+    [data-bs-theme="dark"] .fx-box.r-db { --role: #a78bfa; }
+    [data-bs-theme="dark"] .fx-box.r-src { --role: #60a5fa; }
 </style>
 </head>
 <body>
@@ -7372,8 +7384,9 @@ function useSimLoop(on, step) {
     if (!on) return;
     let raf = 0,
       last = performance.now();
+    // o passo segue o tempo real até 0,5 s por quadro: num computador lento a simulação não fica mais devagar que o relógio
     const loop = now => {
-      stepRef.current(Math.min(0.1, (now - last) / 1000), now);
+      stepRef.current(Math.min(0.5, (now - last) / 1000), now);
       last = now;
       raf = requestAnimationFrame(loop);
     };
@@ -8161,37 +8174,37 @@ function stepNbSim(sim, dtReal, ctx) {
 }
 const NB_PIPE = {
   wide: {
-    w: 1100,
-    h: 272,
-    api: [10, 100, 166, 70],
-    coleta: [206, 24, 166, 70],
-    total: [206, 176, 166, 70],
-    pg: [404, 24, 236, 222],
-    pub: [672, 24, 188, 222],
-    agol: [892, 24, 192, 92],
-    gem: [892, 154, 192, 92],
+    w: 1000,
+    h: 380,
+    api: [20, 24, 210, 80],
+    coleta: [270, 24, 210, 80],
+    total: [270, 184, 210, 80],
+    pg: [520, 24, 210, 200],
+    pub: [770, 24, 210, 200],
+    gem: [520, 264, 210, 80],
+    agol: [770, 264, 210, 80],
     p: {
-      api: [[93, 135], [191, 135], [191, 59], [289, 59]],
-      coleta: [[289, 59], [522, 59]],
-      total: [[93, 135], [191, 135], [191, 211], [289, 211]],
-      sub: [[289, 211], [388, 211], [388, 262], [656, 262], [656, 200], [766, 200]],
-      pico: [[289, 211], [388, 211], [388, 262], [876, 262], [876, 90], [892, 90]],
-      ler: [[522, 112], [766, 112]],
-      clear: [[766, 160], [522, 160]],
-      camada: [[766, 70], [988, 70]],
-      gemeo: [[988, 70], [988, 200]]
+      api: [[125, 64], [375, 64]],
+      coleta: [[375, 64], [625, 64]],
+      total: [[125, 64], [125, 224], [375, 224]],
+      sub: [[375, 224], [500, 224], [500, 244], [750, 244], [750, 184], [875, 184]],
+      pico: [[375, 224], [375, 362], [875, 362], [875, 304]],
+      ler: [[625, 104], [875, 104]],
+      clear: [[875, 150], [625, 150]],
+      camada: [[875, 124], [875, 304]],
+      gemeo: [[875, 304], [625, 304]]
     },
     // onde fica a etiqueta do que passa em cada linha (no vão entre as caixas)
     tag: {
-      api: [191, 97],
-      coleta: [388, 59],
-      total: [191, 173],
-      sub: [520, 262],
-      pico: [766, 262],
-      ler: [656, 112],
-      clear: [656, 160],
-      camada: [876, 70],
-      gemeo: [988, 135]
+      api: [250, 64],
+      coleta: [500, 64],
+      total: [125, 164],
+      sub: [625, 244],
+      pico: [625, 362],
+      ler: [750, 104],
+      clear: [750, 150],
+      camada: [875, 244],
+      gemeo: [750, 304]
     }
   },
   narrow: {
@@ -8780,6 +8793,7 @@ function NbPipeline({
   }, /*#__PURE__*/React.createElement(FxBox, {
     L: L,
     r: L.api,
+    cls: "r-src",
     icon: "bi-broadcast",
     title: "API NitBike",
     sub: "bikes e vagas",
@@ -8790,6 +8804,7 @@ function NbPipeline({
     L: L,
     r: L.coleta,
     n: 1,
+    cls: "r-proc",
     icon: "bi-camera",
     title: "Coleta",
     sub: "a cada 10 s",
@@ -8799,6 +8814,7 @@ function NbPipeline({
   }), /*#__PURE__*/React.createElement(FxBox, {
     L: L,
     r: L.total,
+    cls: "r-proc",
     icon: "bi-calculator",
     title: "Total e pico",
     sub: pico ? `pico ${pico}` : "subflow",
@@ -8809,6 +8825,7 @@ function NbPipeline({
     L: L,
     r: L.pg,
     n: 2,
+    cls: "r-db",
     icon: "bi-database",
     title: "PostgreSQL",
     sub: `${sim.snaps.length} snapshots`,
@@ -8826,6 +8843,7 @@ function NbPipeline({
     L: L,
     r: L.pub,
     n: 3,
+    cls: "r-proc",
     icon: "bi-arrow-repeat",
     title: "Publica\xE7\xE3o",
     sub: "a cada 1 min",
@@ -8841,6 +8859,7 @@ function NbPipeline({
     L: L,
     r: L.agol,
     n: 4,
+    cls: "r-out",
     icon: "bi-layers",
     title: "ArcGIS",
     sub: narrow ? "camada" : "camada NitBike",
@@ -8851,6 +8870,7 @@ function NbPipeline({
     L: L,
     r: L.gem,
     n: 5,
+    cls: "r-out",
     icon: "bi-buildings",
     title: "G\xEAmeo",
     sub: "l\xEA a camada",
@@ -9455,29 +9475,32 @@ function GemeoLive() {
     y: a.pt[1] + 2,
     textAnchor: "middle",
     className: "bi-glyph"
-  }, a.glyph))), show.onibus && B.shown.map(b => /*#__PURE__*/React.createElement("g", {
-    key: b.id,
-    className: `city-bus st-${b.status} ${b.changed ? "changed" : ""} ${sel && sel.kind === "bus" && sel.id === b.id ? "sel" : ""}`,
-    style: {
-      transform: `translate(${b.p[0]}px, ${b.p[1]}px)`
-    },
-    onClick: pickSel({
-      kind: "bus",
-      id: b.id
-    }),
-    role: "button",
-    tabIndex: 0,
-    "aria-label": `Ônibus da linha ${BUS_ROUTES[b.ri][0]}: ${BUS_STATES[b.status]}`
-  }, b.changed && !still && /*#__PURE__*/React.createElement("circle", {
-    r: "4.4",
-    className: "bus-ping"
-  }), /*#__PURE__*/React.createElement("circle", {
-    r: "4.4"
-  }), /*#__PURE__*/React.createElement("text", {
-    y: "1.9",
-    textAnchor: "middle",
-    className: "bi-glyph"
-  }, "")))), activeEv.some(e => e.tone !== "fail") && /*#__PURE__*/React.createElement("div", {
+  }, a.glyph))), show.onibus && B.shown.map((b, k) => {
+    const q = B.buses[k] ? polyAt(BUS_ROUTES[B.buses[k].ri][2], B.buses[k].s / BUS_LEN[B.buses[k].ri]) : b.p;
+    return /*#__PURE__*/React.createElement("g", {
+      key: b.id,
+      className: `city-bus st-${b.status} ${b.changed ? "changed" : ""} ${sel && sel.kind === "bus" && sel.id === b.id ? "sel" : ""}`,
+      style: {
+        transform: `translate(${q[0]}px, ${q[1]}px)`
+      },
+      onClick: pickSel({
+        kind: "bus",
+        id: b.id
+      }),
+      role: "button",
+      tabIndex: 0,
+      "aria-label": `Ônibus da linha ${BUS_ROUTES[b.ri][0]}: ${BUS_STATES[b.status]}`
+    }, b.changed && !still && /*#__PURE__*/React.createElement("circle", {
+      r: "4.4",
+      className: "bus-ping"
+    }), /*#__PURE__*/React.createElement("circle", {
+      r: "4.4"
+    }), /*#__PURE__*/React.createElement("text", {
+      y: "1.9",
+      textAnchor: "middle",
+      className: "bi-glyph"
+    }, ""));
+  })), activeEv.some(e => e.tone !== "fail") && /*#__PURE__*/React.createElement("div", {
     className: "city-banner"
   }, activeEv.filter(e => e.tone !== "fail").map(e => /*#__PURE__*/React.createElement("button", {
     key: e.id,
@@ -9527,6 +9550,7 @@ function GemeoLive() {
     onClick: () => {
       setSpeed(v);
       setPaused(false);
+      bus.current.next = bus.current.real;
     }
   }, v, "\xD7"))))), /*#__PURE__*/React.createElement("div", {
     className: "live-side"
