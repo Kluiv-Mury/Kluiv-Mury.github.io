@@ -137,7 +137,8 @@
       padding-left: calc(var(--route-w) + clamp(16px, 4vw, 56px)) !important;
       padding-right: clamp(16px, 4vw, 56px) !important;
     }
-    @media (max-width: 991.98px) { .main .wrap { padding-left: calc(var(--route-w) + 12px) !important; } }
+    @media (max-width: 991.98px) { .main .wrap { padding-left: calc(var(--route-w) + 12px) !important; } 
+    }
 
     .icon-btn {
       display: inline-grid; place-items: center; flex: none;
@@ -170,14 +171,18 @@
     @media (min-width: 992px) {
       .km-off .offcanvas-body { flex-grow: 1; flex-direction: row; align-items: center; justify-content: flex-end; }
       .nav-cv { margin-left: .8rem; }
+    
     }
-    @media (min-width: 1200px) { .km-links .nav-link .n { display: inline; } }
-    @media (min-width: 992px) and (max-width: 1199.98px) { .km-nav .brand-name { display: none; } }
+    @media (min-width: 1200px) { .km-links .nav-link .n { display: inline; } 
+    }
+    @media (min-width: 992px) and (max-width: 1199.98px) { .km-nav .brand-name { display: none; } 
+    }
     @media (max-width: 991.98px) {
       .km-links .nav-link { padding: .35rem 0 !important; font: 700 1.7rem "Bricolage Grotesque", sans-serif; letter-spacing: -.02em; }
       .km-links .nav-link .n { display: inline; font-size: .8rem; }
       .km-links .nav-link.active::after { left: 0; right: auto; bottom: 0; width: 30px; }
       .nav-cv { align-self: flex-start; margin-top: 1.6rem; }
+    
     }
 
     /* Git graph vertical: o histórico do portfólio acompanha a rolagem */
@@ -225,7 +230,8 @@
     .git-node[data-head="1"] .git-label .h { display: none; }
     .git-node[data-near="1"] .git-label { visibility: hidden; }
     .git-label.is-crowded { display: none; }
-    @media (min-width: 992px) { .git-node[data-head="1"] .git-label.is-crowded { display: inline-flex; } }
+    @media (min-width: 992px) { .git-node[data-head="1"] .git-label.is-crowded { display: inline-flex; } 
+    }
     .git-head {
       position: absolute; left: 0; top: 0; z-index: 2; pointer-events: none;
       width: 32px; height: 32px; border-radius: 50%;
@@ -235,7 +241,8 @@
       will-change: transform;
     }
     .git-head i { display: block; transform: rotate(var(--spin, 0deg)); }
-    @media (max-width: 1199.98px) { .git-label .h { display: none; } }
+    @media (max-width: 1199.98px) { .git-label .h { display: none; } 
+    }
     @media (max-width: 991.98px) {
       .git-track { stroke-width: 2; }
       .git-progress { stroke-width: 4; }
@@ -245,6 +252,7 @@
       .git-node.k-root { width: 16px; height: 16px; border-radius: 4px; font-size: 0; }
       .git-label { display: none; }
       .git-head { width: 22px; height: 22px; font-size: .72rem; border-width: 2px; }
+    
     }
 
     /* Selo girando, colado no cartão de código */
@@ -258,7 +266,8 @@
     .spin-badge svg { position: absolute; inset: 0; width: 100%; height: 100%; animation: spin 16s linear infinite; }
     .spin-badge text { font: 700 10px "JetBrains Mono", monospace; letter-spacing: 1px; text-transform: uppercase; fill: #15130f; }
     .spin-badge i { font-size: 1.35rem; }
-    @media (max-width: 575.98px) { .spin-badge { width: 76px; height: 76px; right: -4px; } .spin-badge i { font-size: 1.05rem; } }
+    @media (max-width: 575.98px) { .spin-badge { width: 76px; height: 76px; right: -4px; } .spin-badge i { font-size: 1.05rem; } 
+    }
 
     /* ================= Botões, chips, cartões ================= */
     .btn-pop {
@@ -292,7 +301,8 @@
     /* ================= Seções ================= */
     .section { position: relative; padding: 96px 0; }
     .section.alt { background: var(--paper-2); border-top: 2px solid var(--line); border-bottom: 2px solid var(--line); }
-    @media (max-width: 767.98px) { .section { padding: 72px 0; } }
+    @media (max-width: 767.98px) { .section { padding: 72px 0; } 
+    }
     .sec-head { display: flex; align-items: flex-end; flex-wrap: wrap; gap: .4rem 1.2rem; margin-bottom: 2.4rem; }
     .sec-num { font: 800 clamp(3.6rem, 8vw, 6.2rem)/.78 "Bricolage Grotesque", sans-serif; letter-spacing: -.05em; color: transparent; -webkit-text-stroke: 2px var(--ink); }
     .sec-kicker {
@@ -341,6 +351,7 @@
     @media (max-width: 767.98px) {
       .stats { grid-template-columns: 1fr; }
       .stat + .stat { border-left: 0; border-top: 2px solid var(--line); }
+    
     }
 
     /* Cartão de código (continua escuro nos dois temas) */
@@ -372,7 +383,8 @@
     }
     .sticker.s1 { top: 0; right: 4px; background: var(--lime); transform: rotate(4deg); }
     .sticker.s2 { bottom: 4px; left: -4px; background: var(--accent); transform: rotate(-3deg); }
-    @media (max-width: 575.98px) { .sticker { font-size: .74rem; } }
+    @media (max-width: 575.98px) { .sticker { font-size: .74rem; } 
+    }
 
     /* Faixa de tecnologias */
     .marquee-wrap { overflow: hidden; padding: 26px 0; }
@@ -434,6 +446,7 @@
     @media (max-width: 575.98px) {
       .city-tabs.nav-underline { --bs-nav-underline-gap: .2rem; }
       .city-tabs .nav-link { padding: .5rem .55rem; font-size: 1rem; }
+    
     }
     /* nos celulares mais estreitos os ícones das abas saem para as três caberem numa linha */
     @media (max-width: 399.98px) { .city-tabs .nav-link > .bi { display: none; } }
@@ -527,7 +540,8 @@
       /* Ao navegar pelo teclado, a camada focada para logo abaixo do projetor, e não atrás dele. */
       .layer-legend .list-group-item { scroll-margin-top: calc(var(--nav-h) + var(--holo-gap) + var(--holo-h) + 12px); }
     }
-    @media (max-width: 991.98px) { .stack-card { --holo-gap: 8px; } }
+    @media (max-width: 991.98px) { .stack-card { --holo-gap: 8px; } 
+    }
     .holo-stage::before {
       content: ""; position: absolute; left: -50%; right: -50%; bottom: -12%; height: 55%; pointer-events: none;
       background-image:
@@ -638,6 +652,7 @@
     @media (max-width: 575.98px) {
       .roadmap .list-group-item { grid-template-columns: auto 1fr; }
       .roadmap-status.badge { grid-column: 2; justify-self: start; }
+    
     }
 
     /* Fluxo */
@@ -741,6 +756,7 @@
       .flow-open-head { grid-area: head; }
       .flow-open .flow-art { grid-area: art; }
       .flow-open p { grid-area: note; }
+    
     }
     .flow-art { overflow: hidden; border-radius: 10px; border: 2px solid var(--line); background: var(--paper); }
     .flow-art svg { display: block; width: 100%; height: auto; }
@@ -799,6 +815,7 @@
       .holo-glyph { font-size: 5rem; }
       .dash-kpi strong, .city-fact strong { font-size: 1.15rem; }
       .stack-card, .dash-card { padding: .9rem; }
+    
     }
 
     /* ================= Experiência (Accordion) ================= */
@@ -920,13 +937,6 @@
     .xp-stage-art .nnode-label { font-size: .74rem; }
     .xp-stage-art .n8n-row::before { top: 29px; left: 30px; right: 30px; }
     .xp-stage-art .npulse { top: 21px; width: 18px; height: 18px; left: -9px; }
-    .xp-stage-art .art-foundry { padding: 1.1rem 1.1rem 1.8rem; }
-    .xp-stage-art .f-q, .xp-stage-art .f-a { font-size: .92rem; }
-    .xp-stage-art .art-foundry { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
-    .xp-stage-art .f-dax { font-size: .7rem; white-space: pre-wrap; overflow-wrap: anywhere; }
-    .xp-stage-art .art-fabric { gap: 1rem; padding: 1.4rem 1.2rem; }
-    .xp-stage-art .fb-row { font-size: .95rem; }
-    .xp-stage-art .fb-bar { height: 16px; }
     .xp-stage-art .art-gemeo { height: 330px; }
     .xp-stage-art .gdot { width: 14px; height: 14px; margin: -7px 0 0 -7px; }
     .xp-stage-art .gdot.hot, .xp-stage-art .gdot.cold { width: 22px; height: 22px; margin: -11px 0 0 -11px; }
@@ -934,13 +944,12 @@
     .xp-stage-art .art-colab { padding: .9rem 1rem .6rem; }
     .xp-stage-art .c-head strong { font-size: 1.7rem; }
     .xp-stage-art .c-chart { height: 260px; }
-    .xp-stage-art .art-git { padding: 1rem; }
-    .xp-stage-art .art-git .gg { min-height: 220px; display: grid; place-items: center; }
     @media (max-width: 991.98px) {
       .xp-scrolly { grid-template-columns: minmax(0, 1fr); }
       .xp-step { opacity: 1; min-height: 0; cursor: default; background: var(--well); border-color: var(--line); box-shadow: 3px 3px 0 var(--shadow-c); }
       .xp-step-num { color: var(--accent); -webkit-text-stroke: 1.5px var(--line); }
       .xp-step-art { margin-top: .9rem; }
+    
     }
     .xp-tabs { margin-bottom: 1.8rem !important; }
     /* 9. Data Lake em Docker */
@@ -976,6 +985,7 @@
       .hl-units { min-width: 0; }
       .hl-unit { padding-inline: .4rem; gap: .3rem; font-size: .64rem; }
       .hl-lake { padding-inline: .55rem; }
+    
     }
     /* no palco */
     .xp-stage-art .art-lake { padding: 1.4rem 1.2rem 1.6rem; }
@@ -1001,7 +1011,8 @@
     .art-term { min-height: 132px; padding: .65rem .8rem; background: #0f1220; font: 500 .74rem/1.75 "JetBrains Mono", monospace; }
     .art-term .al { opacity: 0; line-height: 1.5; padding: .12rem 0; overflow-wrap: anywhere; }
     .art.is-static .al { opacity: 1; }
-    @media (max-width: 575.98px) { .art-term .al-tool { font-size: .64rem; } }
+    @media (max-width: 575.98px) { .art-term .al-tool { font-size: .64rem; } 
+    }
     .al-user { color: #f3ede2; } .al-agent { color: #82aaff; } .al-tool { color: #c792ea; } .al-ok { color: #c3e88d; }
 
     /* 2. log de APIs */
@@ -1034,37 +1045,37 @@
     @media (max-width: 575.98px) {
       .nnode { width: 52px; } .nnode-icon { width: 38px; height: 38px; } .n8n-row::before { top: 18px; } .npulse { top: 11px; }
       .nnode-label { font-size: .54rem; letter-spacing: -.02em; }
+    
     }
 
-    /* 4. agente do Foundry */
-    .art-foundry { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: .8rem; padding: .8rem .8rem 1.4rem; }
-    .f-chat { display: flex; flex-direction: column; gap: .45rem; }
-    .f-step { opacity: 0; }
-    .art.is-static .f-step:not(.f-think), .art.is-static .f-dax div { opacity: 1; }
-    .f-q, .f-a { max-width: 95%; padding: .45rem .65rem; border: 2px solid var(--line); border-radius: 12px; font-size: .82rem; line-height: 1.4; }
-    .f-q { align-self: flex-end; background: var(--lime); color: #15130f; border-bottom-right-radius: 4px; }
-    .f-a { align-self: flex-start; background: var(--paper); border-bottom-left-radius: 4px; }
-    .f-think { display: flex; align-items: center; gap: .35rem; font: 500 .7rem "JetBrains Mono", monospace; color: var(--muted); }
-    .f-think i { color: var(--accent); }
-    .f-dots { display: inline-flex; gap: 3px; }
-    .f-dots span { width: 4px; height: 4px; border-radius: 50%; background: var(--muted); animation: blink 1s steps(1) infinite; }
-    .f-dots span:nth-child(2) { animation-delay: .2s; } .f-dots span:nth-child(3) { animation-delay: .4s; }
-    .f-dax { align-self: start; padding: .55rem .7rem; border-radius: 10px; background: #0f1220; color: #d6deeb; font: 500 .68rem/1.6 "JetBrains Mono", monospace; white-space: pre; overflow: hidden; }
-    .f-dax div { opacity: 0; }
-    .f-dax-label { display: block; margin-bottom: .25rem; color: #8b9bb4; font-size: .6rem; text-transform: uppercase; letter-spacing: .1em; }
-    @media (max-width: 575.98px) { .art-foundry { grid-template-columns: minmax(0, 1fr); } .f-dax { white-space: pre-wrap; overflow-wrap: anywhere; } }
-
     /* 5. pipeline do Fabric */
-    .art-fabric { display: flex; flex-direction: column; gap: .4rem; padding: .7rem .8rem; }
-    .fb-row { display: grid; grid-template-columns: minmax(0, 1fr) 38% auto; align-items: center; gap: .5rem; font-size: .76rem; }
-    .fb-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    @media (max-width: 399.98px) { .fb-label { white-space: normal; } }
-    .fb-bar { height: 10px; overflow: hidden; border: 1.5px solid var(--line); border-radius: 6px; background: var(--paper); }
-    .fb-fill { display: block; width: 0; height: 100%; background: var(--accent); }
-    .fb-ok { color: var(--good); opacity: .2; transition: opacity .25s; }
-    .fb-row.ok .fb-ok { opacity: 1; }
-    .art.is-static .fb-fill { width: 100%; }
-    .art.is-static .fb-ok { opacity: 1; }
+    /* Experiência · card 5 (Fabric): as etapas como mini cards encadeados */
+    .art-fabric.fc { display: flex; flex-direction: column; padding: .8rem .9rem; }
+    .fc-card { position: relative; display: flex; align-items: center; gap: .55rem; padding: .38rem .6rem .38rem .45rem; border: 2px solid var(--line); border-radius: 10px; background: var(--card); box-shadow: 2px 2px 0 var(--shadow-c); transition: border-color .35s, box-shadow .35s, background-color .35s; }
+    .fc-n { flex: none; width: 1.2rem; color: var(--muted); font: 700 .66rem "JetBrains Mono", monospace; text-align: center; }
+    .fc-ic { flex: none; display: grid; place-items: center; width: 28px; height: 28px; border: 1.5px solid var(--line); border-radius: 8px; background: var(--paper); font-size: .85rem; transition: background-color .35s, color .35s; }
+    .fc-tt { display: grid; min-width: 0; line-height: 1.2; }
+    .fc-tt b { overflow: hidden; font: 700 .82rem "DM Sans", sans-serif; white-space: nowrap; text-overflow: ellipsis; }
+    .fc-tt small { overflow: hidden; color: var(--muted); font: 500 .64rem "JetBrains Mono", monospace; white-space: nowrap; text-overflow: ellipsis; }
+    .fc-ok { margin-left: auto; color: var(--good); opacity: 0; transform: scale(.5); transition: opacity .3s, transform .35s cubic-bezier(.34, 1.56, .64, 1); }
+    .fc-card.on { border-color: var(--accent); box-shadow: 3px 3px 0 var(--accent); }
+    .fc-card.on .fc-ic { background: var(--accent); color: #15130f; }
+    .fc-card.ok .fc-ok, .art.is-static .fc-ok { opacity: 1; transform: none; }
+    .fc-link { position: relative; align-self: flex-start; width: 2px; height: 12px; margin-left: calc(.45rem + 2px + 1.2rem + .55rem + 13px); background: repeating-linear-gradient(to bottom, var(--line) 0 3px, transparent 3px 6px); opacity: .7; }
+    .fc-link i { position: absolute; left: 50%; top: 0; width: 8px; height: 8px; margin: -4px 0 0 -4px; border-radius: 50%; background: var(--accent); opacity: 0; }
+    .xp-stage-art .art-fabric.fc { padding: 1.1rem 1.2rem; }
+    @media (max-width: 575.98px) { .fc-n { display: none; } .fc-link { margin-left: calc(.45rem + 2px + 13px); } .fc-tt b, .fc-tt small { white-space: normal; } }
+    .xp-stage-art .fc-card { padding: .5rem .75rem .5rem .55rem; }
+    .xp-stage-art .fc-link { height: 16px; margin-left: calc(.55rem + 2px + 1.2rem + .55rem + 13px); }
+    .xp-stage-art .fc-tt b { font-size: .92rem; }
+    .xp-stage-art .fc-tt small { font-size: .7rem; }
+    [data-bs-theme="dark"] .fc-card { border-color: rgba(0, 229, 255, .45); border-radius: 4px; background: #0b0a20; box-shadow: none; }
+    [data-bs-theme="dark"] .fc-ic { border-color: rgba(0, 229, 255, .45); border-radius: 3px; background: #07061a; color: var(--neon-c); }
+    [data-bs-theme="dark"] .fc-card.on { border-color: var(--neon-m); box-shadow: 0 0 14px rgba(255, 43, 214, .45); }
+    [data-bs-theme="dark"] .fc-card.on .fc-ic { background: var(--neon-m); color: #05040f; }
+    [data-bs-theme="dark"] .fc-ok { color: #39ff9c; }
+    [data-bs-theme="dark"] .fc-link { background: repeating-linear-gradient(to bottom, var(--neon-c) 0 3px, transparent 3px 6px); }
+    [data-bs-theme="dark"] .fc-link i { background: var(--neon-m); box-shadow: 0 0 8px var(--neon-m); }
 
     /* 6. estações do NitBike no mapa */
     .art-gemeo { height: 150px; background: var(--card); }
@@ -1091,13 +1102,6 @@
     .c-chart canvas { display: block; max-width: 100%; }
 
     /* 8. git */
-    .art-git { padding: .55rem .6rem .3rem; overflow-x: auto; }
-    .art-git .gg { min-height: 90px; }
-    .gg-legend { display: flex; gap: .8rem; font: 600 .66rem "JetBrains Mono", monospace; color: var(--muted); }
-    .gg-legend span::before { content: ""; display: inline-block; width: 9px; height: 9px; margin-right: .35rem; border: 1.5px solid var(--line); border-radius: 50%; vertical-align: -1px; }
-    .gg-legend .b-prod::before { background: var(--accent); }
-    .gg-legend .b-dev::before { background: var(--blue); }
-    .art-git svg { display: block; }
 
     /* ================= Projetos ================= */
     .filters { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 2rem; }
@@ -1255,7 +1259,8 @@
     .route-end .mono { font-size: .66rem; font-weight: 500; color: var(--muted); }
     .route[data-done="1"] .route-end { background: var(--accent); color: #15130f; }
     .route[data-done="1"] .route-end .mono { color: #15130f; }
-    @media (max-width: 575.98px) { .route-end .mono { display: none; } }
+    @media (max-width: 575.98px) { .route-end .mono { display: none; } 
+    }
 
     /* ================= Anotações à mão (rough-notation) ================= */
     /* O texto fica acima do traço; o marca-texto feito à mão substitui o do CSS. */
@@ -1294,6 +1299,7 @@
       .reveal { opacity: 1; transform: none; }
       /* A faixa de tecnologias continua rolando mesmo com animações reduzidas no sistema. */
       .marquee-track { animation-duration: 40s !important; animation-iteration-count: infinite !important; }
+    
     }
 
     /* Modo escuro "Neo Niterói": cyberpunk e high tech. Cada regra daqui vale só no tema escuro. */
@@ -1429,7 +1435,8 @@
       color: #fff !important; text-shadow: 0 0 10px var(--neon-c); background: linear-gradient(180deg, transparent, rgba(0, 229, 255, .16)) !important;
       border: 0 !important; box-shadow: inset 0 -2px 0 var(--neon-c), 0 8px 18px -10px var(--neon-c) !important;
     }
-    @media (max-width: 575.98px) { [data-bs-theme="dark"] .city-tabs .nav-link { font-size: .72rem !important; letter-spacing: .02em; } }
+    @media (max-width: 575.98px) { [data-bs-theme="dark"] .city-tabs .nav-link { font-size: .72rem !important; letter-spacing: .02em; } 
+    }
     
     /* faixa de tecnologias: painel de LED vermelho, como um visor de capacete */
     [data-bs-theme="dark"] .marquee { background: #070308 !important; border: 1px solid rgba(255, 60, 60, .35) !important; box-shadow: 0 0 30px -8px rgba(255, 40, 40, .5), inset 0 0 30px rgba(255, 30, 30, .12) !important; }
@@ -1508,7 +1515,8 @@
     [data-bs-theme="dark"] .contact .hand { color: var(--neon-o) !important; }
     [data-bs-theme="dark"] .contact-email { color: #39ff9c !important; font-family: "Share Tech Mono", monospace !important; text-shadow: 0 0 10px rgba(57, 255, 156, .7); text-decoration-color: var(--neon-m) !important; }
     [data-bs-theme="dark"] .contact-star { color: var(--neon-c) !important; opacity: .18 !important; }
-    @media (max-width: 575.98px) { [data-bs-theme="dark"] .contact h2 { font-size: clamp(1.4rem, 7.6vw, 2.4rem) !important; } [data-bs-theme="dark"] .sec-title { font-size: clamp(1.25rem, 6.6vw, 1.9rem) !important; } }
+    @media (max-width: 575.98px) { [data-bs-theme="dark"] .contact h2 { font-size: clamp(1.4rem, 7.6vw, 2.4rem) !important; } [data-bs-theme="dark"] .sec-title { font-size: clamp(1.25rem, 6.6vw, 1.9rem) !important; } 
+    }
     
     /* rodapé, barra de leitura, linha do tempo dos commits e divisores da bike */
     [data-bs-theme="dark"] .footer { border-top: 1px solid rgba(0, 229, 255, .3) !important; background: #04030c !important; color: var(--muted) !important; box-shadow: 0 -10px 30px -20px var(--neon-c); }
@@ -1565,9 +1573,11 @@
       [data-bs-theme="dark"] .cy-tagline { font-size: 1.05rem; }
       [data-bs-theme="dark"] .cy-visor { height: 44px; }
       [data-bs-theme="dark"] .cy-visor-track span { font-size: 1.8rem; }
+    
     }
     @media (prefers-reduced-motion: reduce) {
       [data-bs-theme="dark"] .city-bg::after, [data-bs-theme="dark"] .cy-visor-track, [data-bs-theme="dark"] .sec-title em, [data-bs-theme="dark"] .contact h2 em, [data-bs-theme="dark"] .cy-role i { animation: none !important; }
+    
     }
     
 
@@ -1619,7 +1629,8 @@
     [data-bs-theme="dark"] .cy-bio p { color: #c9d6f2; font-size: 1.14rem; line-height: 1.85; }
     [data-bs-theme="dark"] .cy-bio strong { color: #fff; font-weight: 700; }
     [data-bs-theme="dark"] .cy-bio mark { padding: 0 .2em; background: rgba(0, 229, 255, .16) !important; color: #e8fdff; box-shadow: inset 0 -2px 0 var(--neon-c); }
-    @media (max-width: 991.98px) { [data-bs-theme="dark"] .cy-about-grid { grid-template-columns: minmax(0, 1fr); gap: 2rem; } [data-bs-theme="dark"] .cy-id-wrap { max-width: 440px; } }
+    @media (max-width: 991.98px) { [data-bs-theme="dark"] .cy-about-grid { grid-template-columns: minmax(0, 1fr); gap: 2rem; } [data-bs-theme="dark"] .cy-id-wrap { max-width: 440px; } 
+    }
     
     /* Niterói: o seletor vira uma fileira de canais e o conteúdo uma sala de controle */
     [data-bs-theme="dark"] #niteroi .city-tabs.nav-underline { gap: .6rem !important; border-bottom: 0 !important; }
@@ -1676,8 +1687,10 @@
     [data-bs-theme="dark"] .cy-term-line { margin: 0; padding: .85rem 1rem; color: #39ff9c; font-size: .9rem; }
     [data-bs-theme="dark"] .cy-term-line span { color: var(--neon-c); }
     [data-bs-theme="dark"] .cy-caret { display: inline-block; width: .5rem; height: .95rem; margin-left: .3rem; vertical-align: -2px; background: #39ff9c; animation: cyBlink 1s steps(1) infinite; }
-    @media (max-width: 991.98px) { [data-bs-theme="dark"] .cy-contact { grid-template-columns: minmax(0, 1fr); } }
-    @media (max-width: 575.98px) { [data-bs-theme="dark"] .cy-term a { grid-template-columns: minmax(0, 1fr) auto; row-gap: .2rem; font-size: .9rem; padding: .75rem .8rem; } [data-bs-theme="dark"] .cy-term a b { grid-column: 1 / -1; font-size: .78rem; } [data-bs-theme="dark"] .cy-role { letter-spacing: .06em; font-size: .78rem; } [data-bs-theme="dark"] .sec-head .sec-num { font-size: 6rem !important; top: -.4rem; } }
+    @media (max-width: 991.98px) { [data-bs-theme="dark"] .cy-contact { grid-template-columns: minmax(0, 1fr); } 
+    }
+    @media (max-width: 575.98px) { [data-bs-theme="dark"] .cy-term a { grid-template-columns: minmax(0, 1fr) auto; row-gap: .2rem; font-size: .9rem; padding: .75rem .8rem; } [data-bs-theme="dark"] .cy-term a b { grid-column: 1 / -1; font-size: .78rem; } [data-bs-theme="dark"] .cy-role { letter-spacing: .06em; font-size: .78rem; } [data-bs-theme="dark"] .sec-head .sec-num { font-size: 6rem !important; top: -.4rem; } 
+    }
     
 
     /* topo: faixa de dados em grade, com fios finos e cantoneiras */
@@ -1702,6 +1715,7 @@
       [data-bs-theme="dark"] .cy-data { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       [data-bs-theme="dark"] .cy-data-cell:nth-child(3) { border-left: 0; }
       [data-bs-theme="dark"] .cy-data-cell:nth-child(n + 3) { border-top: 1px solid rgba(0, 229, 255, .2); }
+    
     }
     
     /* botão secundário: contorno com cantoneiras, como os comandos [ /_EXECUTAR ] */
@@ -1731,8 +1745,10 @@
     [data-bs-theme="dark"] .cy-tile:hover, [data-bs-theme="dark"] .cy-tile:focus-visible { outline: 0; transform: translateY(-3px); border-color: rgba(255, 43, 214, .5); background: rgba(255, 43, 214, .08); }
     [data-bs-theme="dark"] .cy-tile:hover .cy-tile-icon, [data-bs-theme="dark"] .cy-tile:focus-visible .cy-tile-icon { border-color: var(--neon-m); color: #fff; box-shadow: 0 0 18px rgba(255, 43, 214, .55), inset 0 0 14px rgba(255, 43, 214, .3); }
     [data-bs-theme="dark"] .cy-win-status { display: flex; justify-content: space-between; padding: .4rem .7rem; border-top: 1px solid rgba(0, 229, 255, .22); color: #8fa3c9; font: 400 .78rem "Share Tech Mono", monospace; letter-spacing: .06em; text-transform: uppercase; }
-    @media (max-width: 991.98px) { [data-bs-theme="dark"] .cy-desk { grid-template-columns: repeat(2, minmax(0, 1fr)); } [data-bs-theme="dark"] .cy-win, [data-bs-theme="dark"] .cy-win.wide { grid-column: span 1; } [data-bs-theme="dark"] .cy-win.wide { grid-column: span 2; } }
-    @media (max-width: 575.98px) { [data-bs-theme="dark"] .cy-desk { grid-template-columns: minmax(0, 1fr); } [data-bs-theme="dark"] .cy-win, [data-bs-theme="dark"] .cy-win.wide { grid-column: auto; } [data-bs-theme="dark"] .cy-win-body { grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); } }
+    @media (max-width: 991.98px) { [data-bs-theme="dark"] .cy-desk { grid-template-columns: repeat(2, minmax(0, 1fr)); } [data-bs-theme="dark"] .cy-win, [data-bs-theme="dark"] .cy-win.wide { grid-column: span 1; } [data-bs-theme="dark"] .cy-win.wide { grid-column: span 2; } 
+    }
+    @media (max-width: 575.98px) { [data-bs-theme="dark"] .cy-desk { grid-template-columns: minmax(0, 1fr); } [data-bs-theme="dark"] .cy-win, [data-bs-theme="dark"] .cy-win.wide { grid-column: auto; } [data-bs-theme="dark"] .cy-win-body { grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); } 
+    }
     
     /* abertura: tela de carregamento com marcações nos cantos e as coordenadas da cidade */
     [data-bs-theme="dark"] #preloader { background: #05040f !important; }
@@ -1801,10 +1817,12 @@
     .pf-info p { margin: .4rem 0 .6rem; font-size: .9rem; line-height: 1.55; }
     @media (max-width: 991.98px) {
       .live-grid, .pf-bottom { grid-template-columns: minmax(0, 1fr); }
+    
     }
     @media (max-width: 575.98px) {
       .live-card { padding: 1.1rem 1rem; }
       .live-head { flex-direction: column; }
+    
     }
     [data-bs-theme="dark"] .live-map { background: #04030c; border-color: rgba(0, 229, 255, .3); }
     [data-bs-theme="dark"] .live-streets { opacity: .35; }
@@ -1915,8 +1933,8 @@
     .nf2-node.dec.fail::before { background: #e5484d; }
     @media (max-width: 575.98px) {
       .nf2-scroll .fx-wrap { min-width: 460px; }
+    
     }
-    .f-dax.live { box-shadow: 0 0 0 4px rgba(var(--accent-rgb), .28), 3px 3px 0 var(--shadow-c); }
     [data-bs-theme="dark"] .fx-canvas { border-color: rgba(0, 229, 255, .3); background-color: #04030c; background-image: radial-gradient(circle, rgba(0, 229, 255, .14) 1px, transparent 1.4px); }
     [data-bs-theme="dark"] .fx-box, [data-bs-theme="dark"] .nf2-node:not(.dec) { border-color: rgba(0, 229, 255, .4); border-radius: 3px; background: linear-gradient(180deg, #0d0c24, #08071a); box-shadow: 0 0 14px rgba(0, 229, 255, .1); }
     [data-bs-theme="dark"] .fx-box.busy, [data-bs-theme="dark"] .nf2-node.running, [data-bs-theme="dark"] .nf2-node.waiting { border-color: var(--neon-m); box-shadow: 0 0 0 3px rgba(255, 43, 214, .18), 0 0 18px rgba(255, 43, 214, .35); }
@@ -2010,6 +2028,7 @@
       .live-tabs button i { display: none; }
       .live-chapter { margin-top: 2rem; }
       .city-banner button { font-size: .66rem; }
+    
     }
     .city-rules { display: grid; gap: .4rem; padding: .7rem .8rem; border: 2px solid var(--line); border-radius: 12px; background: var(--paper); }
     .city-rules small, .city-cycle small { color: var(--muted); font: .7rem "JetBrains Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
@@ -2080,6 +2099,7 @@
     [data-bs-theme="dark"] .city-banner button.t-acc { background: #e5484d; border-color: #e5484d; }
     @media (prefers-reduced-motion: reduce) {
       .rain-drop, .city-ripple, .bus-ping { animation: none; }
+    
     }
     .live-story { position: relative; margin-top: 2.6rem; }
     /* a continuação do fluxo de cima: uma linha desce dele até a etiqueta, e a frase abre os dois capítulos */
@@ -2103,6 +2123,7 @@
     @media (max-width: 575.98px) {
       .live-nav a:not(.on) span { display: none; }
       .live-nav a:not(.on) { padding-right: .35rem; }
+    
     }
     .fx-n { transition: background-color .7s ease, color .7s ease; position: absolute; top: calc(var(--u) * 7); right: calc(var(--u) * 7); display: grid; place-items: center; width: calc(var(--u) * 19); height: calc(var(--u) * 19); border-radius: 50%; background: var(--ink); color: var(--paper); font: 800 calc(var(--u) * 11) "Bricolage Grotesque", sans-serif; font-style: normal; }
     .fx-box.busy .fx-n { background: var(--accent); color: #15130f; }
@@ -2138,6 +2159,7 @@
     .nb-lbl.hl { fill: var(--accent); }
     @media (max-width: 991.98px) {
       .nb-peak { grid-template-columns: minmax(0, 1fr); }
+    
     }
     [data-bs-theme="dark"] .live-nav { border: 1px solid rgba(0, 229, 255, .4); border-radius: 3px; background: rgba(5, 4, 15, .85); box-shadow: 0 0 18px rgba(0, 229, 255, .18); }
     [data-bs-theme="dark"] .live-nav a { border-radius: 2px; }
@@ -2162,6 +2184,7 @@
     @media (max-width: 575.98px) {
       .clock-ctl { margin-left: 0; }
       .clock-ctl small { display: none; }
+    
     }
     .brk-node.x { --c: #e5484d; background: #e5484d; color: #fff; animation: brkBlink 1.4s ease-in-out infinite; }
     .brk-node.x > i, .brk-node.x small { color: #fff; }
@@ -2176,6 +2199,7 @@
     [data-bs-theme="dark"] .brk-node.x { background: #e5484d; }
     @media (prefers-reduced-motion: reduce) {
       .brk-link, .brk-node.x { animation: none; }
+    
     }
     .fx-tag { --tag-in: .45s; position: absolute; z-index: 3; transform: translate(-50%, -50%); padding: max(1px, calc(var(--u) * 2)) max(5px, calc(var(--u) * 7)); border-radius: 999px; background: var(--accent); color: #15130f; font: 700 max(9px, calc(var(--u) * 10.5)) "JetBrains Mono", monospace; white-space: nowrap; pointer-events: none; box-shadow: 0 0 0 2px var(--card); animation: tagIn var(--tag-in) cubic-bezier(.2, .8, .2, 1); }
     .fx-tag.read { background: var(--blue); color: #fff; }
@@ -2196,6 +2220,7 @@
       .nb-ops { grid-template-columns: minmax(0, 1fr); }
       .nb-ops-side .flow-log { flex: none; }
       .nb-ops-side .flow-log ol { max-height: 14rem; }
+    
     }
     .nb-runs { padding: .9rem 1rem .8rem; border: 2px solid var(--line); border-radius: 14px; background: var(--card); box-shadow: 4px 4px 0 var(--shadow-c); }
     .nb-runs-head { display: flex; justify-content: space-between; align-items: baseline; gap: .6rem; }
@@ -2213,6 +2238,7 @@
       .nb-runs .pf-lane { grid-template-columns: 5.6rem minmax(0, 1fr); }
       .nb-runs .pf-lane > span small { display: none; }
       .nb-runs-axis { margin-left: 6.2rem; }
+    
     }
     .flow-log { display: flex; flex-direction: column; min-width: 0; overflow: hidden; border: 2px solid var(--line); border-radius: 14px; background: #0f1220; color: #d6deeb; box-shadow: 4px 4px 0 var(--shadow-c); }
     .flow-log-head { padding: .55rem .8rem; }
@@ -2233,6 +2259,7 @@
       .flow-log li { grid-template-columns: auto auto minmax(0, 1fr); gap: .4rem; }
       .flow-log li:nth-last-child(n+7) { display: none; }
       .flow-log .src { display: none; }
+    
     }
     .nb-pg { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: calc(var(--u) * 4); min-height: 0; }
     .nb-pg > b { font: 800 calc(var(--u) * 38) / 1 "Bricolage Grotesque", sans-serif; color: var(--ink); }
@@ -2290,6 +2317,7 @@
     .nb-snaps-tx { margin: -.2rem 0 0; color: var(--muted); font-size: .78rem; line-height: 1.45; }
     @media (max-width: 575.98px) {
       .nb-legend { grid-template-columns: minmax(0, 1fr); }
+    
     }
     [data-bs-theme="dark"] .nb-legend button { border: 1px solid rgba(0, 229, 255, .25); border-radius: 3px; background: #05040f; color: #fff; }
     [data-bs-theme="dark"] .nb-legend-n { border-radius: 2px; background: rgba(0, 229, 255, .2); color: var(--neon-c); }
@@ -2344,6 +2372,7 @@
     [data-bs-theme="dark"] .nb-tl-old { background: rgba(5, 4, 15, .5); }
     @media (prefers-reduced-motion: reduce) {
       .nb-tl-track > i { animation: none; transition: none; }
+    
     }
     .nb-count { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem; }
     .nb-count span { display: grid; padding: .3rem .55rem; border: 2px solid var(--line); border-radius: 10px; background: var(--card); line-height: 1.1; }
@@ -2367,6 +2396,7 @@
       .map-tools { gap: .4rem; }
       .seg.map-layers { flex-wrap: wrap; height: auto; width: 100%; }
       .map-layers button { height: 28px; padding: 0 .55rem; }
+    
     }
     .sim-row { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: .9rem; margin-top: 1.1rem; padding: .8rem 1rem; overflow: hidden; border: 2px solid var(--line); border-radius: 14px; background: var(--paper); transition: border-color .5s, background-color .5s; }
     .sim-row-ic { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 11px; background: rgba(229, 72, 77, .12); color: #e5484d; font-size: 1.15rem; transition: background-color .5s, color .5s; }
@@ -2381,6 +2411,7 @@
     @media (max-width: 575.98px) {
       .sim-row { grid-template-columns: auto minmax(0, 1fr); }
       .sim-row-btn { grid-column: 1 / -1; justify-content: center; }
+    
     }
     [data-bs-theme="dark"] .map-tools .clock-ctl button.on { background: var(--neon-c); color: #05040f; }
     [data-bs-theme="dark"] .sim-row { border: 1px solid rgba(0, 229, 255, .3); border-radius: 3px; background: #05040f; }
@@ -2423,6 +2454,7 @@
     @media (prefers-reduced-motion: reduce) {
       .ml-casing, .ml-core, .ml-stop, .ml-label { transition: none; }
       .ml.on .ml-flow { animation: none; }
+    
     }
     [data-bs-theme="dark"] .ml-casing { stroke: rgba(0, 229, 255, .55); }
     [data-bs-theme="dark"] .ml-core { stroke: #07061a; }
@@ -2473,6 +2505,7 @@
     [data-bs-theme="dark"] .pn-tt b { color: #fff; }
     @media (prefers-reduced-motion: reduce) {
       .pn { transition: none; }
+    
     }
     .pn-out { flex: 1; display: grid; grid-template-rows: auto minmax(0, 1fr); gap: calc(var(--u) * 6); min-height: 0; overflow: hidden; }
     .pn-steps { display: grid; gap: calc(var(--u) * 4); margin: 0; padding: 0; list-style: none; }
@@ -2498,6 +2531,7 @@
     [data-bs-theme="dark"] .nb-bars.reading i.win { background: var(--neon-m); }
     @media (prefers-reduced-motion: reduce) {
       .nb-bars i { animation: none; }
+    
     }
     .nb-clock-ctl { height: 34px; padding: 3px; border-radius: 11px; box-shadow: 2px 2px 0 var(--shadow-c); }
     .nb-clock-ctl small { display: inline-flex; align-items: center; gap: .3rem; padding: 0 .45rem; color: var(--muted); font: .7rem "JetBrains Mono", monospace; }
@@ -2519,6 +2553,59 @@
     @keyframes mlRun { to { stroke-dashoffset: -28; } }
     @keyframes barIn { from { transform: scaleY(0); opacity: 0; } 60% { opacity: 1; } }
     .nb-ops.solo { grid-template-columns: minmax(0, 1fr); }
+  
+    /* Experiência · card 4 (agente no Foundry), como em produção */
+    .f-dots { display: inline-flex; gap: 3px; }
+    .f-dots span { width: 4px; height: 4px; border-radius: 50%; background: var(--muted); animation: blink 1s steps(1) infinite; }
+    .f-dots span:nth-child(2) { animation-delay: .2s; }
+    .f-dots span:nth-child(3) { animation-delay: .4s; }
+    .art-foundry { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: .9rem; align-items: center; padding: .9rem; }
+    .f-win { display: flex; flex-direction: column; overflow: hidden; border: 2px solid var(--line); border-radius: 14px; background: var(--card); box-shadow: 3px 3px 0 var(--shadow-c); }
+    .f-bar { display: flex; align-items: center; gap: .55rem; padding: .55rem .7rem; border-bottom: 2px solid var(--line); background: var(--paper); }
+    .f-avatar { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 8px; background: var(--accent); color: #15130f; }
+    .f-id { display: grid; line-height: 1.15; }
+    .f-id b { font-size: .84rem; }
+    .f-id small { color: var(--muted); font: .66rem "JetBrains Mono", monospace; }
+    .f-online { width: 8px; height: 8px; margin-left: auto; border-radius: 50%; background: var(--good); box-shadow: 0 0 0 3px color-mix(in srgb, var(--good) 25%, transparent); }
+    .f-chat { display: flex; flex-direction: column; gap: .55rem; min-height: 200px; padding: .75rem; }
+    .f-step { opacity: 0; }
+    .art.is-static .f-step, .art.is-static .f-dax-line { opacity: 1; }
+    .f-msg { max-width: 92%; padding: .5rem .7rem; border: 2px solid var(--line); border-radius: 14px; font-size: .84rem; line-height: 1.45; }
+    .f-who { display: block; margin-bottom: .15rem; color: var(--muted); font: 700 .6rem "JetBrains Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
+    .f-q { align-self: flex-end; border-bottom-right-radius: 4px; background: var(--lime); color: #15130f; }
+    .f-q .f-who { color: #4a5a00; }
+    .f-a { align-self: flex-start; border-bottom-left-radius: 4px; background: var(--paper); }
+    .f-call { align-self: flex-start; display: inline-flex; align-items: center; gap: .45rem; padding: .3rem .65rem; border: 1.5px dashed rgba(var(--accent-rgb), .7); border-radius: 999px; background: rgba(var(--accent-rgb), .08); color: var(--ink); font: .72rem "JetBrains Mono", monospace; transition: border-color .3s, background-color .3s; }
+    .f-call > i:first-child { color: var(--accent); }
+    .f-call .f-ok { display: none; color: var(--good); }
+    .f-call.done { border-style: solid; border-color: var(--good); background: color-mix(in srgb, var(--good) 10%, transparent); }
+    .f-call.done .f-ok { display: inline; }
+    .f-call.done .f-dots { display: none; }
+    .f-dax { overflow: hidden; border: 2px solid var(--line); border-radius: 12px; background: #0f1220; color: #d6deeb; box-shadow: 3px 3px 0 var(--shadow-c); transition: box-shadow .3s; }
+    .f-dax.live { box-shadow: 0 0 0 4px rgba(var(--accent-rgb), .28), 3px 3px 0 var(--shadow-c); }
+    .f-dax-bar { display: flex; align-items: center; gap: .55rem; padding: .45rem .65rem; border-bottom: 1px solid #232a40; background: #151a2e; color: #b6c2d9; font: .68rem "JetBrains Mono", monospace; }
+    .f-dax-bar em { margin-left: auto; color: #7f8db0; font: inherit; font-style: normal; }
+    .f-dax-dots { display: inline-flex; gap: 4px; }
+    .f-dax-dots i { width: 8px; height: 8px; border-radius: 50%; background: #ff5f57; }
+    .f-dax-dots i:nth-child(2) { background: #febc2e; }
+    .f-dax-dots i:nth-child(3) { background: #28c840; }
+    .f-dax-code { padding: .65rem 0; font: 500 .72rem/1.8 "JetBrains Mono", monospace; }
+    .f-dax-line { display: flex; opacity: 0; white-space: pre; }
+    .f-ln { flex: none; width: 2.2rem; padding-right: .7rem; color: #4b5675; text-align: right; user-select: none; }
+    .d-k { color: #c792ea; }
+    .d-f { color: #82aaff; }
+    .d-n { color: #f78c6c; }
+    .d-c { color: #addb67; }
+    .d-s { color: #ecc48d; }
+    .d-m { color: #7fdbca; }
+    .xp-stage-art .art-foundry { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); padding: 1rem; }
+    .xp-stage-art .f-dax-code { font-size: .64rem; }
+    .f-dax-code { overflow-x: auto; }
+    @media (max-width: 575.98px) { .art-foundry { grid-template-columns: minmax(0, 1fr); } .f-dax-code { font-size: .66rem; } .f-chat { min-height: 0; } }
+    [data-bs-theme="dark"] .f-win { border-color: rgba(0, 229, 255, .4); border-radius: 3px; background: #08071a; }
+    [data-bs-theme="dark"] .f-bar { border-color: rgba(0, 229, 255, .3); background: #05040f; }
+    [data-bs-theme="dark"] .f-avatar { border-radius: 2px; background: var(--neon-m); color: #05040f; }
+    [data-bs-theme="dark"] .f-dax { border-color: rgba(0, 229, 255, .4); border-radius: 3px; background: #04030c; }
   </style>
 </head>
 <body>
@@ -2809,11 +2896,10 @@
           { kind: "agents", icon: "bi-robot", title: "Agentes de IA e servidores MCP", text: "Desenvolvo servidores MCP e agentes de IA em Python para automatizar tarefas repetitivas do time de dados." },
           { kind: "apis", icon: "bi-plug", title: "Integrações com APIs", text: "Escrevo integrações com APIs de sistemas internos e externos." },
           { kind: "n8n", icon: "bi-diagram-3", title: "Automação com n8n, Azure e Fabric", text: "Automatizo processos internos do escritório com n8n, Azure e Microsoft Fabric: os pedidos de criação e de acesso a workspaces de dados chegam pelo sistema de chamados e seguem sozinhos pela aprovação do responsável, pela criação dos grupos de acesso no Entra ID, pelo provisionamento e pelos avisos por e-mail e Teams." },
-          { kind: "foundry", icon: "bi-stars", title: "Agente no Microsoft Foundry", text: "Criei no Microsoft Foundry um agente de IA que consulta um modelo semântico do Power BI com dados de trânsito e responde perguntas sobre eles em linguagem natural." },
+          { kind: "foundry", icon: "bi-stars", title: "Agente no Microsoft Foundry", text: "Um agente que responde em linguagem natural consultando o modelo semântico de trânsito." },
           { kind: "fabric", icon: "bi-microsoft", title: "Pipelines no Microsoft Fabric", text: "Monto pipelines no Microsoft Fabric que levam os dados das subsecretarias até os painéis de BI." },
           { kind: "gemeo", icon: "bi-bicycle", title: "Gêmeo Digital · NitBike", link: { to: "niteroi", label: "ver em Niterói em camadas" }, text: "No Gêmeo Digital de Niterói, integro dados de trânsito com foco no NitBike: construo camadas no ArcGIS que alimentam a plataforma e derivo por cálculo o que o feed não traz, como as próprias viagens e as estações mais quentes e mais frias." },
           { kind: "colab", icon: "bi-people", title: "Colab · solicitações", link: { to: "niteroi", label: "ver o painel" }, text: "No Colab, atuo na integração de dados e nas camadas de visualização do painel de solicitações (SIGeo)." },
-          { kind: "git", icon: "bi-git", title: "Git entre desenvolvimento e produção", text: "Ajudo a organizar o versionamento com Git entre os ambientes de desenvolvimento e produção." },
         ],
         tech: ["Python", "SQL", "Microsoft Fabric", "Microsoft Foundry", "n8n", "Azure", "Git"],
       },
@@ -6783,62 +6869,90 @@
       );
     }
 
-    // 4. Foundry: pergunta em linguagem natural, a consulta ao modelo semântico e a resposta (anime.js).
+    // 4. Foundry: a conversa com o agente de um lado e, à parte, a consulta DAX que ele monta sobre o modelo
+    // semântico (anime.js).
     const FOUNDRY_DAX = [
-      "EVALUATE TOPN(3,",
-      "  SUMMARIZECOLUMNS('Via'[Nome],",
-      "    \"Alertas\", [Total de alertas]),",
-      "  [Alertas])",
+      [["k", "EVALUATE"], ["", " "], ["f", "TOPN"], ["", "("], ["n", "3"], ["", ","]],
+      [["", "  "], ["f", "SUMMARIZECOLUMNS"], ["", "("], ["c", "'Via'[Nome]"], ["", ","]],
+      [["", "    "], ["s", "\"Alertas\""], ["", ", "], ["m", "[Total de alertas]"], ["", "),"]],
+      [["", "  "], ["m", "[Alertas]"], ["", ")"]],
     ];
     function FoundryArt() {
       const ref = useLive(["anime"], (el) => {
         if (prefersReducedMotion()) { el.classList.add("is-static"); return null; }
-        const q = el.querySelector(".f-q"), think = el.querySelector(".f-think"), a = el.querySelector(".f-a");
-        const dax = el.querySelectorAll(".f-dax div");
+        const q = el.querySelector(".f-q"), call = el.querySelector(".f-call"), a = el.querySelector(".f-a");
+        const box = el.querySelector(".f-dax"), dax = el.querySelectorAll(".f-dax-line");
         const tl = anime.timeline({ loop: true, easing: "easeOutQuad" })
           .add({ targets: q, opacity: [0, 1], translateY: [8, 0], duration: 450 })
-          .add({ targets: think, opacity: [0, 1], duration: 250 }, "+=250")
-          .add({ targets: dax, opacity: [0, 1], translateX: [-6, 0], delay: anime.stagger(260), duration: 320 }, "+=500")
-          .add({ targets: think, opacity: 0, duration: 200 })
+          .add({ targets: call, opacity: [0, 1], translateY: [6, 0], duration: 350, begin: () => { call.classList.remove("done"); box.classList.add("live"); } }, "+=300")
+          .add({ targets: dax, opacity: [0, 1], translateX: [-6, 0], delay: anime.stagger(240), duration: 300 }, "+=250")
+          .add({ targets: call, duration: 300, begin: () => { call.classList.add("done"); box.classList.remove("live"); } }, "+=350")
           .add({ targets: a, opacity: [0, 1], translateY: [8, 0], duration: 450 }, "+=150")
-          .add({ targets: [q, a, ...dax], opacity: 0, duration: 400 }, "+=3400");
+          .add({ targets: [q, call, a, ...dax], opacity: 0, duration: 400 }, "+=3600");
         return { play: () => tl.play(), pause: () => tl.pause(), destroy: () => tl.pause() };
       });
       return (
         <div className="art art-foundry" ref={ref} aria-hidden="true">
-          <div className="f-chat">
-            <div className="f-q f-step">Quais vias tiveram mais alertas de trânsito no último mês?</div>
-            <div className="f-think f-step"><i className="bi bi-stars" /> consultando o modelo semântico<span className="f-dots"><span /><span /><span /></span></div>
-            <div className="f-a f-step">Estas são as 3 vias com mais alertas no último mês, pela medida <b>Total de alertas</b>.</div>
+          <div className="f-win">
+            <div className="f-bar">
+              <span className="f-avatar"><i className="bi bi-stars" /></span>
+              <span className="f-id"><b>Agente de trânsito</b><small>Microsoft Foundry</small></span>
+              <span className="f-online" />
+            </div>
+            <div className="f-chat">
+              <div className="f-msg f-q f-step"><span className="f-who">você</span>Quais vias tiveram mais alertas de trânsito no último mês?</div>
+              <div className="f-call f-step"><i className="bi bi-braces" /><span>consulta ao modelo semântico</span><span className="f-dots"><span /><span /><span /></span><i className="bi bi-check2 f-ok" /></div>
+              <div className="f-msg f-a f-step"><span className="f-who">agente</span>Estas são as 3 vias com mais alertas no último mês, pela medida <b>Total de alertas</b>.</div>
+            </div>
           </div>
           <div className="f-dax">
-            <span className="f-dax-label">DAX gerado</span>
-            {FOUNDRY_DAX.map((line, i) => <div key={i}>{line}</div>)}
+            <div className="f-dax-bar"><span className="f-dax-dots"><i /><i /><i /></span><span>consulta.dax</span><em>Power BI</em></div>
+            <div className="f-dax-code">
+              {FOUNDRY_DAX.map((line, i) => (
+                <div className="f-dax-line" key={i}>
+                  <span className="f-ln">{i + 1}</span>
+                  <code>{line.map(([cls, txt], k) => <span key={k} className={cls ? `d-${cls}` : undefined}>{txt}</span>)}</code>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       );
     }
 
-    // 5. Fabric: as etapas do pipeline enchem uma depois da outra (anime.js).
-    const FABRIC_STAGES = ["Subsecretarias", "Lakehouse", "Transformações", "Modelo semântico", "Painéis de BI"];
+    // 5. Fabric: as etapas do pipeline como mini cards encadeados; cada uma acende, ganha o check e o dado desce pela
+    // ligação até a seguinte (anime.js).
+    const FABRIC_STAGES = [
+      ["bi-buildings", "Subsecretarias", "dados de origem"],
+      ["bi-database", "Lakehouse", "armazenamento no Fabric"],
+      ["bi-gear-wide-connected", "Transformações", "limpeza e padronização"],
+      ["bi-diagram-3", "Modelo semântico", "medidas e relações"],
+      ["bi-bar-chart-line", "Painéis de BI", "Power BI"],
+    ];
     function FabricArt() {
       const ref = useLive(["anime"], (el) => {
-        const fills = [...el.querySelectorAll(".fb-fill")];
-        const rows = [...el.querySelectorAll(".fb-row")];
+        const cards = [...el.querySelectorAll(".fc-card")], dots = [...el.querySelectorAll(".fc-link i")];
         if (prefersReducedMotion()) { el.classList.add("is-static"); return null; }
-        const tl = anime.timeline({ loop: true, easing: "easeInOutQuad" });
-        fills.forEach((f, i) => tl.add({ targets: f, width: ["0%", "100%"], duration: 620, complete: () => rows[i].classList.add("ok") }));
-        tl.add({ targets: fills, width: "0%", duration: 300, begin: () => rows.forEach((r) => r.classList.remove("ok")) }, "+=1900");
+        const tl = anime.timeline({ loop: true, easing: "easeInOutSine" });
+        cards.forEach((c, i) => {
+          tl.add({ targets: c, translateX: [0, 4, 0], duration: 520, begin: () => c.classList.add("on"), complete: () => { c.classList.remove("on"); c.classList.add("ok"); } });
+          if (dots[i]) tl.add({ targets: dots[i], top: ["0%", "100%"], opacity: [{ value: 1, duration: 60 }, { value: 1, duration: 260 }, { value: 0, duration: 80 }], duration: 400 });
+        });
+        tl.add({ duration: 1900 }).add({ targets: cards, opacity: [1, 1], duration: 250, begin: () => cards.forEach((c) => c.classList.remove("ok")) });
         return { play: () => tl.play(), pause: () => tl.pause(), destroy: () => tl.pause() };
       });
       return (
-        <div className="art art-fabric" ref={ref} aria-hidden="true">
-          {FABRIC_STAGES.map((st) => (
-            <div className="fb-row" key={st}>
-              <span className="fb-label">{st}</span>
-              <span className="fb-bar"><span className="fb-fill" /></span>
-              <i className="bi bi-check-circle-fill fb-ok" />
-            </div>
+        <div className="art art-fabric fc" ref={ref} aria-hidden="true">
+          {FABRIC_STAGES.map(([icon, name, sub], i) => (
+            <React.Fragment key={name}>
+              {i > 0 && <span className="fc-link"><i /></span>}
+              <div className="fc-card">
+                <span className="fc-n">{i + 1}</span>
+                <span className="fc-ic"><i className={`bi ${icon}`} /></span>
+                <span className="fc-tt"><b>{name}</b><small>{sub}</small></span>
+                <i className="bi bi-check-circle-fill fc-ok" />
+              </div>
+            </React.Fragment>
           ))}
         </div>
       );
@@ -6919,50 +7033,6 @@
       );
     }
 
-    // 8. Git: os commits entram um a um em desenvolvimento e sobem para produção com merge (gitgraph.js).
-    function GitArt() {
-      const ref = useLive(["gitgraph"], (el) => {
-        const box = el.querySelector(".gg");
-        let timers = [];
-        const clear = () => { timers.forEach(clearTimeout); timers = []; };
-        const run = (animate) => {
-          clear();
-          box.innerHTML = "";
-          const template = GitgraphJS.templateExtend(GitgraphJS.TemplateName.Metro, {
-            colors: [themeColor("accent"), themeColor("blue"), themeColor("good")],
-            branch: { lineWidth: 4, spacing: 30, label: { display: false } },
-            commit: { spacing: 40, dot: { size: 7, strokeWidth: 2, strokeColor: themeColor("line") }, message: { display: false } },
-          });
-          const gg = GitgraphJS.createGitgraph(box, { template, orientation: GitgraphJS.Orientation.Horizontal, author: "Kluivert" });
-          let prod, dev;
-          const steps = [
-            () => { prod = gg.branch("produção"); prod.commit("estável"); },
-            () => { dev = gg.branch("desenvolvimento"); dev.commit("feature"); },
-            () => dev.commit("testes"),
-            () => prod.merge(dev, "deploy"),
-            () => dev.commit("ajuste"),
-            () => dev.commit("revisão"),
-            () => prod.merge(dev, "deploy"),
-          ];
-          if (!animate) { steps.forEach((f) => f()); return; }
-          steps.forEach((f, i) => timers.push(setTimeout(f, 250 + i * 700)));
-          timers.push(setTimeout(() => run(true), 250 + steps.length * 700 + 2600)); // recomeça
-        };
-        const still = prefersReducedMotion();
-        run(!still);
-        const mo = new MutationObserver(() => run(!still));
-        mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-bs-theme"] });
-        return still
-          ? { destroy: () => mo.disconnect() }
-          : { play: () => run(true), pause: clear, destroy: () => { clear(); mo.disconnect(); } };
-      });
-      return (
-        <div className="art art-git" ref={ref} aria-hidden="true">
-          <div className="gg-legend"><span className="b-prod">produção</span><span className="b-dev">desenvolvimento</span></div>
-          <div className="gg" />
-        </div>
-      );
-    }
 
     // 9. Data Lake em Docker: os contêineres sobem um a um e os dados passam de um para o outro (anime.js).
     const LAKE_CONTAINERS = [
@@ -7034,7 +7104,7 @@
       );
     }
 
-    const XP_ART = { agents: AgentsArt, apis: ApiArt, n8n: N8nArt, foundry: FoundryArt, fabric: FabricArt, gemeo: GemeoArt, colab: ColabArt, git: GitArt, lake: LakeArt, health: HealthArt };
+    const XP_ART = { agents: AgentsArt, apis: ApiArt, n8n: N8nArt, foundry: FoundryArt, fabric: FabricArt, gemeo: GemeoArt, colab: ColabArt, lake: LakeArt, health: HealthArt };
 
     function useMedia(query) {
       const [match, setMatch] = useState(() => window.matchMedia(query).matches);
