@@ -2619,6 +2619,40 @@
     /* fluxograma do NitBike no estilo de editor de fluxos */
     .pflow { position: relative; width: 100%; overflow: hidden; border: 0; box-shadow: inset 0 0 0 2px var(--line); border-radius: 16px; background-color: var(--paper); background-image: radial-gradient(circle, color-mix(in srgb, var(--line) 16%, transparent) 1px, transparent 1.3px); background-size: calc(var(--u) * 22) calc(var(--u) * 22); }
     .pflow-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+    /* linhas de metrô (como no portfolio-v2): contorno, miolo que se desenha na entrada, tracejado que corre quando acende */
+    .ml path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .ml-casing { stroke: var(--line); stroke-width: 7; opacity: 0; transition: opacity .5s calc(var(--d) * 140ms), stroke .5s; }
+    .ml-core { stroke: var(--card); stroke-width: 3.2; stroke-dasharray: 1 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1s cubic-bezier(.16, 1, .3, 1) calc(var(--d) * 140ms + 120ms), stroke .45s ease; }
+    .ml-flow { stroke: transparent; stroke-width: 3.2; stroke-dasharray: 2 12; transition: stroke .3s; }
+    .ml-stop { fill: var(--card); stroke: var(--line); stroke-width: 2; opacity: 0; transform-box: fill-box; transform-origin: center; transform: scale(0); transition: opacity .3s, transform .45s cubic-bezier(.34, 1.56, .64, 1); transition-delay: calc(var(--d) * 140ms + 600ms); }
+    .ml-label { fill: var(--muted); font: 700 10px "JetBrains Mono", monospace; paint-order: stroke; stroke: var(--card); stroke-width: 4px; stroke-linejoin: round; opacity: 0; transition: opacity .4s calc(var(--d) * 140ms + 700ms); }
+    .pflow.narrow .ml-label { font-size: 10.5px; }
+    .drawn .ml-casing, .fx-canvas .ml-casing { opacity: .9; }
+    .drawn .ml-core, .fx-canvas .ml-core { stroke-dashoffset: 0; }
+    .drawn .ml-stop, .drawn .ml-label { opacity: 1; transform: none; }
+    .ml.rule .ml-casing { stroke-dasharray: 2 7; opacity: 0; }
+    .drawn .ml.rule .ml-casing { opacity: .55; }
+    .ml.rule .ml-core { stroke: transparent; }
+    /* acesa: o dado está passando */
+    .ml.on .ml-core { stroke: var(--accent); }
+    .ml.on .ml-flow { stroke: #fff; animation: mlRun .9s linear infinite; }
+    .ml.on.k-read .ml-core { stroke: var(--blue); }
+    .ml.on.k-del .ml-core, .ml.on.k-fail .ml-core { stroke: #e5484d; }
+    .ml.on.k-up .ml-core { stroke: var(--good); }
+    .ml.rule.on .ml-casing { stroke: var(--good); stroke-dasharray: none; opacity: 1; }
+    .ml.ok .ml-core { stroke: var(--good); }
+    .ml.alt .ml-casing { stroke: #e5484d; stroke-dasharray: 6 6; opacity: .75; }
+    .ml.alt.on .ml-core { stroke: #e5484d; }
+    @keyframes mlRun { to { stroke-dashoffset: -28; } }
+    @media (prefers-reduced-motion: reduce) { .ml-casing, .ml-core, .ml-stop, .ml-label { transition: none; } .ml.on .ml-flow { animation: none; } }
+    [data-bs-theme="dark"] .ml-casing { stroke: rgba(0, 229, 255, .55); }
+    [data-bs-theme="dark"] .ml-core { stroke: #07061a; }
+    [data-bs-theme="dark"] .ml.rule .ml-core { stroke: transparent; }
+    [data-bs-theme="dark"] .ml.on .ml-core { stroke: var(--neon-m, #ff2bd6); }
+    [data-bs-theme="dark"] .ml.on.k-read .ml-core { stroke: var(--neon-c, #00e5ff); }
+    [data-bs-theme="dark"] .ml.on.k-up .ml-core, [data-bs-theme="dark"] .ml.ok .ml-core { stroke: #39ff9c; }
+    [data-bs-theme="dark"] .ml-stop { fill: #07061a; stroke: rgba(0, 229, 255, .7); }
+    [data-bs-theme="dark"] .ml-label { fill: rgba(255, 255, 255, .6); stroke: #07061a; }
     .pe-base { fill: none; stroke: color-mix(in srgb, var(--line) 30%, transparent); stroke-width: 2; stroke-linecap: round; }
     .pe.rule .pe-base { stroke-dasharray: 6 5; stroke: color-mix(in srgb, var(--good) 55%, transparent); stroke-width: 2; }
     .pe-hi { fill: none; stroke: var(--accent); stroke-width: 3; stroke-linecap: round; opacity: 0; filter: url(#pf-glow); }
@@ -8997,7 +9031,7 @@ function NbSnaps({
 // Fluxograma do NitBike no estilo de editor de fluxos: nós em HTML (texto nítido) sobre uma camada SVG com as ligações
 // em curva e as portas. O movimento é do GSAP: a pílula com o nome do dado anda pela curva (MotionPathPlugin), a ligação
 // acende enquanto ele passa, o nó que recebe pulsa e, na primeira vez na tela, os nós entram e as ligações se desenham
-// (DrawSVGPlugin). Cada linha do tempo nasce de um evento da simulação e anda no ritmo do relógio (timeScale).
+// (como linhas de metrô, iguais às do portfolio-v2). Cada linha do tempo nasce de um evento da simulação e anda no ritmo do relógio (timeScale).
 const NB_FLOW = {
   wide: {
     w: 1190,
@@ -9013,53 +9047,50 @@ const NB_FLOW = {
     },
     e: {
       api_col: {
-        a: [195, 230],
-        b: [240, 80]
-      },
-      col_pg: {
-        a: [415, 80],
-        b: [460, 160]
+        pts: [[195, 215], [218, 215], [218, 80], [240, 80]],
+        d: 0
       },
       api_tot: {
-        a: [195, 230],
-        b: [240, 372]
+        pts: [[195, 245], [218, 245], [218, 372], [240, 372]],
+        d: 0
+      },
+      col_pg: {
+        pts: [[415, 80], [437, 80], [437, 160], [460, 160]],
+        d: 1
       },
       tot_pub: {
-        a: [415, 372],
-        b: [765, 300],
-        d: "M415,372 C540,372 540,410 640,410 C722,410 718,300 765,300",
+        pts: [[415, 372], [855, 372], [855, 330]],
+        d: 2,
         cap: "devolve o total à publicação",
-        capAt: [424, 364],
+        capAt: [430, 362],
         capL: true
       },
       pg_pub: {
-        a: [650, 190],
-        b: [765, 190],
+        pts: [[650, 190], [765, 190]],
+        d: 2,
         cap: "lê a janela",
         capAt: [707, 178]
       },
       pub_pg: {
-        a: [765, 250],
-        b: [650, 250],
+        pts: [[765, 250], [650, 250]],
+        d: 3,
         cap: "apaga antigos",
-        capAt: [707, 268]
+        capAt: [707, 270]
       },
       pub_agol: {
-        a: [945, 200],
-        b: [984, 120]
+        pts: [[945, 170], [964, 170], [964, 120], [984, 120]],
+        d: 3
       },
       agol_gem: {
-        a: [1071, 216],
-        b: [1071, 252],
-        v: true
+        pts: [[1071, 216], [1071, 252]],
+        d: 4
       },
       pico: {
-        a: [327, 414],
-        b: [1158, 90],
+        pts: [[327, 414], [327, 452], [1176, 452], [1176, 90], [1158, 90]],
+        d: 4,
         rule: true,
-        d: "M327,414 C327,440 342,452 372,452 L1156,452 C1172,452 1176,444 1176,422 L1176,112 C1176,96 1170,90 1158,90",
         cap: "só se o total passar do pico: grava o novo pico no ArcGIS",
-        capAt: [384, 446],
+        capAt: [342, 444],
         capL: true
       }
     }
@@ -9070,82 +9101,129 @@ const NB_FLOW = {
     n: {
       api: [110, 16, 160, 70],
       coleta: [16, 126, 165, 70],
-      total: [199, 126, 165, 70],
-      pg: [16, 246, 348, 150],
-      pub: [16, 446, 348, 196],
+      total: [199, 126, 157, 70],
+      pg: [16, 246, 336, 150],
+      pub: [16, 446, 336, 196],
       agol: [16, 692, 165, 192],
       gem: [199, 692, 165, 192]
     },
     e: {
       api_col: {
-        a: [170, 86],
-        b: [98, 126],
-        v: true
+        pts: [[150, 86], [150, 106], [98, 106], [98, 126]],
+        d: 0
       },
       api_tot: {
-        a: [210, 86],
-        b: [281, 126],
-        v: true
+        pts: [[230, 86], [230, 106], [278, 106], [278, 126]],
+        d: 0
       },
       col_pg: {
-        a: [98, 196],
-        b: [98, 246],
-        v: true
+        pts: [[98, 196], [98, 246]],
+        d: 1
       },
       tot_pub: {
-        a: [281, 196],
-        b: [300, 446],
-        d: "M281,196 C281,214 370,206 370,236 L370,416 C370,434 300,428 300,446"
+        pts: [[278, 196], [278, 214], [364, 214], [364, 434], [300, 434], [300, 446]],
+        d: 2
       },
       pg_pub: {
-        a: [120, 396],
-        b: [120, 446],
-        v: true,
+        pts: [[120, 396], [120, 446]],
+        d: 2,
         cap: "lê a janela",
-        capAt: [128, 424],
-        capL: true
-      },
-      pub_pg: {
-        a: [250, 446],
-        b: [250, 396],
-        v: true,
-        cap: "apaga antigos",
-        capAt: [242, 424],
+        capAt: [110, 424],
         capR: true
       },
+      pub_pg: {
+        pts: [[250, 446], [250, 396]],
+        d: 3,
+        cap: "apaga antigos",
+        capAt: [260, 420],
+        capL: true
+      },
       pub_agol: {
-        a: [98, 642],
-        b: [98, 692],
-        v: true
+        pts: [[98, 642], [98, 692]],
+        d: 3
       },
       agol_gem: {
-        a: [181, 788],
-        b: [199, 788]
+        pts: [[181, 788], [199, 788]],
+        d: 4
       },
       pico: {
-        a: [364, 150],
-        b: [56, 692],
+        pts: [[356, 150], [374, 150], [374, 670], [150, 670], [150, 692]],
+        d: 4,
         rule: true,
-        d: "M364,150 C374,150 377,158 377,172 L377,656 C377,666 372,670 360,670 L72,670 C60,670 56,676 56,692",
         cap: "se passar do pico: novo pico → ArcGIS",
-        capAt: [214, 664]
+        capAt: [262, 662]
       }
     }
   }
 };
-const nbEdgeD = e => {
-  if (e.d) return e.d;
-  const [ax, ay] = e.a,
-    [bx, by] = e.b;
-  if (e.v) {
-    const dy = Math.max(16, Math.abs(by - ay) * 0.55) * Math.sign(by - ay || 1);
-    return `M${ax},${ay} C${ax},${ay + dy} ${bx},${by - dy} ${bx},${by}`;
+// Polilinha com cantos arredondados, como as curvas de um mapa de metrô (o mesmo desenho do portfolio-v2).
+function roundedPath(pts, r = 12) {
+  if (!pts || pts.length < 2) return "";
+  let d = `M ${pts[0][0]} ${pts[0][1]}`;
+  for (let i = 1; i < pts.length - 1; i++) {
+    const [px, py] = pts[i - 1],
+      [cx, cy] = pts[i],
+      [nx, ny] = pts[i + 1];
+    const l1 = Math.hypot(cx - px, cy - py),
+      l2 = Math.hypot(nx - cx, ny - cy);
+    const k = Math.min(r, l1 / 2, l2 / 2);
+    if (!k || !l1 || !l2) {
+      d += ` L ${cx} ${cy}`;
+      continue;
+    }
+    const ax = cx - (cx - px) / l1 * k,
+      ay = cy - (cy - py) / l1 * k;
+    const bx = cx + (nx - cx) / l2 * k,
+      by = cy + (ny - cy) / l2 * k;
+    d += ` L ${ax.toFixed(1)} ${ay.toFixed(1)} Q ${cx} ${cy} ${bx.toFixed(1)} ${by.toFixed(1)}`;
   }
-  const dx = Math.max(22, Math.abs(bx - ax) * 0.55) * Math.sign(bx - ax || 1);
-  return `M${ax},${ay} C${ax + dx},${ay} ${bx - dx},${by} ${bx},${by}`;
-};
-const FLOW_LIBS = () => loadXpLib("gsap").then(() => Promise.all([loadXpLib("motionpath"), loadXpLib("drawsvg")])).then(() => {
-  window.gsap.registerPlugin(window.MotionPathPlugin, window.DrawSVGPlugin);
+  const [lx, ly] = pts[pts.length - 1];
+  return `${d} L ${lx} ${ly}`;
+}
+// Uma linha: contorno, miolo (que se desenha na entrada), o tracejado que corre quando ela acende e as estações.
+function MetroLine({
+  pts,
+  cls = "",
+  order = 0,
+  gRef,
+  trackRef,
+  stops = true,
+  children
+}) {
+  const d = roundedPath(pts);
+  const [x0, y0] = pts[0],
+    [x1, y1] = pts[pts.length - 1];
+  return /*#__PURE__*/React.createElement("g", {
+    className: `ml ${cls}`,
+    style: {
+      "--d": order
+    },
+    ref: gRef
+  }, /*#__PURE__*/React.createElement("path", {
+    d: d,
+    className: "ml-casing"
+  }), /*#__PURE__*/React.createElement("path", {
+    d: d,
+    className: "ml-core",
+    pathLength: "1"
+  }), /*#__PURE__*/React.createElement("path", {
+    d: d,
+    className: "ml-flow",
+    ref: trackRef
+  }), stops && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("circle", {
+    cx: x0,
+    cy: y0,
+    r: "3.4",
+    className: "ml-stop"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: x1,
+    cy: y1,
+    r: "3.4",
+    className: "ml-stop"
+  })), children);
+}
+const FLOW_LIBS = () => loadXpLib("gsap").then(() => loadXpLib("motionpath")).then(() => {
+  window.gsap.registerPlugin(window.MotionPathPlugin);
 });
 
 // Os snapshots no banco como barrinhas, o mais novo à direita: cada uma nasce (cresce de baixo) quando a pílula da
@@ -9264,7 +9342,7 @@ function NbFlow({
     T = NB_PUB;
   const root = useRef(null),
     paths = useRef({}),
-    his = useRef({}),
+    lines = useRef({}),
     toks = useRef({}),
     rings = useRef({}),
     tls = useRef(new Set());
@@ -9302,7 +9380,7 @@ function NbFlow({
   useEffect(() => {
     if (seen) FLOW_LIBS().then(() => setReady(true)).catch(() => {});
   }, [seen]);
-  // entrada: os nós sobem em cascata e as ligações se desenham, uma vez
+  // entrada: os nós sobem em cascata; as linhas se desenham na ordem do dado (CSS, pela classe "drawn")
   useEffect(() => {
     if (!ready || !root.current) return;
     const g = window.gsap,
@@ -9314,28 +9392,6 @@ function NbFlow({
           stagger: 0.08,
           ease: "power3.out",
           clearProps: "transform,opacity"
-        });
-        g.from(root.current.querySelectorAll(".pe:not(.rule) .pe-base"), {
-          drawSVG: "0%",
-          duration: 1.2,
-          stagger: 0.07,
-          ease: "power2.inOut",
-          delay: 0.15,
-          clearProps: "strokeDasharray,strokeDashoffset"
-        });
-        g.from(root.current.querySelectorAll(".pe.rule .pe-base"), {
-          opacity: 0,
-          duration: 0.9,
-          delay: 0.9,
-          ease: "sine.out"
-        });
-        g.from(root.current.querySelectorAll(".pe-port"), {
-          scale: 0,
-          transformOrigin: "50% 50%",
-          duration: 0.4,
-          stagger: 0.03,
-          ease: "back.out(3)",
-          delay: 0.5
         });
       }, root);
     return () => ctx.revert();
@@ -9363,12 +9419,14 @@ function NbFlow({
       ease: "power2.out"
     });
   };
-  // um salto do dado por uma ligação: a pílula entra, corre pela curva acelerando e freando e some no destino
+  // um salto do dado por uma ligação: a linha acende e o tracejado corre por ela, a pílula entra, corre pelo
+  // percurso acelerando e freando e some no destino; a linha apaga devagar depois que ela chega
   const hop = (tl, id, at, dur, label, kind, dest) => {
     const path = paths.current[id],
-      hi = his.current[id],
+      line = lines.current[id],
       tok = toks.current[id];
-    if (!path || !tok) return;
+    if (!path || !tok || !line) return;
+    const lit = ["on", kind ? `k-${kind}` : "k-go"];
     tl.call(() => {
       const t = tok.querySelector("text"),
         rc = tok.querySelector("rect");
@@ -9388,6 +9446,10 @@ function NbFlow({
       duration: 0.25,
       ease: "back.out(2.2)"
     }, at);
+    tl.call(() => {
+      line.classList.remove("k-go", "k-read", "k-del", "k-up", "k-fail");
+      line.classList.add(...lit);
+    }, null, at);
     tl.to(tok, {
       motionPath: {
         path,
@@ -9399,22 +9461,13 @@ function NbFlow({
       duration: dur,
       ease: "power2.inOut"
     }, at);
-    tl.to(hi, {
-      opacity: 1,
-      duration: Math.min(0.3, dur * 0.4),
-      ease: "sine.out"
-    }, at);
     tl.to(tok, {
       opacity: 0,
       scale: 0.75,
       duration: 0.2,
       ease: "power1.in"
     }, at + dur - 0.12);
-    tl.to(hi, {
-      opacity: 0,
-      duration: 0.8,
-      ease: "sine.inOut"
-    }, at + dur);
+    tl.call(() => line.classList.remove("on"), null, at + dur + 0.35);
     if (dest) tl.call(() => pulse(dest), null, at + dur);
   };
   const run = build => {
@@ -9475,7 +9528,7 @@ function NbFlow({
     className: "fx-wrap"
   }, /*#__PURE__*/React.createElement("div", {
     ref: root,
-    className: `pflow ${narrow ? "narrow" : ""}`,
+    className: `pflow ${narrow ? "narrow" : ""} ${seen || still ? "drawn" : ""}`,
     style: {
       aspectRatio: `${L.w} / ${L.h}`,
       "--u": `calc(100cqw / ${L.w})`
@@ -9499,46 +9552,22 @@ function NbFlow({
     in: "b"
   }), /*#__PURE__*/React.createElement("feMergeNode", {
     in: "SourceGraphic"
-  }))), /*#__PURE__*/React.createElement("marker", {
-    id: "pf-arrow",
-    viewBox: "0 0 10 10",
-    refX: "8.5",
-    refY: "5",
-    markerWidth: "7",
-    markerHeight: "7",
-    orient: "auto-start-reverse"
-  }, /*#__PURE__*/React.createElement("path", {
-    d: "M0,1 L9,5 L0,9 z",
-    className: "pe-arrow"
-  }))), Object.entries(L.e).map(([id, e]) => /*#__PURE__*/React.createElement("g", {
+  })))), Object.entries(L.e).map(([id, e]) => /*#__PURE__*/React.createElement(MetroLine, {
     key: id,
-    className: `pe ${e.rule ? "rule" : ""}`
-  }, /*#__PURE__*/React.createElement("path", {
-    d: nbEdgeD(e),
-    className: "pe-base",
-    markerEnd: "url(#pf-arrow)"
-  }), /*#__PURE__*/React.createElement("path", {
-    d: nbEdgeD(e),
-    className: "pe-hi",
-    ref: el => {
-      his.current[id] = el;
-    }
-  }), /*#__PURE__*/React.createElement("path", {
-    d: nbEdgeD(e),
-    className: "pe-track",
-    ref: el => {
+    pts: e.pts,
+    order: e.d,
+    cls: e.rule ? "rule" : "",
+    gRef: el => {
+      lines.current[id] = el;
+    },
+    trackRef: el => {
       paths.current[id] = el;
     }
-  }), /*#__PURE__*/React.createElement("circle", {
-    cx: e.a[0],
-    cy: e.a[1],
-    r: "4",
-    className: "pe-port"
-  }), e.cap && /*#__PURE__*/React.createElement("text", {
+  }, e.cap && /*#__PURE__*/React.createElement("text", {
     x: e.capAt[0],
     y: e.capAt[1],
     textAnchor: e.capL ? "start" : e.capR ? "end" : "middle",
-    className: "pe-cap"
+    className: "ml-label"
   }, e.cap)))), node("api", {
     role: "src",
     icon: "bi-broadcast",
@@ -11323,12 +11352,12 @@ function N8nArt() {
   const lines = flow.edges.map(e => {
     const ran = plan.edges.find(x => x.a === e.a && x.b === e.b);
     const st = !ran || T < ran.start ? "" : T < ran.end ? "on" : "ok";
-    return /*#__PURE__*/React.createElement("g", {
-      key: e.a + e.b
-    }, /*#__PURE__*/React.createElement("polyline", {
-      points: ptsAttr(e.pts),
-      className: `fx-edge nf2-edge ${e.alt ? "alt" : ""} ${st}`
-    }), e.label && /*#__PURE__*/React.createElement("text", {
+    return /*#__PURE__*/React.createElement(MetroLine, {
+      key: e.a + e.b,
+      pts: e.pts,
+      cls: `${e.alt ? "alt" : ""} ${st}`,
+      stops: false
+    }, e.label && /*#__PURE__*/React.createElement("text", {
       x: e.lx,
       y: e.ly,
       textAnchor: e.end || "middle",
