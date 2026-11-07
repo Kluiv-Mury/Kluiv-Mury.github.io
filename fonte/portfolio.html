@@ -1156,6 +1156,80 @@
     .km-carousel .carousel-indicators [data-bs-target] { width: 10px; height: 10px; border-radius: 50%; border: 2px solid #15130f; background-color: #fffdf8; opacity: 1; }
     .km-carousel .carousel-indicators .active { background-color: var(--accent); }
 
+
+    /* ================= Niterói em camadas: a pilha 3D presa na tela enquanto a rolagem abre as placas ================= */
+    .lsx { position: relative; height: 330vh; margin: .4rem 0 2.6rem; }
+    .lsx.is-static { height: auto; }
+    .lsx-sticky { position: sticky; top: var(--nav-h); height: calc(100vh - var(--nav-h)); display: grid; grid-template-columns: minmax(0, .82fr) minmax(0, 1.35fr); gap: clamp(1.2rem, 3vw, 2.6rem); align-items: center; }
+    .lsx.is-static .lsx-sticky { position: relative; top: 0; height: auto; min-height: 560px; }
+    .lsx-copy { position: relative; display: grid; gap: 1.1rem; padding-left: 1.5rem; }
+    .lsx-rail { position: absolute; left: 0; top: 0; bottom: 0; width: 4px; border-radius: 4px; background: color-mix(in srgb, var(--line) 14%, transparent); overflow: hidden; }
+    .lsx-rail span { display: block; height: 100%; border-radius: 4px; background: var(--accent); transform: scaleY(0); transform-origin: top; }
+    .lsx-now { min-height: 262px; }
+    .lsx-now-in { animation: lsxIn .75s cubic-bezier(.16, 1, .3, 1) both; }
+    @keyframes lsxIn { from { opacity: 0; transform: translateY(24px); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
+    .lsx-num { display: block; font: 800 clamp(3.4rem, 7vw, 5.6rem)/.9 "Bricolage Grotesque", sans-serif; letter-spacing: -.05em; color: transparent; -webkit-text-stroke: 2px var(--ink); }
+    .lsx-num small { font-size: .32em; letter-spacing: 0; color: var(--muted); -webkit-text-stroke: 0; }
+    .lsx-name { margin: .55rem 0 .3rem; font-size: clamp(1.6rem, 3vw, 2.3rem); font-weight: 800; letter-spacing: -.03em; }
+    .lsx-name .bi { color: var(--accent); }
+    .lsx-src { margin: 0 0 .55rem; color: var(--muted); font: 600 .8rem "JetBrains Mono", monospace; }
+    .lsx-what { max-width: 30rem; margin: 0 0 .75rem; font-size: .98rem; line-height: 1.55; }
+    .lsx-index { display: grid; gap: .38rem; margin: 0; padding: 0; list-style: none; }
+    .lsx-index li { display: flex; align-items: center; gap: .55rem; color: var(--muted); font: 600 .82rem "JetBrains Mono", monospace; opacity: .6; transition: opacity .3s, color .3s, transform .45s cubic-bezier(.16, 1, .3, 1); }
+    .lsx-index li .dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--line); background: var(--card); transition: background-color .3s, transform .3s; }
+    .lsx-index li .bi { color: var(--accent); font-size: .7rem; }
+    .lsx-index li.passed { opacity: .85; }
+    .lsx-index li.passed .dot { background: var(--ink); }
+    .lsx-index li.on { color: var(--ink); opacity: 1; transform: translateX(6px); }
+    .lsx-index li.on .dot { background: var(--accent); transform: scale(1.3); }
+    .lsx-stage { position: relative; height: min(78vh, 700px); min-height: 380px; border-radius: 24px; overflow: hidden;
+      background: radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--line) 12%, transparent) 1px, transparent 1.3px) 0 0 / 22px 22px,
+                  radial-gradient(70% 60% at 50% 55%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 70%); }
+    .lsx-canvas { position: absolute; inset: 0; opacity: 0; transition: opacity .9s ease; }
+    .lsx-canvas.on { opacity: 1; }
+    .lsx-canvas canvas { display: block; width: 100% !important; height: 100% !important; touch-action: pan-y; }
+    .lsx-static { position: absolute; inset: 0; width: 100%; height: 100%; padding: 1rem; }
+    .lsx-plate polygon { fill: color-mix(in srgb, var(--card) 88%, transparent); stroke: var(--line); stroke-width: 2; transition: fill .3s; }
+    .lsx-plate line { stroke: var(--line); stroke-width: 1.5; stroke-dasharray: 3 3; }
+    .lsx-plate text { fill: var(--ink); font: 600 12px "JetBrains Mono", monospace; }
+    .lsx-plate.mine polygon { stroke: var(--accent); }
+    .lsx-plate.on polygon { fill: color-mix(in srgb, var(--accent) 22%, var(--card)); }
+    .lsx-labels { position: absolute; inset: 0; pointer-events: none; }
+    .lsx-label { position: absolute; left: 0; top: 0; display: inline-flex; align-items: center; gap: .35rem; margin-top: -.8rem; padding: .2rem .55rem .2rem .4rem; border: 1.5px solid var(--line); border-radius: 999px;
+      background: var(--card); color: var(--ink); font: 600 .7rem "JetBrains Mono", monospace; white-space: nowrap; box-shadow: 2px 2px 0 var(--shadow-c); opacity: 0; transition: opacity .35s, background-color .3s, color .3s; will-change: transform; }
+    .lsx-label i { width: 8px; height: 8px; border-radius: 50%; background: var(--ink); }
+    .lsx-label b { font-weight: 800; }
+    .lsx-label.mine i { background: var(--accent); }
+    .lsx-label.on { background: var(--accent); color: #15130f; border-color: #15130f; }
+    .lsx-label.on i { background: #15130f; }
+    .lsx-hint { position: absolute; right: .9rem; bottom: .7rem; color: var(--muted); font: 600 .74rem "JetBrains Mono", monospace; }
+    .lsx.is-static .lsx-hint { display: none; }
+    @media (max-width: 991.98px) {
+      .lsx { height: 290vh; }
+      .lsx-sticky { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); gap: .5rem; align-items: stretch; padding: .6rem 0 .8rem; }
+      .lsx-copy { gap: .35rem; padding-left: 1rem; }
+      .lsx-copy .dash-title, .lsx-index, .lsx-hint { display: none; }
+      .lsx-now { min-height: 0; }
+      .lsx-num { display: inline-block; margin-right: .5rem; font-size: 2.4rem; }
+      .lsx-name { display: inline; font-size: 1.3rem; }
+      .lsx-src { margin: .25rem 0 .2rem; font-size: .72rem; }
+      .lsx-what { margin-bottom: .3rem; font-size: .86rem; line-height: 1.45; }
+      .lsx-stage { height: auto; min-height: 260px; }
+      .lsx-label:not(.on) { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) { .lsx-now-in { animation: none; } }
+    [data-bs-theme="dark"] .lsx-num { -webkit-text-stroke-color: var(--neon-c); text-shadow: 0 0 18px rgba(0, 229, 255, .35); }
+    [data-bs-theme="dark"] .lsx-name .bi, [data-bs-theme="dark"] .lsx-index li .bi { color: var(--neon-m); }
+    [data-bs-theme="dark"] .lsx-rail span, [data-bs-theme="dark"] .lsx-index li.on .dot { background: var(--neon-m); box-shadow: 0 0 10px var(--neon-m); }
+    [data-bs-theme="dark"] .lsx-stage { border-radius: 4px; background: radial-gradient(circle at 1px 1px, rgba(0, 229, 255, .14) 1px, transparent 1.3px) 0 0 / 22px 22px, radial-gradient(70% 60% at 50% 55%, rgba(255, 43, 214, .14), transparent 70%), #05040f; box-shadow: inset 0 0 0 1px rgba(0, 229, 255, .25); }
+    [data-bs-theme="dark"] .lsx-label { border-color: rgba(0, 229, 255, .55); border-radius: 2px; background: #07061a; color: #e6f4ff; box-shadow: 0 0 10px rgba(0, 229, 255, .2); }
+    [data-bs-theme="dark"] .lsx-label i { background: var(--neon-c); }
+    [data-bs-theme="dark"] .lsx-label.mine i { background: var(--neon-m); }
+    [data-bs-theme="dark"] .lsx-label.on { background: var(--neon-m); color: #05040f; border-color: var(--neon-m); box-shadow: 0 0 16px var(--neon-m); }
+    [data-bs-theme="dark"] .lsx-plate polygon { fill: rgba(13, 12, 42, .85); stroke: var(--neon-c); }
+    [data-bs-theme="dark"] .lsx-plate.mine polygon { stroke: var(--neon-m); }
+    [data-bs-theme="dark"] .lsx-plate text { fill: #e6f4ff; }
+
     /* ================= Contato + rodapé ================= */
     .contact {
       position: relative; overflow: hidden;
@@ -6886,6 +6960,752 @@
       );
     }
 
+    /* ---------- Niterói em camadas: a pilha 3D do Gêmeo, aberta pela rolagem (como no portfolio-v2) ---------- */
+    // Seis placas, uma por camada do Gêmeo, de baixo para cima. O conteúdo de cada placa sai das posições reais do
+    // mapa (estações do NitBike, câmeras, pluviômetros e rotas de ônibus); prédios, ônibus andando, cones de visão,
+    // trânsito e viagens entre estações são ilustrativos. A seção fica presa na tela enquanto a rolagem separa as
+    // placas, gira a câmera em volta da pilha e destaca a camada da vez. A câmera se afasta o quanto precisa para a
+    // pilha inteira caber no quadro em qualquer ângulo (sem cortes). Sem WebGL, fica a pilha desenhada em SVG.
+    const LX_REGION = { x: 262, y: 288, w: 380, h: 350 }; // Centro, Icaraí e Santa Rosa (unidades do mapa)
+    const LX_S = 0.0108;
+    const LX_PLATE = { w: LX_REGION.w * LX_S + 0.42, d: LX_REGION.h * LX_S + 0.42, t: 0.14 };
+    const LX_GAP = [0.22, 0.98]; // distância entre as placas: fechada e aberta
+    const lxIn = (x, y, m = 0) => x >= LX_REGION.x + m && x <= LX_REGION.x + LX_REGION.w - m && y >= LX_REGION.y + m && y <= LX_REGION.y + LX_REGION.h - m;
+    const lxW = (x, y) => [(x - LX_REGION.x - LX_REGION.w / 2) * LX_S, (y - LX_REGION.y - LX_REGION.h / 2) * LX_S];
+    const lxSmooth = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+    // o mar da Baía e de Icaraí, aproximado, para pintar a água no mapa da placa de baixo (unidades do mapa)
+    const LX_SEA = [[262, 288], [318, 288], [322, 330], [331, 372], [329, 430], [303, 438], [288, 466], [301, 500], [348, 506], [398, 499], [430, 528], [458, 562], [474, 598], [492, 638], [262, 638]];
+    const LX_PAL = {
+      light: {
+        plate: "#fffdf8", edge: "#15130f", drop: "#15130f", mine: "#ff5a1f", tint: ["#d9ccb6", "#2e5bff", "#6b5bd6", "#168a4a", "#ff5a1f", "#c9e23a"],
+        build: "#e9e0cf", tower: "#f6f1e7", roof: "#fffdf8", win: "#9d9383", lit: "#9d9383", tree: "#3f9a5a", trunk: "#8a6a48",
+        sea: "rgba(46, 91, 255, .13)", mapInk: "#15130f", mapBg: "#f4efe6", mapA: 0.42,
+        gauge: "#2e5bff", cloud: "#ffffff", cam: "#2b2823", cone: "#6b5bd6", road: "#d8cdb9", dash: "#fffdf8", bus: "#168a4a", busTop: "#fffdf8",
+        heat: ["#9bc53d", "#f2b632", "#ff5a1f", "#d7263d"], car: "#2b2823", nb: "#ff5a1f", lime: "#e6ff57", glow: 0, sky: "#fffdf8", ground: "#d9ccb6", shadow: "21, 19, 15",
+      },
+      dark: {
+        plate: "#0d0c2a", edge: "#00e5ff", drop: null, mine: "#ff2bd6", tint: ["#7a7aff", "#00e5ff", "#b06bff", "#39ff9c", "#ff8a1f", "#ff2bd6"],
+        build: "#16154a", tower: "#1d1c5c", roof: "#2c2a7a", win: "#05040f", lit: "#ffd27a", tree: "#39ff9c", trunk: "#1d1c5c",
+        sea: "rgba(0, 229, 255, .12)", mapInk: "#00e5ff", mapBg: "#07061c", mapA: 0.4,
+        gauge: "#00e5ff", cloud: "#9fefff", cam: "#c9d6ff", cone: "#b06bff", road: "#1a1950", dash: "#00e5ff", bus: "#39ff9c", busTop: "#e6fff2",
+        heat: ["#39ff9c", "#ffe14d", "#ff8a1f", "#ff2b6b"], car: "#e6f4ff", nb: "#ff2bd6", lime: "#e6ff57", glow: 1, sky: "#3b3b8f", ground: "#05040f", shadow: "0, 229, 255",
+      },
+    };
+    // o que cada placa mostra, para o texto ao lado da pilha
+    const LX_WHAT = {
+      "Edificações 3D": "Prédios sobre o mapa real de ruas: as torres da orla de Icaraí, o Centro e Santa Rosa. No Gêmeo, o modelo vem do LiDAR; aqui as alturas são ilustrativas.",
+      "Pluviômetros": "Cada pluviômetro da Defesa Civil na posição real. A água sobe no tubo com a leitura e a chuva cai no funil (ilustrativas).",
+      "Câmeras urbanas": "As câmeras da NitTrans nos cruzamentos reais. O leque no chão mostra para onde cada uma olha (ilustrativo).",
+      "Ônibus": "As rotas reais das linhas municipais, desenhadas como ruas. Os ônibus andando nelas são simulados.",
+      "Trânsito": "Trechos com lentidão, da fluida à parada, com os carros em fila. No Gêmeo vêm do Waze a cada 2 min; aqui são ilustrativos.",
+      "NitBike": "As estações reais, com a base do tamanho da capacidade de cada uma. O anel em limão é a ocupação e os arcos são viagens entre estações (ilustrativos).",
+    };
+
+    // Desenha o recorte do mapa de ruas (com o mar) num canvas.
+    async function lxMapTexture(THREE, P) {
+      const svg = await fetch(CITY_MAP.src).then((r) => r.text());
+      const url = URL.createObjectURL(new Blob([svg.replace('stroke="#000"', `stroke="${P.mapInk}"`)], { type: "image/svg+xml" }));
+      try {
+        const img = new Image();
+        img.src = url;
+        await img.decode();
+        const k = 3, cv = document.createElement("canvas");
+        cv.width = Math.round(LX_REGION.w * k); cv.height = Math.round(LX_REGION.h * k);
+        const ctx = cv.getContext("2d");
+        ctx.fillStyle = P.mapBg; ctx.fillRect(0, 0, cv.width, cv.height);
+        ctx.fillStyle = P.sea; ctx.beginPath();
+        LX_SEA.forEach(([x, y], i) => ctx[i ? "lineTo" : "moveTo"]((x - LX_REGION.x) * k, (y - LX_REGION.y) * k));
+        ctx.closePath(); ctx.fill();
+        ctx.globalAlpha = P.mapA;
+        ctx.drawImage(img, -LX_REGION.x * k, -LX_REGION.y * k, 2000 * k, 1225 * k);
+        const tex = new THREE.CanvasTexture(cv);
+        tex.colorSpace = THREE.SRGBColorSpace;
+        tex.anisotropy = 8;
+        return tex;
+      } finally { URL.revokeObjectURL(url); }
+    }
+    function lxCanvasTex(THREE, w, h, draw, srgb = true) {
+      const cv = document.createElement("canvas"); cv.width = w; cv.height = h;
+      draw(cv.getContext("2d"), w, h);
+      const tex = new THREE.CanvasTexture(cv);
+      if (srgb) tex.colorSpace = THREE.SRGBColorSpace;
+      return tex;
+    }
+    // Sombra suave embaixo da pilha (um gradiente radial num canvas).
+    const lxShadowTexture = (THREE, rgb) => lxCanvasTex(THREE, 256, 256, (ctx) => {
+      const g = ctx.createRadialGradient(128, 128, 10, 128, 128, 128);
+      g.addColorStop(0, `rgba(${rgb}, .3)`); g.addColorStop(0.55, `rgba(${rgb}, .1)`); g.addColorStop(1, `rgba(${rgb}, 0)`);
+      ctx.fillStyle = g; ctx.fillRect(0, 0, 256, 256);
+    });
+    // Faixa (rua) plana ao longo de uma curva, com UV correndo no comprimento (para tracejados que andam).
+    function lxRibbon(THREE, curve, width, segs, y) {
+      const pos = [], uv = [], idx = [], L = curve.getLength(), p = new THREE.Vector3(), t = new THREE.Vector3();
+      for (let i = 0; i <= segs; i++) {
+        const u = i / segs;
+        curve.getPointAt(u, p); curve.getTangentAt(u, t);
+        const nx = -t.z, nz = t.x, n = Math.hypot(nx, nz) || 1;
+        pos.push(p.x + (nx / n) * width / 2, y, p.z + (nz / n) * width / 2, p.x - (nx / n) * width / 2, y, p.z - (nz / n) * width / 2);
+        uv.push(u * L, 0, u * L, 1);
+        if (i < segs) { const a = i * 2; idx.push(a, a + 2, a + 1, a + 1, a + 2, a + 3); } // face para cima
+      }
+      const g = new THREE.BufferGeometry();
+      g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+      g.setAttribute("uv", new THREE.Float32BufferAttribute(uv, 2));
+      g.setIndex(idx);
+      g.computeVertexNormals();
+      return g;
+    }
+
+    // Monta as seis placas. Cada uma devolve o grupo, os materiais da placa e do conteúdo (para o foco) e uma animação.
+    function lxBuild(THREE, P, layers, SVGLoader) {
+      let alive = true;
+      let seed = 42;
+      const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+      const top = LX_PLATE.t / 2 + 0.012, dark = P.glow > 0;
+      const root = new THREE.Group();
+      const disposables = [];
+      const keep = (x) => { disposables.push(x); return x; };
+      const mat = (color, { glow = true, ei = 0.5, ...o } = {}) => {
+        const m = keep(new THREE.MeshStandardMaterial({ color, roughness: 0.7, metalness: 0.02, transparent: true, opacity: 1, ...o }));
+        if (dark && glow) { m.emissive = new THREE.Color(color); m.emissiveIntensity = ei; }
+        m.userData.base = m.opacity;
+        return m;
+      };
+      const basic = (color, opacity = 1, o = {}) => { const m = keep(new THREE.MeshBasicMaterial({ color, transparent: true, opacity, depthWrite: false, ...o })); m.userData.base = opacity; return m; };
+      const Y = new THREE.Vector3(0, 1, 0);
+      const inst = (geo, m, items, place) => {
+        const mesh = new THREE.InstancedMesh(keep(geo), m, Math.max(1, items.length));
+        const M = new THREE.Matrix4(), q = new THREE.Quaternion(), s = new THREE.Vector3(), p = new THREE.Vector3();
+        items.forEach((it, i) => { q.identity(); s.set(1, 1, 1); place(it, p, q, s, i); M.compose(p, q, s); mesh.setMatrixAt(i, M); });
+        mesh.count = items.length;
+        mesh.instanceMatrix.needsUpdate = true;
+        mesh.castShadow = true; mesh.receiveShadow = true;
+        return mesh;
+      };
+      const mesh = (geo, m, shadow = true) => { const o = new THREE.Mesh(keep(geo), m); o.castShadow = shadow; o.receiveShadow = true; return o; };
+      const curveOf = (w, y) => new THREE.CatmullRomCurve3(w.filter((q, i) => !i || Math.hypot(q[0] - w[i - 1][0], q[1] - w[i - 1][1]) > 0.004).map(([x, z]) => new THREE.Vector3(x, y, z)), false, "catmullrom", 0.1);
+      const routes = BUS_ROUTES.map(([line, , pts]) => ({ line, w: pts.filter(([x, y]) => lxIn(x, y, 3)).map(([x, y]) => lxW(x, y)) })).filter((r) => r.w.length > 3);
+
+      // a placa: cartão grosso de cantos arredondados, borda na cor da camada, contorno e (no claro) a sombra deslocada
+      const shape = new THREE.Shape(), pw = LX_PLATE.w / 2, pd = LX_PLATE.d / 2, pr = 0.2;
+      shape.moveTo(-pw + pr, -pd); shape.lineTo(pw - pr, -pd); shape.quadraticCurveTo(pw, -pd, pw, -pd + pr); shape.lineTo(pw, pd - pr); shape.quadraticCurveTo(pw, pd, pw - pr, pd);
+      shape.lineTo(-pw + pr, pd); shape.quadraticCurveTo(-pw, pd, -pw, pd - pr); shape.lineTo(-pw, -pd + pr); shape.quadraticCurveTo(-pw, -pd, -pw + pr, -pd);
+      const slabGeo = keep(new THREE.ExtrudeGeometry(shape, { depth: LX_PLATE.t, bevelEnabled: true, bevelThickness: 0.012, bevelSize: 0.012, bevelSegments: 2, curveSegments: 8 }));
+      slabGeo.rotateX(-Math.PI / 2); slabGeo.translate(0, -LX_PLATE.t / 2, 0);
+      const outline = shape.getPoints(10).map((v) => new THREE.Vector3(v.x, top + 0.002, -v.y));
+      const rimGeo = keep(new THREE.BufferGeometry().setFromPoints([...outline, outline[0]]));
+      const mapTex = { value: null };
+      const plate = (i, mine) => {
+        const g = new THREE.Group();
+        const face = mat(P.plate, { opacity: dark ? 0.86 : 0.97, glow: false, roughness: 0.95, depthWrite: false });
+        const side = mat(P.tint[i], { opacity: 0.95, ei: 0.9, depthWrite: false });
+        const slab = new THREE.Mesh(slabGeo, [face, side]);
+        slab.receiveShadow = true;
+        const rim = new THREE.Line(rimGeo, basic(mine ? P.mine : P.edge, dark ? 0.9 : 0.85));
+        const ground = new THREE.Mesh(keep(new THREE.PlaneGeometry(LX_REGION.w * LX_S, LX_REGION.h * LX_S)), mat("#ffffff", { glow: false, opacity: i === 0 ? 1 : 0.32, roughness: 1, depthWrite: false }));
+        ground.rotation.x = -Math.PI / 2; ground.position.y = top - 0.008; ground.receiveShadow = true; ground.material.visible = false; ground.material.userData.ready = false;
+        g.add(slab, rim, ground);
+        face.userData.off = 0.05; side.userData.off = 0.14; rim.material.userData.off = 0.6; ground.material.userData.off = 0;
+        const parts = [face, side, rim.material];
+        if (P.drop) {
+          const drop = new THREE.Mesh(slabGeo, basic(P.drop, 0.9, { depthWrite: true }));
+          drop.position.set(0.09, -0.07, 0.09); drop.renderOrder = -1;
+          drop.material.userData.off = 0;
+          g.add(drop); parts.push(drop.material);
+        }
+        // parafusos nos cantos, como uma placa montada
+        [[-1, -1], [1, -1], [1, 1], [-1, 1]].forEach(([sx, sz]) => {
+          const b = mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.02, 12), mat(mine ? P.mine : P.edge, { ei: 0.9 }), false);
+          b.position.set(sx * (pw - 0.12), top, sz * (pd - 0.12)); b.material.userData.off = 0.4; g.add(b); parts.push(b.material);
+        });
+        return { g, rim, ground, parts };
+      };
+
+      const out = [];
+      // o que entra depois de montado (o ícone carregado) também segue o foco e as sombras
+      const late = (L, obj) => obj.traverse((o) => {
+        if (o.isMesh) o.userData.cast = o.castShadow;
+        if (o.material) [].concat(o.material).forEach((m) => { if (m.userData.base === undefined) m.userData.base = m.opacity; if (!L.mats.includes(m)) L.mats.push(m); });
+      });
+      const add = (i, anim = () => {}) => {
+        const mine = !!(layers[i] && layers[i].mine);
+        const g = new THREE.Group(), content = new THREE.Group();
+        const pl = plate(i, mine);
+        g.add(pl.g, content);
+        root.add(g);
+        const L = { g, content, mine, anim, rim: pl.rim, ground: pl.ground, plateMats: pl.parts, mats: [] };
+        out.push(L);
+        return L;
+      };
+
+      // 0 · Edificações: torres na orla de Icaraí, o Centro e Santa Rosa, casas baixas ao longo das ruas, palmeiras
+      const l0 = add(0);
+      const winTex = (cols, rows) => {
+        const t = keep(lxCanvasTex(THREE, 64, 128, (ctx, W, H) => {
+          ctx.fillStyle = dark ? "#000" : "#fff"; ctx.fillRect(0, 0, W, H);
+          const cw = W / cols, rh = H / rows;
+          for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+            const on = rnd();
+            ctx.fillStyle = dark ? (on < 0.55 ? "#fff" : on < 0.7 ? "#7a6a40" : "#000") : on < 0.15 ? "#b9b0a0" : P.win;
+            ctx.fillRect(c * cw + cw * 0.22, r * rh + rh * 0.24, cw * 0.56, rh * 0.48);
+          }
+        }));
+        return t;
+      };
+      const bmat = (color, tex) => {
+        const m = mat(color, { glow: false, roughness: 0.85 });
+        if (dark) { m.emissive = new THREE.Color(P.lit); m.emissiveMap = tex; m.emissiveIntensity = 1.1; m.color.set(color); }
+        else m.map = tex;
+        return m;
+      };
+      const blds = { tower: [], mid: [], low: [] };
+      const put = (x, y, h, sx, sz, rot) => {
+        if (!lxIn(x, y, 6)) return;
+        if (LX_SEA_TEST(x, y)) return;
+        const [wx, wz] = lxW(x, y);
+        (h > 0.42 ? blds.tower : h > 0.16 ? blds.mid : blds.low).push({ wx, wz, h, sx, sz, rot });
+      };
+      // a orla de Icaraí: uma fileira de torres de frente para o mar e outra atrás
+      const orla = [[398, 499], [430, 528], [458, 562], [474, 598]];
+      for (let k = 0; k < 2; k++) {
+        for (let i = 0; i < orla.length - 1; i++) {
+          const [ax, ay] = orla[i], [bx, by] = orla[i + 1], len = Math.hypot(bx - ax, by - ay), nx = (by - ay) / len, ny = -(bx - ax) / len;
+          for (let s = 0; s < len; s += 11) {
+            const f = s / len, off = 9 + k * 14 + rnd() * 3;
+            put(ax + (bx - ax) * f + nx * off, ay + (by - ay) * f + ny * off, (k ? 0.36 : 0.5) + rnd() * 0.32, 0.075 + rnd() * 0.02, 0.075 + rnd() * 0.02, Math.atan2(by - ay, bx - ax) * -1);
+          }
+        }
+      }
+      const district = (cx, cy, r, n, hmin, hmax, rot) => {
+        for (let i = 0; i < n; i++) {
+          const a = rnd() * Math.PI * 2, d = Math.sqrt(rnd()) * r;
+          const x = cx + Math.cos(a) * d, y = cy + Math.sin(a) * d, fall = 1 - d / r;
+          put(x, y, hmin + (hmax - hmin) * (0.35 + 0.65 * fall) * (0.5 + rnd() * 0.5), 0.06 + rnd() * 0.05, 0.06 + rnd() * 0.05, rot + (rnd() - 0.5) * 0.2);
+        }
+      };
+      district(352, 400, 42, 70, 0.1, 0.48, -0.2); // Centro
+      district(468, 500, 48, 80, 0.12, 0.5, 0.15); // Icaraí
+      district(545, 480, 46, 60, 0.06, 0.26, 0.3); // Santa Rosa
+      district(410, 330, 40, 35, 0.05, 0.2, 0); // Fátima e arredores
+      BUS_ROUTES.forEach(([, , pts]) => pts.forEach(([x, y], i) => { if (i % 2) return; put(x + (rnd() - 0.5) * 26, y + (rnd() - 0.5) * 26, 0.04 + rnd() * 0.09, 0.05 + rnd() * 0.04, 0.05 + rnd() * 0.04, rnd()); }));
+      const box = new THREE.BoxGeometry(1, 1, 1); box.translate(0, 0.5, 0);
+      [["tower", 4, 16, P.tower], ["mid", 3, 7, P.build], ["low", 2, 2, P.build]].forEach(([k, c, r, color]) => {
+        const list = blds[k];
+        if (!list.length) return;
+        l0.content.add(inst(box.clone(), bmat(color, winTex(c, r)), list, (b, p, q, s) => { p.set(b.wx, top, b.wz); q.setFromAxisAngle(Y, b.rot); s.set(b.sx, b.h, b.sz); }));
+        l0.content.add(inst(new THREE.BoxGeometry(1, 0.016, 1), mat(P.roof, { ei: 0.6 }), list, (b, p, q, s) => { p.set(b.wx, top + b.h + 0.008, b.wz); q.setFromAxisAngle(Y, b.rot); s.set(b.sx * 1.08, 1, b.sz * 1.08); }));
+      });
+      keep(box);
+      // palmeiras entre o mar e as torres
+      const palms = [];
+      for (let i = 0; i < orla.length - 1; i++) {
+        const [ax, ay] = orla[i], [bx, by] = orla[i + 1], len = Math.hypot(bx - ax, by - ay), nx = (by - ay) / len, ny = -(bx - ax) / len;
+        for (let s = 4; s < len; s += 8) { const f = s / len, [wx, wz] = lxW(ax + (bx - ax) * f + nx * 3, ay + (by - ay) * f + ny * 3); palms.push([wx, wz, 0.12 + rnd() * 0.05]); }
+      }
+      l0.content.add(inst(new THREE.CylinderGeometry(0.006, 0.01, 1, 6).translate(0, 0.5, 0), mat(P.trunk, { glow: false }), palms, ([x, z, h], p, q, s) => { p.set(x, top, z); s.set(1, h, 1); }));
+      l0.content.add(inst(new THREE.IcosahedronGeometry(0.04, 1), mat(P.tree, { ei: 0.6, flatShading: true }), palms, ([x, z, h], p, q, s) => { p.set(x, top + h, z); s.set(1.2, 0.7, 1.2); }));
+
+      // 1 · Pluviômetros: base de concreto, poste, coletor com funil e um tubo de vidro em que a água sobe e desce com a
+      // leitura; a chuva é um facho de luz caindo no funil, com gotas, e ondas abrindo na placa
+      const gauges = GAUGES.filter((g) => lxIn(g[1], g[2], 8)).map((g, i) => ({ w: lxW(g[1], g[2]), ph: rnd() * 6.28, sp: 0.35 + rnd() * 0.4, i }));
+      const l1 = add(1);
+      const GS = 1.8; // escala do modelo (são poucos, então podem ser grandes)
+      const at = (g, p, s, y = 0) => { p.set(g.w[0], top + y, g.w[1]); if (s) s.setScalar(GS); };
+      const steelM = mat(dark ? "#9fb3d9" : "#cfc6b6", { ei: 0.25, roughness: 0.35, metalness: 0.55 });
+      const bodyM = mat(dark ? "#e6f4ff" : "#fffdf8", { ei: 0.35, roughness: 0.4 });
+      const blueM = mat(P.gauge, { ei: 0.9, roughness: 0.3 });
+      const glassM = mat(dark ? "#bfefff" : "#dbe6ff", { opacity: 0.32, roughness: 0.05, metalness: 0.1, depthWrite: false, glow: false });
+      const waterM = mat(P.gauge, { ei: 1.1, roughness: 0.2, opacity: 0.9 });
+      // concreto, poste, coletor (com a faixa azul e a borda do funil), o tubo de vidro e o suporte dele
+      l1.content.add(inst(new THREE.CylinderGeometry(0.075, 0.085, 0.03, 24).translate(0, 0.015, 0), mat(dark ? "#2a2970" : "#d9ccb6", { ei: 0.3, roughness: 1 }), gauges, (g, p, q, sc) => at(g, p, sc)));
+      l1.content.add(inst(new THREE.CylinderGeometry(0.012, 0.014, 0.2, 10).translate(0, 0.13, 0), steelM, gauges, (g, p, q, sc) => at(g, p, sc)));
+      l1.content.add(inst(new THREE.CylinderGeometry(0.048, 0.044, 0.11, 24).translate(0, 0.285, 0), bodyM, gauges, (g, p, q, sc) => at(g, p, sc)));
+      l1.content.add(inst(new THREE.CylinderGeometry(0.05, 0.05, 0.018, 24).translate(0, 0.27, 0), blueM, gauges, (g, p, q, sc) => at(g, p, sc)));
+      l1.content.add(inst(new THREE.TorusGeometry(0.048, 0.006, 8, 28).rotateX(Math.PI / 2).translate(0, 0.342, 0), steelM, gauges, (g, p, q, sc) => at(g, p, sc)));
+      l1.content.add(inst(new THREE.CylinderGeometry(0.046, 0.012, 0.035, 24, 1, true).translate(0, 0.325, 0), mat(dark ? "#05040f" : "#5b554b", { glow: false, side: THREE.DoubleSide }), gauges, (g, p, q, sc) => at(g, p, sc)));
+      l1.content.add(inst(new THREE.BoxGeometry(0.05, 0.008, 0.01).translate(0.035, 0.16, 0), steelM, gauges, (g, p, q, sc) => at(g, p, sc)));
+      const tube = inst(new THREE.CylinderGeometry(0.016, 0.016, 0.16, 16, 1, true).translate(0.065, 0.16, 0), glassM, gauges, (g, p, q, sc) => at(g, p, sc));
+      tube.castShadow = false;
+      l1.content.add(tube);
+      // a água no tubo: a altura muda com a leitura de cada um (ilustrativa)
+      const water = inst(new THREE.CylinderGeometry(0.012, 0.012, 1, 14).translate(0, 0.5, 0), waterM, gauges, (g, p) => p.set(g.w[0] + 0.065 * GS, top + 0.082 * GS, g.w[1]));
+      l1.content.add(water);
+      // o facho de chuva: um cilindro aberto que esmaece para cima, caindo no funil
+      const shaftTex = keep(lxCanvasTex(THREE, 4, 64, (ctx, W, H) => { const g = ctx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, "#000"); g.addColorStop(0.6, "#555"); g.addColorStop(1, "#fff"); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); }, false));
+      const shaft = inst(new THREE.CylinderGeometry(0.11, 0.05, 0.42, 24, 1, true).translate(0, 0.55, 0), basic(P.gauge, dark ? 0.32 : 0.16, { side: THREE.DoubleSide, alphaMap: shaftTex, blending: dark ? THREE.AdditiveBlending : THREE.NormalBlending }), gauges, (g, p, q, sc) => at(g, p, sc));
+      shaft.castShadow = false;
+      l1.content.add(shaft);
+      const ripples = [0, 1].map(() => {
+        const m = basic(P.gauge, 0.7, { side: THREE.DoubleSide });
+        const r = inst(new THREE.RingGeometry(0.1, 0.112, 48).rotateX(-Math.PI / 2), m, gauges, (g, p, q, sc) => at(g, p, sc, 0.004));
+        r.castShadow = false;
+        l1.content.add(r);
+        return { mesh: r, m };
+      });
+      const dropsN = gauges.length * 14, dropPos = new Float32Array(dropsN * 6), dropSeed = [];
+      for (let i = 0; i < dropsN; i++) { const g = gauges[i % gauges.length], a = rnd() * 6.28, d = Math.sqrt(rnd()) * 0.08 * GS; dropSeed.push([g.w[0] + Math.cos(a) * d, g.w[1] + Math.sin(a) * d, rnd()]); }
+      const dropGeo = keep(new THREE.BufferGeometry()); dropGeo.setAttribute("position", new THREE.BufferAttribute(dropPos, 3));
+      const drops = new THREE.LineSegments(dropGeo, basic(dark ? "#bff6ff" : P.gauge, 0.85));
+      drops.frustumCulled = false;
+      l1.content.add(drops);
+      const gM4 = new THREE.Matrix4(), gP = new THREE.Vector3(), gQ = new THREE.Quaternion(), gS = new THREE.Vector3();
+      l1.anim = (t) => {
+        ripples.forEach(({ mesh: r, m }, k) => {
+          const f = (t * 0.4 + k * 0.5) % 1;
+          gauges.forEach((g, i) => { at(g, gP, null, 0.004); gS.setScalar((0.8 + f * 2.2) * GS); gM4.compose(gP, gQ, gS); r.setMatrixAt(i, gM4); });
+          r.instanceMatrix.needsUpdate = true;
+          m.userData.wave = 1 - f;
+        });
+        gauges.forEach((g, i) => { gP.set(g.w[0] + 0.065 * GS, top + 0.082 * GS, g.w[1]); gS.set(GS, (0.03 + 0.13 * (0.5 + 0.5 * Math.sin(t * g.sp + g.ph))) * GS, GS); gM4.compose(gP, gQ, gS); water.setMatrixAt(i, gM4); });
+        water.instanceMatrix.needsUpdate = true;
+        dropSeed.forEach(([x, z, o], i) => { const f = (t * 1.2 + o) % 1, y = top + (0.34 + 0.42 * (1 - f)) * GS; dropPos.set([x, y, z, x, y - 0.05 * GS, z], i * 6); });
+        dropGeo.attributes.position.needsUpdate = true;
+      };
+
+      // 2 · Câmeras: poste com braço, câmera tipo bala com capuz, lente acesa e o LED de gravação; o campo de visão é um
+      // leque no chão que esmaece, ligado à lente por duas linhas, e varre devagar
+      const cams = CAMS.filter((c) => lxIn(c[1], c[2], 5)).map((c, i) => ({ w: lxW(c[1], c[2]), a: rnd() * Math.PI * 2, sp: (rnd() < 0.5 ? -1 : 1) * (0.2 + rnd() * 0.22), i }));
+      const l2 = add(2);
+      const poleM = mat(dark ? "#9fb3d9" : "#5b554b", { ei: 0.2, roughness: 0.4, metalness: 0.6 });
+      const shellM = mat(dark ? "#e6f4ff" : "#fffdf8", { ei: 0.3, roughness: 0.35 });
+      const darkM = mat("#15130f", { glow: false, roughness: 0.25, metalness: 0.4 });
+      const ringM = mat(P.cone, { ei: 1.4, roughness: 0.2 });
+      const ledM = basic("#ff3b3b", 1);
+      const radial = keep(lxCanvasTex(THREE, 128, 128, (ctx, W) => { const g = ctx.createRadialGradient(W / 2, W / 2, 0, W / 2, W / 2, W / 2); g.addColorStop(0, "#fff"); g.addColorStop(0.75, "#666"); g.addColorStop(1, "#000"); ctx.fillStyle = g; ctx.fillRect(0, 0, W, W); }, false));
+      const fanM = basic(P.cone, dark ? 0.6 : 0.5, { side: THREE.DoubleSide, alphaMap: radial, blending: dark ? THREE.AdditiveBlending : THREE.NormalBlending });
+      const rayM = basic(P.cone, dark ? 0.7 : 0.5);
+      const H = 0.34, R = 0.3, A = 0.42; // altura da câmera, alcance e meia abertura do leque
+      const lensAt = new THREE.Vector3(0.115, H - 0.03, 0);
+      const C = {
+        base: keep(new THREE.CylinderGeometry(0.035, 0.045, 0.02, 16).translate(0, 0.01, 0)),
+        pole: keep(new THREE.CylinderGeometry(0.009, 0.012, H, 10).translate(0, H / 2, 0)),
+        arm: keep(new THREE.CylinderGeometry(0.006, 0.006, 0.07, 8).rotateZ(Math.PI / 2).translate(0.035, H, 0)),
+        body: keep(new THREE.CapsuleGeometry(0.022, 0.06, 6, 14).rotateZ(Math.PI / 2)),
+        hood: keep(new THREE.BoxGeometry(0.085, 0.006, 0.054)),
+        glass: keep(new THREE.CylinderGeometry(0.016, 0.016, 0.006, 18).rotateZ(Math.PI / 2)),
+        ring: keep(new THREE.TorusGeometry(0.017, 0.004, 8, 20).rotateY(Math.PI / 2)),
+        led: keep(new THREE.SphereGeometry(0.006, 8, 6)),
+        fan: keep(new THREE.CircleGeometry(R, 40, -A, 2 * A).rotateX(-Math.PI / 2)),
+      };
+      const rayPts = [lensAt, new THREE.Vector3(0.04 + R * Math.cos(A), 0.004, -R * Math.sin(A)), lensAt, new THREE.Vector3(0.04 + R * Math.cos(A), 0.004, R * Math.sin(A))];
+      const rayGeo = keep(new THREE.BufferGeometry().setFromPoints(rayPts));
+      const heads = cams.map((c) => {
+        const g = new THREE.Group(); g.position.set(c.w[0], top, c.w[1]);
+        const head = new THREE.Group(); head.position.set(0.075, H - 0.012, 0); head.rotation.z = -0.32;
+        const body = new THREE.Mesh(C.body, shellM); body.castShadow = true;
+        const hood = new THREE.Mesh(C.hood, shellM); hood.position.set(0.012, 0.027, 0);
+        const glass = new THREE.Mesh(C.glass, darkM); glass.position.x = 0.052;
+        const ring = new THREE.Mesh(C.ring, ringM); ring.position.x = 0.05;
+        const led = new THREE.Mesh(C.led, ledM); led.position.set(-0.02, 0.012, 0.022);
+        head.add(body, hood, glass, ring, led);
+        const pole = new THREE.Mesh(C.pole, poleM); pole.castShadow = true;
+        const fan = new THREE.Mesh(C.fan, fanM); fan.position.set(0.04, 0.004, 0); fan.renderOrder = 2;
+        const rays = new THREE.LineSegments(rayGeo, rayM);
+        g.add(new THREE.Mesh(C.base, poleM), pole, new THREE.Mesh(C.arm, poleM), head, fan, rays);
+        g.rotation.y = c.a; g.scale.setScalar(1.7);
+        l2.content.add(g);
+        return { g, c, led };
+      });
+      l2.anim = (t) => {
+        heads.forEach(({ g, c }) => { g.rotation.y = c.a + Math.sin(t * c.sp + c.i) * 0.8; });
+        ledM.userData.wave = (t * 1.2) % 1 < 0.55 ? 1 : 0.15;
+      };
+
+      // 3 · Ônibus: as rotas reais como ruas (com a faixa do meio) e ônibus com janelas e rodas andando nelas
+      const l3 = add(3);
+      const roadM = mat(P.road, { ei: 0.3, roughness: 1 }), busLineM = mat(P.bus, { ei: 0.9 });
+      const dashTex = keep(lxCanvasTex(THREE, 64, 4, (ctx, W, H) => { ctx.clearRect(0, 0, W, H); ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, W * 0.5, H); }));
+      dashTex.wrapS = THREE.RepeatWrapping; dashTex.repeat.set(9, 1);
+      const midM = basic(P.dash, dark ? 0.8 : 1, { map: dashTex });
+      const busRoutes = routes.map((r) => ({ ...r, c: curveOf(r.w, top + 0.002) }));
+      busRoutes.forEach((r) => {
+        const segs = Math.max(30, r.w.length * 6);
+        const road = mesh(lxRibbon(THREE, r.c, 0.11, segs, top + 0.002), roadM, false);
+        const stripe = mesh(lxRibbon(THREE, r.c, 0.03, segs, top + 0.004), busLineM, false);
+        const mid = mesh(lxRibbon(THREE, r.c, 0.008, segs, top + 0.006), midM, false);
+        l3.content.add(road, stripe, mid);
+      });
+      const BG = {
+        body: keep(new THREE.BoxGeometry(0.2, 0.06, 0.075).translate(0, 0.042, 0)),
+        win: keep(new THREE.BoxGeometry(0.17, 0.022, 0.078).translate(0.005, 0.055, 0)),
+        roof: keep(new THREE.BoxGeometry(0.19, 0.012, 0.068).translate(0, 0.078, 0)),
+        wheel: keep(new THREE.CylinderGeometry(0.016, 0.016, 0.08, 10).rotateX(Math.PI / 2)),
+      };
+      const busBodyM = mat(P.lime, { ei: 0.7, roughness: 0.4 }), winM = mat(dark ? "#e6fff2" : "#2b2823", { ei: 1.2, roughness: 0.2 }), roofM = mat(P.busTop, { ei: 0.5 }), wheelM = mat("#15130f", { glow: false });
+      const buses = [];
+      busRoutes.forEach((r, ri) => {
+        const n = r.w.length > 24 ? 2 : 1;
+        for (let k = 0; k < n; k++) {
+          const g = new THREE.Group();
+          const b = new THREE.Mesh(BG.body, busBodyM); b.castShadow = true;
+          g.add(b, new THREE.Mesh(BG.win, winM), new THREE.Mesh(BG.roof, roofM));
+          [-0.06, 0.06].forEach((x) => { const w = new THREE.Mesh(BG.wheel, wheelM); w.position.set(x, 0.016, 0); g.add(w); });
+          g.scale.setScalar(1.7);
+          l3.content.add(g);
+          buses.push({ g, c: r.c, o: (ri * 0.17 + k / n) % 1, sp: 0.016 + rnd() * 0.01 });
+        }
+      });
+      const tan = new THREE.Vector3();
+      l3.anim = (t) => buses.forEach((b) => {
+        const f = (b.o + t * b.sp) % 1;
+        b.c.getPointAt(f, b.g.position); b.g.position.y = top + 0.006;
+        b.c.getTangentAt(f, tan);
+        b.g.rotation.y = Math.atan2(-tan.z, tan.x);
+      });
+
+      // 4 · Trânsito: trechos como faixas coloridas pela lentidão, com o tracejado andando e carros em fila
+      const l4 = add(4);
+      const jams = [];
+      busRoutes.forEach((r, ri) => {
+        if (r.w.length < 10) return;
+        const lvl = ri % 4, a = Math.floor(rnd() * (r.w.length - 9)), len = 6 + Math.floor(rnd() * 4);
+        const c = curveOf(r.w.slice(a, a + len), top + 0.002);
+        const tex = dashTex.clone(); keep(tex); tex.needsUpdate = true;
+        l4.content.add(mesh(lxRibbon(THREE, c, 0.1, 40, top + 0.003), mat(P.heat[lvl], { ei: 0.9, roughness: 0.6 }), false));
+        l4.content.add(mesh(lxRibbon(THREE, c, 0.03, 40, top + 0.006), basic("#ffffff", dark ? 0.9 : 0.85, { map: tex }), false));
+        jams.push({ c, lvl, tex, cars: lvl >= 1 ? 3 + lvl * 2 : 0 });
+      });
+      const carList = []; jams.forEach((j, ji) => { for (let k = 0; k < j.cars; k++) carList.push({ j: ji, k }); });
+      const cars = inst(new THREE.BoxGeometry(0.085, 0.04, 0.05).translate(0, 0.02, 0), mat(P.car, { ei: 0.4, roughness: 0.35 }), carList, (_, p) => p.set(0, -9, 0));
+      l4.content.add(cars);
+      const cM = new THREE.Matrix4(), cP = new THREE.Vector3(), cQ = new THREE.Quaternion(), cS = new THREE.Vector3(1, 1, 1);
+      l4.anim = (t) => {
+        jams.forEach((j) => { j.tex.offset.x = -t * [1.6, 0.9, 0.45, 0.15][j.lvl]; });
+        carList.forEach((cr, i) => {
+          const j = jams[cr.j], sp = [0.06, 0.035, 0.018, 0.006][j.lvl];
+          const f = (cr.k / j.cars + t * sp) % 1;
+          j.c.getPointAt(f, cP); j.c.getTangentAt(f, tan); cP.y = top + 0.008;
+          cQ.setFromAxisAngle(Y, Math.atan2(-tan.z, tan.x));
+          cM.compose(cP, cQ, cS); cars.setMatrixAt(i, cM);
+        });
+        cars.instanceMatrix.needsUpdate = true;
+      };
+
+      // 5 · NitBike: cada estação é uma base redonda do tamanho da capacidade, com um anel em limão marcando a ocupação
+      // (ilustrativa) e o ícone da bicicleta em 3D flutuando e girando em cima; os arcos são viagens entre estações
+      const l5 = add(5);
+      const sts = NB_REAL.filter((s) => lxIn(s[2], s[3], 5)).map((s) => ({ w: lxW(s[2], s[3]), r: 0.08 + (s[4] / 35) * 0.07, occ: 0.2 + rnd() * 0.7, ph: rnd() * 6.28 }));
+      const ICON_Y = 0.26;
+      l5.content.add(inst(new THREE.CylinderGeometry(1, 1.08, 0.022, 32).translate(0, 0.011, 0), mat(dark ? "#2a0f3a" : "#fffdf8", { ei: 0.4, roughness: 0.6 }), sts, (s, p, q, sc) => { p.set(s.w[0], top, s.w[1]); sc.set(s.r, 1, s.r); }));
+      l5.content.add(inst(new THREE.TorusGeometry(1, 0.06, 6, 40).rotateX(Math.PI / 2).translate(0, 0.024, 0), mat(P.nb, { ei: 1 }), sts, (s, p, q, sc) => { p.set(s.w[0], top, s.w[1]); sc.set(s.r, s.r, s.r); }));
+      // o anel de ocupação: um arco por estação, do tamanho das bikes paradas
+      const occM = basic(P.lime, 1, { side: THREE.DoubleSide, depthWrite: true });
+      sts.forEach((s) => {
+        const ring = new THREE.Mesh(keep(new THREE.RingGeometry(s.r * 0.55, s.r * 0.82, 40, 1, Math.PI / 2, -s.occ * Math.PI * 2).rotateX(-Math.PI / 2)), occM);
+        ring.position.set(s.w[0], top + 0.024, s.w[1]);
+        l5.content.add(ring);
+      });
+      // a haste fina que segura o ícone e a sombra dele no chão
+      l5.content.add(inst(new THREE.CylinderGeometry(0.005, 0.005, ICON_Y - 0.08, 6).translate(0, (ICON_Y - 0.08) / 2 + 0.024, 0), mat(P.nb, { ei: 0.8 }), sts, (s, p) => p.set(s.w[0], top, s.w[1])));
+      // o ícone vem do Bootstrap Icons (o mesmo dos hologramas), extrudado; entra quando carregar
+      let bikes = null;
+      if (SVGLoader) loadIconGeometry(THREE, SVGLoader, "bi-bicycle").then(({ surface }) => {
+        if (!alive) return;
+        const geo = surface.clone(); keep(geo);
+        bikes = inst(geo, mat(P.nb, { ei: 1, roughness: 0.35, metalness: 0.1 }), sts, (s, p, q, sc) => { p.set(s.w[0], top + ICON_Y, s.w[1]); sc.setScalar(0.1); });
+        l5.content.add(bikes);
+        late(l5, bikes);
+      }).catch(() => {});
+      const arcM = mat(P.nb, { ei: 1.2, roughness: 0.4 }), dotM = mat(P.lime, { ei: 1.4 });
+      const trips = Array.from({ length: 6 }, () => {
+        const tubeM = new THREE.Mesh(keep(new THREE.BufferGeometry()), arcM);
+        const dot = new THREE.Mesh(keep(new THREE.SphereGeometry(0.03, 12, 10)), dotM);
+        l5.content.add(tubeM, dot);
+        return { tube: tubeM, dot, curve: null, t0: -99, dur: 2.6, n: 0 };
+      });
+      const newTrip = (tr, t) => {
+        const a = sts[Math.floor(rnd() * sts.length)], b = sts[Math.floor(rnd() * sts.length)];
+        if (!a || !b || a === b) return;
+        const A = new THREE.Vector3(a.w[0], top + ICON_Y + 0.12, a.w[1]), B = new THREE.Vector3(b.w[0], top + ICON_Y + 0.12, b.w[1]);
+        const M = A.clone().lerp(B, 0.5); M.y += 0.15 + A.distanceTo(B) * 0.35;
+        tr.curve = new THREE.QuadraticBezierCurve3(A, M, B);
+        tr.tube.geometry.dispose();
+        tr.tube.geometry = new THREE.TubeGeometry(tr.curve, 48, 0.007, 6, false);
+        tr.n = tr.tube.geometry.index.count;
+        tr.t0 = t; tr.dur = 2 + rnd() * 1.6;
+      };
+      const bM4 = new THREE.Matrix4(), bP = new THREE.Vector3(), bQ = new THREE.Quaternion(), bS = new THREE.Vector3(0.1, 0.1, 0.1);
+      l5.anim = (t) => {
+        if (bikes) {
+          sts.forEach((s, i) => { bP.set(s.w[0], top + ICON_Y + Math.sin(t * 1.5 + s.ph) * 0.012, s.w[1]); bQ.setFromAxisAngle(Y, t * 0.7 + s.ph); bM4.compose(bP, bQ, bS); bikes.setMatrixAt(i, bM4); });
+          bikes.instanceMatrix.needsUpdate = true;
+        }
+        trips.forEach((tr, k) => {
+          if (t - tr.t0 > tr.dur + 0.9 + k * 0.35) newTrip(tr, t);
+          const f = Math.min(1, (t - tr.t0) / tr.dur);
+          if (tr.curve) { tr.curve.getPointAt(f, tr.dot.position); tr.tube.geometry.setDrawRange(0, Math.ceil((f * tr.n) / 6) * 6); }
+          tr.dot.visible = !!tr.curve && f < 1;
+          tr.tube.visible = !!tr.curve;
+        });
+      };
+
+      out.forEach((L) => L.content.traverse((o) => { if (o.material) [].concat(o.material).forEach((m) => { if (m.userData.base === undefined) m.userData.base = m.opacity; if (!L.mats.includes(m)) L.mats.push(m); }); }));
+      out.forEach((L) => { L.plateMats.push(L.ground.material); L.content.traverse((o) => { if (o.isMesh) o.userData.cast = o.castShadow; }); });
+      // colunas tracejadas nos cantos, ligando a placa de baixo à de cima
+      const beamM = keep(new THREE.LineDashedMaterial({ color: P.edge, dashSize: 0.07, gapSize: 0.07, transparent: true, opacity: dark ? 0.55 : 0.4 }));
+      const beams = [[-1, -1], [1, -1], [1, 1], [-1, 1]].map(([sx, sz]) => {
+        const line = new THREE.Line(keep(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3(0, 1, 0)])), beamM);
+        line.frustumCulled = false;
+        line.position.set(sx * (pw - 0.12), top, sz * (pd - 0.12));
+        root.add(line);
+        return line;
+      });
+      const shadow = new THREE.Mesh(keep(new THREE.PlaneGeometry(LX_PLATE.w * 2.2, LX_PLATE.d * 2.1)), basic("#ffffff", 1, { map: keep(lxShadowTexture(THREE, P.shadow)) }));
+      shadow.rotation.x = -Math.PI / 2; shadow.position.y = -0.2;
+      root.add(shadow);
+      // o mapa de ruas entra em todas as placas (forte na de baixo, fraco nas outras), quando a textura fica pronta
+      const setMap = (tex) => out.forEach((L) => { L.ground.material.map = tex; L.ground.material.userData.ready = true; L.ground.material.needsUpdate = true; });
+      return { root, layers: out, beams, setMap, dispose: () => { alive = false; disposables.forEach((d) => d.dispose && d.dispose()); trips.forEach((tr) => tr.tube.geometry.dispose()); } };
+    }
+    const LX_SEA_TEST = (x, y) => {
+      let inside = false;
+      for (let i = 0, j = LX_SEA.length - 1; i < LX_SEA.length; j = i++) {
+        const [xi, yi] = LX_SEA[i], [xj, yj] = LX_SEA[j];
+        if (yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) inside = !inside;
+      }
+      return inside;
+    };
+
+    // O motor: renderer com sombras, câmera que enquadra a pilha inteira, foco da camada da vez e etiquetas nas placas.
+    function startLayers3D(lib, mount, labels, st) {
+      const { THREE } = lib;
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      mount.appendChild(renderer.domElement);
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(28, 1, 0.1, 200);
+      const hemi = new THREE.HemisphereLight("#fffdf8", "#d9ccb6", 1.05);
+      const key = new THREE.DirectionalLight("#fff6e8", 1.7);
+      key.castShadow = true;
+      key.shadow.mapSize.set(2048, 2048);
+      Object.assign(key.shadow.camera, { left: -4.2, right: 4.2, top: 4.2, bottom: -4.2, near: 0.5, far: 30 });
+      key.shadow.bias = -0.0006; key.shadow.normalBias = 0.02; key.shadow.radius = 4;
+      const rimL = new THREE.DirectionalLight("#ffffff", 0.55);
+      scene.add(hemi, key, key.target, rimL);
+      let model = null, P = null, dead = false, dist = 0, t = 0, last = performance.now(), raf = 0, visible = true, mapTex = null;
+      const theme = () => (document.documentElement.getAttribute("data-bs-theme") === "dark" ? "dark" : "light");
+      const build = () => {
+        if (model) { scene.remove(model.root); model.dispose(); }
+        if (mapTex) { mapTex.dispose(); mapTex = null; }
+        P = LX_PAL[theme()];
+        hemi.color.set(P.sky); hemi.groundColor.set(P.ground); hemi.intensity = P.glow ? 0.75 : 1.05;
+        key.intensity = P.glow ? 1.1 : 1.7; key.color.set(P.glow ? "#b9c4ff" : "#fff6e8");
+        rimL.color.set(P.glow ? "#ff2bd6" : "#ffffff"); rimL.intensity = P.glow ? 0.9 : 0.55;
+        model = lxBuild(THREE, P, st.layers, lib.SVGLoader);
+        scene.add(model.root);
+        const m = model;
+        lxMapTexture(THREE, P).then((tex) => { if (dead || model !== m) { tex.dispose(); return; } mapTex = tex; m.setMap(tex); }).catch(() => {});
+      };
+      build();
+      const size = () => {
+        const w = mount.clientWidth, h = mount.clientHeight;
+        if (!w || !h) return;
+        renderer.setSize(w, h, false);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+      };
+      size();
+      const ro = new ResizeObserver(size); ro.observe(mount);
+      const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible && !raf) { last = performance.now(); raf = requestAnimationFrame(frame); } }, { rootMargin: "120px" });
+      io.observe(mount);
+      const mo = new MutationObserver(build); mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-bs-theme"] });
+
+      const ACC = new THREE.Color(), INK = new THREE.Color(), tmp = new THREE.Vector3(), right = new THREE.Vector3(), up = new THREE.Vector3(), dir = new THREE.Vector3(), ctr = new THREE.Vector3(), UP = new THREE.Vector3(0, 1, 0);
+      const corners = Array.from({ length: 8 }, () => new THREE.Vector3());
+      function frame(now) {
+        raf = 0;
+        if (dead) return;
+        const dt = Math.min(0.05, (now - last) / 1000); last = now;
+        t += st.reduce ? 0 : dt;
+        const p = st.reduce ? 0.62 : st.p;
+        const n = model.layers.length, active = st.active;
+        const sep = lxSmooth(0.03, 0.4, p), overview = lxSmooth(0.9, 0.98, p);
+        // sanfona: aberta, só a camada da vez ganha espaço em cima; as outras ficam juntas (e a câmera chega mais perto).
+        // No fim, todas se abrem por igual.
+        const focusOn = sep > 0.25 && overview < 0.5;
+        const gapAbove = (j) => LX_GAP[0] + sep * ((focusOn ? (j === active ? 1.08 : 0.34) : LX_GAP[1]) - LX_GAP[0]);
+        let yAcc = 0;
+        const yAt = model.layers.map((_, j) => { const y = yAcc; yAcc += gapAbove(j); return y; });
+        const k = 1 - Math.exp(-dt * 6);
+        ACC.set(P.mine); INK.set(P.edge);
+        model.layers.forEach((L, i) => {
+          const on = i === active && sep > 0.25 && overview < 0.5;
+          // as placas acima da camada da vez sobem mais, para ela ficar à vista (como um livro abrindo)
+          L.g.position.y += (yAt[i] - L.g.position.y) * k;
+          // fechada, só a placa de cima mostra o conteúdo; aberta, a camada da vez; no fim, todas
+          const want = sep < 0.25 ? (i === n - 1 ? 1 : 0) : overview > 0.5 || i === active ? 1 : 0;
+          L.focus = (L.focus ?? want) + (want - (L.focus ?? want)) * k;
+          try { L.anim(t); } catch (err) { console.warn("camada", i, err); L.anim = () => {}; }
+          const c = 0.06 + 0.94 * L.focus, pl = Math.max(L.focus, sep < 0.25 ? 1 : 0);
+          L.mats.forEach((m) => { m.opacity = m.userData.base * c * (m.userData.wave ?? 1); });
+          L.plateMats.forEach((m) => { const off = m.userData.off ?? 0.5; m.opacity = m.userData.base * (off + (1 - off) * pl); m.visible = m.opacity > 0.01 && m.userData.ready !== false; });
+          L.content.visible = c > 0.07;
+          L.content.traverse((o) => { if (o.isMesh) o.castShadow = !!o.userData.cast && L.focus > 0.5; });
+          L.rim.material.color.lerp(on || L.mine ? ACC : INK, k);
+        });
+        model.beams.forEach((b) => { const a = b.geometry.attributes.position; a.setY(1, model.layers[n - 1].g.position.y); a.needsUpdate = true; b.computeLineDistances(); b.material.opacity = (P.glow ? 0.55 : 0.4) * sep; });
+        const H = model.layers[n - 1].g.position.y + 0.85;
+        // a câmera dá meia volta em torno da pilha enquanto ela se abre; o mouse inclina um pouco
+        const theta = -0.8 + p * 1.15 + Math.sin(t * 0.22) * 0.04 + st.px * 0.16;
+        const elev = 0.66 - p * 0.2 + st.py * 0.07;
+        dir.set(Math.sin(theta) * Math.cos(elev), Math.sin(elev), Math.cos(theta) * Math.cos(elev));
+        ctr.set(0, H / 2 - 0.2, 0);
+        key.position.set(ctr.x + 4, ctr.y + 9, ctr.z + 3); key.target.position.copy(ctr);
+        rimL.position.set(ctr.x - 6, ctr.y + 2, ctr.z - 5);
+        // enquadra os oito cantos da pilha: a distância é a menor em que todos cabem, com folga (nunca corta)
+        right.crossVectors(UP, dir).normalize(); up.crossVectors(dir, right).normalize();
+        const tv = Math.tan((camera.fov * Math.PI) / 360) * 0.93, th = tv * camera.aspect * (camera.aspect < 0.85 ? 0.98 : 0.88); // em pé, a largura é que manda
+        let need = 0, ci = 0;
+        for (const sx of [-1, 1]) for (const sy of [-0.25, H + 0.05]) for (const sz of [-1, 1]) corners[ci++].set(sx * (LX_PLATE.w / 2 + 0.1), sy, sz * (LX_PLATE.d / 2 + 0.1));
+        corners.forEach((v) => {
+          tmp.copy(v).sub(ctr);
+          const along = tmp.dot(dir), x = Math.abs(tmp.dot(right)), y = Math.abs(tmp.dot(up));
+          need = Math.max(need, along + x / th, along + y / tv);
+        });
+        dist = dist ? dist + (need - dist) * k : need;
+        camera.position.copy(ctr).addScaledVector(dir, dist);
+        camera.lookAt(ctr);
+        renderer.render(scene, camera);
+        // etiquetas: presas ao canto direito da frente de cada placa, sempre dentro do quadro
+        const w = mount.clientWidth, h = mount.clientHeight;
+        model.layers.forEach((L, i) => {
+          const el = labels[i];
+          if (!el) return;
+          tmp.set(LX_PLATE.w / 2, L.g.position.y, LX_PLATE.d / 2).project(camera);
+          const x = Math.min(w - el.offsetWidth - 6, Math.max(6, (tmp.x * 0.5 + 0.5) * w - 5)), y = Math.min(h - 14, Math.max(14, (-tmp.y * 0.5 + 0.5) * h));
+          el.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
+          el.style.opacity = sep > 0.2 ? (i === active || overview > 0.5 ? 1 : 0) : 0; // no foco, só a etiqueta da camada da vez
+        });
+        if (visible) raf = requestAnimationFrame(frame);
+      }
+      raf = requestAnimationFrame(frame);
+      return {
+        dispose: () => {
+          dead = true; cancelAnimationFrame(raf); ro.disconnect(); io.disconnect(); mo.disconnect();
+          if (model) model.dispose(); if (mapTex) mapTex.dispose();
+          renderer.dispose(); renderer.domElement.remove();
+        },
+      };
+    }
+
+    // Pilha isométrica em SVG: o que aparece sem WebGL e enquanto o 3D carrega.
+    function LayersStatic({ layers, active }) {
+      const W = 460, H = 380, rx = 150, ry = 46;
+      return (
+        <svg className="lsx-static" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`Pilha das camadas do Gêmeo: ${layers.map((l) => l.name).join(", ")}`}>
+          {layers.map((l, i) => {
+            const cy = H - 70 - i * 50, cx = 170;
+            return (
+              <g key={l.name} className={`lsx-plate ${l.mine ? "mine" : ""} ${i === active ? "on" : ""}`}>
+                <polygon points={`${cx - rx},${cy} ${cx},${cy - ry} ${cx + rx},${cy} ${cx},${cy + ry}`} />
+                <line x1={cx + rx} y1={cy} x2={cx + rx + 24} y2={cy} />
+                <text x={cx + rx + 30} y={cy + 4}>{String(i + 1).padStart(2, "0")} {l.name}</text>
+              </g>
+            );
+          })}
+        </svg>
+      );
+    }
+
+    function LayersShowcase({ project }) {
+      const layers = project.layers; // de baixo para cima
+      const n = layers.length;
+      const reduce = prefersReducedMotion();
+      const ref = useRef(null), mountRef = useRef(null), railRef = useRef(null), labelRefs = useRef([]);
+      const st = useRef({ p: reduce ? 0.62 : 0, active: reduce ? n - 1 : 0, px: 0, py: 0, reduce, layers });
+      const [active, setActive] = useState(st.current.active);
+      const [gl, setGl] = useState(null); // null: carregando; false: sem 3D
+      // a rolagem dentro da seção (do topo preso até o fim) vira o progresso de 0 a 1
+      useEffect(() => {
+        if (reduce) return;
+        let raf = 0;
+        const read = () => {
+          raf = 0;
+          const el = ref.current;
+          if (!el) return;
+          const r = el.getBoundingClientRect(), span = r.height - window.innerHeight;
+          const p = span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 0;
+          st.current.p = p;
+          const i = Math.min(n - 1, Math.max(0, Math.floor(((p - 0.08) / 0.8) * n)));
+          if (i !== st.current.active) { st.current.active = i; setActive(i); }
+          if (railRef.current) railRef.current.style.transform = `scaleY(${lxSmooth(0.04, 0.92, p)})`;
+        };
+        const onScroll = () => { if (!raf) raf = requestAnimationFrame(read); };
+        read();
+        window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", onScroll);
+        return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); cancelAnimationFrame(raf); };
+      }, []);
+      // o 3D carrega quando a seção chega perto da tela
+      useEffect(() => {
+        const el = ref.current;
+        let eng = null, dead = false;
+        const io = new IntersectionObserver(([e]) => {
+          if (!e.isIntersecting) return;
+          io.disconnect();
+          let ok = false;
+          try { const c = document.createElement("canvas"); ok = !!(c.getContext("webgl2") || c.getContext("webgl")); } catch (err) { ok = false; }
+          if (!ok) { setGl(false); return; }
+          loadThree().then((lib) => {
+            if (dead) return;
+            eng = startLayers3D(lib, mountRef.current, labelRefs.current, st.current);
+            setGl(true);
+          }).catch(() => setGl(false));
+        }, { rootMargin: "400px 0px" });
+        io.observe(el);
+        return () => { dead = true; io.disconnect(); if (eng) eng.dispose(); };
+      }, []);
+      const onMove = (e) => {
+        const r = e.currentTarget.getBoundingClientRect();
+        st.current.px = ((e.clientX - r.left) / r.width - 0.5) * 2;
+        st.current.py = ((e.clientY - r.top) / r.height - 0.5) * 2;
+      };
+      const onLeave = () => { st.current.px = 0; st.current.py = 0; };
+      const cur = layers[active];
+      const pad = (x) => String(x).padStart(2, "0");
+      return (
+        <div className={`lsx ${reduce ? "is-static" : ""}`} ref={ref}>
+          <div className="lsx-sticky">
+            <div className="lsx-copy">
+              <div className="lsx-rail" aria-hidden="true"><span ref={railRef} /></div>
+              <span className="dash-title"><span className="live-dot" /> {project.panelTitle} <span className="dash-tag">{project.panelTag}</span></span>
+              <div className="lsx-now" aria-live="polite">
+                <div key={cur.name} className="lsx-now-in">
+                  <span className="lsx-num">{pad(active + 1)}<small>/{pad(n)}</small></span>
+                  <h3 className="lsx-name"><i className={`bi ${cur.icon}`} aria-hidden="true" /> {cur.name}</h3>
+                  <p className="lsx-src">{cur.source}</p>
+                  <p className="lsx-what">{LX_WHAT[cur.name]}</p>
+                  {cur.mine && <span className="mine-badge"><i className="bi bi-star-fill" /> minha atuação</span>}
+                </div>
+              </div>
+              <ol className="lsx-index" aria-label="Camadas, de cima para baixo">
+                {layers.map((l, i) => ({ l, i })).reverse().map(({ l, i }) => (
+                  <li key={l.name} className={`${i === active ? "on" : ""} ${i < active ? "passed" : ""} ${l.mine ? "mine" : ""}`}>
+                    <span className="dot" /> {l.name}{l.mine && <i className="bi bi-star-fill" aria-hidden="true" />}
+                  </li>
+                ))}
+              </ol>
+            </div>
+            <div className="lsx-stage" onPointerMove={onMove} onPointerLeave={onLeave}>
+              {gl !== true && <LayersStatic layers={layers} active={active} />}
+              <div className={`lsx-canvas ${gl ? "on" : ""}`} ref={mountRef} aria-hidden="true" />
+              <div className="lsx-labels" aria-hidden="true">
+                {layers.map((l, i) => (
+                  <span key={l.name} ref={(el) => { labelRefs.current[i] = el; }} className={`lsx-label ${l.mine ? "mine" : ""} ${i === active ? "on" : ""}`}>
+                    <i /> <b>{pad(i + 1)}</b> {l.name}
+                  </span>
+                ))}
+              </div>
+              {!reduce && <span className="lsx-hint" aria-hidden="true"><i className="bi bi-mouse" /> role para abrir as camadas</span>}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     function CitySection() {
       const [key, setKey] = useState(CITY_PROJECTS[0].id);
       return (
@@ -6894,6 +7714,7 @@
             <SectionHeader num="02" kicker="Dados para a cidade" title={<>Niterói em <em>camadas</em></>}>
               Três frentes no Escritório de Dados da Prefeitura: o Gêmeo Digital, o Colab e uma PoC de previsão de trânsito.
             </SectionHeader>
+            <LayersShowcase project={CITY_PROJECTS[0]} />
             <Tab.Container activeKey={key} onSelect={(k) => k && setKey(k)} id="city-tabs">
               <Reveal>
                 <Nav variant="underline" className="city-tabs">
