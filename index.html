@@ -2434,7 +2434,7 @@
     .nb-slots-row i.miss { background: none; border: 1.5px dashed #e5484d; }
     .nb-slots-row i.future, .nb-slots-row i.gone { background: none; border: 1.5px dashed color-mix(in srgb, var(--line) 22%, transparent); }
     .nb-slots.reading .nb-slots-row i.win { background: var(--accent); }
-    .nb-slots.clearing .nb-slots-row i.old { opacity: 0; }
+    .nb-slots.clearing .nb-slots-row i.old { opacity: 0; transition-duration: var(--fade, 1s); transition-delay: 0s !important; }
     .nb-slots-ax { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 2px; margin-top: .25rem; }
     .nb-slots-ax span { overflow: visible; color: var(--muted); font: .62rem "JetBrains Mono", monospace; white-space: nowrap; }
     .nb-snaps { display: grid; gap: .6rem; align-content: start; min-width: 0; padding: .9rem 1rem; border: 2px solid var(--line); border-radius: 14px; background: var(--paper); }
@@ -2596,6 +2596,103 @@
     .nb-pipe .fx-canvas:not(.narrow) .fx-box { padding-top: calc(var(--u) * 14); }
     [data-bs-theme="dark"] .fx-box.r-db { --role: #a78bfa; }
     [data-bs-theme="dark"] .fx-box.r-src { --role: #60a5fa; }
+
+    /* fluxograma do NitBike no estilo de editor de fluxos */
+    .pflow { position: relative; width: 100%; overflow: hidden; border: 0; box-shadow: inset 0 0 0 2px var(--line); border-radius: 16px; background-color: var(--paper); background-image: radial-gradient(circle, color-mix(in srgb, var(--line) 16%, transparent) 1px, transparent 1.3px); background-size: calc(var(--u) * 22) calc(var(--u) * 22); }
+    .pflow-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+    .pe-base { fill: none; stroke: color-mix(in srgb, var(--line) 30%, transparent); stroke-width: 2; stroke-linecap: round; }
+    .pe.rule .pe-base { stroke-dasharray: 6 5; stroke: color-mix(in srgb, var(--good) 55%, transparent); stroke-width: 2; }
+    .pe-hi { fill: none; stroke: var(--accent); stroke-width: 3; stroke-linecap: round; opacity: 0; filter: url(#pf-glow); }
+    .pe-track { fill: none; stroke: none; }
+    .pflow-top { z-index: 3; pointer-events: none; }
+    .pe-arrow { fill: color-mix(in srgb, var(--line) 45%, transparent); }
+    .pe-cap { fill: var(--muted); font: 600 9.5px "JetBrains Mono", monospace; letter-spacing: .02em; }
+    .pflow.narrow .pe-cap { font-size: 10.5px; }
+    [data-bs-theme="dark"] .pe-arrow { fill: rgba(0, 229, 255, .5); }
+    [data-bs-theme="dark"] .pe-cap { fill: rgba(255, 255, 255, .55); }
+    .pe-port { fill: var(--card); stroke: color-mix(in srgb, var(--line) 55%, transparent); stroke-width: 2; }
+    .pt rect { fill: var(--accent); stroke: var(--card); stroke-width: 2; }
+    .pt text { fill: #15130f; font: 700 10.5px "JetBrains Mono", monospace; }
+    .pt { filter: url(#pf-glow); pointer-events: none; }
+    .pt.read rect { fill: var(--blue); }
+    .pt.read text, .pt.del text, .pt.fail text { fill: #fff; }
+    .pt.del rect, .pt.fail rect { fill: #e5484d; }
+    .pt.up rect { fill: var(--good); }
+    .pt.up text { fill: #fff; }
+    .pflow.narrow .pt text { font-size: 11.5px; }
+
+    .pn { --role: var(--accent); position: absolute; box-sizing: border-box; display: flex; flex-direction: column; gap: calc(var(--u) * 9); padding: calc(var(--u) * 11) calc(var(--u) * 12); border: 2px solid var(--line); border-radius: calc(var(--u) * 14); background: var(--card); box-shadow: 4px 4px 0 var(--shadow-c); cursor: pointer; transition: border-color .6s ease, box-shadow .6s ease; }
+    .pn.r-src { --role: #3b82f6; }
+    .pn.r-db { --role: #6b5bd6; }
+    .pn.r-out { --role: var(--good); }
+    .pn.busy { border-color: var(--role); box-shadow: 4px 4px 0 var(--role), 0 0 0 calc(var(--u) * 5) color-mix(in srgb, var(--role) 14%, transparent); }
+    .pn.fail { border-color: #e5484d; box-shadow: 4px 4px 0 #e5484d, 0 0 0 calc(var(--u) * 5) rgba(229, 72, 77, .14); }
+    .pn.sel { outline: 2px dashed color-mix(in srgb, var(--role) 70%, transparent); outline-offset: 4px; }
+    .pn-ring { position: absolute; inset: -5px; border: 2px solid var(--role); border-radius: calc(var(--u) * 18); opacity: 0; pointer-events: none; }
+    .pn-head { display: flex; align-items: center; gap: calc(var(--u) * 9); min-width: 0; }
+    .pn-ic { flex: none; display: grid; place-items: center; width: calc(var(--u) * 31); height: calc(var(--u) * 31); border-radius: calc(var(--u) * 10); background: color-mix(in srgb, var(--role) 15%, transparent); color: var(--role); font-size: calc(var(--u) * 16); transition: background-color .6s, color .6s; }
+    .pn.busy .pn-ic { background: var(--role); color: #fff; }
+    .pn-tt { display: grid; flex: 1; min-width: 0; line-height: 1.2; }
+    .pn-tt b { overflow: hidden; color: var(--ink); font: 700 calc(var(--u) * 14.5) "Bricolage Grotesque", sans-serif; white-space: nowrap; text-overflow: ellipsis; }
+    .pn-tt small { overflow: hidden; color: var(--muted); font: calc(var(--u) * 10.5) "JetBrains Mono", monospace; white-space: nowrap; text-overflow: ellipsis; }
+    .pn-n { flex: none; display: grid; place-items: center; width: calc(var(--u) * 20); height: calc(var(--u) * 20); border-radius: 50%; background: var(--ink); color: var(--paper); font: 800 calc(var(--u) * 11) "Bricolage Grotesque", sans-serif; font-style: normal; transition: background-color .6s, color .6s; }
+    .pn.busy .pn-n { background: var(--role); color: #fff; }
+    .pn .nb-steps { gap: calc(var(--u) * 6.5); }
+    .pn .nb-steps li { font-size: calc(var(--u) * 10.5); }
+    .pflow.narrow .pn-tt b { font-size: calc(var(--u) * 15.5); }
+    .pflow.narrow .pn-tt small { white-space: normal; overflow: visible; }
+
+    [data-bs-theme="dark"] .pflow { border: 0; box-shadow: inset 0 0 0 1px rgba(0, 229, 255, .3); border-radius: 3px; background-color: #04030c; background-image: radial-gradient(circle, rgba(0, 229, 255, .14) 1px, transparent 1.4px); }
+    [data-bs-theme="dark"] .pn { border: 1px solid rgba(0, 229, 255, .35); border-radius: 3px; background: #05040f; box-shadow: none; }
+    [data-bs-theme="dark"] .pn.busy { border-color: var(--role); box-shadow: 0 0 18px color-mix(in srgb, var(--role) 45%, transparent); }
+    [data-bs-theme="dark"] .pn.r-src { --role: #60a5fa; }
+    [data-bs-theme="dark"] .pn.r-db { --role: #a78bfa; }
+    [data-bs-theme="dark"] .pn.r-proc { --role: var(--neon-m); }
+    [data-bs-theme="dark"] .pn.r-out { --role: var(--neon-c); }
+    [data-bs-theme="dark"] .pn-ring { border-radius: 4px; }
+    [data-bs-theme="dark"] .pn-ic, [data-bs-theme="dark"] .pn-n { border-radius: 2px; }
+    [data-bs-theme="dark"] .pn-tt b { color: #fff; }
+    [data-bs-theme="dark"] .pe-port { fill: #05040f; stroke: rgba(0, 229, 255, .5); }
+    [data-bs-theme="dark"] .pe-hi { stroke: var(--neon-c); }
+    [data-bs-theme="dark"] .pt rect { fill: var(--neon-c); stroke: #05040f; }
+    [data-bs-theme="dark"] .pt text { fill: #05040f; }
+    @media (prefers-reduced-motion: reduce) { .pn { transition: none; } }
+
+    /* ArcGIS e Gêmeo: passos depois de receber e mini mapa com as estações */
+    .pn-out { flex: 1; display: grid; grid-template-rows: auto minmax(0, 1fr); gap: calc(var(--u) * 6); min-height: 0; overflow: hidden; }
+    .pn-steps { display: grid; gap: calc(var(--u) * 4); margin: 0; padding: 0; list-style: none; }
+    .pn-steps li { display: flex; align-items: center; gap: calc(var(--u) * 6); color: var(--muted); font: calc(var(--u) * 10) "JetBrains Mono", monospace; white-space: nowrap; transition: color .4s; }
+    .pn-steps li::before { content: ""; flex: none; width: calc(var(--u) * 6); height: calc(var(--u) * 6); border-radius: 50%; border: 1.5px solid currentColor; transition: background-color .4s, border-color .4s; }
+    .pn-steps li.on { color: var(--ink); font-weight: 700; }
+    .pn-steps li.on::before { background: var(--role); border-color: var(--role); }
+    .pn-steps li.done::before { background: var(--good); border-color: var(--good); }
+    .pn-dots-wrap { position: relative; flex: 1; min-height: 0; overflow: hidden; border-radius: calc(var(--u) * 8); }
+    .pn[data-node="total"] .pn-tt small { white-space: normal; overflow: visible; line-height: 1.25; }
+    .pn-dots { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .pn-dots circle { fill: var(--role); opacity: .18; transform: scale(.6); transform-box: fill-box; transform-origin: center; transition: opacity .35s ease, transform .45s cubic-bezier(.3, 1.6, .5, 1); }
+    .pn-dots.on circle { opacity: .95; transform: scale(1); }
+    .pn-dots-bg { fill: color-mix(in srgb, var(--role) 8%, transparent); stroke: color-mix(in srgb, var(--role) 30%, transparent); stroke-width: 4; }
+    [data-bs-theme="dark"] .pn-steps li.on { color: #fff; }
+
+    .nb-bars { display: flex; justify-content: flex-end; align-items: flex-end; gap: 1px; height: calc(var(--u) * 28); margin-top: calc(var(--u) * 6); }
+    .nb-bars i { flex: 0 0 calc((100% - 41px) / 42); height: 100%; border-radius: 1px; background: var(--blue); transform-origin: 50% 100%; animation: barIn .55s cubic-bezier(.3, 1.5, .5, 1); transition: opacity var(--fade, 1s) ease, background-color 1.1s ease; }
+    .nb-bars i.old { opacity: .3; }
+    .nb-bars i.lag { background: repeating-linear-gradient(135deg, var(--blue) 0 2px, color-mix(in srgb, var(--blue) 40%, transparent) 2px 4px); }
+    .nb-bars.reading i.win { background: var(--accent); }
+    .nb-bars.clearing i.old { opacity: 0; }
+    @keyframes barIn { from { transform: scaleY(0); opacity: 0; } 60% { opacity: 1; } }
+    [data-bs-theme="dark"] .nb-bars i { background: var(--neon-c); }
+    [data-bs-theme="dark"] .nb-bars.reading i.win { background: var(--neon-m); }
+    @media (prefers-reduced-motion: reduce) { .nb-bars i { animation: none; } }
+
+    .nb-clock-ctl { height: 34px; padding: 3px; border-radius: 11px; box-shadow: 2px 2px 0 var(--shadow-c); }
+    .nb-clock-ctl small { display: inline-flex; align-items: center; gap: .3rem; padding: 0 .45rem; color: var(--muted); font: .7rem "JetBrains Mono", monospace; }
+    .nb-clock-ctl button { min-width: 2.2rem; padding: 0 .5rem; font-family: "JetBrains Mono", monospace; }
+    .nb-clock-ctl button.nb-shift { min-width: 1.6rem; padding: 0 .25rem; color: var(--muted); }
+    .nb-clock-ctl button.nb-shift:hover { color: var(--ink); }
+    .nb-clock-ctl small { padding: 0 .2rem; }
+    .nb-clock-ctl button.on { background: var(--ink); color: var(--paper); }
+    [data-bs-theme="dark"] .nb-clock-ctl button.on { background: var(--neon-c); color: #05040f; }
 </style>
 </head>
 <body>
@@ -7960,6 +8057,8 @@ const NB_WINDOW = 300; // a publicação lê os snapshots dos últimos 5 minutos
 const NB_LAG = 30; // folga antes do corte da janela, para não pegar um snapshot ainda sendo gravado
 // Momentos da publicação, em segundos reais, na ordem de nitbike_flow_arcgis: janela, subflow do total e do pico,
 // leitura dos snapshots, cálculo, atualização da camada, limpeza do banco e leitura do Gêmeo
+// clear: os pontos chegam ao ArcGIS e sai a limpeza (que chega ao banco em del); o ArcGIS processa até gem, manda ao
+// Gêmeo, que recebe em end e plota até show
 const NB_PUB = {
   total: 0.5,
   cmp: 0.9,
@@ -7968,9 +8067,12 @@ const NB_PUB = {
   calc: 2.2,
   layer: 2.9,
   clear: 3.4,
-  gem: 3.9,
-  end: 4.3
+  del: 3.9,
+  gem: 4.4,
+  end: 4.8,
+  show: 5.6
 };
+const NB_SNAP_IN = 0.8; // o snapshot entra no banco quando a pílula chega (fim do segundo salto da coleta)
 // o relógio acelera também as animações dos fluxos: 5× é o ritmo de referência; 1× fica 4× mais lento, 10×, 2× mais rápido
 const flowTs = speed => Math.min(2, Math.max(0.25, speed / 5));
 // linhas de log como as que os flows gravam (as mesmas mensagens do repositório, resumidas)
@@ -8037,7 +8139,16 @@ const nbStats = (snaps, from, to) => {
   };
 };
 // passos da publicação que deixam linha no log, no momento em que a animação chega neles
-const NB_PUB_LOG = [[0, sim => nbLog(sim, "nitbike_flow_arcgis", "INFO", `Janela de processamento configurada: 5 minutos (lag de segurança: 30 segundos) · ${hhmmss(sim.cur.from)} → ${hhmmss(sim.cur.to)}`)], [NB_PUB.back, (sim, c) => nbLog(sim, "total_bikes", "INFO", c.total != null && c.pico ? `Novo valor (${c.total}) não é maior que o atual (${c.pico}). Não atualizando.` : "Bicicletas disponíveis somadas na API")], [NB_PUB.calc, sim => {
+const NB_PUB_LOG = [[0, sim => nbLog(sim, "nitbike_flow_arcgis", "INFO", `Janela de processamento configurada: 5 minutos (lag de segurança: 30 segundos) · ${hhmmss(sim.cur.from)} → ${hhmmss(sim.cur.to)}`)], [NB_PUB.back, sim => {
+  const u = sim.sub;
+  if (u && !u.up) nbLog(sim, "total_bikes", "INFO", `Novo valor (${u.val}) não é maior que o atual (${u.pico}). Não atualizando.`);
+}], [NB_PUB.load + 0.6, sim => {
+  const u = sim.sub;
+  if (!u || !u.up) return;
+  sim.pico = u.val;
+  sim.picoNext = null;
+  nbLog(sim, "total_bikes", "OK", `Camada ArcGIS atualizada na estação teste com ${u.val} bicicletas disponíveis${u.fresh ? " (primeiro total do dia)" : " (madrugada)"}`);
+}], [NB_PUB.calc, sim => {
   sim.stats = {
     ...nbStats(sim.snaps, sim.cur.from, sim.cur.to),
     at: sim.t,
@@ -8045,7 +8156,7 @@ const NB_PUB_LOG = [[0, sim => nbLog(sim, "nitbike_flow_arcgis", "INFO", `Janela
     to: sim.cur.to
   };
   nbLog(sim, "load_snapshots", "INFO", `[Snapshots] Total: ${sim.stats.n * NB_REAL.length} | Estações únicas: ${NB_REAL.length}`);
-}], [NB_PUB.layer, sim => nbLog(sim, "calculate_flow", "INFO", `entradas ${sim.stats.ent} · saídas ${sim.stats.sai} · fluxo ${sim.stats.ent + sim.stats.sai} · rankings ordenados`)], [NB_PUB.clear, sim => nbLog(sim, "update_arcgis", "INFO", `ArcGIS atualizado sem truncate | updates=${NB_REAL.length + 1} | adds=0`)], [NB_PUB.gem, sim => nbLog(sim, "clear_old_data", "INFO", `DELETE FROM nitbike_snapshot WHERE collected_at < ${hhmmss(sim.cur.from)}`)], [NB_PUB.end, sim => nbLog(sim, "nitbike_flow_arcgis", "OK", "Finished in state Completed()")]];
+}], [NB_PUB.layer, sim => nbLog(sim, "calculate_flow", "INFO", `entradas ${sim.stats.ent} · saídas ${sim.stats.sai} · fluxo ${sim.stats.ent + sim.stats.sai} · rankings ordenados`)], [NB_PUB.clear, sim => nbLog(sim, "update_arcgis", "INFO", `ArcGIS atualizado sem truncate | updates=${NB_REAL.length + 1} | adds=0`)], [NB_PUB.del, sim => nbLog(sim, "clear_old_data", "INFO", `DELETE FROM nitbike_snapshot WHERE collected_at < ${hhmmss(sim.cur.from)}`)], [NB_PUB.del + 0.05, sim => nbLog(sim, "nitbike_flow_arcgis", "OK", "Finished in state Completed()")]];
 const NB_PUB_FAIL = [[NB_PUB.cmp, sim => nbLog(sim, "total_bikes", "ERROR", "Erro na autenticação: a API do NitBike não respondeu")], [NB_PUB.end, sim => nbLog(sim, "nitbike_flow_arcgis", "ERROR", "Finished in state Failed() · sem nova tentativa: espera o próximo minuto")]];
 const nbPick = (rnd, w) => {
   const tot = w.reduce((a, b) => a + b, 0);
@@ -8095,6 +8206,35 @@ function makeNbSim() {
   });
   return sim;
 }
+// Muda a hora da simulação do NitBike: tudo o que é hora anda junto, então a janela e a agenda continuam coerentes.
+// Passar da meia-noite faz a próxima publicação ver o dia novo (e o pico reinicia).
+function shiftNbSim(sim, d) {
+  sim.t += d;
+  sim.nextSnap += d;
+  sim.nextPub += d;
+  sim.snaps.forEach(c => {
+    c.t += d;
+  });
+  ["pub", "next", "cur"].forEach(k => {
+    if (sim[k]) sim[k] = {
+      from: sim[k].from + d,
+      to: sim[k].to + d
+    };
+  });
+  if (sim.inbox) sim.inbox.t += d;
+  if (sim.clearFrom !== null) sim.clearFrom += d;
+  if (sim.stats) sim.stats = {
+    ...sim.stats,
+    at: sim.stats.at + d,
+    from: sim.stats.from + d,
+    to: sim.stats.to + d,
+    rows: sim.stats.rows.map(r => ({
+      ...r,
+      min: r.min + d
+    }))
+  };
+  nbLog(sim, "relógio", "INFO", `hora da simulação ${d > 0 ? "adiantada" : "atrasada"} ${Math.abs(d / 3600)} h · agora ${hhmmss(sim.t)}`);
+}
 function stepNbSim(sim, dtReal, ctx) {
   const {
     apiDown = false,
@@ -8129,11 +8269,11 @@ function stepNbSim(sim, dtReal, ctx) {
   if (sim.t >= sim.nextSnap) {
     sim.snapOk = !apiDown;
     if (apiDown) sim.missed = (sim.missed || 0) + 1;
-    if (!apiDown) sim.snaps.push({
+    if (!apiDown) sim.inbox = {
       t: sim.nextSnap,
       bikes: st.map(s => s.bikes)
-    });
-    if (apiDown) nbLog(sim, "nitbike_snapshot_flow", "ERROR", "fetch_stations: a API não respondeu · Finished in state Failed()", "snapfail");else nbLog(sim, "nitbike_snapshot_flow", "INFO", `[Postgres Save] ${NB_REAL.length} snapshots salvos com sucesso em ${hhmmss(sim.nextSnap)}`, "snap");
+    };
+    if (apiDown) nbLog(sim, "nitbike_snapshot_flow", "ERROR", "fetch_stations: a API não respondeu · Finished in state Failed()", "snapfail");
     sim.snapReal = sim.real;
     sim.nextSnap += NB_SNAP;
   }
@@ -8154,7 +8294,40 @@ function stepNbSim(sim, dtReal, ctx) {
     }
     sim.pubReal = sim.real;
     sim.pubStep = 0;
+    // no código o subflow roda em toda publicação; aqui ele aparece 1 vez a cada 2, para o esquema respirar,
+    // alternando o caso de dia (total menor que o pico: fica como está) e o da madrugada (maior: vira o novo pico)
+    sim.pubN = (sim.pubN || 0) + 1;
+    sim.sub = null;
+    // a variável do pico reinicia quando o dia vira: o primeiro total do dia novo vira o pico
+    const day = Math.floor(sim.t / 86400);
+    if (sim.day !== undefined && day !== sim.day) {
+      sim.pico = 0;
+      nbLog(sim, "total_bikes", "INFO", "Virou o dia: o pico reinicia");
+    }
+    sim.day = day;
+    if (sim.pubN % 2 === 1 && ctx.pico) {
+      // o pico do esquema nasce do pico real da camada e só sobe dentro do dia; fica perto do real, sem números absurdos
+      if (sim.pico === undefined || sim.pico === null) sim.pico = ctx.pico;
+      sim.subN = (sim.subN || 0) + 1;
+      const base = ctx.total ?? ctx.pico - 160;
+      const fresh = sim.pico === 0;
+      const up = fresh || sim.subN % 2 === 0 && sim.pico < ctx.pico + 40;
+      const val = fresh ? base + Math.round((rnd() - 0.5) * 12) : up ? sim.pico + 1 + Math.floor(rnd() * 4) : Math.min(sim.pico - 1, base + Math.round((rnd() - 0.5) * 12));
+      sim.sub = {
+        up,
+        pico: sim.pico,
+        val,
+        fresh
+      };
+      if (up) sim.picoNext = val;
+    }
     sim.nextPub += 60;
+  }
+  // o snapshot entra no banco quando a pílula da coleta chega (e não quando a coleta começa)
+  if (sim.inbox && (sim.real - sim.snapReal) * ts >= NB_SNAP_IN) {
+    sim.snaps.push(sim.inbox);
+    nbLog(sim, "nitbike_snapshot_flow", "INFO", `[Postgres Save] ${NB_REAL.length} snapshots salvos com sucesso em ${hhmmss(sim.inbox.t)}`, "snap");
+    sim.inbox = null;
   }
   // a animação anda no ritmo do relógio (ts); os passos e o log acompanham
   const ap = (sim.real - sim.pubReal) * ts,
@@ -8167,7 +8340,7 @@ function stepNbSim(sim, dtReal, ctx) {
     sim.pub = sim.next;
     sim.next = null;
   }
-  if (sim.clearFrom !== null && ap >= NB_PUB.gem) {
+  if (sim.clearFrom !== null && ap >= NB_PUB.del) {
     sim.snaps = sim.snaps.filter(s => s.t >= sim.clearFrom);
     sim.clearFrom = null;
   }
@@ -8246,15 +8419,15 @@ const NB_INFO = {
   ler: ["Como ler", "Dois flows: a coleta (1 → 2) a cada 10 s e a publicação (3 → 4 → 5) a cada minuto, um passo de cada vez. A etiqueta diz o que passa em cada linha; o log embaixo mostra o que o código registra. Clique num bloco para saber o que ele faz."],
   api: ["API NitBike", "Informa, por estação, as bikes paradas e as vagas livres. É lida pela coleta, a cada 10 s, e pelo subflow do total, no começo de cada publicação."],
   coleta: ["Coleta · nitbike_snapshot_flow", "A cada 10 s: autentica na API, busca as 65 estações e grava uma linha por estação na tabela nitbike_snapshot, com a hora da coleta. Sem nova tentativa: se falha, aquele snapshot fica faltando."],
-  total: ["Total e pico · nitbike_total_bikes_flow", "Subflow chamado no começo de cada publicação. Busca as estações na API, soma as bikes paradas (sem a estação de teste) e compara com o pico guardado na estação de teste da camada. Só troca o pico quando o total passa dele, o que acontece de madrugada. Devolve o total para a publicação."],
+  total: ["Total e pico · nitbike_total_bikes_flow", "Subflow chamado no começo de cada publicação (no esquema ele aparece 1 vez a cada 2, alternando o caso de dia e o da madrugada, em que o total passa do pico). Busca as estações na API, soma as bikes paradas (sem a estação de teste) e compara com o pico guardado na estação de teste da camada. Só troca o pico quando o total passa dele, o que acontece de madrugada, e o pico reinicia quando o dia vira. Devolve o total para a publicação."],
   pg: ["PostgreSQL · nitbike_snapshot", "Guarda os snapshots até a publicação usá-los. Cada coluna do desenho é um snapshot; cada quadradinho, uma estação (mais escuro, mais cheia). A publicação lê a janela e apaga o que ficou antes dela."],
   pub: ["Publicação · nitbike_flow_arcgis", "A cada minuto. A janela vai de 5 min e 30 s atrás até 30 s atrás, para não pegar um snapshot ainda sendo gravado. Depois do subflow do total, lê a janela e compara cada snapshot com o seguinte: se a contagem sobe, entraram bikes; se cai, saíram. Fluxo é a soma, e os rankings ordenam por entradas, saídas e fluxo. Sem nova tentativa."],
-  agol: ["ArcGIS Online · camada NitBike", "Por estação: bikes, vagas, entradas, saídas, fluxo e rankings. Na estação de teste ficam o pico e, no campo de fluxo, as bikes rodando (pico − total do subflow)."],
+  agol: ["ArcGIS Online · camada NitBike", "O update_arcgis converte a latitude e a longitude de cada estação para SIRGAS 2000 / UTM 23S (EPSG 31983) e grava os pontos com bikes, vagas, entradas, saídas, fluxo e rankings, sem truncar a camada. Na estação de teste ficam o pico e, no campo de fluxo, as bikes rodando (pico − total do subflow)."],
   gem: ["Gêmeo Digital", "Lê a camada e mostra as estações no mapa da cidade, ao lado das outras fontes."]
 };
 
 // um cartão por bloco do esquema, na ordem do dado; o número é o do bloco
-const NB_LEGEND = [["api", "·", "API NitBike", "Bikes paradas e vagas livres de cada estação, na hora."], ["coleta", "1", "Coleta", "A cada 10 s, lê as 65 estações e grava um snapshot no banco."], ["pg", "2", "PostgreSQL", "Guarda os snapshots até a publicação usá-los; os antigos são apagados."], ["pub", "3", "Publicação", "A cada minuto, compara os snapshots da janela de 5 min: subiu, entraram bikes; caiu, saíram."], ["total", "+", "Total e pico", "Subflow da publicação: soma as bikes paradas e guarda o maior total já visto."], ["agol", "4", "ArcGIS", "Recebe entradas, saídas, fluxo e rankings de cada estação."], ["gem", "5", "Gêmeo", "Lê a camada e mostra as estações no mapa."]];
+const NB_LEGEND = [["api", "·", "API NitBike", "Bikes paradas e vagas livres de cada estação, na hora."], ["coleta", "1", "Coleta", "A cada 10 s, lê as 65 estações e grava um snapshot no banco."], ["pg", "2", "PostgreSQL", "Guarda os snapshots até a publicação usá-los; os antigos são apagados."], ["pub", "3", "Publicação", "A cada minuto, compara os snapshots da janela de 5 min: subiu, entraram bikes; caiu, saíram."], ["total", "+", "Total e pico", "Subflow da publicação: soma as bikes paradas e guarda o maior total do dia (reinicia quando o dia vira)."], ["agol", "4", "ArcGIS", "Recebe os pontos já em UTM 23S e grava entradas, saídas, fluxo e rankings de cada estação."], ["gem", "5", "Gêmeo", "Lê a camada e plota as estações no próprio mapa."]];
 function FxTag({
   L,
   at,
@@ -8313,7 +8486,7 @@ function NbPeak({
     className: "nb-peak-tx"
   }, /*#__PURE__*/React.createElement("small", {
     className: "nb-cap"
-  }, "o pico da madrugada"), /*#__PURE__*/React.createElement("p", null, "De madrugada quase toda a frota est\xE1 parada nas esta\xE7\xF5es. O subflow guarda numa esta\xE7\xE3o de teste o maior total j\xE1 medido, que costuma sair por volta das 3 ou 4 h. No resto do dia, as bikes rodando s\xE3o esse pico menos as paradas de agora."), /*#__PURE__*/React.createElement("div", {
+  }, "o pico da madrugada"), /*#__PURE__*/React.createElement("p", null, "De madrugada quase toda a frota est\xE1 parada nas esta\xE7\xF5es. O subflow guarda numa esta\xE7\xE3o de teste o maior total medido no dia (a vari\xE1vel reinicia quando o dia vira), que costuma sair por volta das 3 ou 4 h. No resto do dia, as bikes rodando s\xE3o esse pico menos as paradas de agora."), /*#__PURE__*/React.createElement("div", {
     className: "nb-eq",
     "aria-label": frota ? `${frota} de pico menos ${paradas} paradas: ${rod} rodando` : "carregando a camada"
   }, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("b", null, frota || "—"), /*#__PURE__*/React.createElement("small", null, "pico")), /*#__PURE__*/React.createElement("i", null, "\u2212"), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("b", null, paradas ?? "—"), /*#__PURE__*/React.createElement("small", null, "paradas (subflow)")), /*#__PURE__*/React.createElement("i", null, "="), /*#__PURE__*/React.createElement("span", {
@@ -8692,15 +8865,667 @@ function NbSnaps({
     className: "nb-snaps-foot"
   }, "\xFAltima publica\xE7\xE3o \xE0s ", S ? hhmmss(S.at) : "—", " \xB7 65 esta\xE7\xF5es reais, contagens simuladas"));
 }
+
+// Fluxograma do NitBike no estilo de editor de fluxos: nós em HTML (texto nítido) sobre uma camada SVG com as ligações
+// em curva e as portas. O movimento é do GSAP: a pílula com o nome do dado anda pela curva (MotionPathPlugin), a ligação
+// acende enquanto ele passa, o nó que recebe pulsa e, na primeira vez na tela, os nós entram e as ligações se desenham
+// (DrawSVGPlugin). Cada linha do tempo nasce de um evento da simulação e anda no ritmo do relógio (timeScale).
+const NB_FLOW = {
+  wide: {
+    w: 1190,
+    h: 470,
+    n: {
+      api: [30, 190, 165, 80],
+      coleta: [240, 40, 175, 80],
+      total: [240, 330, 175, 84],
+      pg: [460, 110, 190, 220],
+      pub: [765, 110, 180, 220],
+      agol: [984, 26, 174, 190],
+      gem: [984, 252, 174, 190]
+    },
+    e: {
+      api_col: {
+        a: [195, 230],
+        b: [240, 80]
+      },
+      col_pg: {
+        a: [415, 80],
+        b: [460, 160]
+      },
+      api_tot: {
+        a: [195, 230],
+        b: [240, 372]
+      },
+      tot_pub: {
+        a: [415, 372],
+        b: [765, 300],
+        d: "M415,372 C540,372 540,410 640,410 C722,410 718,300 765,300",
+        cap: "devolve o total à publicação",
+        capAt: [424, 364],
+        capL: true
+      },
+      pg_pub: {
+        a: [650, 190],
+        b: [765, 190],
+        cap: "lê a janela",
+        capAt: [707, 178]
+      },
+      pub_pg: {
+        a: [765, 250],
+        b: [650, 250],
+        cap: "apaga antigos",
+        capAt: [707, 268]
+      },
+      pub_agol: {
+        a: [945, 200],
+        b: [984, 120]
+      },
+      agol_gem: {
+        a: [1071, 216],
+        b: [1071, 252],
+        v: true
+      },
+      pico: {
+        a: [327, 414],
+        b: [1158, 90],
+        rule: true,
+        d: "M327,414 C327,440 342,452 372,452 L1156,452 C1172,452 1176,444 1176,422 L1176,112 C1176,96 1170,90 1158,90",
+        cap: "só se o total passar do pico: grava o novo pico no ArcGIS",
+        capAt: [384, 446],
+        capL: true
+      }
+    }
+  },
+  narrow: {
+    w: 380,
+    h: 900,
+    n: {
+      api: [110, 16, 160, 70],
+      coleta: [16, 126, 165, 70],
+      total: [199, 126, 165, 70],
+      pg: [16, 246, 348, 150],
+      pub: [16, 446, 348, 196],
+      agol: [16, 692, 165, 192],
+      gem: [199, 692, 165, 192]
+    },
+    e: {
+      api_col: {
+        a: [170, 86],
+        b: [98, 126],
+        v: true
+      },
+      api_tot: {
+        a: [210, 86],
+        b: [281, 126],
+        v: true
+      },
+      col_pg: {
+        a: [98, 196],
+        b: [98, 246],
+        v: true
+      },
+      tot_pub: {
+        a: [281, 196],
+        b: [300, 446],
+        d: "M281,196 C281,214 370,206 370,236 L370,416 C370,434 300,428 300,446"
+      },
+      pg_pub: {
+        a: [120, 396],
+        b: [120, 446],
+        v: true,
+        cap: "lê a janela",
+        capAt: [128, 424],
+        capL: true
+      },
+      pub_pg: {
+        a: [250, 446],
+        b: [250, 396],
+        v: true,
+        cap: "apaga antigos",
+        capAt: [242, 424],
+        capR: true
+      },
+      pub_agol: {
+        a: [98, 642],
+        b: [98, 692],
+        v: true
+      },
+      agol_gem: {
+        a: [181, 788],
+        b: [199, 788]
+      },
+      pico: {
+        a: [364, 150],
+        b: [56, 692],
+        rule: true,
+        d: "M364,150 C374,150 377,158 377,172 L377,656 C377,666 372,670 360,670 L72,670 C60,670 56,676 56,692",
+        cap: "se passar do pico: novo pico → ArcGIS",
+        capAt: [214, 664]
+      }
+    }
+  }
+};
+const nbEdgeD = e => {
+  if (e.d) return e.d;
+  const [ax, ay] = e.a,
+    [bx, by] = e.b;
+  if (e.v) {
+    const dy = Math.max(16, Math.abs(by - ay) * 0.55) * Math.sign(by - ay || 1);
+    return `M${ax},${ay} C${ax},${ay + dy} ${bx},${by - dy} ${bx},${by}`;
+  }
+  const dx = Math.max(22, Math.abs(bx - ax) * 0.55) * Math.sign(bx - ax || 1);
+  return `M${ax},${ay} C${ax + dx},${ay} ${bx - dx},${by} ${bx},${by}`;
+};
+const FLOW_LIBS = () => loadXpLib("gsap").then(() => Promise.all([loadXpLib("motionpath"), loadXpLib("drawsvg")])).then(() => {
+  window.gsap.registerPlugin(window.MotionPathPlugin, window.DrawSVGPlugin);
+});
+
+// Os snapshots no banco como barrinhas, o mais novo à direita: cada uma nasce (cresce de baixo) quando a pílula da
+// coleta chega; as que já saíram da janela ficam claras e somem junto com a pílula "apaga antigos"
+function NbBars({
+  sim,
+  cur,
+  reading,
+  clearing
+}) {
+  const list = sim.snaps.slice(-42);
+  return /*#__PURE__*/React.createElement("div", {
+    className: `nb-bars ${reading ? "reading" : ""} ${clearing ? "clearing" : ""}`,
+    "aria-hidden": "true"
+  }, list.map(c => /*#__PURE__*/React.createElement("i", {
+    key: c.t,
+    className: c.t < cur.from ? "old" : c.t >= cur.to ? "lag" : "win"
+  })));
+}
+const NB_DOT_BOX = [255, 100, 700, 560];
+function NbDots({
+  on,
+  speed,
+  map = false
+}) {
+  const ts = flowTs(speed);
+  return /*#__PURE__*/React.createElement("div", {
+    className: "pn-dots-wrap"
+  }, /*#__PURE__*/React.createElement("svg", {
+    viewBox: NB_DOT_BOX.join(" "),
+    className: `pn-dots ${map ? "map" : ""} ${on ? "on" : ""}`,
+    "aria-hidden": "true",
+    preserveAspectRatio: "xMidYMid meet"
+  }, map && /*#__PURE__*/React.createElement("rect", {
+    x: NB_DOT_BOX[0],
+    y: NB_DOT_BOX[1],
+    width: NB_DOT_BOX[2],
+    height: NB_DOT_BOX[3],
+    rx: "30",
+    className: "pn-dots-bg"
+  }), NB_REAL.filter(([,, x, y]) => x >= NB_DOT_BOX[0] && x <= NB_DOT_BOX[0] + NB_DOT_BOX[2] && y >= NB_DOT_BOX[1] && y <= NB_DOT_BOX[1] + NB_DOT_BOX[3]).map(([n,, x, y], i) => /*#__PURE__*/React.createElement("circle", {
+    key: n,
+    cx: x,
+    cy: y,
+    r: map ? 15 : 14,
+    style: {
+      transitionDelay: on ? `${i * 14 / ts}ms` : "0ms"
+    }
+  }))));
+}
+function FlowNode({
+  L,
+  id,
+  r,
+  role,
+  icon,
+  title,
+  sub,
+  n,
+  state,
+  sel,
+  onPick,
+  ringRef,
+  children
+}) {
+  const [x, y, w, h] = r;
+  return /*#__PURE__*/React.createElement("div", {
+    className: `pn r-${role} ${state} ${sel ? "sel" : ""}`,
+    "data-node": id,
+    style: {
+      left: `${x / L.w * 100}%`,
+      top: `${y / L.h * 100}%`,
+      width: `${w / L.w * 100}%`,
+      height: `${h / L.h * 100}%`
+    },
+    onClick: onPick,
+    role: "button",
+    tabIndex: 0,
+    onKeyDown: e => {
+      if (e.key === "Enter") onPick();
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "pn-ring",
+    ref: ringRef,
+    "aria-hidden": "true"
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "pn-head"
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "pn-ic"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: `bi ${icon}`
+  })), /*#__PURE__*/React.createElement("span", {
+    className: "pn-tt"
+  }, /*#__PURE__*/React.createElement("b", null, title), /*#__PURE__*/React.createElement("small", null, sub)), n && /*#__PURE__*/React.createElement("em", {
+    className: "pn-n"
+  }, n)), children);
+}
+function NbFlow({
+  sim,
+  N,
+  speed,
+  paused,
+  narrow,
+  info,
+  pick,
+  A,
+  F,
+  pico,
+  stepOn,
+  glow,
+  clearing,
+  pp,
+  cur
+}) {
+  const L = NB_FLOW[narrow ? "narrow" : "wide"],
+    T = NB_PUB;
+  const root = useRef(null),
+    paths = useRef({}),
+    his = useRef({}),
+    toks = useRef({}),
+    rings = useRef({}),
+    tls = useRef(new Set());
+  const nRef = useRef(N);
+  nRef.current = N;
+  const live = useRef({
+    ts: flowTs(speed),
+    paused
+  });
+  live.current = {
+    ts: flowTs(speed),
+    paused
+  };
+  const [ready, setReady] = useState(false);
+  const [seen, setSeen] = useState(false);
+  const still = prefersReducedMotion();
+  useEffect(() => {
+    if (still) return;
+    const el = root.current;
+    if (!el || !("IntersectionObserver" in window)) {
+      setSeen(true);
+      return;
+    }
+    const io = new IntersectionObserver(([en]) => {
+      if (en.isIntersecting) {
+        setSeen(true);
+        io.disconnect();
+      }
+    }, {
+      threshold: 0.15
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  useEffect(() => {
+    if (seen) FLOW_LIBS().then(() => setReady(true)).catch(() => {});
+  }, [seen]);
+  // entrada: os nós sobem em cascata e as ligações se desenham, uma vez
+  useEffect(() => {
+    if (!ready || !root.current) return;
+    const g = window.gsap,
+      ctx = g.context(() => {
+        g.from(root.current.querySelectorAll(".pn"), {
+          y: 18,
+          opacity: 0,
+          duration: 0.8,
+          stagger: 0.08,
+          ease: "power3.out",
+          clearProps: "transform,opacity"
+        });
+        g.from(root.current.querySelectorAll(".pe:not(.rule) .pe-base"), {
+          drawSVG: "0%",
+          duration: 1.2,
+          stagger: 0.07,
+          ease: "power2.inOut",
+          delay: 0.15,
+          clearProps: "strokeDasharray,strokeDashoffset"
+        });
+        g.from(root.current.querySelectorAll(".pe.rule .pe-base"), {
+          opacity: 0,
+          duration: 0.9,
+          delay: 0.9,
+          ease: "sine.out"
+        });
+        g.from(root.current.querySelectorAll(".pe-port"), {
+          scale: 0,
+          transformOrigin: "50% 50%",
+          duration: 0.4,
+          stagger: 0.03,
+          ease: "back.out(3)",
+          delay: 0.5
+        });
+      }, root);
+    return () => ctx.revert();
+  }, [ready, narrow]);
+  // o relógio manda: velocidade e pausa valem para todas as linhas do tempo em andamento
+  useEffect(() => {
+    tls.current.forEach(tl => {
+      tl.timeScale(flowTs(speed));
+      if (paused) tl.pause();else tl.resume();
+    });
+  }, [speed, paused]);
+  useEffect(() => () => {
+    tls.current.forEach(tl => tl.kill());
+    tls.current.clear();
+  }, []);
+  const pulse = id => {
+    const ring = rings.current[id];
+    if (ring) window.gsap.fromTo(ring, {
+      opacity: 0.7,
+      scale: 1
+    }, {
+      opacity: 0,
+      scale: 1.09,
+      duration: 0.9,
+      ease: "power2.out"
+    });
+  };
+  // um salto do dado por uma ligação: a pílula entra, corre pela curva acelerando e freando e some no destino
+  const hop = (tl, id, at, dur, label, kind, dest) => {
+    const path = paths.current[id],
+      hi = his.current[id],
+      tok = toks.current[id];
+    if (!path || !tok) return;
+    tl.call(() => {
+      const t = tok.querySelector("text"),
+        rc = tok.querySelector("rect");
+      t.textContent = label();
+      tok.setAttribute("class", `pt ${kind}`);
+      const wd = t.getComputedTextLength() + 16;
+      rc.setAttribute("x", -wd / 2);
+      rc.setAttribute("width", wd);
+    }, null, at);
+    tl.fromTo(tok, {
+      opacity: 0,
+      scale: 0.6,
+      transformOrigin: "50% 50%"
+    }, {
+      opacity: 1,
+      scale: 1,
+      duration: 0.25,
+      ease: "back.out(2.2)"
+    }, at);
+    tl.to(tok, {
+      motionPath: {
+        path,
+        align: path,
+        alignOrigin: [0.5, 0.5],
+        start: 0,
+        end: 1
+      },
+      duration: dur,
+      ease: "power2.inOut"
+    }, at);
+    tl.to(hi, {
+      opacity: 1,
+      duration: Math.min(0.3, dur * 0.4),
+      ease: "sine.out"
+    }, at);
+    tl.to(tok, {
+      opacity: 0,
+      scale: 0.75,
+      duration: 0.2,
+      ease: "power1.in"
+    }, at + dur - 0.12);
+    tl.to(hi, {
+      opacity: 0,
+      duration: 0.8,
+      ease: "sine.inOut"
+    }, at + dur);
+    if (dest) tl.call(() => pulse(dest), null, at + dur);
+  };
+  const run = build => {
+    const g = window.gsap,
+      tl = g.timeline({
+        onComplete: () => tls.current.delete(tl)
+      });
+    build(tl);
+    tl.timeScale(live.current.ts);
+    if (live.current.paused) tl.pause();
+    tls.current.add(tl);
+  };
+  // coleta: a cada snapshot
+  useEffect(() => {
+    if (!ready || sim.snapReal < 0) return;
+    run(tl => {
+      if (sim.snapOk) {
+        hop(tl, "api_col", 0, 0.4, () => "65 estações", "", "coleta");
+        hop(tl, "col_pg", 0.4, 0.4, () => "65 linhas", "", "pg");
+      } else hop(tl, "api_col", 0, 0.45, () => "sem resposta", "fail", null);
+    });
+  }, [sim.snapReal, ready]);
+  // publicação: a cada minuto, na ordem do código
+  useEffect(() => {
+    if (!ready || sim.pubReal < 0) return;
+    run(tl => {
+      if (!sim.pubOk) {
+        hop(tl, "api_tot", T.total, T.cmp - T.total, () => "sem resposta", "fail", null);
+        return;
+      }
+      const u = sim.sub;
+      if (u) {
+        hop(tl, "api_tot", T.total, T.cmp - T.total, () => "soma na hora", "", "total");
+        if (u.up) {
+          hop(tl, "pico", T.back, T.load - T.back + 0.6, () => `novo pico ${u.val}`, "up", "agol");
+          hop(tl, "tot_pub", T.back, T.load - T.back, () => `total ${u.val}`, "", "pub");
+        } else hop(tl, "tot_pub", T.back, T.load - T.back, () => `${u.val} < ${u.pico} · mantém`, "", "pub");
+      }
+      hop(tl, "pg_pub", T.load, T.calc - T.load, () => "janela de 5 min", "read", "pub");
+      hop(tl, "pub_agol", T.layer, T.clear - T.layer, () => "65 estações", "", "agol");
+      hop(tl, "pub_pg", T.clear, T.del - T.clear, () => "apaga antigos", "del", "pg");
+      hop(tl, "agol_gem", T.gem, T.end - T.gem, () => "lê a camada", "", "gem");
+    });
+  }, [sim.pubReal, ready]);
+  const st = (busy, fail) => fail ? "fail" : busy ? "busy" : "";
+  const node = (id, props, children) => /*#__PURE__*/React.createElement(FlowNode, _extends({
+    L: L,
+    id: id,
+    r: L.n[id],
+    ringRef: el => {
+      rings.current[id] = el;
+    },
+    sel: info === id,
+    onPick: pick(id),
+    state: st(A[id], F[id])
+  }, props), children);
+  return /*#__PURE__*/React.createElement("div", {
+    className: "fx-wrap"
+  }, /*#__PURE__*/React.createElement("div", {
+    ref: root,
+    className: `pflow ${narrow ? "narrow" : ""}`,
+    style: {
+      aspectRatio: `${L.w} / ${L.h}`,
+      "--u": `calc(100cqw / ${L.w})`
+    },
+    role: "img",
+    "aria-label": "Pipeline do NitBike: a coleta grava snapshots no PostgreSQL a cada 10 s; a publica\xE7\xE3o, a cada minuto, soma o total e o pico, l\xEA a janela, calcula, atualiza a camada do ArcGIS Online e apaga os snapshots antigos; o G\xEAmeo l\xEA a camada"
+  }, /*#__PURE__*/React.createElement("svg", {
+    viewBox: `0 0 ${L.w} ${L.h}`,
+    className: "pflow-svg",
+    "aria-hidden": "true"
+  }, /*#__PURE__*/React.createElement("defs", null, /*#__PURE__*/React.createElement("filter", {
+    id: "pf-glow",
+    x: "-50%",
+    y: "-50%",
+    width: "200%",
+    height: "200%"
+  }, /*#__PURE__*/React.createElement("feGaussianBlur", {
+    stdDeviation: "3.2",
+    result: "b"
+  }), /*#__PURE__*/React.createElement("feMerge", null, /*#__PURE__*/React.createElement("feMergeNode", {
+    in: "b"
+  }), /*#__PURE__*/React.createElement("feMergeNode", {
+    in: "SourceGraphic"
+  }))), /*#__PURE__*/React.createElement("marker", {
+    id: "pf-arrow",
+    viewBox: "0 0 10 10",
+    refX: "8.5",
+    refY: "5",
+    markerWidth: "7",
+    markerHeight: "7",
+    orient: "auto-start-reverse"
+  }, /*#__PURE__*/React.createElement("path", {
+    d: "M0,1 L9,5 L0,9 z",
+    className: "pe-arrow"
+  }))), Object.entries(L.e).map(([id, e]) => /*#__PURE__*/React.createElement("g", {
+    key: id,
+    className: `pe ${e.rule ? "rule" : ""}`
+  }, /*#__PURE__*/React.createElement("path", {
+    d: nbEdgeD(e),
+    className: "pe-base",
+    markerEnd: "url(#pf-arrow)"
+  }), /*#__PURE__*/React.createElement("path", {
+    d: nbEdgeD(e),
+    className: "pe-hi",
+    ref: el => {
+      his.current[id] = el;
+    }
+  }), /*#__PURE__*/React.createElement("path", {
+    d: nbEdgeD(e),
+    className: "pe-track",
+    ref: el => {
+      paths.current[id] = el;
+    }
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: e.a[0],
+    cy: e.a[1],
+    r: "4",
+    className: "pe-port"
+  }), e.cap && /*#__PURE__*/React.createElement("text", {
+    x: e.capAt[0],
+    y: e.capAt[1],
+    textAnchor: e.capL ? "start" : e.capR ? "end" : "middle",
+    className: "pe-cap"
+  }, e.cap)))), node("api", {
+    role: "src",
+    icon: "bi-broadcast",
+    title: "API NitBike",
+    sub: "bikes e vagas"
+  }), node("coleta", {
+    role: "proc",
+    icon: "bi-camera",
+    title: "Coleta",
+    sub: "a cada 10 s",
+    n: 1
+  }), node("total", {
+    role: "proc",
+    icon: "bi-calculator",
+    title: "Total e pico",
+    sub: sim.sub && pp >= T.cmp && pp < T.del ? sim.sub.fresh ? `dia novo · pico ${sim.sub.val}` : sim.sub.up ? `${sim.sub.val} > ${sim.sub.pico} · novo pico` : `${sim.sub.val} < ${sim.sub.pico} · mantém` : sim.pico || pico ? `pico ${sim.pico || pico}` : "subflow"
+  }), node("pg", {
+    role: "db",
+    icon: "bi-database",
+    title: "PostgreSQL",
+    sub: "snapshots",
+    n: 2
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "nb-pg",
+    style: {
+      "--fade": `${(T.del - T.clear) / flowTs(speed)}s`
+    }
+  }, /*#__PURE__*/React.createElement("b", null, sim.snaps.length), /*#__PURE__*/React.createElement("small", null, "snapshots \xB7 ", (sim.snaps.length * NB_REAL.length).toLocaleString("pt-BR"), " linhas"), /*#__PURE__*/React.createElement(NbBars, {
+    sim: sim,
+    cur: cur,
+    reading: glow,
+    clearing: clearing
+  }))), node("pub", {
+    role: "proc",
+    icon: "bi-arrow-repeat",
+    title: "Publicação",
+    sub: "a cada 1 min",
+    n: 3
+  }, /*#__PURE__*/React.createElement("ol", {
+    className: "nb-steps"
+  }, NB_STEPS.map((x, k) => /*#__PURE__*/React.createElement("li", {
+    key: x,
+    className: stepOn === k ? "on" : stepOn > k ? "done" : ""
+  }, x)))), (() => {
+    // ArcGIS: os pontos chegam já em UTM 23S (o update_arcgis converte de lat/long) e são gravados; Gêmeo lê e plota
+    const ka = pp < 0 || pp < T.clear ? 3 : pp < T.clear + 0.33 ? 0 : pp < T.clear + 0.66 ? 1 : pp < T.gem ? 2 : 3;
+    const kg = pp < 0 || pp < T.gem ? 2 : pp < T.end ? -1 : pp < T.end + 0.3 ? 0 : pp < T.show ? 1 : 2;
+    const steps = (list, k) => /*#__PURE__*/React.createElement("ol", {
+      className: "pn-steps"
+    }, list.map((x, i) => /*#__PURE__*/React.createElement("li", {
+      key: x,
+      className: k === i ? "on" : k > i ? "done" : ""
+    }, x)));
+    return /*#__PURE__*/React.createElement(React.Fragment, null, node("agol", {
+      role: "out",
+      icon: "bi-layers",
+      title: "ArcGIS",
+      sub: "camada",
+      n: 4
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "pn-out"
+    }, steps(["recebe 65 pontos", "lat/long → UTM 23S", "grava nas coordenadas"], ka), /*#__PURE__*/React.createElement(NbDots, {
+      on: ka >= 2,
+      speed: speed
+    }))), node("gem", {
+      role: "out",
+      icon: "bi-buildings",
+      title: "Gêmeo",
+      sub: "mapa",
+      n: 5
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "pn-out"
+    }, steps(["lê a camada", "plota no mapa"], kg), /*#__PURE__*/React.createElement(NbDots, {
+      on: kg >= 1,
+      speed: speed,
+      map: true
+    }))));
+  })(), /*#__PURE__*/React.createElement("svg", {
+    viewBox: `0 0 ${L.w} ${L.h}`,
+    className: "pflow-svg pflow-top",
+    "aria-hidden": "true"
+  }, Object.keys(L.e).map(id => /*#__PURE__*/React.createElement("g", {
+    key: `t${id}`,
+    className: "pt",
+    ref: el => {
+      toks.current[id] = el;
+    },
+    style: {
+      opacity: 0
+    }
+  }, /*#__PURE__*/React.createElement("rect", {
+    x: "-30",
+    y: "-10",
+    width: "60",
+    height: "20",
+    rx: "10"
+  }), /*#__PURE__*/React.createElement("text", {
+    x: "0",
+    y: "3.6",
+    textAnchor: "middle"
+  }, "\xB7"))))));
+}
 function NbPipeline({
   sim,
   N,
-  speed
+  speed,
+  paused,
+  onSpeed,
+  onPause,
+  onShift,
+  still
 }) {
   const narrow = useMedia("(max-width: 575.98px)");
   const [info, setInfo] = useState("ler");
-  const L = NB_PIPE[narrow ? "narrow" : "wide"],
-    T = NB_PUB;
+  const T = NB_PUB;
   const ts = flowTs(speed);
   const ps = (sim.real - sim.snapReal) * ts,
     pp = (sim.real - sim.pubReal) * ts;
@@ -8709,65 +9534,22 @@ function NbPipeline({
   const pico = N && N.frota,
     total = N ? N.subTotal : null;
   const between = (a, b) => pp >= a && pp < b;
-  const pk = [],
-    tags = [];
-  // uma bolinha por passo; a etiqueta diz o que ela leva
-  const go = (key, f, kind, label) => {
-    if (f === null) return;
-    pk.push(/*#__PURE__*/React.createElement(FxPacket, {
-      key: key,
-      pts: L.p[key],
-      f: f,
-      kind: kind
-    }));
-    if (label) tags.push(/*#__PURE__*/React.createElement(FxTag, {
-      key: key,
-      L: L,
-      at: L.tag[key],
-      text: label,
-      kind: kind
-    }));
-  };
-  go("api", phase(ps, 0, 0.4), snapFail ? "fail" : "", snapFail ? "sem resposta" : "65 estações");
-  if (!snapFail) go("coleta", phase(ps, 0.4, 0.8), "", "65 linhas");
-  go("total", phase(pp, T.total, T.cmp), pubFail ? "fail" : "", pubFail ? "sem resposta" : "soma na hora");
-  if (!pubFail) {
-    go("sub", phase(pp, T.back, T.load), "", total !== null ? `total ${total}` : "total");
-    go("ler", phase(pp, T.load, T.calc), "read", "janela de 5 min");
-    go("camada", phase(pp, T.layer, T.clear), "", "65 estações");
-    go("clear", phase(pp, T.clear, T.gem), "fail", "apaga antigos");
-    go("gemeo", phase(pp, T.gem, T.end), "", "lê a camada");
-  }
-  // o pico só é regravado quando o total passa dele: de dia, a linha fica parada, com a regra escrita
-  tags.push(/*#__PURE__*/React.createElement(FxTag, {
-    key: "pico-rule",
-    L: L,
-    at: L.tag.pico,
-    text: "s\xF3 se passar do pico",
-    kind: "muted"
-  }));
-  const live = k => pk.some(q => q.key === k);
-  const lines = Object.entries(L.p).map(([k, pts]) => /*#__PURE__*/React.createElement("polyline", {
-    key: k,
-    points: ptsAttr(pts),
-    className: `fx-edge ${live(k) ? "on" : ""} ${k === "pico" ? "rule" : ""}`
-  }));
-  const stepOn = pubFail ? -1 : pp < T.total ? 0 : pp < T.load ? 1 : pp < T.calc ? 2 : pp < T.layer ? 3 : pp < T.clear ? 4 : pp < T.gem ? 5 : pp < T.end + 1.5 ? 6 : -1;
+  const stepOn = pubFail ? -1 : pp < T.total ? 0 : pp < T.load ? 1 : pp < T.calc ? 2 : pp < T.layer ? 3 : pp < T.clear ? 4 : pp < T.del ? 5 : pp < T.end + 1.5 ? 6 : -1;
   const w = sim.next || sim.pub;
   const reading = !pubFail && between(T.load, T.calc),
-    clearing = !pubFail && between(T.clear, T.gem);
+    clearing = !pubFail && between(T.clear, T.del);
   const glow = !pubFail && between(T.load, T.layer);
   const pick = k => () => setInfo(cur => cur === k ? "ler" : k);
   const st = (busy, fail) => fail ? "fail" : busy ? "busy" : "";
   // quem está trabalhando (A) ou falhou (F) agora: acende o bloco e o cartão dele
   const A = {
-    api: ps < 0.4 || between(T.total, T.cmp),
-    coleta: ps >= 0.3 && ps < 0.5,
-    total: between(T.cmp - 0.05, T.load),
-    pg: reading || clearing || ps >= 0.75 && ps < 0.95 && !snapFail,
-    pub: !pubFail && pp < T.gem,
-    agol: !pubFail && (between(T.layer + 0.3, T.clear + 0.1) || between(T.gem, T.gem + 0.2)),
-    gem: !pubFail && between(T.gem + 0.3, T.end + 0.2)
+    api: ps < 0.15 || !!sim.sub && between(T.total - 0.05, T.total + 0.2),
+    coleta: ps >= 0.35 && ps < 0.55,
+    total: !!sim.sub && between(T.cmp, T.back + 0.1),
+    pg: ps >= NB_SNAP_IN - 0.05 && ps < NB_SNAP_IN + 0.25 && !snapFail || between(T.load - 0.05, T.load + 0.25) || between(T.del - 0.05, T.del + 0.3),
+    pub: !pubFail && pp < T.del,
+    agol: !pubFail && between(T.clear - 0.05, T.gem + 0.1),
+    gem: !pubFail && between(T.end - 0.05, T.show + 0.3)
   };
   const F = {
     api: snapFail && ps < 0.9 || pubFail && pp < T.end,
@@ -8783,101 +9565,64 @@ function NbPipeline({
     className: "flow-title"
   }, /*#__PURE__*/React.createElement("i", {
     className: "bi bi-bezier2 me-2"
-  }), "Pipeline do NitBike"), /*#__PURE__*/React.createElement("small", null, "esquema animado \xB7 ", speed === 1 ? "tempo real" : `relógio ${speed}× mais rápido`)), /*#__PURE__*/React.createElement(FxCanvas, {
-    L: L,
-    cls: narrow ? "narrow" : "",
-    label: "Pipeline do NitBike: a coleta grava snapshots no PostgreSQL a cada 10 s; a publica\xE7\xE3o, a cada minuto, soma o total e o pico, l\xEA a janela, calcula, atualiza a camada do ArcGIS Online e apaga os snapshots antigos; o G\xEAmeo l\xEA a camada",
-    lines: lines,
-    packets: pk,
-    tags: tags
-  }, /*#__PURE__*/React.createElement(FxBox, {
-    L: L,
-    r: L.api,
-    cls: "r-src",
-    icon: "bi-broadcast",
-    title: "API NitBike",
-    sub: "bikes e vagas",
-    sel: info === "api",
-    onPick: pick("api"),
-    state: st(A.api, F.api)
-  }), /*#__PURE__*/React.createElement(FxBox, {
-    L: L,
-    r: L.coleta,
-    n: 1,
-    cls: "r-proc",
-    icon: "bi-camera",
-    title: "Coleta",
-    sub: "a cada 10 s",
-    sel: info === "coleta",
-    onPick: pick("coleta"),
-    state: st(A.coleta, F.coleta)
-  }), /*#__PURE__*/React.createElement(FxBox, {
-    L: L,
-    r: L.total,
-    cls: "r-proc",
-    icon: "bi-calculator",
-    title: "Total e pico",
-    sub: pico ? `pico ${pico}` : "subflow",
-    sel: info === "total",
-    onPick: pick("total"),
-    state: st(A.total, F.total)
-  }), /*#__PURE__*/React.createElement(FxBox, {
-    L: L,
-    r: L.pg,
-    n: 2,
-    cls: "r-db",
-    icon: "bi-database",
-    title: "PostgreSQL",
-    sub: `${sim.snaps.length} snapshots`,
-    sel: info === "pg",
-    onPick: pick("pg"),
-    state: st(A.pg)
-  }, /*#__PURE__*/React.createElement("div", {
-    className: "nb-pg"
-  }, /*#__PURE__*/React.createElement("b", null, sim.snaps.length), /*#__PURE__*/React.createElement("small", null, "snapshots \xB7 ", (sim.snaps.length * NB_REAL.length).toLocaleString("pt-BR"), " linhas"), /*#__PURE__*/React.createElement(NbSlots, {
+  }), "Pipeline do NitBike"), !still && /*#__PURE__*/React.createElement("div", {
+    className: "seg clock-ctl nb-clock-ctl",
+    role: "group",
+    "aria-label": "Rel\xF3gio do fluxograma"
+  }, /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    className: "nb-shift",
+    onClick: () => onShift(-3600),
+    "aria-label": "Atrasar 1 hora",
+    title: "\u22121 h"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "bi bi-chevron-left"
+  })), /*#__PURE__*/React.createElement("small", null, /*#__PURE__*/React.createElement("i", {
+    className: "bi bi-clock"
+  }), " ", hhmmss(sim.t)), /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    className: "nb-shift",
+    onClick: () => onShift(3600),
+    "aria-label": "Adiantar 1 hora",
+    title: "+1 h"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "bi bi-chevron-right"
+  })), /*#__PURE__*/React.createElement("button", {
+    type: "button",
+    className: paused ? "on" : "",
+    "aria-pressed": paused,
+    onClick: onPause,
+    "aria-label": paused ? "Continuar" : "Pausar",
+    title: paused ? "Continuar" : "Pausar"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: `bi ${paused ? "bi-play-fill" : "bi-pause-fill"}`
+  })), [[1, "tempo real"], [5, "5× mais rápido"], [10, "10× mais rápido"]].map(([v, t]) => /*#__PURE__*/React.createElement("button", {
+    key: v,
+    type: "button",
+    className: !paused && speed === v ? "on" : "",
+    "aria-pressed": !paused && speed === v,
+    title: t,
+    onClick: () => onSpeed(v)
+  }, v, "\xD7")))), /*#__PURE__*/React.createElement(NbFlow, {
     sim: sim,
-    mini: true,
-    reading: glow,
-    clearing: clearing
-  }))), /*#__PURE__*/React.createElement(FxBox, {
-    L: L,
-    r: L.pub,
-    n: 3,
-    cls: "r-proc",
-    icon: "bi-arrow-repeat",
-    title: "Publica\xE7\xE3o",
-    sub: "a cada 1 min",
-    sel: info === "pub",
-    onPick: pick("pub"),
-    state: st(A.pub, F.pub)
-  }, /*#__PURE__*/React.createElement("ol", {
-    className: "nb-steps"
-  }, NB_STEPS.map((x, k) => /*#__PURE__*/React.createElement("li", {
-    key: x,
-    className: stepOn === k ? "on" : stepOn > k ? "done" : ""
-  }, x)))), /*#__PURE__*/React.createElement(FxBox, {
-    L: L,
-    r: L.agol,
-    n: 4,
-    cls: "r-out",
-    icon: "bi-layers",
-    title: "ArcGIS",
-    sub: narrow ? "camada" : "camada NitBike",
-    sel: info === "agol",
-    onPick: pick("agol"),
-    state: st(A.agol)
-  }), /*#__PURE__*/React.createElement(FxBox, {
-    L: L,
-    r: L.gem,
-    n: 5,
-    cls: "r-out",
-    icon: "bi-buildings",
-    title: "G\xEAmeo",
-    sub: "l\xEA a camada",
-    sel: info === "gem",
-    onPick: pick("gem"),
-    state: st(A.gem)
-  })), /*#__PURE__*/React.createElement("ol", {
+    N: N,
+    speed: speed,
+    paused: paused,
+    narrow: narrow,
+    info: info,
+    pick: pick,
+    A: A,
+    F: F,
+    pico: pico,
+    stepOn: stepOn,
+    glow: glow,
+    clearing: clearing,
+    pp: pubFail ? -1 : pp,
+    cur: !pubFail && pp < T.del && sim.cur ? sim.cur : {
+      from: sim.nextPub - NB_LAG - NB_WINDOW,
+      to: sim.nextPub - NB_LAG
+    }
+  }), /*#__PURE__*/React.createElement("ol", {
     className: "nb-legend"
   }, NB_LEGEND.map(([k, n, title, txt]) => /*#__PURE__*/React.createElement("li", {
     key: k,
@@ -8900,7 +9645,7 @@ function NbPipeline({
     sim: sim,
     reading: reading,
     clearing: clearing,
-    pubOn: !pubFail && pp < T.end
+    pubOn: !pubFail && pp < T.del
   })), /*#__PURE__*/React.createElement(NbPeak, {
     N: N
   }));
@@ -8973,6 +9718,9 @@ function GemeoLive() {
   const [paused, setPaused] = useState(false);
   // 1× é o tempo real (ciclo do cruzamento a cada 30 s, snapshot a cada 10 s); 5× e 10× aceleram tudo junto
   const [speed, setSpeed] = useState(5);
+  // o fluxograma do NitBike tem relógio próprio, independente do mapa
+  const [nbSpeed, setNbSpeed] = useState(5);
+  const [nbPaused, setNbPaused] = useState(false);
   const [sel, setSel] = useState(null);
   const [panel, setPanel] = useState("agora");
   const [, setTick] = useState(0);
@@ -9033,19 +9781,19 @@ function GemeoLive() {
       rodando: N.rodando
     }, ...pubs.current].slice(0, 5);
   }
-  useSimLoop(inView && !paused && !still, dt => {
+  useSimLoop(inView && !still && !(paused && nbPaused), dt => {
     // camada desligada no mapa sai do cruzamento (para ver o efeito); o recálculo é imediato ao trocar
-    stepBusSim(bus.current, dt, {
+    if (!paused) stepBusSim(bus.current, dt, {
       alerts: show.waze ? alerts : [],
       jams: show.waze ? jams : [],
       rainOf: show.chuva ? rainOf : () => 0,
       crossDown: on("cruzamento"),
       speed
     });
-    stepNbSim(nb.current, dt, {
+    if (!nbPaused) stepNbSim(nb.current, dt, {
       apiDown: on("nitbike"),
-      speed,
-      ts: flowTs(speed),
+      speed: nbSpeed,
+      ts: flowTs(nbSpeed),
       pico: N && N.frota,
       total: N ? N.subTotal : null
     });
@@ -9706,7 +10454,18 @@ function GemeoLive() {
   }, /*#__PURE__*/React.createElement(NbPipeline, {
     sim: nb.current,
     N: N,
-    speed: speed
+    speed: nbSpeed,
+    paused: nbPaused,
+    onSpeed: v => {
+      setNbSpeed(v);
+      setNbPaused(false);
+    },
+    onPause: () => setNbPaused(x => !x),
+    onShift: d => {
+      shiftNbSim(nb.current, d);
+      setTick(t => (t + 1) % 1e6);
+    },
+    still: still
   })));
 }
 
@@ -10578,7 +11337,9 @@ const XP_LIBS = {
   chart: "https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.js",
   scrollama: "https://cdn.jsdelivr.net/npm/scrollama@3.2.0/build/scrollama.min.js",
   gsap: "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js",
-  scramble: "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrambleTextPlugin.min.js"
+  scramble: "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrambleTextPlugin.min.js",
+  motionpath: "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/MotionPathPlugin.min.js",
+  drawsvg: "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/DrawSVGPlugin.min.js"
 };
 const xpLibCache = {};
 const loadXpLib = name => xpLibCache[name] || (xpLibCache[name] = new Promise((resolve, reject) => {
