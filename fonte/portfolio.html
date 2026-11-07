@@ -2404,8 +2404,27 @@
     [data-bs-theme="dark"] .fx-tag.muted { background: #05040f; color: rgba(255, 255, 255, .6); border-color: rgba(0, 229, 255, .35); }
 
     /* log em terminal, linha do tempo dos snapshots e tabela por minuto */
-    .nb-ops { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 1rem; margin-top: 1rem; align-items: start; }
-    @media (max-width: 991.98px) { .nb-ops { grid-template-columns: minmax(0, 1fr); } }
+    .nb-ops { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 1rem; margin-top: 1rem; align-items: stretch; }
+    .nb-ops > .nb-snaps { align-self: start; }
+    .nb-ops-side { display: flex; flex-direction: column; gap: 1rem; min-width: 0; }
+    .nb-ops-side .flow-log { flex: 1 1 0; min-height: 12rem; }
+    .nb-ops-side .flow-log ol { min-height: 0; overflow: hidden; }
+    @media (max-width: 991.98px) { .nb-ops { grid-template-columns: minmax(0, 1fr); } .nb-ops-side .flow-log { flex: none; } .nb-ops-side .flow-log ol { max-height: 14rem; } }
+    /* execuções no Prefect: o resumo da orquestração, ao lado dos snapshots */
+    .nb-runs { padding: .9rem 1rem .8rem; border: 2px solid var(--line); border-radius: 14px; background: var(--card); box-shadow: 4px 4px 0 var(--shadow-c); }
+    .nb-runs-head { display: flex; justify-content: space-between; align-items: baseline; gap: .6rem; }
+    .nb-runs-head span { font: 700 .82rem "JetBrains Mono", monospace; letter-spacing: .04em; text-transform: uppercase; }
+    .nb-runs-head span i { margin-right: .35rem; color: var(--accent); }
+    .nb-runs-head small, .nb-runs-axis { color: var(--muted); font: .68rem "JetBrains Mono", monospace; letter-spacing: .06em; text-transform: uppercase; }
+    .nb-runs-txt { margin: .35rem 0 .5rem; color: var(--muted); font-size: .84rem; line-height: 1.45; }
+    .nb-runs .pf-lane { grid-template-columns: 7.2rem minmax(0, 1fr); }
+    .nb-runs .pf-lane > span small { margin-left: .4rem; color: var(--muted); font-weight: 400; font-size: .68rem; }
+    .nb-runs .pf-lane i.running { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 30%, transparent); animation: nbRunPulse 1.2s ease-in-out infinite; }
+    .nb-runs .pf-lane.dense i.running { width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px; }
+    @keyframes nbRunPulse { 50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 0%, transparent); } }
+    .nb-runs-axis { display: flex; justify-content: space-between; margin: .1rem 0 0 7.8rem; }
+    .pf-count i.running { background: var(--accent); }
+    @media (max-width: 575.98px) { .nb-runs .pf-lane { grid-template-columns: 5.6rem minmax(0, 1fr); } .nb-runs .pf-lane > span small { display: none; } .nb-runs-axis { margin-left: 6.2rem; } }
     .flow-log { display: flex; flex-direction: column; min-width: 0; overflow: hidden; border: 2px solid var(--line); border-radius: 14px; background: #0f1220; color: #d6deeb; box-shadow: 4px 4px 0 var(--shadow-c); }
     .flow-log-head { padding: .55rem .8rem; }
     .flow-log-clock { margin-left: auto; color: #6b7f99; }
@@ -2748,6 +2767,8 @@
       name: "Kluivert Mury",
       location: "São Gonçalo, RJ",
       email: "kluivert.mury@gmail.com",
+      phone: "(21) 98022-7316",
+      whatsapp: "https://wa.me/5521980227316",
       linkedin: "https://www.linkedin.com/in/kluivertmury",
       github: "https://github.com/Kluiv-Mury",
       cv: "cv.pdf", // coloque o PDF do currículo na raiz do repositório com este nome
@@ -5628,13 +5649,14 @@
       const sim = { rnd, st, trips: [], snaps: [], pub: null, next: null, cur: null, clearFrom: null, t, real: 0, nextTrip: 2, snapReal: -99, pubReal: -99, snapOk: true, pubOk: true, log: [], stats: null, pubStep: 99 };
       sim.nextSnap = Math.ceil(t / NB_SNAP) * NB_SNAP;
       sim.nextPub = Math.ceil(t / 60) * 60 + NB_LAG;
+      sim.nextWaze = Math.ceil((t - 15) / 120) * 120 + 15;
       for (let k = 0; k < 1200; k++) stepNbSim(sim, 1 / NB_SPEED, { speed: NB_SPEED, ts: 1 });
       return sim;
     }
     // Muda a hora da simulação do NitBike: tudo o que é hora anda junto, então a janela e a agenda continuam coerentes.
     // Passar da meia-noite faz a próxima publicação ver o dia novo (e o pico reinicia).
     function shiftNbSim(sim, d) {
-      sim.t += d; sim.nextSnap += d; sim.nextPub += d;
+      sim.t += d; sim.nextSnap += d; sim.nextPub += d; sim.nextWaze += d;
       sim.snaps.forEach((c) => { c.t += d; });
       ["pub", "next", "cur"].forEach((k) => { if (sim[k]) sim[k] = { from: sim[k].from + d, to: sim[k].to + d }; });
       if (sim.inbox) sim.inbox.t += d;
@@ -5697,6 +5719,16 @@
           if (up) sim.picoNext = val;
         }
         sim.nextPub += 60;
+      }
+      // o waze live roda no mesmo worker, a cada 2 min; aqui só aparece nas execuções e no log
+      if (sim.t >= sim.nextWaze) {
+        sim.wazeAt = sim.nextWaze;
+        sim.nextWaze += 120;
+      }
+      if (sim.wazeAt && sim.t - sim.wazeAt >= 4) {
+        const retry = nbRunRetry(sim.wazeAt);
+        nbLog(sim, "waze live", retry ? "WARNING" : "OK", retry ? "o feed do Waze não respondeu; deu certo na nova tentativa · Completed()" : "tráfego e alertas atualizados · Finished in state Completed()");
+        sim.wazeAt = null;
       }
       // o snapshot entra no banco quando a pílula da coleta chega (e não quando a coleta começa)
       if (sim.inbox && (sim.real - sim.snapReal) * ts >= NB_SNAP_IN) {
@@ -5769,17 +5801,24 @@
     // O pico da madrugada: o subflow guarda o maior total de bikes paradas já medido; rodando = pico − paradas agora.
     function NbPeak({ N }) {
       const frota = N && N.frota, paradas = N ? N.subTotal : null;
-      const rod = N ? N.rodando : null;
+      const rod = N && N.rodando !== null && N.rodando !== undefined ? Math.max(0, N.rodando) : null;
       const d = new Date(), hNow = d.getHours() + d.getMinutes() / 60;
       const W = 560, H = 186, l = 40, r = 14, t = 26, b = 26;
       const F = frota || 0;
-      // a curva passa pelo ponto real de agora: escala as bikes rodando do dia típico pelo valor medido
-      const k = rod !== null ? Math.min(3, Math.max(0.2, rod / NB_DAY(hNow))) : 1;
-      const pts = Array.from({ length: 97 }, (_, i) => { const h = i / 4; return [h, F - k * NB_DAY(h)]; });
+      // a curva passa pelo ponto real de agora: escala as bikes rodando do dia típico pelo valor medido, mas sem deixar
+      // o horário de pico tirar mais bikes do que a frota tem (paradas nunca ficam abaixo de zero); a diferença que
+      // sobra perto de agora entra como um ajuste local, para a curva ainda bater no ponto medido
+      const dayMax = Math.max(...Array.from({ length: 97 }, (_, i) => NB_DAY(i / 4)));
+      const kMax = F > 0 ? (0.8 * F) / dayMax : 1;
+      const k = rod !== null ? Math.min(kMax, Math.max(0.2, rod / NB_DAY(hNow))) : Math.min(1, kMax);
+      const fix = rod !== null ? rod - k * NB_DAY(hNow) : 0;
+      const near = (h) => { const x = Math.abs(h - hNow) % 24, dh = Math.min(x, 24 - x); return Math.exp(-(dh * dh) / (2 * 1.2 * 1.2)); };
+      const parked = (h) => Math.min(F, Math.max(0, F - k * NB_DAY(h) - fix * near(h)));
+      const pts = Array.from({ length: 97 }, (_, i) => { const h = i / 4; return [h, parked(h)]; });
       const lo = Math.min(...pts.map((q) => q[1])), y0 = Math.max(0, Math.floor((lo - (F - lo) * 0.25) / 10) * 10);
       const X = (h) => l + (h / 24) * (W - l - r), Y = (v) => t + (1 - (v - y0) / Math.max(1, F - y0)) * (H - t - b);
       const line = pts.map(([h, v]) => `${X(h).toFixed(1)},${Y(v).toFixed(1)}`).join(" ");
-      const nowX = X(hNow), nowY = paradas !== null ? Y(paradas) : null;
+      const nowX = X(hNow), nowY = paradas !== null ? Y(Math.min(F, Math.max(y0, paradas))) : null;
       return (
         <div className="nb-peak">
           <div className="nb-peak-tx">
@@ -5802,7 +5841,7 @@
                 <text x={W - r} y={Y(F) - 6} textAnchor="end" className="nb-lbl">pico guardado · {F}</text>
                 <polygon points={`${X(0)},${H - b} ${line} ${X(24)},${H - b}`} className="nb-area" />
                 <polyline points={line} className="nb-curve" />
-                <circle cx={X(3.5)} cy={Y(F - k * NB_DAY(3.5))} r="4" className="nb-peakdot" />
+                <circle cx={X(3.5)} cy={Y(parked(3.5))} r="4" className="nb-peakdot" />
                 {nowY !== null && (
                   <g className="nb-now-mark">
                     <line x1={nowX} x2={nowX} y1={t - 8} y2={H - b} className="nb-nowline" />
@@ -5834,6 +5873,54 @@
               </li>
             )) : <li className="lv-muted"><span className="msg">{empty}</span></li>}
           </ol>
+        </div>
+      );
+    }
+
+    // Execuções dos deployments nos últimos 10 min, uma linha por flow: o resumo da orquestração no Prefect.
+    // O estado da coleta e da publicação vem da própria simulação; o waze live tem uma nova tentativa de vez em quando.
+    const NB_RUNS_WIN = 600;
+    const nbRunRetry = (t) => ((Math.floor(t) * 2654435761) >>> 0) % 100 < 7;
+    function NbRuns({ sim, pubRunning, pubFail }) {
+      const t0 = sim.t - NB_RUNS_WIN, lastPub = sim.nextPub - 60;
+      const count = { ok: 0, run: 0, retry: 0, fail: 0 };
+      const lanes = PF_FLOWS.map((f) => {
+        if (f.paused) return { f, runs: null };
+        const runs = [];
+        for (let t = Math.ceil((t0 - f.at) / f.every) * f.every + f.at; t <= sim.t; t += f.every) {
+          let st = "ok";
+          if (f.id === "snap" && sim.inbox && Math.abs(sim.inbox.t - t) < 1) st = "running";
+          if (f.id === "pub" && Math.abs(t - lastPub) < 1) st = pubFail ? "fail" : pubRunning ? "running" : "ok";
+          if (f.id === "live") st = sim.wazeAt && Math.abs(sim.wazeAt - t) < 1 ? "running" : nbRunRetry(t) ? "retry" : "ok";
+          count[st === "running" ? "run" : st]++;
+          runs.push({ t, st });
+        }
+        return { f, runs };
+      });
+      return (
+        <div className="nb-runs">
+          <div className="nb-runs-head">
+            <span><i className="bi bi-diagram-3" /> Execuções no Prefect</span>
+            <small>últimos 10 min</small>
+          </div>
+          <p className="nb-runs-txt">O Prefect agenda cada flow, o worker roda o código e o estado volta com os logs.</p>
+          {lanes.map(({ f, runs }) => (
+            <div className={`pf-lane ${f.every && f.every < 30 ? "dense" : ""}`} key={f.id}>
+              <span>{f.lane}{!f.paused && <small>{f.label}</small>}</span>
+              <div>
+                {runs ? runs.map((r) => (
+                  <i key={r.t} className={r.st} style={{ left: `${((r.t - t0) / NB_RUNS_WIN) * 100}%` }} title={`${hhmmss(r.t)} · ${{ ok: "Completed", running: "Running", retry: "Completed na nova tentativa", fail: "Failed" }[r.st]}`} />
+                )) : <em className="pf-paused">deployment pausado</em>}
+              </div>
+            </div>
+          ))}
+          <div className="nb-runs-axis"><span>−10 min</span><span>agora</span></div>
+          <div className="pf-count">
+            <span><i className="ok" /> concluída · {count.ok}</span>
+            <span><i className="running" /> rodando · {count.run}</span>
+            <span><i className="retry" /> na nova tentativa · {count.retry}</span>
+            {count.fail > 0 && <span><i className="fail" /> falhou · {count.fail}</span>}
+          </div>
         </div>
       );
     }
@@ -6255,7 +6342,10 @@
             </div>
           )}
           <div className="nb-ops">
-            <FlowLog title="logs · nitbike" clock={hhmmss(sim.t)} lines={sim.log.slice(-7)} />
+            <div className="nb-ops-side">
+              <NbRuns sim={sim} pubRunning={!pubFail && pp < T.del} pubFail={pubFail && pp < T.end} />
+              <FlowLog title="logs · prefect" clock={hhmmss(sim.t)} lines={sim.log.slice(-26)} />
+            </div>
             <NbSnaps sim={sim} reading={reading} clearing={clearing} pubOn={!pubFail && pp < T.del} />
           </div>
           <NbPeak N={N} />
@@ -6273,8 +6363,8 @@
       );
     }
 
-    // Navegação dos três capítulos: gruda no topo enquanto se rola por eles e marca o capítulo da vez
-    const LIVE_CAPS = [["1", "A cidade agora"], ["2", "Do snapshot à camada"], ["3", "Orquestração"]];
+    // Navegação dos capítulos: gruda no topo enquanto se rola por eles e marca o capítulo da vez
+    const LIVE_CAPS = [["1", "A cidade agora"], ["2", "Do snapshot à camada"]];
     function LiveNav() {
       const [act, setAct] = useState("1");
       useEffect(() => {
@@ -6671,354 +6761,15 @@
       );
     }
 
-    // Orquestração: os flows do NitBike e do Waze no Prefect. O Prefect Server guarda a agenda e o estado de cada
-    // execução no PostgreSQL 15, o mesmo banco dos snapshots do NitBike; o worker clona o código do GitHub e roda o
-    // flow; monitores avisam no Teams quando um flow falha ou um container sai do ar, e o autoheal reinicia o container.
+    // Os deployments no Prefect, com a agenda de cada um (o histórico do Waze está pausado). Mostrados de forma resumida,
+    // como linhas de execuções ao lado dos snapshots: o Prefect agenda, o worker roda e o estado volta com os logs.
     const PF_FLOWS = [
       { id: "snap", front: "nitbike", name: "nitbike · coleta", desc: "snapshot das 65 estações", every: 10, at: 0, retries: 0, src: "nb", dst: ["db"], label: "10 s", lane: "coleta", err: "a API do NitBike não respondeu", done: "65 linhas gravadas no PostgreSQL" },
       { id: "pub", front: "nitbike", name: "nitbike · publicação", desc: "janela de 5 min", every: 60, at: 30, retries: 0, src: "nb", dst: ["agol", "db"], label: "1 min", lane: "publicação", err: "o subflow do total de bikes não alcançou a API", done: "camada atualizada e snapshots antigos apagados" },
       { id: "live", front: "waze", name: "waze live", desc: "tráfego e alertas", every: 120, at: 15, retries: 1, delay: 60, src: "wz", dst: ["agol", "ent"], label: "2 min", lane: "waze live", err: "o feed do Waze não respondeu", done: "camadas ao vivo e histórico de alertas atualizados" },
       { id: "hist", front: "waze", name: "waze · histórico", desc: "tráfego histórico", paused: true, retries: 2, delay: 180, src: "wz", dst: ["ent"], label: "pausado", lane: "histórico", err: "erro ao gravar no histórico", done: "trechos de nível 4 ou mais gravados no histórico" },
     ];
-    // Passos de cada execução, na ordem das tasks e dos subflows nos repositórios (um passo a cada PF_STEP segundos reais)
-    const PF_STEP = 0.75;
-    const PF_PULL = (repo) => ["pull", `o worker clona o repositório ${repo} do GitHub`];
-    const PF_QUEUE = ["dispatch", "o Prefect Server tira a execução da agenda e põe na fila do worker"];
-    const PF_DONE = ["report", "o estado volta ao Prefect Server, que guarda no PostgreSQL"];
-    const PF_STEPS = {
-      snap: [PF_QUEUE, PF_PULL("pipelines_nitbike"), ["src", "authenticate e fetch_stations: lê as 65 estações na API do NitBike"], ["out:db", "save_snapshot_to_postgres: grava uma linha por estação em nitbike_snapshot"], PF_DONE],
-      pub: [PF_QUEUE, PF_PULL("pipelines_nitbike"), ["src", "subflow nitbike_total_bikes_flow: soma as bikes paradas na API e compara com o pico"], ["in:db", "load_snapshots: lê no PostgreSQL os snapshots da janela de 5 min"], ["out:agol", "calculate_flow e update_arcgis: entradas, saídas, fluxo e rankings na camada"], ["out:db", "clear_old_data: apaga os snapshots anteriores à janela"], PF_DONE],
-      live: [PF_QUEUE, PF_PULL("pipelines_nittrans"), ["src", "get_api_data_as_json: lê o feed do Waze e separa tráfego e alertas"], ["out:agol", "subflow Tráfego troca os trechos ao vivo; subflow Alertas inclui os novos e atualiza os que continuam"], ["out:ent", "os alertas que sumiram do feed saem da camada ao vivo e vão para o histórico, uma camada por tipo"], PF_DONE],
-      hist: [PF_QUEUE, PF_PULL("pipelines_nittrans"), ["src", "lê o tráfego do Waze"], ["out:ent", "grava no histórico os trechos com nível 4 ou mais"], PF_DONE],
-    };
-    // com falha na fonte, a execução para ali e só devolve o estado
-    const pfStepsOf = (a) => {
-      const st = PF_STEPS[PF_FLOWS[a.fi].id];
-      if (!a.fail) return st;
-      const k = st.findIndex((x) => x[0] === "src");
-      return [...st.slice(0, k + 1), st[st.length - 1]];
-    };
     const hhmmss = (t) => `${hhmm(t)}:${pad2(Math.floor(t) % 60)}`;
-    const PF_LATE = 15; // o que passa 15 s do horário sem worker vira Late
-    const PF_HEAL = 45; // tempo até o healthcheck falhar e o autoheal reiniciar o worker (segundos simulados)
-    const PF_LAYOUTS = {
-      wide: {
-        w: 1100, h: 446,
-        box: { gh: [16, 20, 220, 70], nb: [16, 180, 220, 70], wz: [16, 320, 220, 70], srv: [300, 20, 300, 84], db: [640, 20, 200, 84], mon: [876, 20, 214, 84], wk: [300, 146, 520, 286], agol: [876, 146, 214, 62], gem: [876, 222, 214, 52], ent: [876, 292, 214, 62], teams: [876, 370, 214, 62] },
-        row: (fi) => [320, 204 + fi * 52, 480, 44],
-        title: { db: ["PostgreSQL 15", "estados, logs e snapshots"], agol: ["ArcGIS Online", "camadas ao vivo"], ent: ["Portal GIS", "camadas de histórico"] },
-        path: {
-          pull: () => [[126, 55], [262, 55], [262, 175], [400, 175]],
-          dispatch: (cy) => [[450, 62], [450, cy]],
-          src: (fi, cy) => { const sy = PF_FLOWS[fi].src === "nb" ? 215 : 355; return [[126, sy], [262, sy], [262, cy], [560, cy]]; },
-          out: (fi, cy, d) => (d === "db" ? [[740, cy], [740, 62]] : [[560, cy], [848, cy], [848, d === "agol" ? 177 : 323], [983, d === "agol" ? 177 : 323]]),
-          gem: () => [[983, 177], [983, 248]],
-          report: (cy) => [[560, cy], [560, 62]],
-          persist: () => [[450, 62], [740, 62]],
-          watch: () => [[800, 146], [800, 124], [983, 124], [983, 62]],
-          alarm: () => [[983, 62], [1096, 62], [1096, 401], [983, 401]],
-        },
-      },
-      narrow: {
-        w: 340, h: 690,
-        box: { srv: [10, 10, 200, 72], db: [222, 10, 108, 72], gh: [10, 104, 100, 64], nb: [120, 104, 100, 64], wz: [230, 104, 100, 64], wk: [10, 196, 320, 296], agol: [10, 522, 100, 64], ent: [120, 522, 100, 64], mon: [230, 522, 100, 64], gem: [10, 616, 100, 60], teams: [230, 616, 100, 60] },
-        row: (fi) => [22, 250 + fi * 52, 296, 44],
-        title: { db: ["Postgres", "estados e snapshots"], agol: ["ArcGIS", "ao vivo"], ent: ["Portal GIS", "histórico"] },
-        path: {
-          pull: () => [[60, 136], [60, 224]],
-          dispatch: (cy) => [[115, 46], [115, cy]],
-          src: (fi, cy) => { const sx = PF_FLOWS[fi].src === "nb" ? 170 : 280; return [[sx, 136], [sx, cy]]; },
-          out: (fi, cy, d) => { if (d === "db") return [[300, cy], [300, 46]]; const x = [60, 140, 200, 280][fi], dx = d === "agol" ? 60 : 170; return [[x, cy], [x, 507], [dx, 507], [dx, 554]]; },
-          gem: () => [[60, 554], [60, 646]],
-          report: (cy) => [[205, cy], [205, 46]],
-          persist: () => [[110, 46], [276, 46]],
-          watch: () => [[290, 492], [290, 522]],
-          alarm: () => [[280, 554], [280, 646]],
-        },
-      },
-    };
-    const PF_INFO = {
-      ler: ["Como ler", "Cada execução anda um passo de cada vez, na ordem do código: o Server põe na fila, o worker clona o repositório, lê a fonte, grava no destino e devolve o estado. A faixa de cima diz o passo da vez. Caixa acesa está trabalhando; vermelha, falhou. Clique num bloco ou num flow."],
-      gh: ["GitHub", "O código dos flows fica nos repositórios. A cada execução, o worker clona o repositório e roda o flow."],
-      fontes: ["Fontes", "A API da NitBike informa as bikes e as vagas de cada estação; o Waze for Cities manda o tráfego e os alertas das ruas."],
-      srv: ["Prefect Server", "Guarda os deployments com a agenda de cada flow, cria as execuções das próximas horas, põe cada uma na fila do worker e recebe de volta o estado e os logs. O que passa 15 s do horário sem worker vira Late."],
-      db: ["PostgreSQL 15", "Um banco só para o Prefect e para os dados: execuções, estados e logs de um lado, os snapshots do NitBike do outro."],
-      wk: ["Worker", "Escuta a fila de execuções. Quando chega uma, clona o código do GitHub, roda o flow num processo Python e devolve o estado ao servidor. NitBike e Waze têm limite de concorrência: uma execução nova é cancelada se a anterior ainda não terminou."],
-      mon: ["Monitores", "Avisam no Teams quando um flow falha ou quando um container sai do ar. Junto deles, o autoheal reinicia o container quando o healthcheck falha."],
-      teams: ["Teams", "Os alertas de flow com falha e de container fora do ar chegam num canal da equipe."],
-      snap: ["nitbike · coleta", "A cada 10 s, autentica na API, busca as 65 estações e grava um snapshot de cada uma, com a hora da coleta, no PostgreSQL. Sem nova tentativa."],
-      pub: ["nitbike · publicação", "A cada minuto: chama o subflow do total e do pico (que lê a API), lê do PostgreSQL os snapshots da janela de 5 min, calcula entradas, saídas, fluxo e rankings por estação, atualiza a camada no ArcGIS Online e apaga os snapshots anteriores à janela. Sem nova tentativa."],
-      live: ["waze live", "A cada 2 minutos, lê o feed do Waze. O subflow Tráfego apaga e regrava os trechos da camada ao vivo; o subflow Alertas inclui os alertas novos, atualiza os que continuam e manda para o histórico, numa camada por tipo, os que sumiram do feed. Se falhar, tenta de novo uma vez, 1 minuto depois."],
-      hist: ["waze · histórico", "Pausado hoje. Quando roda, guarda no histórico os trechos com lentidão de nível 4 ou mais e, se falhar, tenta de novo até duas vezes, com 3 minutos de intervalo."],
-      agol: ["ArcGIS Online", "As camadas ao vivo: estações do NitBike com as métricas calculadas, tráfego e alertas do Waze."],
-      ent: ["Portal GIS", "As camadas de histórico do Waze, uma por tipo de alerta, para a análise ao longo do tempo."],
-      gem: ["Gêmeo Digital", "O Gêmeo lê as camadas ao vivo e mostra a cidade em tempo real, ao lado das outras fontes oficiais."],
-    };
-    const PF_STATE = { pending: "Pending", running: "Running", retrying: "Retrying", ok: "Completed", fail: "Failed", waiting: "AwaitingRetry", late: "Late", cancelled: "Cancelled", paused: "pausado" };
-
-    function PrefectLive() {
-      const [ref, inView] = useInView({ threshold: 0.1, once: false });
-      const still = prefersReducedMotion();
-      const narrow = useMedia("(max-width: 575.98px)");
-      const [front, setFront] = useState("todas");
-      const [info, setInfo] = useState("ler");
-      // 1× é o tempo real: coleta a cada 10 s, publicação a cada minuto, Waze a cada 2 min
-      const [speed, setSpeed] = useState(1);
-      const [, setTick] = useState(0);
-      const S = useRef(null);
-      if (!S.current) {
-        let seed = 5;
-        const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
-        const d0 = new Date(), t0 = d0.getHours() * 3600 + d0.getMinutes() * 60 + d0.getSeconds();
-        // já começa com os últimos 15 minutos de execuções
-        const runs = [];
-        PF_FLOWS.forEach((f, fi) => {
-          if (f.paused) return;
-          for (let t = Math.ceil((t0 - 15 * 60 - f.at) / f.every) * f.every + f.at; t <= t0; t += f.every) {
-            const r = rnd();
-            runs.push({ f: fi, t, status: f.retries && r < 0.08 ? "retry" : !f.retries && r < 0.01 ? "fail" : "ok" });
-          }
-        });
-        const next = PF_FLOWS.map((f) => (f.paused ? Infinity : Math.ceil((t0 + 1 - f.at) / f.every) * f.every + f.at));
-        S.current = { rnd, t: t0, real: 0, runs, next, retry: [], att: [], force: new Set(), extra: [], log: [], count: { ok: 0, retry: 0, fail: 0, late: 0 }, down: null, backlog: [], alarms: [] };
-      }
-      const L = PF_LAYOUTS[narrow ? "narrow" : "wide"];
-      // a mesma linha repetida em seguida (a coleta a cada 10 s) vira um contador em vez de encher o log
-      const say = (s, fi, state, msg, kind) => {
-        const top = s.log[0];
-        if (top && top.f === fi && top.state === state && top.msg === msg) { top.n += 1; top.t = s.t; return; }
-        s.log = [{ id: (s.logN = (s.logN || 0) + 1), t: s.t, f: fi, state, msg, kind, n: 1 }, ...s.log].slice(0, 9);
-      };
-      const stepDur = PF_STEP / flowTs(speed);
-      const alarm = (s) => s.alarms.push(s.real);
-      const start = (s, fi, run, n) => {
-        const f = PF_FLOWS[fi];
-        const forced = n === 0 && s.force.has(fi);
-        if (forced) s.force.delete(fi);
-        const fail = forced || s.rnd() < (f.retries ? 0.06 : 0.008);
-        run.status = "running";
-        // execuções de rotina não enchem o log: entram a simulada, as falhas, as novas tentativas e as atrasadas
-        s.att.push({ fi, run, n, fail, r0: s.real, told: false, loud: forced || n > 0 || run.late });
-        if (forced || n > 0) say(s, fi, n ? "Retrying" : "Running", n ? `tentativa ${n + 1} de ${f.retries + 1}` : "o worker pegou a execução", "");
-      };
-      useSimLoop(inView && !still, (dt) => {
-        const s = S.current;
-        s.t += dt * speed;
-        s.real += dt;
-        const workerDown = s.down && s.t < s.down.until;
-        // worker de volta: o autoheal reiniciou o container. A execução atrasada mais antiga de cada flow roda; com o
-        // limite de concorrência, as seguintes são canceladas porque a anterior ainda não terminou
-        if (s.down && !workerDown) {
-          say(s, 0, "autoheal", "reiniciou o container do worker; a fila volta a andar", "ok");
-          const byFlow = {};
-          s.backlog.forEach((r) => { (byFlow[r.f] = byFlow[r.f] || []).push(r); });
-          Object.values(byFlow).forEach((list) => {
-            list.slice(1).forEach((r) => { r.status = "cancelled"; });
-            if (list.length > 1) say(s, list[0].f, "Cancelled", `${list.length - 1} execuções seguintes canceladas pelo limite de concorrência: a anterior ainda estava rodando`, "warn");
-            start(s, list[0].f, list[0], 0);
-          });
-          s.backlog = [];
-          s.down = null;
-        }
-        PF_FLOWS.forEach((f, fi) => {
-          if (s.t < s.next[fi]) return;
-          const run = { f: fi, t: s.next[fi], status: "pending" };
-          s.next[fi] += f.every;
-          s.runs.push(run);
-          if (workerDown) s.backlog.push(run);
-          else start(s, fi, run, 0);
-        });
-        // sem worker, a execução fica esperando e vira Late 15 s depois do horário
-        s.backlog.forEach((r) => {
-          if (!r.late && s.t - r.t >= PF_LATE) { r.late = true; r.status = "late"; s.count.late++; if (s.backlog.filter((x) => x.late).length === 1) say(s, r.f, "Late", "passou 15 s do horário e nenhum worker pegou", "warn"); }
-        });
-        if (s.down && !s.down.told && s.t - s.down.at >= 8) { s.down.told = true; alarm(s); say(s, 0, "Monitor", "o container do worker parou de responder; alerta enviado no Teams", "fail"); }
-        // falha simulada: uma execução extra agora, sem mexer na agenda do flow
-        s.extra.splice(0).forEach((fi) => { const run = { f: fi, t: s.t, status: "pending" }; s.runs.push(run); if (workerDown) s.backlog.push(run); else start(s, fi, run, 0); });
-        const due = s.retry.filter((r) => s.t >= r.at && !workerDown);
-        s.retry = s.retry.filter((r) => s.t < r.at || workerDown);
-        due.forEach((r) => start(s, r.fi, r.run, r.n));
-        // resultado de cada tentativa quando o flow termina de rodar
-        s.att.forEach((a) => {
-          if (a.told || s.real - a.r0 < stepDur * (pfStepsOf(a).length - 1)) return;
-          a.told = true;
-          const f = PF_FLOWS[a.fi];
-          if (!a.fail) {
-            a.run.status = a.n ? "retry" : "ok";
-            s.count[a.n ? "retry" : "ok"]++;
-            say(s, a.fi, "Completed", a.n ? "deu certo na nova tentativa" : a.run.late ? "rodou depois que o worker voltou" : f.done, "ok");
-          } else if (a.n < f.retries) {
-            a.run.status = "waiting";
-            s.retry.push({ fi: a.fi, run: a.run, n: a.n + 1, at: s.t + f.delay });
-            say(s, a.fi, "AwaitingRetry", `${f.err}; nova tentativa em ${f.delay / 60} min`, "warn");
-          } else {
-            a.run.status = "fail";
-            s.count.fail++;
-            alarm(s);
-            say(s, a.fi, "Failed", f.retries ? `${f.err}; acabaram as tentativas e o monitor avisou no Teams` : `${f.err}; sem nova tentativa (o próximo roda em ${f.every} s) e o monitor avisou no Teams`, "fail");
-          }
-        });
-        s.att = s.att.filter((a) => s.real - a.r0 < stepDur * pfStepsOf(a).length + 1.2);
-        s.alarms = s.alarms.filter((t) => s.real - t < 1.4);
-        s.runs = s.runs.filter((r) => r.t > s.t - 15 * 60);
-        setTick((t) => (t + 1) % 1e6);
-      });
-      const s = S.current;
-      const on = (fi) => front === "todas" || PF_FLOWS[fi].front === front;
-      const simulate = (fi) => { s.force.add(fi); s.extra.push(fi); setTick((t) => (t + 1) % 1e6); };
-      const dropWorker = () => {
-        // com o worker fora, o mesmo botão antecipa o reinício (como se o autoheal agisse agora)
-        if (s.down) { s.down.until = s.t; setTick((t) => (t + 1) % 1e6); return; }
-        s.down = { at: s.t, until: s.t + PF_HEAL, told: false };
-        say(s, 0, "Crashed", "o container do worker caiu (simulado); as execuções agendadas ficam na fila", "fail");
-        setTick((t) => (t + 1) % 1e6);
-      };
-      const workerDown = s.down && s.t < s.down.until;
-
-      // bolinhas e estado de cada caixa, a partir das tentativas em andamento
-      const pk = [], busy = {}, failBox = {}, rowSt = PF_FLOWS.map((f) => (f.paused ? "paused" : ""));
-      const rowCy = (fi) => { const r = L.row(fi); return r[1] + r[3] / 2; };
-      const P = L.path;
-      s.att.forEach((a, k) => {
-        const p = s.real - a.r0, cy = rowCy(a.fi), vis = on(a.fi), f = PF_FLOWS[a.fi];
-        const steps = pfStepsOf(a), i = Math.floor(p / stepDur), q = (p % stepDur) / stepDur;
-        const endSt = a.fail ? (a.n < f.retries ? "waiting" : "fail") : "ok";
-        if (i >= steps.length) { rowSt[a.fi] = endSt; return; }
-        const what = steps[i][0];
-        const add = (key, pts, fr, kind = "") => { if (vis) pk.push(<FxPacket key={`${k}-${key}`} pts={pts} f={fr} kind={kind} />); };
-        if (what === "dispatch") { add("d", P.dispatch(cy), q); busy.srv = true; }
-        else if (what === "pull") { add("g", P.pull(), q); busy.gh = true; }
-        else if (what === "src") { add("s", P.src(a.fi, cy), q, a.fail && q > 0.5 ? "fail" : ""); busy[f.src] = true; if (a.fail && q > 0.5) failBox[f.src] = true; }
-        else if (what === "in:db") { add("i", [...P.out(a.fi, cy, "db")].reverse(), q, "read"); busy.db = true; }
-        else if (what.startsWith("out:")) {
-          const d = what.slice(4);
-          // na camada ao vivo, a segunda metade do passo é o Gêmeo lendo
-          if (d === "agol" && q > 0.6) { add("m", P.gem(), (q - 0.6) / 0.4); busy.gem = true; }
-          else add(`o${d}`, P.out(a.fi, cy, d), d === "agol" ? q / 0.6 : q, what === "out:db" && a.fi === 1 ? "fail" : "");
-          busy[d] = true;
-        } else {
-          add("r", q < 0.5 ? P.report(cy) : P.persist(), q < 0.5 ? q * 2 : (q - 0.5) * 2, a.fail ? "fail" : "");
-          busy.srv = true; if (q >= 0.5) busy.db = true; if (a.fail) failBox.srv = true;
-        }
-        rowSt[a.fi] = what === "dispatch" || what === "pull" ? "pending" : what === "report" ? endSt : a.n ? "retrying" : "running";
-      });
-      PF_FLOWS.forEach((f, fi) => {
-        if (s.backlog.some((r) => r.f === fi)) rowSt[fi] = s.backlog.some((r) => r.f === fi && r.late) ? "late" : "pending";
-        else if (!rowSt[fi] && s.retry.some((r) => r.fi === fi)) rowSt[fi] = "waiting";
-      });
-      s.alarms.forEach((t, k) => { pk.push(<FxPacket key={`al${k}`} pts={P.alarm()} f={(s.real - t) / 1.4} kind="fail" />); busy.mon = true; if (s.real - t > 1) busy.teams = true; });
-      if (s.down && !s.down.told) pk.push(<FxPacket key="watch" pts={P.watch()} f={((s.real * 0.8) % 1)} kind="fail" />);
-      if (workerDown) failBox.wk = true;
-      const pick = (k) => () => setInfo(k);
-      const box = (k) => L.box[k];
-      const stateOf = (k) => (failBox[k] ? "fail" : busy[k] ? "busy" : "");
-      const lines = [
-        <polyline key="pull" points={ptsAttr(P.pull())} className="fx-edge" />,
-        <polyline key="persist" points={ptsAttr(P.persist())} className="fx-edge" />,
-        <polyline key="gem" points={ptsAttr(P.gem())} className="fx-edge" />,
-        <polyline key="watch" points={ptsAttr(P.watch())} className="fx-edge" />,
-        <polyline key="alarm" points={ptsAttr(P.alarm())} className="fx-edge" />,
-        ...PF_FLOWS.flatMap((f, fi) => {
-          const cy = rowCy(fi), dim = on(fi) && !f.paused ? "" : "dim", act = rowSt[fi] === "running" || rowSt[fi] === "retrying" ? "on" : "";
-          return [
-            <polyline key={`s${fi}`} points={ptsAttr(P.src(fi, cy))} className={`fx-edge ${dim} ${act}`} />,
-            <polyline key={`d${fi}`} points={ptsAttr(P.dispatch(cy))} className={`fx-edge ${dim}`} />,
-            ...f.dst.map((d) => <polyline key={`o${fi}${d}`} points={ptsAttr(P.out(fi, cy, d))} className={`fx-edge ${dim}`} />),
-          ];
-        }),
-      ];
-      return (
-        <div className="cardx live-card" ref={ref}>
-          <div className="live-head">
-            <span className="flow-title"><i className="bi bi-diagram-3 me-2" />Orquestração no Prefect</span>
-            <span className="dash-tag">simulação</span>
-          </div>
-          <div className="pf-toolbar">
-            <div className="pf-fronts" role="group" aria-label="Filtrar por frente">
-              {[["todas", "Todas"], ["nitbike", "NitBike"], ["waze", "Waze"]].map(([id, label]) => (
-                <button key={id} type="button" className={front === id ? "on" : ""} aria-pressed={front === id} onClick={() => setFront(id)}>{label}</button>
-              ))}
-            </div>
-            {!still && (
-              <div className="pf-fail" role="group" aria-label="Simular uma falha">
-                <small><i className="bi bi-lightning-charge" /> simular falha</small>
-                {PF_FLOWS.filter((f) => !f.paused).map((f) => (
-                  <button key={f.id} type="button" onClick={() => simulate(PF_FLOWS.indexOf(f))} disabled={s.force.has(PF_FLOWS.indexOf(f)) || workerDown}>{f.lane}</button>
-                ))}
-                <button type="button" className={`pf-crash ${s.down ? "on" : ""}`} aria-pressed={!!s.down} onClick={dropWorker}><i className="bi bi-power" /> {s.down ? "religar o worker" : "queda do worker"}</button>
-              </div>
-            )}
-            {!still && (
-              <div className="clock-ctl" role="group" aria-label="Relógio do Prefect">
-                <small><i className="bi bi-clock" /> relógio</small>
-                {[[1, "tempo real"], [5, "5× mais rápido"], [10, "10× mais rápido"]].map(([v, t]) => (
-                  <button key={v} type="button" className={speed === v ? "on" : ""} aria-pressed={speed === v} title={t} onClick={() => setSpeed(v)}>{v}×</button>
-                ))}
-              </div>
-            )}
-          </div>
-          <FxCanvas L={L} cls={`pf-canvas ${narrow ? "narrow compact" : ""}`} label="Diagrama da orquestração dos flows no Prefect" lines={lines} packets={pk}>
-            <FxBox L={L} r={box("gh")} icon="bi-github" title="GitHub" sub="código dos flows" sel={info === "gh"} onPick={pick("gh")} state={stateOf("gh")} />
-            <FxBox L={L} r={box("nb")} icon="bi-bicycle" title="API NitBike" sub={narrow ? "estações" : "estações e bikes"} sel={info === "fontes"} onPick={pick("fontes")} state={stateOf("nb")} />
-            <FxBox L={L} r={box("wz")} icon="bi-cone-striped" title={narrow ? "Waze" : "Waze for Cities"} sub={narrow ? "trânsito" : "tráfego e alertas"} sel={info === "fontes"} onPick={pick("fontes")} state={stateOf("wz")} />
-            <FxBox L={L} r={box("srv")} icon="bi-hdd-network" title="Prefect Server" sub={narrow ? "agenda e estados" : "agenda, fila e estado das execuções"} sel={info === "srv"} onPick={pick("srv")} state={stateOf("srv")} cls="fx-prefect" />
-            <FxBox L={L} r={box("db")} icon="bi-database" title={L.title.db[0]} sub={L.title.db[1]} sel={info === "db"} onPick={pick("db")} state={stateOf("db")} />
-            <FxBox L={L} r={box("mon")} icon="bi-activity" title="Monitores" sub={narrow ? "e autoheal" : "falhas e containers · autoheal"} sel={info === "mon"} onPick={pick("mon")} state={stateOf("mon")} />
-            <FxBox L={L} r={box("wk")} icon="bi-cpu" title={workerDown ? "Worker · fora do ar" : "Worker"} sub={workerDown ? "o autoheal vai reiniciar o container" : narrow ? "roda os flows" : "clona o código e roda os flows em Python"} sel={info === "wk"} onPick={pick("wk")} cls="fx-worker" state={stateOf("wk")} />
-            {PF_FLOWS.map((f, fi) => {
-              const [x, y, w, h] = L.row(fi), stt = rowSt[fi];
-              return (
-                <div key={f.id} className={`fx-row ${on(fi) ? "" : "dim"} ${stt} ${info === f.id ? "sel" : ""}`} style={{ left: `${(x / L.w) * 100}%`, top: `${(y / L.h) * 100}%`, width: `${(w / L.w) * 100}%`, height: `${(h / L.h) * 100}%` }} onClick={pick(f.id)} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter") setInfo(f.id); }}>
-                  <i className="fx-dot" />
-                  <span className="fx-row-name"><b>{f.name}</b>{!narrow && <small> · {f.desc}</small>}</span>
-                  {stt && stt !== "paused" ? <span className={`fx-state ${stt}`}>{PF_STATE[stt]}</span> : <span className="fx-every">{f.label}</span>}
-                </div>
-              );
-            })}
-            {["agol", "ent"].map((d) => (
-              <FxBox key={d} L={L} r={box(d)} icon="bi-layers" title={L.title[d][0]} sub={L.title[d][1]} sel={info === d} onPick={pick(d)} state={stateOf(d)} />
-            ))}
-            <FxBox L={L} r={box("gem")} icon="bi-buildings" title={narrow ? "Gêmeo" : "Gêmeo Digital"} sub="lê as camadas" sel={info === "gem"} onPick={pick("gem")} state={stateOf("gem")} />
-            <FxBox L={L} r={box("teams")} icon="bi-microsoft-teams" title="Teams" sub="alertas" sel={info === "teams"} onPick={pick("teams")} state={stateOf("teams")} />
-          </FxCanvas>
-          <div className="pf-info pf-info-strip">
-            <small>{PF_INFO[info][0]}</small>
-            <p>{PF_INFO[info][1]}</p>
-          </div>
-          <div className="pf-bottom">
-            <div className="pf-runs">
-              <div className="pf-runs-head"><small>execuções · últimos 15 min</small><small>{hhmmss(s.t)} · {speed === 1 ? "tempo real" : `relógio ${speed}× mais rápido`}</small></div>
-              {PF_FLOWS.map((f, fi) => (
-                <div className={`pf-lane ${on(fi) ? "" : "dim"} ${f.every && f.every < 30 ? "dense" : ""}`} key={f.id}>
-                  <span>{f.lane}</span>
-                  <div>
-                    {f.paused ? <em className="pf-paused">deployment pausado</em> : s.runs.filter((r) => r.f === fi).map((r) => (
-                      <i key={r.t} className={r.status} style={{ left: `${((r.t - (s.t - 15 * 60)) / (15 * 60)) * 100}%` }} title={`${hhmm(r.t)} · ${PF_STATE[r.status] || r.status}`} />
-                    ))}
-                  </div>
-                </div>
-              ))}
-              <div className="pf-count">
-                <span><i className="ok" /> concluída · {s.count.ok}</span>
-                <span><i className="retry" /> na nova tentativa · {s.count.retry}</span>
-                <span><i className="late" /> atrasada · {s.count.late}</span>
-                <span><i className="fail" /> falhou · {s.count.fail}</span>
-                <span>desde que você chegou</span>
-              </div>
-            </div>
-            <div className="pf-log">
-              <small>logs do Prefect</small>
-              <ul aria-live="polite">
-                {s.log.length ? s.log.map((l) => (
-                  <li key={l.id} className={l.kind}><b>{hhmmss(l.t)}</b> <span className="fx-state-txt">{l.state}</span> {["autoheal", "Monitor", "Crashed"].includes(l.state) ? "" : `${PF_FLOWS[l.f].name}: `}{l.msg}{l.n > 1 && <em className="pf-n"> ×{l.n}</em>}</li>
-                )) : <li className="muted">As execuções aparecem aqui. Use “simular falha” ou “queda do worker” para ver o que cada flow faz.</li>}
-              </ul>
-            </div>
-          </div>
-        </div>
-      );
-    }
-
     function CityPane({ project }) {
       return (
         <div className="fade-swap">
@@ -7069,8 +6820,6 @@
               <div className="live-story">
                 <LiveNav />
                 <GemeoLive />
-                <LiveChapter n="3" title="Orquestração" text="O Prefect agenda, roda e vigia os flows. Derrube o worker ou force uma falha para ver o que acontece." />
-                <PrefectLive />
               </div>
             </>
           )}
@@ -8118,7 +7867,7 @@
               <div className="cy-contact-sign">
                 <span className="sec-kicker">06 · Contato</span>
                 <h2>Vamos <em>conversar?</em></h2>
-                <p>Tenho interesse em oportunidades e projetos de backend, engenharia de dados e tecnologia para o setor público. O contato mais rápido é por e-mail.</p>
+                <p>Tenho interesse em oportunidades e projetos de backend, engenharia de dados e tecnologia para o setor público. O contato mais rápido é por e-mail ou WhatsApp.</p>
                 <div className="cy-actions">
                   <a className="cy-btn" href={`mailto:${PROFILE.email}`}><i className="bi bi-envelope" /> Enviar e-mail</a>
                   <button type="button" className="cy-btn ghost" onClick={onCopy}><i className="bi bi-clipboard" /> Copiar e-mail</button>
@@ -8127,6 +7876,7 @@
               <div className="cy-term">
                 <div className="cy-term-bar"><i /><i /><i /><span>contato</span></div>
                 <a href={`mailto:${PROFILE.email}`}><b>e-mail</b><span>{PROFILE.email}</span><i className="bi bi-arrow-up-right" /></a>
+                <a href={PROFILE.whatsapp} target="_blank" rel="noopener noreferrer"><b>whatsapp</b><span>{PROFILE.phone}</span><i className="bi bi-arrow-up-right" /></a>
                 <a href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer"><b>linkedin</b><span>{user}</span><i className="bi bi-arrow-up-right" /></a>
                 <a href={PROFILE.github} target="_blank" rel="noopener noreferrer"><b>github</b><span>{gh}</span><i className="bi bi-arrow-up-right" /></a>
                 <a href={PROFILE.cv} target="_blank" rel="noopener noreferrer"><b>currículo</b><span>cv.pdf</span><i className="bi bi-download" /></a>
@@ -8146,11 +7896,12 @@
               <span className="contact-star" aria-hidden="true">✶</span>
               <span className="sec-kicker">06 · Contato</span>
               <h2>Vamos <Note as="em" type="circle" color="#15130f" strokeWidth={2.5} padding={[2, 12]}>conversar?</Note></h2>
-              <p>Tenho interesse em oportunidades e projetos de backend, engenharia de dados e tecnologia para o setor público. O contato mais rápido é por e-mail.</p>
+              <p>Tenho interesse em oportunidades e projetos de backend, engenharia de dados e tecnologia para o setor público. O contato mais rápido é por e-mail ou WhatsApp.</p>
               <a className="contact-email" href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a>
               <div className="d-flex flex-wrap gap-3">
                 <Button variant="pop" className="ink" href={`mailto:${PROFILE.email}`}><i className="bi bi-envelope" /> Enviar e-mail</Button>
                 <Button variant="pop" className="alt" onClick={onCopy}><i className="bi bi-clipboard" /> Copiar e-mail</Button>
+                <Button variant="pop" className="alt" href={PROFILE.whatsapp} target="_blank" rel="noopener noreferrer"><i className="bi bi-whatsapp" /> WhatsApp</Button>
                 <Button variant="pop" className="alt" href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer"><i className="bi bi-linkedin" /> LinkedIn</Button>
                 <Button variant="pop" className="alt" href={PROFILE.github} target="_blank" rel="noopener noreferrer"><i className="bi bi-github" /> GitHub</Button>
               </div>
@@ -8169,6 +7920,7 @@
               <a href={PROFILE.github} target="_blank" rel="noopener noreferrer"><i className="bi bi-github me-1" />GitHub</a>
               <a href={PROFILE.linkedin} target="_blank" rel="noopener noreferrer"><i className="bi bi-linkedin me-1" />LinkedIn</a>
               <a href={`mailto:${PROFILE.email}`}><i className="bi bi-envelope me-1" />E-mail</a>
+              <a href={PROFILE.whatsapp} target="_blank" rel="noopener noreferrer"><i className="bi bi-whatsapp me-1" />WhatsApp</a>
             </span>
           </Container>
         </footer>
