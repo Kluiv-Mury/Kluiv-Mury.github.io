@@ -2082,7 +2082,16 @@
       .rain-drop, .city-ripple, .bus-ping { animation: none; }
     }
     .live-story { position: relative; margin-top: 2.6rem; }
-    .live-intro { max-width: 46rem; margin: .5rem 0 0; color: var(--muted); font-size: 1.02rem; line-height: 1.6; }
+    /* a continuação do fluxo de cima: uma linha desce dele até a etiqueta, e a frase abre os dois capítulos */
+    .live-story { margin-top: 0; }
+    .live-intro { display: flex; flex-direction: column; align-items: center; gap: .7rem; margin-bottom: 1.4rem; text-align: center; }
+    .live-intro-line { width: 2px; height: 56px; background: repeating-linear-gradient(to bottom, var(--line) 0 6px, transparent 6px 12px); opacity: .45; }
+    .live-intro-tag { display: inline-flex; align-items: center; gap: .45rem; padding: .32rem .8rem; border: 2px solid var(--line); border-radius: 999px; background: var(--card); color: var(--ink); box-shadow: 3px 3px 0 var(--shadow-c); font: 700 .72rem "JetBrains Mono", monospace; letter-spacing: .12em; text-transform: uppercase; }
+    .live-intro-tag .bi { color: var(--accent); font-size: .85rem; }
+    .live-intro p { max-width: 34rem; margin: 0; color: var(--muted); font-size: .98rem; line-height: 1.55; text-wrap: balance; }
+    [data-bs-theme="dark"] .live-intro-line { background: repeating-linear-gradient(to bottom, var(--neon-c) 0 6px, transparent 6px 12px); opacity: .6; }
+    [data-bs-theme="dark"] .live-intro-tag { border-color: rgba(0, 229, 255, .55); border-radius: 2px; background: #07061a; color: #e6f4ff; box-shadow: 0 0 12px rgba(0, 229, 255, .2); font-family: "Share Tech Mono", monospace; }
+    [data-bs-theme="dark"] .live-intro-tag .bi { color: var(--neon-m); }
     .live-nav { position: sticky; top: calc(var(--nav-h) + 10px); z-index: 6; display: flex; gap: .25rem; width: max-content; max-width: 100%; margin: 0 auto; padding: .3rem; border: 2px solid var(--line); border-radius: 999px; background: color-mix(in srgb, var(--card) 90%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 3px 3px 0 var(--shadow-c); }
     .live-nav a { display: inline-flex; align-items: center; gap: .45rem; padding: .32rem .8rem .32rem .35rem; border-radius: 999px; color: var(--muted); font: 700 .8rem "DM Sans", sans-serif; text-decoration: none; white-space: nowrap; transition: background-color .25s, color .25s; }
     .live-nav a b { display: grid; place-items: center; width: 1.45rem; height: 1.45rem; border: 2px solid currentColor; border-radius: 50%; font: 800 .74rem "Bricolage Grotesque", sans-serif; }
@@ -10312,11 +10321,16 @@ function CityPane({
     project: project
   }), project.id === "gemeo" && /*#__PURE__*/React.createElement("div", {
     className: "live-story"
-  }, /*#__PURE__*/React.createElement("h4", {
-    className: "contrib-title"
-  }, "em detalhe \u2193"), /*#__PURE__*/React.createElement("p", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: "live-intro"
-  }, "Uma vers\xE3o detalhada de \u201CComo os dados chegam ao mapa\u201D, com os dados rodando: primeiro a cidade no G\xEAmeo simplificado, depois o pipeline do NitBike, do snapshot \xE0 camada."), /*#__PURE__*/React.createElement(LiveNav, null), /*#__PURE__*/React.createElement(GemeoLive, null)));
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "live-intro-line",
+    "aria-hidden": "true"
+  }), /*#__PURE__*/React.createElement("span", {
+    className: "live-intro-tag"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "bi bi-zoom-in"
+  }), " em detalhe"), /*#__PURE__*/React.createElement("p", null, "O fluxo de cima, rodando: a cidade no G\xEAmeo simplificado e o pipeline do NitBike, do snapshot \xE0 camada.")), /*#__PURE__*/React.createElement(LiveNav, null), /*#__PURE__*/React.createElement(GemeoLive, null)));
 }
 function CitySection() {
   const [key, setKey] = useState(CITY_PROJECTS[0].id);
