@@ -2082,6 +2082,7 @@
       .rain-drop, .city-ripple, .bus-ping { animation: none; }
     }
     .live-story { position: relative; margin-top: 2.6rem; }
+    .live-intro { max-width: 46rem; margin: .5rem 0 0; color: var(--muted); font-size: 1.02rem; line-height: 1.6; }
     .live-nav { position: sticky; top: calc(var(--nav-h) + 10px); z-index: 6; display: flex; gap: .25rem; width: max-content; max-width: 100%; margin: 0 auto; padding: .3rem; border: 2px solid var(--line); border-radius: 999px; background: color-mix(in srgb, var(--card) 90%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 3px 3px 0 var(--shadow-c); }
     .live-nav a { display: inline-flex; align-items: center; gap: .45rem; padding: .32rem .8rem .32rem .35rem; border-radius: 999px; color: var(--muted); font: 700 .8rem "DM Sans", sans-serif; text-decoration: none; white-space: nowrap; transition: background-color .25s, color .25s; }
     .live-nav a b { display: grid; place-items: center; width: 1.45rem; height: 1.45rem; border: 2px solid currentColor; border-radius: 50%; font: 800 .74rem "Bricolage Grotesque", sans-serif; }
@@ -7453,7 +7454,7 @@ function FxBox({
   }, /*#__PURE__*/React.createElement("b", null, title), sub && /*#__PURE__*/React.createElement("small", null, sub))), children);
 }
 
-// ---------- mini Gêmeo: camadas reais (públicas no ArcGIS Online da Prefeitura) e ônibus simulados ----------
+// ---------- Gêmeo simplificado: camadas reais (públicas no ArcGIS Online da Prefeitura) e ônibus simulados ----------
 // O mapa de ruas é uma projeção equirretangular do recorte abaixo; geoToMap leva lon/lat para as coordenadas dele.
 const MAP_GEO = {
   lon0: -43.1622,
@@ -9824,7 +9825,7 @@ function GemeoLive() {
     className: "flow-title"
   }, /*#__PURE__*/React.createElement("i", {
     className: "bi bi-broadcast me-2"
-  }), "Mini G\xEAmeo \xB7 Niter\xF3i"), /*#__PURE__*/React.createElement("span", {
+  }), "G\xEAmeo simplificado \xB7 Niter\xF3i"), /*#__PURE__*/React.createElement("span", {
     className: "dash-tag live"
   }, /*#__PURE__*/React.createElement("span", {
     className: "live-dot"
@@ -10087,7 +10088,7 @@ function GemeoLive() {
   }, /*#__PURE__*/React.createElement("div", {
     className: "live-tabs",
     role: "tablist",
-    "aria-label": "Painel do mini G\xEAmeo"
+    "aria-label": "Painel do G\xEAmeo simplificado"
   }, PANELS.map(([id, label, icon]) => /*#__PURE__*/React.createElement("button", {
     key: id,
     type: "button",
@@ -10311,7 +10312,11 @@ function CityPane({
     project: project
   }), project.id === "gemeo" && /*#__PURE__*/React.createElement("div", {
     className: "live-story"
-  }, /*#__PURE__*/React.createElement(LiveNav, null), /*#__PURE__*/React.createElement(GemeoLive, null)));
+  }, /*#__PURE__*/React.createElement("h4", {
+    className: "contrib-title"
+  }, "em detalhe \u2193"), /*#__PURE__*/React.createElement("p", {
+    className: "live-intro"
+  }, "Uma vers\xE3o detalhada de \u201CComo os dados chegam ao mapa\u201D, com os dados rodando: primeiro a cidade no G\xEAmeo simplificado, depois o pipeline do NitBike, do snapshot \xE0 camada."), /*#__PURE__*/React.createElement(LiveNav, null), /*#__PURE__*/React.createElement(GemeoLive, null)));
 }
 function CitySection() {
   const [key, setKey] = useState(CITY_PROJECTS[0].id);

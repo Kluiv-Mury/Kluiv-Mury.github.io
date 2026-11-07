@@ -2082,6 +2082,7 @@
       .rain-drop, .city-ripple, .bus-ping { animation: none; }
     }
     .live-story { position: relative; margin-top: 2.6rem; }
+    .live-intro { max-width: 46rem; margin: .5rem 0 0; color: var(--muted); font-size: 1.02rem; line-height: 1.6; }
     .live-nav { position: sticky; top: calc(var(--nav-h) + 10px); z-index: 6; display: flex; gap: .25rem; width: max-content; max-width: 100%; margin: 0 auto; padding: .3rem; border: 2px solid var(--line); border-radius: 999px; background: color-mix(in srgb, var(--card) 90%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 3px 3px 0 var(--shadow-c); }
     .live-nav a { display: inline-flex; align-items: center; gap: .45rem; padding: .32rem .8rem .32rem .35rem; border-radius: 999px; color: var(--muted); font: 700 .8rem "DM Sans", sans-serif; text-decoration: none; white-space: nowrap; transition: background-color .25s, color .25s; }
     .live-nav a b { display: grid; place-items: center; width: 1.45rem; height: 1.45rem; border: 2px solid currentColor; border-radius: 50%; font: 800 .74rem "Bricolage Grotesque", sans-serif; }
@@ -5187,7 +5188,7 @@
       );
     }
 
-    // ---------- mini Gêmeo: camadas reais (públicas no ArcGIS Online da Prefeitura) e ônibus simulados ----------
+    // ---------- Gêmeo simplificado: camadas reais (públicas no ArcGIS Online da Prefeitura) e ônibus simulados ----------
     // O mapa de ruas é uma projeção equirretangular do recorte abaixo; geoToMap leva lon/lat para as coordenadas dele.
     const MAP_GEO = { lon0: -43.1622, lon1: -42.935, lat0: -22.9791, lat1: -22.851, w: 2000, h: 1225 };
     const geoToMap = (lon, lat) => [((lon - MAP_GEO.lon0) / (MAP_GEO.lon1 - MAP_GEO.lon0)) * MAP_GEO.w, ((MAP_GEO.lat1 - lat) / (MAP_GEO.lat1 - MAP_GEO.lat0)) * MAP_GEO.h];
@@ -6297,7 +6298,7 @@
           <LiveChapter n="1" title="A cidade agora" text="As camadas do Gêmeo, lidas neste minuto. Os ônibus são simulados nas rotas reais. Clique em qualquer ponto." />
           <div className="cardx live-card" ref={ref}>
             <div className="live-head">
-              <span className="flow-title"><i className="bi bi-broadcast me-2" />Mini Gêmeo · Niterói</span>
+              <span className="flow-title"><i className="bi bi-broadcast me-2" />Gêmeo simplificado · Niterói</span>
               <span className="dash-tag live"><span className="live-dot" /> ao vivo</span>
             </div>
             <div className="live-grid">
@@ -6397,7 +6398,7 @@
                 </div>
               </div>
               <div className="live-side">
-                <div className="live-tabs" role="tablist" aria-label="Painel do mini Gêmeo">
+                <div className="live-tabs" role="tablist" aria-label="Painel do Gêmeo simplificado">
                   {PANELS.map(([id, label, icon]) => (
                     <button key={id} type="button" role="tab" aria-selected={panel === id} className={panel === id ? "on" : ""} onClick={() => setPanel(id)}>
                       <i className={`bi ${icon}`} /> {label}{id === "falhas" && activeEv.length > 0 && <b className="tab-dot" />}
@@ -6569,6 +6570,8 @@
           <FlowCard project={project} />
           {project.id === "gemeo" && (
             <div className="live-story">
+              <h4 className="contrib-title">em detalhe ↓</h4>
+              <p className="live-intro">Uma versão detalhada de “Como os dados chegam ao mapa”, com os dados rodando: primeiro a cidade no Gêmeo simplificado, depois o pipeline do NitBike, do snapshot à camada.</p>
               <LiveNav />
               <GemeoLive />
             </div>
