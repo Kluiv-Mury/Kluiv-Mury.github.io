@@ -2467,6 +2467,19 @@
     .pe.rule .pe-base { stroke-dasharray: 6 5; stroke: color-mix(in srgb, var(--good) 55%, transparent); stroke-width: 2; }
     .pflow-top { z-index: 3; pointer-events: none; }
     .pflow.narrow .pe-cap { font-size: 10.5px; }
+    /* pílulas do fluxograma e grupos de botões do Gêmeo simplificado (a base, antes das variações) */
+    .seg { display: inline-flex; align-items: stretch; gap: 2px; height: 36px; padding: 3px; border: 2px solid var(--line); border-radius: 11px; background: var(--card); box-shadow: 2px 2px 0 var(--shadow-c); }
+    .seg button { display: inline-flex; align-items: center; gap: .4rem; padding: 0 .7rem; border: 0; border-radius: 7px; background: transparent; color: var(--muted); font: 700 .76rem "DM Sans", sans-serif; white-space: nowrap; transition: background-color .25s, color .25s; }
+    .seg button:hover { color: var(--ink); background: color-mix(in srgb, var(--line) 6%, transparent); }
+    .seg button.on { background: color-mix(in srgb, var(--accent) 12%, transparent); color: var(--ink); }
+    [data-bs-theme="dark"] .seg { border: 1px solid rgba(0, 229, 255, .4); border-radius: 3px; background: transparent; box-shadow: none; }
+    [data-bs-theme="dark"] .seg button { border-radius: 2px; color: rgba(255, 255, 255, .6); }
+    [data-bs-theme="dark"] .seg button.on { background: rgba(0, 229, 255, .14); color: #fff; }
+    .pt rect { fill: var(--accent); stroke: var(--card); stroke-width: 2; }
+    .pt text { fill: #15130f; font: 700 10.5px "JetBrains Mono", monospace; }
+    .pt { filter: url(#pf-glow); pointer-events: none; }
+    [data-bs-theme="dark"] .pt rect { fill: var(--neon-c); stroke: #05040f; }
+    [data-bs-theme="dark"] .pt text { fill: #05040f; }
     .pt.read rect { fill: var(--blue); }
     .pt.read text, .pt.del text, .pt.fail text { fill: #fff; }
     .pt.del rect, .pt.fail rect { fill: #e5484d; }
