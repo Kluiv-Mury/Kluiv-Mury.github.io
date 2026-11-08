@@ -9604,9 +9604,9 @@ function GemeoLive() {
   });
   const [paused, setPaused] = useState(false);
   // 1× é o tempo real (ciclo do cruzamento a cada 30 s, snapshot a cada 10 s); 5× e 10× aceleram tudo junto
-  const [speed, setSpeed] = useState(5);
+  const [speed, setSpeed] = useState(1);
   // o fluxograma do NitBike tem relógio próprio, independente do mapa
-  const [nbSpeed, setNbSpeed] = useState(5);
+  const [nbSpeed, setNbSpeed] = useState(1);
   const [nbPaused, setNbPaused] = useState(false);
   const [sel, setSel] = useState(null);
   const [panel, setPanel] = useState("agora");
